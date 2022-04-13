@@ -1,1 +1,3 @@
 # README
+
+mm connect test
