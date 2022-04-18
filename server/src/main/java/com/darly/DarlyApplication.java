@@ -9,5 +9,4 @@ public class DarlyApplication {
     public static void main(String[] args) {
         SpringApplication.run(DarlyApplication.class, args);
     }
-
 }
