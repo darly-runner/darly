@@ -1,6 +1,7 @@
 package com.darly.db.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @DynamicInsert
-@Table(name="tb_user")
+@Table(name = "tb_user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,5 +32,16 @@ public class User {
     private String userImage;
 
     public User() {
+    }
+
+    @Builder
+    public User(String name, String email) {
+        this.userNickname = name;
+        this.userEmail = email;
+    }
+
+    public User update(String name){
+        this.userNickname = name;
+        return this;
     }
 }
