@@ -4,7 +4,14 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/S06P31A301/android/app/src/main/res/drawable/ic_challenge.xml" value="0.1" />
+        <entry key="..\:/S06P31A301/android/app/src/main/res/drawable/ic_icon_home.xml" value="0.1" />
+        <entry key="..\:/S06P31A301/android/app/src/main/res/drawable/ic_mypage.xml" value="0.1" />
+        <entry key="..\:/S06P31A301/android/app/src/main/res/drawable/ic_users.xml" value="0.1" />
         <entry key="..\:/S06P31A301/android/app/src/main/res/layout/activity_main.xml" value="0.14351851851851852" />
+        <entry key="..\:/S06P31A301/android/app/src/main/res/layout/fragment_crew.xml" value="0.36614583333333334" />
+        <entry key="..\:/S06P31A301/android/app/src/main/res/layout/fragment_running.xml" value="0.36614583333333334" />
+        <entry key="..\:/S06P31A301/android/app/src/main/res/menu/navi_menu.xml" value="0.2833333333333333" />
         <entry key="..\:/S06P31A301/app/src/main/res/layout/activity_main.xml" value="0.1693840579710145" />
       </map>
     </option>

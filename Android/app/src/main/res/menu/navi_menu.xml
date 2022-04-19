@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/first"
+        android:icon="@drawable/ic_home"
+        android:enabled="true"
+        android:title="홈" />
+    <item
+        android:id="@+id/second"
+        android:icon="@drawable/ic_crew"
+        android:enabled="true"
+        android:title="크루" />
+    <item
+        android:id="@+id/third"
+        android:icon="@drawable/ic_act"
+        android:enabled="true"
+        android:title="활동" />
+    <item
+        android:id="@+id/fourth"
+        android:icon="@drawable/ic_challenge"
+        android:enabled="true"
+        android:title="챌린지" />
+    <item
+        android:id="@+id/fifth"
+        android:icon="@drawable/ic_mypage"
+        android:enabled="true"
+        android:title="마이" />
+</menu>
