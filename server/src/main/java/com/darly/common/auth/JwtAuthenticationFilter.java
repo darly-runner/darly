@@ -3,7 +3,7 @@ package com.darly.common.auth;
 
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.darly.api.service.User.UserService;
+import com.darly.api.service.user.UserService;
 import com.darly.common.util.JwtTokenUtil;
 import com.darly.common.util.ResponseBodyWriteUtil;
 import com.darly.db.entity.User;
@@ -71,7 +71,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             // If so, then grab user details and create spring auth token using username, pass, authorities/roles
             if (userId != null) {
                 // jwt 토큰에 포함된 계정 정보(userId) 통해 실제 디비에 해당 정보의 계정이 있는지 조회.
-                Optional<User> user = userService.getUserByUserId(Integer.parseInt(userId));
+                Optional<User> user = Optional.ofNullable(userService.getUserByUserId(Long.parseLong(userId)));
                 if (user.isPresent()) {
                     // 식별된 정상 유저인 경우, 요청 context 내에서 참조 가능한 인증 정보(jwtAuthentication) 생성.
                     DarlyUserDetails userDetails = new DarlyUserDetails(user.get());
