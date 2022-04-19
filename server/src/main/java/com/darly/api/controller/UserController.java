@@ -8,6 +8,7 @@ import com.darly.api.response.user.UserStatsGetRes;
 import com.darly.api.service.user.UserService;
 import com.darly.api.response.user.UserGetRes;
 import com.darly.common.model.response.BaseResponseBody;
+import com.darly.db.entity.Badge;
 import com.darly.db.entity.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -86,10 +87,10 @@ public class UserController {
             @ApiResponse(code=404, message="잘못된 url 접근"),
             @ApiResponse(code=500, message="서버 에러")
     })
-    public ResponseEntity<List<UserGetBadgeListRes>> getBadge(Long userId) {
-        List<UserGetBadgeListRes> badgeList = userService.getBadgeList(userId);
+    public ResponseEntity<UserGetBadgeListRes> getBadge(Long userId) {
+        List<Badge> badgeList = userService.getBadgeList(userId);
 
-        return ResponseEntity.ok(badgeList);
+        return ResponseEntity.ok(UserGetBadgeListRes.of(badgeList, 200, "success"));
     }
 
     // 5. 거리/시간수정 PATCH /condition

@@ -1,5 +1,6 @@
 package com.darly.api.response.user;
 
+import com.darly.common.model.response.BaseResponseBody;
 import com.darly.db.entity.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -9,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @ApiModel("UserStatsGetResponse")
-public class UserStatsGetRes {
+public class UserStatsGetRes extends BaseResponseBody {
     @ApiModelProperty(name="userTotalDistance", example="100.00")
     private Float userTotalDistance;
     @ApiModelProperty(name="userTotalTime", example="10")
@@ -28,6 +29,8 @@ public class UserStatsGetRes {
     public static UserStatsGetRes of(User user, Integer statusCode, String message) {
         UserStatsGetRes res = new UserStatsGetRes();
 
+        res.setStatusCode(statusCode);
+        res.setMessage(message);
         res.setUserTotalDistance(user.getUserTotalDistance());
         res.setUserTotalTime(user.getUserTotalTime());
         res.setUserTotalHeart(user.getUserTotalHeart());

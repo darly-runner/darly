@@ -3,6 +3,7 @@ package com.darly.api.service.user;
 import com.darly.api.request.user.UserPatchConditionReq;
 import com.darly.api.request.user.UserPatchReq;
 import com.darly.api.response.user.UserGetBadgeListRes;
+import com.darly.db.entity.Badge;
 import com.darly.db.entity.User;
 import com.darly.db.entity.UserBadge;
 import com.darly.db.repository.user.UserBadgeRepository;
@@ -54,12 +55,13 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public List<UserGetBadgeListRes> getBadgeList(Long userId) {
-        List<UserBadge> badges = userBadgeRepository.findByUser_UserId(userId);
+    public List<Badge> getBadgeList(Long userId) {
+        List<UserBadge> badges = userBadgeRepository.findUserBadgesByUser_UserId(userId);
 
-        List<UserGetBadgeListRes> badgeList = new ArrayList<>();
+        List<Badge> badgeList = new ArrayList<>();
         for(int i = 0; i < badges.size(); i++) {
-            UserGetBadgeListRes badge = new UserGetBadgeListRes();
+            Badge badge = new Badge();
+            badge.setBadgeId(badges.get(i).getBadge().getBadgeId());
             badge.setBadgeName(badges.get(i).getBadge().getBadgeName());
             badge.setBadgeImage(badges.get(i).getBadge().getBadgeImage());
             badge.setBadgeCondition(badges.get(i).getBadge().getBadgeCondition());

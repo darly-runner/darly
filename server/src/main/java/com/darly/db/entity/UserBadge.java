@@ -21,12 +21,4 @@ public class UserBadge {
     @ManyToOne
     @JoinColumn(name = "BADGE_ID")
     private Badge badge;
-
-    @Override
-    public String toString() {
-        return "UserBadge{" +
-                "user=" + user +
-                ", badge=" + badge +
-                '}';
-    }
 }
