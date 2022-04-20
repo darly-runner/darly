@@ -53,11 +53,12 @@ public class UserServiceImpl implements UserService{
 
         List<Badge> badgeList = new ArrayList<>();
         for(int i = 0; i < badges.size(); i++) {
-            Badge badge = new Badge();
-            badge.setBadgeId(badges.get(i).getBadge().getBadgeId());
-            badge.setBadgeName(badges.get(i).getBadge().getBadgeName());
-            badge.setBadgeImage(badges.get(i).getBadge().getBadgeImage());
-            badge.setBadgeCondition(badges.get(i).getBadge().getBadgeCondition());
+            Badge badge = Badge.builder()
+                            .badgeId((badges.get(i).getBadge().getBadgeId()))
+                            .badgeName(badges.get(i).getBadge().getBadgeName())
+                            .badgeImage(badges.get(i).getBadge().getBadgeImage())
+                            .badgeCondition(badges.get(i).getBadge().getBadgeCondition())
+                            .build();
             badgeList.add(badge);
         }
 
