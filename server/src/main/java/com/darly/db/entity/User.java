@@ -15,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 // null인 값은 제외하고 쿼리문이 만들어짐
 @DynamicInsert
+@ToString
 @Table(name = "tb_user")
 public class User {
 
