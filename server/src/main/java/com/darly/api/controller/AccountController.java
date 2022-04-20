@@ -38,20 +38,20 @@ public class AccountController{
     public AccountLoginPostRes getResponseByEmail(String userEmail){
         Optional<User> opUser = accountService.getUserByUserEmail(userEmail);
         if(opUser.isPresent())
-            return AccountLoginPostRes.of(200, "Login Successful", JwtTokenUtil.getToken(opUser.get().getUserId()));
+            return AccountLoginPostRes.of(200, "Success login", JwtTokenUtil.getToken(opUser.get().getUserId()));
         else{
             User user = accountService.createUser(userEmail);
-            return AccountLoginPostRes.of(201, "Login Successful: First login", JwtTokenUtil.getToken(user.getUserId()));
+            return AccountLoginPostRes.of(201, "Success login: First login", JwtTokenUtil.getToken(user.getUserId()));
         }
     }
 
     //A-003
-    @PostMapping()
+    @PatchMapping
     public ResponseEntity<? extends BaseResponseBody> signin(@RequestBody AccountSigninPostReq accountSigninPostReq, Authentication authentication){
         Long userId = Long.parseLong((String) authentication.getPrincipal());
         if(accountService.updateUserNicknameAndAddress(userId, accountSigninPostReq))
-            return ResponseEntity.ok(BaseResponseBody.of(200, "Signin Successful"));
+            return ResponseEntity.ok(BaseResponseBody.of(200, "Success signin"));
         else
-            return ResponseEntity.ok(BaseResponseBody.of(405, "Signin Fail : Not valid userId"));
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail signin : Not valid userId"));
     }
 }
