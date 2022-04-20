@@ -4,11 +4,14 @@ import com.darly.common.model.response.BaseResponseBody;
 import com.darly.db.entity.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ApiModel("UserStatsGetResponse")
 public class UserStatsGetRes extends BaseResponseBody {
     @ApiModelProperty(name="userTotalDistance", example="100.00")

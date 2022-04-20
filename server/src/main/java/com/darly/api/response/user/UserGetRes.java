@@ -4,11 +4,11 @@ import com.darly.common.model.response.BaseResponseBody;
 import com.darly.db.entity.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ApiModel("UserGetResponse")
 public class UserGetRes extends BaseResponseBody {
     @ApiModelProperty(name="userNickname", example="김싸피")
@@ -23,16 +23,24 @@ public class UserGetRes extends BaseResponseBody {
     private String userMessage;
 
     public static UserGetRes of(User user, Integer statusCode, String message) {
-       UserGetRes res = new UserGetRes();
+       return UserGetRes.builder()
+               .statusCode(statusCode)
+               .message(message)
+               .userNickname(user.getUserNickname())
+               .userEmail(user.getUserEmail())
+               .userPoint(user.getUserPoint())
+               .userImage(user.getUserImage())
+               .userMessage(user.getUserMessage())
+               .build();
+    }
 
-       res.setStatusCode(statusCode);
-       res.setMessage(message);
-       res.setUserNickname(user.getUserNickname());
-       res.setUserEmail(user.getUserEmail());
-       res.setUserPoint(user.getUserPoint());
-       res.setUserImage(user.getUserImage());
-       res.setUserMessage(user.getUserMessage());
-
-       return res;
+    @Builder
+    public UserGetRes(Integer statusCode, String message, String userNickname, String userEmail, Integer userPoint, String userImage, String userMessage) {
+        super(statusCode, message);
+        this.userNickname = userNickname;
+        this.userEmail = userEmail;
+        this.userPoint = userPoint;
+        this.userImage = userImage;
+        this.userMessage = userMessage;
     }
 }

@@ -5,10 +5,7 @@ import com.darly.db.entity.Badge;
 import com.darly.db.entity.UserBadge;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.ArrayList;
@@ -16,7 +13,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ApiModel("UserGetBadgeListResponse")
 public class UserGetBadgeListRes extends BaseResponseBody {
     @ApiModelProperty(name="badgeList", example="badge1, badge2,...")
