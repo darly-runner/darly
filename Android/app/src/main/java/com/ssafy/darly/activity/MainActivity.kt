@@ -11,13 +11,16 @@ import androidx.fragment.app.FragmentTransaction
 import com.ssafy.darly.R
 import com.ssafy.darly.viewmodel.MainViewModel
 import com.ssafy.darly.databinding.ActivityMainBinding
+import com.ssafy.darly.fragment.*
 
-class MainActivity() : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val model: MainViewModel by viewModels()
 
-    private val HOME_FRAGMENT = "home_fragment"
-    private val SURVEY_FRAGMENT = "survey_fragment"
+    private val RUNNING_FRAGMENT = "running_fragment"
+    private val CREW_FRAGMENT = "crew_fragment"
+    private val ACT_FRAGMENT = "act_fragment"
+    private val CHALLENGE_FRAGMENT = "challenge_fragment"
     private val MYPAGE_FRAGMENT = "mypage_fragment"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,37 +33,35 @@ class MainActivity() : AppCompatActivity() {
         setBottomNavigationBar()
     }
 
-    // OnNavigationItemSelectedListener를 통해 탭 아이템 선택 시 이벤트를 처리
-    fun setBottomNavigationBar(){
-        // navi_menu.xml 에서 설정했던 각 아이템들의 id를 통해 알맞은 프래그먼트로 변경하게 한다.
+    private fun setBottomNavigationBar(){
         binding.bnvMain.run { setOnItemSelectedListener  {
             when(it.itemId) {
                 R.id.first -> {
-                    //setFragment(HOME_FRAGMENT, HomeFragment())
+                    setFragment(RUNNING_FRAGMENT, RunningFragment())
                     binding.bnvMain.itemIconTintList = ContextCompat.getColorStateList(context, R.color.color_bnv)
                     binding.bnvMain.itemTextColor = ContextCompat.getColorStateList(context, R.color.color_bnv)
                     true
                 }
                 R.id.second -> {
-                    //setFragment(SURVEY_FRAGMENT, SurveyFragment())
+                    setFragment(CREW_FRAGMENT, CrewFragment())
                     binding.bnvMain.itemIconTintList = ContextCompat.getColorStateList(context, R.color.color_bnv)
                     binding.bnvMain.itemTextColor = ContextCompat.getColorStateList(context, R.color.color_bnv)
                     true
                 }
                 R.id.third -> {
-                    //setFragment(MYPAGE_FRAGMENT, MypageFragment())
+                    setFragment(ACT_FRAGMENT, ActFragment())
                     binding.bnvMain.itemIconTintList = ContextCompat.getColorStateList(context, R.color.color_bnv)
                     binding.bnvMain.itemTextColor = ContextCompat.getColorStateList(context, R.color.color_bnv)
                     true
                 }
                 R.id.fourth -> {
-                    //setFragment(MYPAGE_FRAGMENT, MypageFragment())
+                    setFragment(CHALLENGE_FRAGMENT, ChallengeFragment())
                     binding.bnvMain.itemIconTintList = ContextCompat.getColorStateList(context, R.color.color_bnv)
                     binding.bnvMain.itemTextColor = ContextCompat.getColorStateList(context, R.color.color_bnv)
                     true
                 }
                 R.id.fifth -> {
-                    //setFragment(MYPAGE_FRAGMENT, MypageFragment())
+                    setFragment(MYPAGE_FRAGMENT, MypageFragment())
                     binding.bnvMain.itemIconTintList = ContextCompat.getColorStateList(context, R.color.color_bnv)
                     binding.bnvMain.itemTextColor = ContextCompat.getColorStateList(context, R.color.color_bnv)
                     true
@@ -72,7 +73,7 @@ class MainActivity() : AppCompatActivity() {
         }
     }
 
-    fun setFragment(tag: String, fragment: Fragment){
+    private fun setFragment(tag: String, fragment: Fragment){
         val manager: FragmentManager = supportFragmentManager
         val ft: FragmentTransaction = manager.beginTransaction()
 
@@ -80,30 +81,48 @@ class MainActivity() : AppCompatActivity() {
             ft.add(R.id.fl_container, fragment, tag)
         }
 
-        val home = manager.findFragmentByTag(HOME_FRAGMENT)
-        val survey = manager.findFragmentByTag(SURVEY_FRAGMENT)
+        val running = manager.findFragmentByTag(RUNNING_FRAGMENT)
+        val crew = manager.findFragmentByTag(CREW_FRAGMENT)
+        val act = manager.findFragmentByTag(ACT_FRAGMENT)
+        val challenge = manager.findFragmentByTag(CHALLENGE_FRAGMENT)
         val mypage = manager.findFragmentByTag(MYPAGE_FRAGMENT)
 
         // Hide all Fragment
-        if (home != null) {
-            ft.hide(home)
+        if (running != null) {
+            ft.hide(running)
         }
-        if (survey != null) {
-            ft.hide(survey)
+        if (crew != null) {
+            ft.hide(crew)
+        }
+        if (act != null) {
+            ft.hide(act)
+        }
+        if (challenge != null) {
+            ft.hide(challenge)
         }
         if (mypage != null) {
             ft.hide(mypage)
         }
 
         // Show  current Fragment
-        if (tag == HOME_FRAGMENT) {
-            if (home != null) {
-                ft.show(home)
+        if (tag == RUNNING_FRAGMENT) {
+            if (running != null) {
+                ft.show(running)
             }
         }
-        if (tag == SURVEY_FRAGMENT) {
-            if (survey != null) {
-                ft.show(survey)
+        if (tag == CREW_FRAGMENT) {
+            if (crew != null) {
+                ft.show(crew)
+            }
+        }
+        if (tag == ACT_FRAGMENT) {
+            if (act != null) {
+                ft.show(act)
+            }
+        }
+        if (tag == CHALLENGE_FRAGMENT) {
+            if (challenge != null) {
+                ft.show(challenge)
             }
         }
         if (tag == MYPAGE_FRAGMENT) {

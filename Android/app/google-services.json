@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "233937818335",
+    "project_id": "darly-b9053",
+    "storage_bucket": "darly-b9053.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:233937818335:android:a8ec5c36a10692e9ea0f6a",
+        "android_client_info": {
+          "package_name": "com.ssafy.darly"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "233937818335-s9hj7c7vu3548297kpuelqa1rk958k0m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ssafy.darly",
+            "certificate_hash": "06af788df71c852747bd0e5e897682a69ed981f9"
+          }
+        },
+        {
+          "client_id": "233937818335-7mrg3j77q7ojjb5b0nlbptgrbrt2cnme.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDORbYwbCfDdK9Ct4QweMWpwBEx-eDo37s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "233937818335-7mrg3j77q7ojjb5b0nlbptgrbrt2cnme.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
