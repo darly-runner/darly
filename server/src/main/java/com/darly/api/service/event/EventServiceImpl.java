@@ -1,10 +1,15 @@
 package com.darly.api.service.event;
 
 import com.darly.api.request.event.EventPostReq;
+import com.darly.api.response.event.EventsGetRes;
 import com.darly.db.entity.Event;
+import com.darly.db.entity.EventList;
 import com.darly.db.entity.User;
 import com.darly.db.repository.event.EventRepository;
+import com.darly.db.repository.event.EventRepositorySupport;
 import com.darly.db.repository.user.UserRepository;
+import com.querydsl.core.Tuple;
+import com.querydsl.jpa.impl.JPAQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +25,12 @@ public class EventServiceImpl implements EventService{
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    EventRepositorySupport eventRepositorySupport;
+
     @Override
-    public List<Event> getEventList() {
-        return eventRepository.findAll();
+    public List getEventList() {
+        return eventRepositorySupport.findEvents();
     }
 
     @Override

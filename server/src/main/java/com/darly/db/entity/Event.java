@@ -30,6 +30,7 @@ public class Event {
 
     private LocalDateTime eventDate;
 
+
     @Builder
     public Event(Long eventId, User user, String eventTitle, String eventContent,
                  String eventImage, LocalDateTime eventDate) {

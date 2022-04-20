@@ -4,7 +4,7 @@ import com.darly.api.request.event.EventPostReq;
 import com.darly.api.response.event.EventsGetRes;
 import com.darly.api.service.event.EventService;
 import com.darly.common.model.response.BaseResponseBody;
-import com.darly.db.entity.Event;
+import com.darly.db.entity.EventList;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -39,9 +39,9 @@ public class EventController {
             @ApiResponse(code=500, message="서버 에러")
     })
     public ResponseEntity<EventsGetRes> getEvents() {
-        List<Event> eventList = eventService.getEventList();
+        List<EventList> eventList = eventService.getEventList();
 
-        return ResponseEntity.ok(EventsGetRes.of(eventList, 200, "success"));
+        return ResponseEntity.ok(EventsGetRes.of(eventList,200, "success"));
     }
 
     // 2. 이벤트 조회 1개 GET
