@@ -1,4 +1,4 @@
-package com.darly.api.service.Account;
+package com.darly.api.service.account;
 
 import com.darly.db.entity.User;
 import com.darly.db.repository.AccountRepository;

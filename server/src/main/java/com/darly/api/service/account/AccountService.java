@@ -1,7 +1,6 @@
-package com.darly.api.service.Account;
+package com.darly.api.service.account;
 
 import com.darly.db.entity.User;
-import org.springframework.stereotype.Service;
 
 public interface AccountService {
     User getUserByUserEmail(String userEmail);

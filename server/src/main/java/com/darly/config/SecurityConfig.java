@@ -1,6 +1,6 @@
 package com.darly.config;
 
-import com.darly.api.service.User.UserService;
+import com.darly.api.service.user.UserService;
 import com.darly.common.auth.DarlyUserDetailService;
 import com.darly.common.auth.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,22 +60,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilter(new JwtAuthenticationFilter(authenticationManager(), userService)) //HTTP 요청에 JWT 토큰 인증 필터를 거치도록 필터를 추가
                 .authorizeRequests()//요청에 대한 사용권한 체크
+                //인증이 필요한 URL과 필요하지 않은 URL에 대하여 설정
+                // .pertmitAll()한것들은 그냥 실행가능
+                // .authenticated() 설정시 로그인필요 -> JWT 토큰이용하여 Swagger에 authorized 설정해야함
                 .antMatchers("/accounts").permitAll()
-                .antMatchers("/emails").permitAll()
-                .antMatchers("/users").authenticated()
-                .antMatchers("/notices").authenticated()
-                .antMatchers("/reports").authenticated()
-                .antMatchers("/todos").authenticated()
-                .antMatchers("/studies").authenticated()
-                .antMatchers("/logs").authenticated()
-                .antMatchers("/meetings").authenticated()
-                .antMatchers("/bookmarks").authenticated()
-                .antMatchers("/achievements").authenticated()
-                .antMatchers("/schedules").authenticated()
-                .antMatchers("/diaries").authenticated()
-                .antMatchers("/stats").authenticated()
-                .antMatchers("/categories").authenticated()
-                .antMatchers("/sse").permitAll()       //인증이 필요한 URL과 필요하지 않은 URL에 대하여 설정
+                .antMatchers("/users").permitAll()
                 .anyRequest().permitAll()
                 .and().cors();
     }
