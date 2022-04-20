@@ -10,11 +10,24 @@ import java.io.Serializable;
  */
 @Getter
 public class SessionUser implements Serializable {
-    private String name;
-    private String email;
+    private Long userId;
+    private String userNickname;
+    private String userEmail;
+    private Float userTotalDistance;
+    private Long userTotalTime;
+    private Integer userTotalHeart;
+    private Integer userTotalCalories;
+    private Float userTotalPace;
+    private Integer userHeartNum;
+    private Float userMinPace;
+    private Float userGoalDistance;
+    private Integer userGoalTime;
+    private Integer userPoint;
+    private String userImage;
 
     public SessionUser(User user){
-        this.name = user.getUserNickname();
-        this.email = user.getUserEmail();
+        this.userId= user.getUserId();
+        this.userNickname = user.getUserNickname();
+        this.userEmail = user.getUserEmail();
     }
 }

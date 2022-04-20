@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.util.Map;
+import java.util.jar.Attributes;
 
 @Getter
 public class OAuthAttributes {
@@ -21,18 +22,30 @@ public class OAuthAttributes {
         this.email = email;
     }
 
-    public static OAuthAttributes of(String registrationId, String userNameAttributeName, Map<String, Object> attributes){
-        // 여기서 네이버와 카카오 등 구분 (ofNaver, ofKakao)
-//        if(registrationId.equals("google"))
-        return ofGoogle(userNameAttributeName, attributes);
+    public static OAuthAttributes of(String registrationId, String userNameAttributeKey, Map<String, Object> attributes){
+        if(registrationId.equals("kakao"))
+            return ofKakao("email", attributes);
+        return ofGoogle(userNameAttributeKey, attributes);
     }
 
-    private static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
+    private static OAuthAttributes ofGoogle(String userNameAttributeKey, Map<String, Object> attributes) {
         return OAuthAttributes.builder()
                 .name((String) attributes.get("name"))
                 .email((String) attributes.get("email"))
                 .attributes(attributes)
-                .nameAttributeKey(userNameAttributeName)
+                .nameAttributeKey(userNameAttributeKey)
+                .build();
+    }
+
+    private static OAuthAttributes ofKakao(String userNameAttributeKey, Map<String,Object> attributes) {
+        Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
+        Map<String, Object> kakaoProfile = (Map<String, Object>) kakaoAccount.get("profile");
+
+        return OAuthAttributes.builder()
+                .name((String) kakaoProfile.get("nickname"))
+                .email((String) kakaoAccount.get("email"))
+                .attributes(kakaoAccount)
+                .nameAttributeKey(userNameAttributeKey)
                 .build();
     }
 

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
+@ToString
 @DynamicInsert
 @Table(name = "tb_user")
 public class User {
@@ -35,7 +37,8 @@ public class User {
     }
 
     @Builder
-    public User(String name, String email) {
+    public User(Long id, String name, String email) {
+        this.userId = id;
         this.userNickname = name;
         this.userEmail = email;
     }

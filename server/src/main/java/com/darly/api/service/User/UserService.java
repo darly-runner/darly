@@ -5,5 +5,5 @@ import com.darly.db.entity.User;
 import java.util.Optional;
 
 public interface UserService {
-    Optional<User> getUserByUserId(int userId);
+    Optional<User> getUserByUserId(Long userId);
 }
