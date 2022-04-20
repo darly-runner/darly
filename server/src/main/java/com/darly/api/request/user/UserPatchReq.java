@@ -16,7 +16,7 @@ public class UserPatchReq {
     @ApiModelProperty(name="userImage", example="userImageURL")
     private String userImage;
 
-    public User ofPatch(User user, String userNickname, String userImage) {
+    public static User ofPatch(User user, String userNickname, String userImage) {
         return User.builder()
                 .userId(user.getUserId())
                 .userNickname(userNickname)
