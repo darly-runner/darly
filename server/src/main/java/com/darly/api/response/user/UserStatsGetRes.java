@@ -7,7 +7,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ApiModel("UserStatsGetResponse")
 public class UserStatsGetRes extends BaseResponseBody {

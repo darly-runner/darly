@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-@Setter
 @ApiModel("UserPatchRequest")
 public class UserPatchReq {
     @ApiModelProperty(name="userNickname", example="김싸피")
@@ -34,5 +33,11 @@ public class UserPatchReq {
                 .userPoint(user.getUserPoint())
                 .userImage(userImage)
                 .build();
+    }
+
+    @Builder
+    public UserPatchReq(String userNickname, String userImage) {
+        this.userNickname = userNickname;
+        this.userImage = userImage;
     }
 }

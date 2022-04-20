@@ -42,9 +42,11 @@ public class UserServiceImpl implements UserService{
     @Override
     public User patchUserCondition(UserPatchConditionReq userPatchConditionReq, Long userId) {
         User user = userRepository.findById(userId).get();
+        System.out.println(userPatchConditionReq.getUserGoalDistance());
+        System.out.println(userPatchConditionReq.getUserGoalTime());
         User patchUserCondition = UserPatchConditionReq.ofPatchCondition(user, userPatchConditionReq.getUserGoalDistance(), userPatchConditionReq.getUserGoalTime());
 
-        return  userRepository.save(patchUserCondition);
+        return userRepository.save(patchUserCondition);
     }
 
     @Override

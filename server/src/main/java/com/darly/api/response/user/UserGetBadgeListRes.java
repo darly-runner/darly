@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ApiModel("UserGetBadgeListResponse")
 public class UserGetBadgeListRes extends BaseResponseBody {

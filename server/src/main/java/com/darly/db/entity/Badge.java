@@ -6,7 +6,6 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name="tb_badge")
 public class Badge {

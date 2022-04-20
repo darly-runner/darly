@@ -6,7 +6,6 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Getter
-@Setter
 @Entity
 @IdClass(UserBadgeId.class)
 @Table(name = "tb_user_badge")

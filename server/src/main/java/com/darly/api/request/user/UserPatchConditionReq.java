@@ -3,11 +3,11 @@ package com.darly.api.request.user;
 import com.darly.db.entity.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-@Setter
 @ApiModel("UserPatchConditionRequest")
 public class UserPatchConditionReq {
     @ApiModelProperty(name="userGoalDistance", example="4.02")
@@ -33,5 +33,11 @@ public class UserPatchConditionReq {
                 .userPoint(user.getUserPoint())
                 .userImage(user.getUserImage())
                 .build();
+    }
+
+    @Builder
+    public UserPatchConditionReq(Float userGoalDistance, Integer userGoalTime) {
+        this.userGoalDistance = userGoalDistance;
+        this.userGoalTime = userGoalTime;
     }
 }
