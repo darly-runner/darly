@@ -9,6 +9,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 // null인 값은 제외하고 쿼리문이 만들어짐
 @DynamicInsert
@@ -57,8 +58,7 @@ public class User {
         this.userImage = userImage;
     }
 
-    public User update(String name){
-        this.userNickname = name;
-        return this;
+    public static User ofEmailAndName(String userEmail, String userNickname){
+        return User.builder().userEmail(userEmail).userNickname(userNickname).build();
     }
 }
