@@ -8,6 +8,6 @@ import lombok.Setter;
 public class AccountLoginPostReq {
 //    private String userNickname;
 //    private String userEmail;
-    private String googleCode;
+    private String tokenId;
     //지역,
 }

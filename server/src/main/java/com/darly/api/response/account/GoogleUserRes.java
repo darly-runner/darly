@@ -8,7 +8,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class GoogleUserResponse {
+public class GoogleUserRes {
     private String email;
     private String name;
 

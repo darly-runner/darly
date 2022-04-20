@@ -24,33 +24,12 @@ public class AccountController{
 
     //A-001
     @GetMapping("/kakao")
-    public ResponseEntity<? extends BaseResponseBody> kakaoLogin(@RequestBody AccountLoginPostReq accountPostReq){
-
-        return ResponseEntity.ok(AccountLoginPostRes.of(200, "Login Successful"));
-//        return ResponseEntity.ok(AccountPostRes.of(200, "Success Login", JwtTokenUtil.getToken(user.get().getUserId())));
-//        Optional<User> user = accountService.getUserByUserEmail(accountPostReq.getUserEmail());
-//        if(user.isPresent())
-//            return ResponseEntity.ok(AccountPostRes.of(200, "Success Login", JwtTokenUtil.getToken(user.get().getUserId())));
-//        else
-//            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail Login: Not valid userEmail"));
+    public ResponseEntity<? extends BaseResponseBody> kakaoLogin(@RequestBody AccountLoginPostReq accountLoginPostReq){
+        return ResponseEntity.ok(AccountLoginPostRes.of(200, "Login Successful", JwtTokenUtil.getToken(accountService.kakaoLogin(accountLoginPostReq))));
     }
 
     @GetMapping("/google")
     public ResponseEntity<? extends BaseResponseBody> googleLogin(@RequestBody AccountLoginPostReq accountLoginPostReq){
-        Long userId = accountService.googleLogin(accountLoginPostReq);
-        System.out.println("userId" + userId);
-        return ResponseEntity.ok(AccountLoginPostRes.of(200, "Login Successful", JwtTokenUtil.getToken(userId)));
-    }
-
-    //accessToken 갱신
-    @GetMapping("/refresh")
-    public ResponseEntity<? extends BaseResponseBody> refreshToken(){
-//        String accessToken = JwtTokenUtil.getToken()
-        return ResponseEntity.ok(AccountLoginPostRes.of(200, "Login Successful"));
-    }
-
-    @GetMapping("/login")
-    public ResponseEntity<? extends BaseResponseBody> success(@RequestParam("email")String email){
-        return ResponseEntity.ok(AccountLoginPostRes.of(200, "Success Login"));//, JwtTokenUtil.getToken(userId)));
+        return ResponseEntity.ok(AccountLoginPostRes.of(200, "Login Successful", JwtTokenUtil.getToken(accountService.googleLogin(accountLoginPostReq))));
     }
 }

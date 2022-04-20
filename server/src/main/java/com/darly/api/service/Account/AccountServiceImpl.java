@@ -1,20 +1,14 @@
 package com.darly.api.service.Account;
 
 import com.darly.api.request.account.AccountLoginPostReq;
-import com.darly.api.response.account.GoogleUserResponse;
+import com.darly.api.response.account.GoogleUserRes;
+import com.darly.api.response.account.KakaoUserRes;
 import com.darly.db.entity.User;
 import com.darly.db.repository.AccountRepository;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Optional;
 
 @Service("accountService")
@@ -32,25 +26,30 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Long kakaoLogin(AccountLoginPostReq accountLoginPostReq) {
-//        User user =
-        return null;
+        KakaoUserRes kakaoUserResponse = webClient.get()
+                .uri("https://kapi.kakao.com/v2/user/me") // KAKAO의 유저 정보 받아오는 url
+                .headers(h -> h.setBearerAuth(accountLoginPostReq.getTokenId())) // JWT 토큰을 Bearer 토큰으로 지정
+                .retrieve()
+//                .onStatus(HttpStatus::is4xxClientError, response -> Mono.error(new TokenValidFailedException("Social Access Token is unauthorized")))
+//                .onStatus(HttpStatus::is5xxServerError, response -> Mono.error(new TokenValidFailedException("Internal Server Error")))
+                .bodyToMono(KakaoUserRes.class)
+                .block();
+
+        User user = accountRepository.findUserByUserEmail(kakaoUserResponse.getEmail()).orElse(accountRepository.save(kakaoUserResponse.toEntity()));
+        return user.getUserId();
     }
 
     @Override
     public Long googleLogin(AccountLoginPostReq accountLoginPostReq) {
-        GoogleUserResponse googleUserResponse = webClient.get()
-                .uri("https://oauth2.googleapis.com/tokeninfo", builder -> builder.queryParam("id_token", accountLoginPostReq.getGoogleCode()).build())
-                // KAKAO와 달리 GOOGLE을 IdToken을 query parameter로 받습니다. 이로 인해 KAKAO와 uri 작성 방식이 상이합니다.
+        GoogleUserRes googleUserResponse = webClient.get()
+                .uri("https://oauth2.googleapis.com/tokeninfo", builder -> builder.queryParam("id_token", accountLoginPostReq.getTokenId()).build())
                 .retrieve()
 //                .onStatus(HttpStatus::is4xxClientError, response -> Mono.error(new TokenValidFailedException("Social Access Token is unauthorized")))
 //                .onStatus(HttpStatus::is5xxServerError, response -> Mono.error(new TokenValidFailedException("Internal Server Error")))
-                .bodyToMono(GoogleUserResponse.class)
+                .bodyToMono(GoogleUserRes.class)
                 .block();
 
-        System.out.println(googleUserResponse);
-
         User user = accountRepository.findUserByUserEmail(googleUserResponse.getEmail()).orElse(accountRepository.save(googleUserResponse.toEntity()));
-
         return user.getUserId();
     }
 }
