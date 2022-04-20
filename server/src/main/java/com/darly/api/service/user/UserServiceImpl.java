@@ -2,7 +2,6 @@ package com.darly.api.service.user;
 
 import com.darly.api.request.user.UserPatchConditionReq;
 import com.darly.api.request.user.UserPatchReq;
-import com.darly.api.response.user.UserGetBadgeListRes;
 import com.darly.db.entity.Badge;
 import com.darly.db.entity.User;
 import com.darly.db.entity.UserBadge;
@@ -35,12 +34,9 @@ public class UserServiceImpl implements UserService{
     @Override
     public User patchUser(UserPatchReq userPatchReq, Long userId) {
         User user = userRepository.findById(userId).get();
+        User patchUser = userPatchReq.ofPatch(user, userPatchReq.getUserNickname(), userPatchReq.getUserImage());
 
-        user.setUserNickname(userPatchReq.getUserNickname());
-        user.setUserImage(userPatchReq.getUserImage());
-        userRepository.save(user);
-
-        return user;
+        return userRepository.save(patchUser);
     }
 
     @Override

@@ -58,7 +58,6 @@ public class UserController {
             @ApiResponse(code=500, message="서버 에러")
     })
     public ResponseEntity<BaseResponseBody> patchUser(UserPatchReq userPatchReq, Long userId) {
-
         userService.patchUser(userPatchReq, userId);
 
         return ResponseEntity.ok(BaseResponseBody.of(200, "success"));
