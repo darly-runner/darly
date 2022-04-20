@@ -4,10 +4,7 @@ import com.darly.common.model.response.BaseResponseBody;
 import com.darly.db.entity.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
@@ -30,18 +27,29 @@ public class UserStatsGetRes extends BaseResponseBody {
     private Float userMinPace;
 
     public static UserStatsGetRes of(User user, Integer statusCode, String message) {
-        UserStatsGetRes res = new UserStatsGetRes();
+        return UserStatsGetRes.builder()
+                .statusCode(statusCode)
+                .message(message)
+                .userTotalDistance(user.getUserTotalDistance())
+                .userTotalTime(user.getUserTotalTime())
+                .userTotalHeart(user.getUserTotalHeart())
+                .userTotalCalories(user.getUserTotalCalories())
+                .userTotalPace(user.getUserTotalPace())
+                .userHeartNum(user.getUserHeartNum())
+                .userMinPace(user.getUserMinPace())
+                .build();
+    }
 
-        res.setStatusCode(statusCode);
-        res.setMessage(message);
-        res.setUserTotalDistance(user.getUserTotalDistance());
-        res.setUserTotalTime(user.getUserTotalTime());
-        res.setUserTotalHeart(user.getUserTotalHeart());
-        res.setUserTotalCalories(user.getUserTotalCalories());
-        res.setUserTotalPace(user.getUserTotalPace());
-        res.setUserHeartNum(user.getUserHeartNum());
-        res.setUserMinPace(user.getUserMinPace());
-
-        return res;
+    @Builder
+    public UserStatsGetRes(Integer statusCode, String message, Float userTotalDistance, Long userTotalTime, Integer userTotalHeart,
+                           Integer userTotalCalories, Float userTotalPace, Integer userHeartNum, Float userMinPace) {
+        super(statusCode, message);
+        this.userTotalDistance = userTotalDistance;
+        this.userTotalTime = userTotalTime;
+        this.userTotalHeart = userTotalHeart;
+        this.userTotalCalories = userTotalCalories;
+        this.userTotalPace = userTotalPace;
+        this.userHeartNum = userHeartNum;
+        this.userMinPace = userMinPace;
     }
 }
