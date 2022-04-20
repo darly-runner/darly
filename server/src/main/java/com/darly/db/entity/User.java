@@ -9,10 +9,11 @@ import javax.persistence.*;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 // null인 값은 제외하고 쿼리문이 만들어짐
 @DynamicInsert
-@Table(name="tb_user")
+@Table(name = "tb_user")
 public class User {
 
     // PK로 지정정
@@ -55,5 +56,9 @@ public class User {
         this.userGoalTime = userGoalTime;
         this.userPoint = userPoint;
         this.userImage = userImage;
+    }
+
+    public static User ofEmailAndName(String userEmail, String userNickname){
+        return User.builder().userEmail(userEmail).userNickname(userNickname).build();
     }
 }

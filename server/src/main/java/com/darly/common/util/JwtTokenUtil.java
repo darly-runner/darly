@@ -1,10 +1,12 @@
 package com.darly.common.util;
 
-
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -14,17 +16,16 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
-/**
- * jwt 토큰 유틸 정의.
- */
+@Getter
 @Component
 public class JwtTokenUtil {
+
     private static String secretKey;
     private static Integer expirationTime;
 
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String HEADER_STRING = "Authorization";
-    public static final String ISSUER = "GongSP";
+    public static final String ISSUER = "Darly";
 
     @Autowired
     public JwtTokenUtil(@Value("${jwt.secret}") String secretKey, @Value("${jwt.expiration}") Integer expirationTime) {
@@ -33,7 +34,7 @@ public class JwtTokenUtil {
     }
 
     public void setExpirationTime() {
-        //JwtTokenUtil.expirationTime = Integer.parseInt(expirationTime);
+//        JwtTokenUtil.expirationTime = Integer.parseInt(expirationTime);
         JwtTokenUtil.expirationTime = expirationTime;
     }
 
@@ -44,10 +45,10 @@ public class JwtTokenUtil {
                 .build();
     }
 
-    public static String getToken(Integer userSeq) {
+    public static String getToken(Long userId) {
         Date expires = JwtTokenUtil.getTokenExpiration(expirationTime);
         return JWT.create()
-                .withSubject(userSeq.toString())
+                .withSubject(userId.toString())
                 .withExpiresAt(expires)
                 .withIssuer(ISSUER)
                 .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
