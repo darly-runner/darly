@@ -1,4 +1,4 @@
-package com.darly.api.service.Account;
+package com.darly.api.service.account;
 
 import com.darly.api.request.account.AccountLoginPostReq;
 import com.darly.api.response.account.GoogleUserRes;

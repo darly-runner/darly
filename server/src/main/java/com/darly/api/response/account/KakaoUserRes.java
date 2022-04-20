@@ -14,8 +14,8 @@ public class KakaoUserRes {
 
     public User toEntity(){
         return User.builder()
-                .name(name)
-                .email(email)
+                .userNickname(name)
+                .userEmail(email)
                 .build();
     }
 }

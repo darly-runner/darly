@@ -1,5 +1,6 @@
 package com.darly.common.model.response;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@ApiModel("BaseResponseBody")
 public class BaseResponseBody {
     String message = null;
     Integer statusCode = null;

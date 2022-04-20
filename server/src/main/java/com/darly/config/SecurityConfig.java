@@ -1,6 +1,6 @@
 package com.darly.config;
 
-import com.darly.api.service.User.UserService;
+import com.darly.api.service.user.UserService;
 import com.darly.common.auth.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -31,6 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(new JwtAuthenticationFilter(authenticationManager(), userService)) //HTTP 요청에 JWT 토큰 인증 필터를 거치도록 필터를 추가
                 .authorizeRequests()//요청에 대한 사용권한 체크
                 .antMatchers("/accounts/**").permitAll()
+                .antMatchers("/users").permitAll()
                 .anyRequest().authenticated()
                 .and().cors();
     }
