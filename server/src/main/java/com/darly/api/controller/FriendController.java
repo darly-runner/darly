@@ -81,4 +81,13 @@ public class FriendController {
             return ResponseEntity.ok(BaseResponseBody.of(406, "Fail deny friend: Already friend"));
         return ResponseEntity.ok(BaseResponseBody.of(200, "Success deny friend"));
     }
+
+    // F-007
+    @DeleteMapping("/{friendId}")
+    public ResponseEntity<? extends BaseResponseBody> deleteFriend(@PathVariable("friendId") Long friendId, Authentication authentication){
+        Long userId = Long.parseLong((String) authentication.getPrincipal());
+        if(!friendService.deleteFriend(userId, friendId))
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail delete friend: Already deleted"));
+        return ResponseEntity.ok(BaseResponseBody.of(200, "Success delete friend"));
+    }
 }

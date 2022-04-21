@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service("friendService")
 @RequiredArgsConstructor
@@ -31,5 +32,18 @@ public class FriendServiceImpl implements FriendService{
     public void createFriend(Long userId, Long friendId) {
         friendRepository.save(Friend.builder().friendOne(userId).friendTwo(friendId).build());
         friendRepository.save(Friend.builder().friendOne(friendId).friendTwo(userId).build());
+    }
+
+    @Override
+    public boolean deleteFriend(Long userId, Long friendId) {
+        Optional<Friend> friend = friendRepository.getByFriendOneAndFriendTwo_UserId(userId, friendId);
+        if (friend.isPresent())
+            friendRepository.delete(friend.get());
+        friend = friendRepository.getByFriendOneAndFriendTwo_UserId(friendId, userId);
+        if (friend.isPresent()) {
+            friendRepository.delete(friend.get());
+            return true;
+        }
+        return false;
     }
 }
