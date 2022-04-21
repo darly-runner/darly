@@ -19,4 +19,9 @@ public class FriendServiceImpl implements FriendService{
     public List<FriendTitleMapping> getFriendList(Long userId) {
         return friendRepositorySupport.findFriendTitleList(userId);
     }
+
+    @Override
+    public boolean isFriend(Long userId, Long friendId) {
+        return friendRepository.existsByFriendOneAndFriendTwo_UserId(userId, friendId);
+    }
 }
