@@ -90,4 +90,13 @@ public class FriendController {
             return ResponseEntity.ok(BaseResponseBody.of(405, "Fail delete friend: Already deleted"));
         return ResponseEntity.ok(BaseResponseBody.of(200, "Success delete friend"));
     }
+
+    // F-008
+    @GetMapping("/{friendId}/profile")
+    public ResponseEntity<? extends BaseResponseBody> getFriendProfile(@PathVariable("friendId") Long friendId, Authentication authentication){
+        Long userId = Long.parseLong((String) authentication.getPrincipal());
+        if(!friendService.deleteFriend(userId, friendId))
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail delete friend: Already deleted"));
+        return ResponseEntity.ok(BaseResponseBody.of(200, "Success delete friend"));
+    }
 }
