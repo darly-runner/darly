@@ -13,10 +13,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -76,4 +73,16 @@ public class EventController {
     // 4. 이벤트 수정 PATCH
 
     // 5. 이벤트 삭제 DELETE
+    @DeleteMapping
+    @ApiOperation(value="이벤트 삭제", notes="이벤트 삭제")
+    @ApiResponses({
+            @ApiResponse(code=200, message="테스트 성공"),
+            @ApiResponse(code=404, message="잘못된 url 접근"),
+            @ApiResponse(code=500, message="서버 에러")
+    })
+    public ResponseEntity<BaseResponseBody> deleteEvent(Long eventId) {
+        eventService.deleteEvent(eventId);
+
+        return ResponseEntity.ok(BaseResponseBody.of(200,"success"));
+    }
 }

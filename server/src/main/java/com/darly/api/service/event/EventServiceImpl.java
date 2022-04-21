@@ -60,4 +60,10 @@ public class EventServiceImpl implements EventService{
 
         return new EventOne(eventId, eventTitle, eventContent, userNickname, eventImage, eventDate);
     }
+
+    @Override
+    public void deleteEvent(Long eventId) {
+
+        eventRepository.deleteById(eventId);
+    }
 }

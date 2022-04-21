@@ -14,4 +14,6 @@ public interface EventService {
     Event createEvent(EventPostReq eventPostReq, Long userId);
 
     EventOne getEvent(Long eventId);
+
+    void deleteEvent(Long eventId);
 }
