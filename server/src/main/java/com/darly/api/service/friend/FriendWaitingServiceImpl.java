@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service("friendWaitingService")
 @RequiredArgsConstructor
@@ -28,5 +29,15 @@ public class FriendWaitingServiceImpl implements FriendWaitingService {
     @Override
     public List<FriendTitleMapping> getFriendWaitingList(Long userId) {
         return friendWaitingRepositorySupport.findFriendWaitingTitleList(userId);
+    }
+
+    @Override
+    public boolean deleteFriendWaiting(Long userId, Long friendId) {
+        Optional<FriendWaiting> friendWaiting = friendWaitingRepository.getByFriendOneAndFriendTwo_UserId(userId, friendId);
+        if (friendWaiting.isPresent()) {
+            friendWaitingRepository.delete(friendWaiting.get());
+            return true;
+        }
+        return false;
     }
 }

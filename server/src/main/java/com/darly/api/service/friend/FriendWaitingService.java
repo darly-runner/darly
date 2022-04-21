@@ -8,4 +8,5 @@ public interface FriendWaitingService {
     boolean isFriendWaiting(Long userId, Long friendId);
     void createFriendWaiting(Long userId, Long friendId);
     List<FriendTitleMapping> getFriendWaitingList(Long userId);
+    boolean deleteFriendWaiting(Long userId, Long friendId);
 }

@@ -1,6 +1,8 @@
 package com.darly.api.service.friend;
 
+import com.darly.db.entity.friend.Friend;
 import com.darly.db.entity.friend.FriendTitleMapping;
+import com.darly.db.entity.friend.FriendWaiting;
 import com.darly.db.repository.friend.FriendRepository;
 import com.darly.db.repository.friend.FriendRepositorySupport;
 import lombok.RequiredArgsConstructor;
@@ -23,5 +25,11 @@ public class FriendServiceImpl implements FriendService{
     @Override
     public boolean isFriend(Long userId, Long friendId) {
         return friendRepository.existsByFriendOneAndFriendTwo_UserId(userId, friendId);
+    }
+
+    @Override
+    public void createFriend(Long userId, Long friendId) {
+        friendRepository.save(Friend.builder().friendOne(userId).friendTwo(friendId).build());
+        friendRepository.save(Friend.builder().friendOne(friendId).friendTwo(userId).build());
     }
 }

@@ -1,10 +1,7 @@
 package com.darly.db.entity.friend;
 
 import com.darly.db.entity.User;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
@@ -22,4 +19,10 @@ public class Friend {
     @ManyToOne
     @JoinColumn(name = "friend_two")
     private User friendTwo;
+
+    @Builder
+    public Friend(Long friendOne, Long friendTwo){
+        this.friendOne = friendOne;
+        this.friendTwo = User.builder().userId(friendTwo).build();
+    }
 }
