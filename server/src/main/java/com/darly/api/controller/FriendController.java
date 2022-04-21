@@ -52,4 +52,11 @@ public class FriendController {
         return ResponseEntity.ok(BaseResponseBody.of(200, "Success request friend"));
     }
 
+    // F-004
+    @GetMapping("/waiting")
+    public ResponseEntity<? extends BaseResponseBody> getFriendWaitingList(Authentication authentication){
+        Long userId = Long.parseLong((String) authentication.getPrincipal());
+        return ResponseEntity.ok(FriendListGetRes.of(200, "Success get waiting friend list", friendWaitingService.getFriendWaitingList(userId)));
+    }
+
 }
