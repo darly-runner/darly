@@ -22,14 +22,14 @@ public class AccountController{
     private final AccountService accountService;
 
     //A-001
-    @GetMapping("/kakao")
+    @PostMapping("/kakao")
     public ResponseEntity<? extends BaseResponseBody> kakaoLogin(@RequestBody AccountLoginGetReq accountLoginGetReq){
         String userEmail = accountService.kakaoLogin(accountLoginGetReq);
         return ResponseEntity.ok(getResponseByEmail(userEmail));
     }
 
     //A-002
-    @GetMapping("/google")
+    @PostMapping("/google")
     public ResponseEntity<? extends BaseResponseBody> googleLogin(@RequestBody AccountLoginGetReq accountLoginGetReq){
         String userEmail = accountService.googleLogin(accountLoginGetReq);
         return ResponseEntity.ok(getResponseByEmail(userEmail));

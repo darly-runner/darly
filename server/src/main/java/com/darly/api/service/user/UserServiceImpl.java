@@ -5,6 +5,7 @@ import com.darly.api.request.user.UserPatchReq;
 import com.darly.db.entity.Badge;
 import com.darly.db.entity.User;
 import com.darly.db.entity.UserBadge;
+import com.darly.db.entity.friend.FriendTitleMapping;
 import com.darly.db.repository.user.UserBadgeRepository;
 import com.darly.db.repository.user.UserRepository;
 import com.darly.db.repository.user.UserRepositorySupport;
@@ -63,5 +64,10 @@ public class UserServiceImpl implements UserService{
         }
 
         return badgeList;
+    }
+
+    @Override
+    public List<FriendTitleMapping> getUserSearchList(Long userId, String nickname) {
+        return userRepositorySupport.findUserTitleSearchList(userId, nickname);
     }
 }
