@@ -1,6 +1,7 @@
 package com.darly.api.service.event;
 
 
+import com.darly.api.request.event.EventPatchReq;
 import com.darly.api.request.event.EventPostReq;
 import com.darly.db.entity.Event;
 import com.darly.db.entity.EventList;
@@ -16,4 +17,6 @@ public interface EventService {
     EventOne getEvent(Long eventId);
 
     void deleteEvent(Long eventId);
+
+    void patchEvent(EventPatchReq eventPatchReq, Long eventId);
 }

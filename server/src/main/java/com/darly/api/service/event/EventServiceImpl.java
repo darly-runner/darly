@@ -1,5 +1,6 @@
 package com.darly.api.service.event;
 
+import com.darly.api.request.event.EventPatchReq;
 import com.darly.api.request.event.EventPostReq;
 import com.darly.api.response.event.EventsGetRes;
 import com.darly.db.entity.Event;
@@ -65,5 +66,18 @@ public class EventServiceImpl implements EventService{
     public void deleteEvent(Long eventId) {
 
         eventRepository.deleteById(eventId);
+    }
+
+    @Override
+    public void patchEvent(EventPatchReq eventPatchReq, Long eventId) {
+        Event event = eventRepository.findById(eventId).get();
+
+        System.out.println(eventPatchReq.getEventTitle());
+        System.out.println(eventPatchReq.getEventContent());
+        System.out.println(eventPatchReq.getEventImage());
+        Event patchEvent = EventPatchReq.ofPatch(event, eventPatchReq.getEventTitle(),
+                eventPatchReq.getEventContent(), eventPatchReq.getEventImage());
+
+        eventRepository.save(patchEvent);
     }
 }

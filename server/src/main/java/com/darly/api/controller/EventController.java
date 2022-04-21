@@ -1,5 +1,6 @@
 package com.darly.api.controller;
 
+import com.darly.api.request.event.EventPatchReq;
 import com.darly.api.request.event.EventPostReq;
 import com.darly.api.response.event.EventGetRes;
 import com.darly.api.response.event.EventsGetRes;
@@ -71,6 +72,19 @@ public class EventController {
         return ResponseEntity.ok(BaseResponseBody.of(200,"success"));
     }
     // 4. 이벤트 수정 PATCH
+    @PatchMapping
+    @ApiOperation(value="이벤트 수정", notes="eventTitle, eventContent, eventImage 수정")
+    @ApiResponses({
+            @ApiResponse(code=200, message="테스트 성공"),
+            @ApiResponse(code=404, message="잘못된 url 접근"),
+            @ApiResponse(code=500, message="서버 에러")
+    })
+    public ResponseEntity<BaseResponseBody> patchEvent(EventPatchReq eventPatchReq, Long eventId) {
+        eventService.patchEvent(eventPatchReq, eventId);
+
+        return ResponseEntity.ok(BaseResponseBody.of(200,"success"));
+    }
+
 
     // 5. 이벤트 삭제 DELETE
     @DeleteMapping
