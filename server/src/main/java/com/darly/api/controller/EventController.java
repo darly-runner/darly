@@ -1,10 +1,12 @@
 package com.darly.api.controller;
 
 import com.darly.api.request.event.EventPostReq;
+import com.darly.api.response.event.EventGetRes;
 import com.darly.api.response.event.EventsGetRes;
 import com.darly.api.service.event.EventService;
 import com.darly.common.model.response.BaseResponseBody;
 import com.darly.db.entity.EventList;
+import com.darly.db.entity.EventOne;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -45,6 +47,18 @@ public class EventController {
     }
 
     // 2. 이벤트 조회 1개 GET
+    @GetMapping("/get")
+    @ApiOperation(value="이벤트 1개 조회", notes="이벤트 조회")
+    @ApiResponses({
+            @ApiResponse(code=200, message="테스트 성공"),
+            @ApiResponse(code=404, message="잘못된 url 접근"),
+            @ApiResponse(code=500, message="서버 에러")
+    })
+    public ResponseEntity<EventGetRes> getEvent(Long eventId) {
+        EventOne eventOne = eventService.getEvent(eventId);
+
+        return ResponseEntity.ok(EventGetRes.of(eventOne, 200, "success"));
+    }
 
     // 3. 이벤트 생성 POST
     @PostMapping
