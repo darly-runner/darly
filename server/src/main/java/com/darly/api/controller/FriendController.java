@@ -70,4 +70,15 @@ public class FriendController {
         friendService.createFriend(userId, friendId);
         return ResponseEntity.ok(BaseResponseBody.of(200, "Success accept friend"));
     }
+
+    // F-006
+    @DeleteMapping("/{friendId}/deny")
+    public ResponseEntity<? extends BaseResponseBody> denyFriend(@PathVariable("friendId") Long friendId, Authentication authentication){
+        Long userId = Long.parseLong((String) authentication.getPrincipal());
+        if(!friendWaitingService.deleteFriendWaiting(userId, friendId))
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail deny friend: No request"));
+        if(friendService.isFriend(userId, friendId))
+            return ResponseEntity.ok(BaseResponseBody.of(406, "Fail deny friend: Already friend"));
+        return ResponseEntity.ok(BaseResponseBody.of(200, "Success deny friend"));
+    }
 }
