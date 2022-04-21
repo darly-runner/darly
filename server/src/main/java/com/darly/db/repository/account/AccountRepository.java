@@ -1,4 +1,4 @@
-package com.darly.db.repository;
+package com.darly.db.repository.account;
 
 import com.darly.db.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
