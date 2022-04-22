@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object DarlyService {
-    fun getGamesService():ApiService{
+    fun getDarlyService():ApiService{
         val okHttpClient = OkHttpClient.Builder()
             .connectTimeout(100, TimeUnit.SECONDS)
             .readTimeout(100, TimeUnit.SECONDS)
@@ -14,7 +14,7 @@ object DarlyService {
             .build()
 
         return Retrofit.Builder()
-            .baseUrl("http://52.78.11.118:8000/")
+            .baseUrl("http://10.0.2.2:8000/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()

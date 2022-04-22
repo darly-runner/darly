@@ -17,7 +17,11 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.ssafy.darly.R
 import com.ssafy.darly.databinding.ActivityLoginBinding
+import com.ssafy.darly.service.DarlyService
 import com.ssafy.darly.viewmodel.LoginViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -78,6 +82,14 @@ class LoginActivity : AppCompatActivity() {
                 if(task.isSuccessful){
                     val user = auth.currentUser
                     Log.d("인증 성공", user.toString())
+
+                    val response = DarlyService.getDarlyService().accountGoogle(idToken)
+                    if(response.isSuccessful){
+                        Log.d("뭐임 ㅡㅡ" , "${response.body()}")
+                    }else{
+                        Log.d("안되넹..","ㅇㅇ")
+                    }
+
                     toMainActivity(auth.currentUser)
                 }else{
                     Log.d("인증 실패", "signInWithCredential : failire",task.exception)
