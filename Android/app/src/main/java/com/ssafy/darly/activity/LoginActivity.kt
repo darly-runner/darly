@@ -4,13 +4,14 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -33,7 +34,7 @@ class LoginActivity : AppCompatActivity() {
 
         auth = Firebase.auth
 
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN)
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
@@ -45,34 +46,51 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        val account = GoogleSignIn.getLastSignedInAccount(this)
+        if(account !== null){
+            Log.d("LoginActivity","이미 로그인 되어있는 계정입니다.")
+            toMainActivity(auth.currentUser)
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 val account = task.getResult(ApiException::class.java)
                 account.idToken?.let { firebaseAuthWithGoogle(it) }
+                Log.d("idToken", "${account.idToken}")
             } catch (e: ApiException) {
-                // Google Sign In failed, update UI appropriately
                 Log.w("LoginActivity", "Google sign in failed", e)
             }
         }
     }
 
+    //Google SignInAccount 객체에서 ID 토큰을 가져와서 Firebase Auth로 교환하고 Firebase에 인증
     private fun firebaseAuthWithGoogle(idToken: String) {
-        //Google SignInAccount 객체에서 ID 토큰을 가져와서 Firebase Auth로 교환하고 Firebase에 인증
         val credential = GoogleAuthProvider.getCredential(idToken,null)
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this){task ->
                 if(task.isSuccessful){
                     val user = auth.currentUser
                     Log.d("인증 성공", user.toString())
+                    toMainActivity(auth.currentUser)
                 }else{
                     Log.d("인증 실패", "signInWithCredential : failire",task.exception)
+                    Toast.makeText(this,"로그인에 실패하였습니다.",Toast.LENGTH_SHORT)
                 }
             }
-    }// firebaseAuthWithGoogle END
+    }
+
+    // 메인 액티비티로 이동
+    private fun toMainActivity(user: FirebaseUser?) {
+        if(user !=null) {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        }
+    }
 }
