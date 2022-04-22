@@ -9,4 +9,5 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
 //    <T> List<T> findByFriendOne(Long friendId, Class<T> type);
     boolean existsByFriendOneAndFriendTwo_UserId(Long userId, Long friendId);
     Optional<Friend> getByFriendOneAndFriendTwo_UserId(Long userId, Long friendId);
+    long countByFriendOne(Long userId);
 }

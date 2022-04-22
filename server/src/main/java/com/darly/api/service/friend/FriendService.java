@@ -9,4 +9,5 @@ public interface FriendService {
     boolean isFriend(Long userId, Long friendId);
     void createFriend(Long userId, Long friendId);
     boolean deleteFriend(Long userId, Long friendId);
+    long getFriendNum(Long friendId);
 }

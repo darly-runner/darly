@@ -2,10 +2,14 @@ package com.darly.api.controller;
 
 import com.darly.api.request.friend.FriendRequestPostReq;
 import com.darly.api.response.friend.FriendListGetRes;
+import com.darly.api.response.friend.FriendProfileGetRes;
 import com.darly.api.service.friend.FriendService;
 import com.darly.api.service.friend.FriendWaitingService;
 import com.darly.api.service.user.UserService;
+import com.darly.api.service.userAddress.UserAddressService;
 import com.darly.common.model.response.BaseResponseBody;
+import com.darly.db.entity.User;
+import com.darly.db.entity.address.AddressNameMapping;
 import com.darly.db.entity.friend.FriendTitleMapping;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,6 +27,7 @@ public class FriendController {
     private final UserService userService;
     private final FriendService friendService;
     private final FriendWaitingService friendWaitingService;
+    private final UserAddressService userAddressService;
 
     // F-001
     @GetMapping
@@ -93,10 +99,10 @@ public class FriendController {
 
     // F-008
     @GetMapping("/{friendId}/profile")
-    public ResponseEntity<? extends BaseResponseBody> getFriendProfile(@PathVariable("friendId") Long friendId, Authentication authentication){
-        Long userId = Long.parseLong((String) authentication.getPrincipal());
-        if(!friendService.deleteFriend(userId, friendId))
-            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail delete friend: Already deleted"));
-        return ResponseEntity.ok(BaseResponseBody.of(200, "Success delete friend"));
+    public ResponseEntity<? extends BaseResponseBody> getFriendProfile(@PathVariable("friendId") Long friendId){
+        User user = userService.getUserByUserId(friendId);
+        if(user == null)
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail get friend profile: Not valid friendId"));
+        return ResponseEntity.ok(FriendProfileGetRes.of(200, "Success get friend profile", user, userAddressService.getAddressNameList(friendId), friendService.getFriendNum(friendId)));
     }
 }
