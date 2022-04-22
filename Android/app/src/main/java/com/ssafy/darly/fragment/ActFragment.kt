@@ -19,7 +19,7 @@ class ActFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_running,container,false)
+        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_act,container,false)
         activity?.let {
             binding.lifecycleOwner = this
             binding.viewModel = model
