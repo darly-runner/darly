@@ -11,10 +11,7 @@ import com.darly.api.service.userAddress.UserAddressService;
 import com.darly.api.service.userFeed.UserFeedService;
 import com.darly.common.model.response.BaseResponseBody;
 import com.darly.db.entity.User;
-import com.darly.db.entity.userFeed.UserFeedImageMapping;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -114,11 +111,11 @@ public class FriendController {
     @GetMapping("/{friendId}/feed")
     public ResponseEntity<? extends BaseResponseBody> getFriend(@PathVariable("friendId") Long friendId, @PageableDefault(size = 15, sort = "user_feed_id", direction = Sort.Direction.DESC) Pageable page) {
         return ResponseEntity.ok(FriendFeedGetRes.builder()
-                        .page(userFeedService.getUserFeedList(friendId, page))
-                        .currentPage(page.getPageNumber())
-                        .statusCode(200)
-                        .message("Success get friend feed")
-                        .build());
+                .page(userFeedService.getUserFeedList(friendId, page))
+                .currentPage(page.getPageNumber())
+                .statusCode(200)
+                .message("Success get friend feed")
+                .build());
     }
 
 }
