@@ -19,6 +19,7 @@ public class Record {
     private Long userId;
     private Long dayId;
     private Long matchId;
+    private String recordTitle;
     private Long recordDate;
     private Float recordDistance;
     private Long recordTime;
