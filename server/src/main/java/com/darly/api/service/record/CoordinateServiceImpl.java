@@ -26,4 +26,9 @@ public class CoordinateServiceImpl implements CoordinateService {
                 .coordinateLongitude(String.join(",", coordinateLongitudes))
                 .build());
     }
+
+    @Override
+    public Coordinate getCoordinate(Long recordId) {
+        return coordinateRepository.findByRecordId(recordId);
+    }
 }

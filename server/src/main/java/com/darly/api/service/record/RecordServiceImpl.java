@@ -55,6 +55,11 @@ public class RecordServiceImpl implements RecordService {
         return recordRepositorySupport.getRecordListTop(userId);
     }
 
+    @Override
+    public Record getRecordDetail(Long recordId) {
+        return recordRepository.findByRecordId(recordId);
+    }
+
     private Long getTimestamp(LocalDateTime today) {
         return Timestamp.valueOf(today).getTime() / 1000;
     }

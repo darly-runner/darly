@@ -10,4 +10,5 @@ public interface RecordService {
     Record createRecord(Long userId, Long dayId, RecordCreatePostReq recordCreatePostReq);
     List<RecordMapping> getRecordListAll(Long userId);
     List<RecordMapping> getRecordListTop(Long userId);
+    Record getRecordDetail(Long recordId);
 }

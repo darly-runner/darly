@@ -1,14 +1,18 @@
 package com.darly.api.controller;
 
 import com.darly.api.request.record.RecordCreatePostReq;
+import com.darly.api.response.record.RecordDetailGetRes;
 import com.darly.api.response.record.RecordListGetRes;
 import com.darly.api.service.day.DayService;
+import com.darly.api.service.match.MatchResultService;
 import com.darly.api.service.record.CoordinateService;
 import com.darly.api.service.record.RecordService;
 import com.darly.api.service.record.SectionService;
 import com.darly.common.model.response.BaseResponseBody;
+import com.darly.db.entity.match.MatchResultMapping;
+import com.darly.db.entity.record.Coordinate;
 import com.darly.db.entity.record.Record;
-import com.darly.db.entity.record.RecordMapping;
+import com.darly.db.entity.record.SectionMapping;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -25,6 +29,7 @@ public class RecordController {
     private final RecordService recordService;
     private final SectionService sectionService;
     private final CoordinateService coordinateService;
+    private final MatchResultService matchResultService;
 
     // R-001
     @PostMapping
@@ -46,4 +51,21 @@ public class RecordController {
             return ResponseEntity.ok(RecordListGetRes.builder().statusCode(200).message("Success get record list top").records(recordService.getRecordListTop(userId)).build());
         return ResponseEntity.ok(BaseResponseBody.of(405, "Fail get record list: Not valid type"));
     }
+
+    // R-003
+    @GetMapping("/{recordId}")
+    public ResponseEntity<? extends BaseResponseBody> getRecordDetail(@PathVariable("recordId") Long recordId, Authentication authentication) {
+        Record record = recordService.getRecordDetail(recordId);
+        if (record == null)
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail get record detail: Not valid recordId"));
+        return ResponseEntity.ok(RecordDetailGetRes.builder()
+                .statusCode(200)
+                .message("Success get record detail")
+                .record(record)
+                .coordinate(coordinateService.getCoordinate(recordId))
+                .sections(sectionService.getSectionList(recordId))
+                .ranks(record.getMatchId() == null ? null : matchResultService.getMatchResultList(record.getMatchId()))
+                .build());
+    }
+
 }
