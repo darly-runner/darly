@@ -38,4 +38,11 @@ public class StatController {
         return ResponseEntity.ok(dayService.getYearStats(userId, date));
     }
 
+    // S-004
+    @GetMapping
+    public ResponseEntity<? extends BaseResponseBody> getAllStats(Authentication authentication) {
+        Long userId = Long.parseLong((String) authentication.getPrincipal());
+        return ResponseEntity.ok(dayService.getAllStats(userId));
+    }
+
 }

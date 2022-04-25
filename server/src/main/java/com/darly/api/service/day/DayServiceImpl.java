@@ -1,6 +1,7 @@
 package com.darly.api.service.day;
 
 import com.darly.api.request.record.RecordCreatePostReq;
+import com.darly.api.response.stat.StatAllGetRes;
 import com.darly.api.response.stat.StatGetRes;
 import com.darly.db.entity.day.Day;
 import com.darly.db.repository.day.DayRepository;
@@ -23,8 +24,6 @@ public class DayServiceImpl implements DayService {
     @Override
     public Day saveToday(Long userId, RecordCreatePostReq recordCreatePostReq) {
         Long today = getTimestamp();
-        System.out.println("today");
-        System.out.println(today);
         Optional<Day> opDay = dayRepository.findByUserIdAndDayDate(userId, today);
         if (opDay.isPresent()) {
             Day day = opDay.get();
@@ -143,6 +142,38 @@ public class DayServiceImpl implements DayService {
                 .build();
     }
 
+    @Override
+    public StatAllGetRes getAllStats(Long userId) {
+        List<Day> dayList = dayRepository.findByUserId(userId);
+        int startYear = getYearByLongDate(dayList.get(0).getDayDate());
+        int endYear = getYearByLongDate(dayList.get(dayList.size() - 1).getDayDate());
+        float[] distances = new float[endYear - startYear + 1];
+        float totalDistance = 0, totalPace = 0;
+        int totalTime = 0, totalHeart = 0, totalNum = 0, totalHeartNum = 0;
+        for (Day day : dayList) {
+            distances[getYearByLongDate(day.getDayDate()) - startYear] += day.getDayDistance();
+            totalDistance += day.getDayDistance();
+            totalPace += day.getDayPace();
+            totalTime += day.getDayTime();
+            totalNum += day.getDayNum();
+            if (day.getDayHeart() != 0) {
+                totalHeart += day.getDayHeart();
+                totalHeartNum += day.getDayHeartNum();
+            }
+        }
+        return StatAllGetRes.builder()
+                .statusCode(200)
+                .message("Success get year statistics")
+                .totalDistance(totalDistance)
+                .totalNum(totalNum)
+                .totalTime(totalTime)
+                .paceAvg(totalNum == 0 ? totalPace : (totalPace / totalNum))
+                .heartAvg(totalHeartNum == 0 ? null : (totalHeart / totalNum))
+                .startYear(startYear)
+                .distances(distances)
+                .build();
+    }
+
     private Long getTimestamp() {
         return Timestamp.valueOf(LocalDate.now().atStartOfDay()).getTime() / 1000;
     }
@@ -164,5 +195,10 @@ public class DayServiceImpl implements DayService {
     private int getMonthByLongDate(Long date) {
         Timestamp timestamp = new Timestamp(date * 1000);
         return timestamp.toLocalDateTime().getMonth().getValue() - 1;
+    }
+
+    private int getYearByLongDate(Long date) {
+        Timestamp timestamp = new Timestamp(date * 1000);
+        return timestamp.toLocalDateTime().getYear();
     }
 }
