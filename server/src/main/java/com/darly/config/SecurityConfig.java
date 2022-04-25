@@ -32,7 +32,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()//요청에 대한 사용권한 체크
                 .antMatchers("/accounts/kakao").permitAll()
                 .antMatchers("/accounts/google").permitAll()
-                .antMatchers("/users").permitAll()
+                .antMatchers("/swagger").permitAll()
+                .antMatchers("/swagger-ui/**").permitAll()
                 .anyRequest().authenticated()
                 .and().cors();
     }
