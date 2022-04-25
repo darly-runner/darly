@@ -23,4 +23,5 @@ public class Day {
     private Long dayTime;
     private Integer dayNum;
     private Float dayPace;
+    private Integer dayHeart;
 }
