@@ -9,16 +9,31 @@
             type="com.ssafy.darly.viewmodel.MypageViewModel" />
     </data>
 
-    <FrameLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".fragment.ActFragment">
-
-        <!-- TODO: Update blank fragment layout -->
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="마이페이지 프래그먼트" />
+        <Button
+            android:id="@+id/googleLogout"
+            android:text="구글 로그아웃"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
-    </FrameLayout>
+        <Button
+            android:id="@+id/kakaoLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="카카오 로그아웃" />
+
+        <Button
+            android:id="@+id/kakaoUnlink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="회원 탈퇴" />
+    </LinearLayout>
 </layout>

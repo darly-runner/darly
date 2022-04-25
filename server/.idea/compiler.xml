@@ -15,7 +15,7 @@
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.errorprone/error_prone_annotations/2.3.4/dac170e4594de319655ffb62f41cbd6dbb5e601e/error_prone_annotations-2.3.4.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.j2objc/j2objc-annotations/1.3/ba035118bc8bac37d7eff77700720999acd9986d/j2objc-annotations-1.3.jar" />
         </processorPath>
-        <module name="darly.main" />
+        <module name="server.main" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8" />

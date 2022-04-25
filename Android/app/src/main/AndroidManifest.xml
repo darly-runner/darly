@@ -4,6 +4,7 @@
     <!-- 인터넷 권한 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <application
+        android:name=".util.GlobalApplication"
         android:networkSecurityConfig="@xml/network_security_config"
         android:usesCleartextTraffic="true"
         android:allowBackup="true"
@@ -17,14 +18,15 @@
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+                <data
+                    android:host="oauth"
+                    android:scheme="kakao3a20416392ebf79f9356a5ebfd94116a" />
             </intent-filter>
         </activity>
         <activity
             android:name=".activity.MainActivity"
             android:exported="true">
-
         </activity>
     </application>
 
