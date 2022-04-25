@@ -1,7 +1,6 @@
 package com.darly.db.repository.userFeed;
 
 import com.darly.db.entity.userFeed.UserFeed;
-import com.darly.db.entity.userFeed.UserFeedImageMapping;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
