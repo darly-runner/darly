@@ -28,12 +28,12 @@ public class Event {
     private String eventContent;
     private String eventImage;
 
-    private LocalDateTime eventDate;
+    private Long eventDate;
 
 
     @Builder
     public Event(Long eventId, User user, String eventTitle, String eventContent,
-                 String eventImage, LocalDateTime eventDate) {
+                 String eventImage, Long eventDate) {
         this.eventId = eventId;
         this.user = user;
         this.eventTitle = eventTitle;

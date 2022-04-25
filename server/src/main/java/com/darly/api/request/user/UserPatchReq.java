@@ -13,8 +13,10 @@ public class UserPatchReq {
     private String userNickname;
     @ApiModelProperty(name="userImage", example="userImageURL")
     private String userImage;
+    @ApiModelProperty(name="userMessage", example="userMessage")
+    private String userMessage;
 
-    public static User ofPatch(User user, String userNickname, String userImage) {
+    public static User ofPatch(User user, String userNickname, String userImage, String userMessage) {
         return User.builder()
                 .userId(user.getUserId())
                 .userNickname(userNickname)
@@ -31,12 +33,14 @@ public class UserPatchReq {
                 .userGoalTime(user.getUserGoalTime())
                 .userPoint(user.getUserPoint())
                 .userImage(userImage)
+                .userMessage(userMessage)
                 .build();
     }
 
     @Builder
-    public UserPatchReq(String userNickname, String userImage) {
+    public UserPatchReq(String userNickname, String userImage, String userMessage) {
         this.userNickname = userNickname;
         this.userImage = userImage;
+        this.userMessage = userMessage;
     }
 }

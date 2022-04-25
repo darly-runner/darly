@@ -16,6 +16,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,7 +44,8 @@ public class UserController {
             @ApiResponse(code=404, message="잘못된 url 접근"),
             @ApiResponse(code=500, message="서버 에러")
     })
-    public ResponseEntity<UserGetRes> getUser(Long userId) {
+    public ResponseEntity<UserGetRes> getUser(Authentication authentication) {
+        Long userId = Long.parseLong((String) authentication.getPrincipal());
         User user = userService.getUserByUserId(userId);
 
         return ResponseEntity.ok(UserGetRes.of(user, 200, "success"));
@@ -57,7 +59,8 @@ public class UserController {
             @ApiResponse(code=404, message="잘못된 url 접근"),
             @ApiResponse(code=500, message="서버 에러")
     })
-    public ResponseEntity<BaseResponseBody> patchUser(UserPatchReq userPatchReq, Long userId) {
+    public ResponseEntity<BaseResponseBody> patchUser(UserPatchReq userPatchReq, Authentication authentication) {
+        Long userId = Long.parseLong((String) authentication.getPrincipal());
         userService.patchUser(userPatchReq, userId);
 
         return ResponseEntity.ok(BaseResponseBody.of(200, "success"));
@@ -72,7 +75,8 @@ public class UserController {
             @ApiResponse(code=404, message="잘못된 url 접근"),
             @ApiResponse(code=500, message="서버 에러")
     })
-    public ResponseEntity<UserStatsGetRes> getUserStats(Long userId){
+    public ResponseEntity<UserStatsGetRes> getUserStats(Authentication authentication){
+        Long userId = Long.parseLong((String) authentication.getPrincipal());
         User user = userService.getUserByUserId(userId);
 
         return ResponseEntity.ok(UserStatsGetRes.of(user, 200, "success"));
@@ -86,7 +90,8 @@ public class UserController {
             @ApiResponse(code=404, message="잘못된 url 접근"),
             @ApiResponse(code=500, message="서버 에러")
     })
-    public ResponseEntity<UserGetBadgeListRes> getBadge(Long userId) {
+    public ResponseEntity<UserGetBadgeListRes> getBadge(Authentication authentication) {
+        Long userId = Long.parseLong((String) authentication.getPrincipal());
         List<Badge> badgeList = userService.getBadgeList(userId);
 
         return ResponseEntity.ok(UserGetBadgeListRes.of(badgeList, 200, "success"));
@@ -100,8 +105,8 @@ public class UserController {
             @ApiResponse(code=404, message="잘못된 url 접근"),
             @ApiResponse(code=500, message="서버 에러")
     })
-    public ResponseEntity<BaseResponseBody> patchUserCondition(UserPatchConditionReq userPatchConditionReq, Long userId) {
-
+    public ResponseEntity<BaseResponseBody> patchUserCondition(UserPatchConditionReq userPatchConditionReq, Authentication authentication) {
+        Long userId = Long.parseLong((String) authentication.getPrincipal());
         userService.patchUserCondition(userPatchConditionReq, userId);
 
         return ResponseEntity.ok(BaseResponseBody.of(200, "success"));

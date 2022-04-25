@@ -13,7 +13,10 @@ import com.darly.db.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Service("EventService")
@@ -37,13 +40,14 @@ public class EventServiceImpl implements EventService{
     public Event createEvent(EventPostReq eventPostReq, Long userId) {
         User user = userRepository.findById(userId).get();
 
+        LocalDateTime today = LocalDateTime.now();
 
         Event event = Event.builder()
                         .eventTitle(eventPostReq.getEventTitle())
                         .eventContent(eventPostReq.getEventContent())
                         .eventImage(eventPostReq.getEventImage())
                         .user(user)
-                        .eventDate(LocalDateTime.now())
+                        .eventDate(getTimestamp(today))
                         .build();
 
         return eventRepository.save(event);
@@ -56,7 +60,7 @@ public class EventServiceImpl implements EventService{
         String eventTitle = event.getEventTitle();
         String eventContent = event.getEventContent();
         String eventImage = event.getEventImage();
-        LocalDateTime eventDate = event.getEventDate();
+        String eventDate =new SimpleDateFormat("yyyy/MM/dd a KK:mm").format(new Date(event.getEventDate() * 1000));
         String userNickname = event.getUser().getUserNickname();
 
         return new EventOne(eventId, eventTitle, eventContent, userNickname, eventImage, eventDate);
@@ -79,5 +83,9 @@ public class EventServiceImpl implements EventService{
                 eventPatchReq.getEventContent(), eventPatchReq.getEventImage());
 
         eventRepository.save(patchEvent);
+    }
+
+    private Long getTimestamp(LocalDateTime today) {
+        return Timestamp.valueOf(today).getTime() / 1000;
     }
 }

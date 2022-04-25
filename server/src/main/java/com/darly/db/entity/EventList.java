@@ -13,9 +13,9 @@ public class EventList {
     private Long eventId;
     private String eventTitle;
     private String userNickname;
-    private LocalDateTime eventDate;
+    private Long eventDate;
 
-    public EventList(Long eventId, String eventTitle, String userNickname, LocalDateTime eventDate) {
+    public EventList(Long eventId, String eventTitle, String userNickname, Long eventDate) {
         this.eventId = eventId;
         this.eventTitle = eventTitle;
         this.userNickname = userNickname;

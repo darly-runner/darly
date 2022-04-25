@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -66,7 +67,8 @@ public class EventController {
             @ApiResponse(code=404, message="잘못된 url 접근"),
             @ApiResponse(code=500, message="서버 에러")
     })
-    public ResponseEntity<BaseResponseBody> postEvent(EventPostReq eventPostReq, Long userId) {
+    public ResponseEntity<BaseResponseBody> postEvent(EventPostReq eventPostReq, Authentication authentication) {
+        Long userId = Long.parseLong((String) authentication.getPrincipal());
         eventService.createEvent(eventPostReq, userId);
 
         return ResponseEntity.ok(BaseResponseBody.of(200,"success"));

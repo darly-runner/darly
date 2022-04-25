@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public User patchUser(UserPatchReq userPatchReq, Long userId) {
         User user = userRepository.findById(userId).get();
-        User patchUser = UserPatchReq.ofPatch(user, userPatchReq.getUserNickname(), userPatchReq.getUserImage());
+        User patchUser = UserPatchReq.ofPatch(user, userPatchReq.getUserNickname(), userPatchReq.getUserImage(), userPatchReq.getUserMessage());
 
         return userRepository.save(patchUser);
     }
