@@ -1,6 +1,5 @@
 package com.darly.api.controller;
 
-import com.darly.api.response.stat.StatWeekGetRes;
 import com.darly.api.service.day.DayService;
 import com.darly.common.model.response.BaseResponseBody;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +22,13 @@ public class StatController {
     public ResponseEntity<? extends BaseResponseBody> getWeekStats(@RequestParam String date, Authentication authentication) {
         Long userId = Long.parseLong((String) authentication.getPrincipal());
         return ResponseEntity.ok(dayService.getWeekStats(userId, date));
+    }
+
+    // S-002
+    @GetMapping("/month")
+    public ResponseEntity<? extends BaseResponseBody> getMonthStats(@RequestParam String date, Authentication authentication) {
+        Long userId = Long.parseLong((String) authentication.getPrincipal());
+        return ResponseEntity.ok(dayService.getMonthStats(userId, date));
     }
 
 }

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class StatWeekGetRes extends BaseResponseBody {
+public class StatGetRes extends BaseResponseBody {
     private Float totalDistance;
     private Integer totalNum;
     private Float paceAvg;
@@ -16,7 +16,7 @@ public class StatWeekGetRes extends BaseResponseBody {
     private float[] distances;
 
     @Builder
-    public StatWeekGetRes(Integer statusCode, String message, Float totalDistance, Integer totalNum, Float paceAvg, Integer heartAvg, Integer totalTime, float[] distances) {
+    public StatGetRes(Integer statusCode, String message, Float totalDistance, Integer totalNum, Float paceAvg, Integer heartAvg, Integer totalTime, float[] distances) {
         super(statusCode, message);
         this.totalDistance = totalDistance;
         this.totalNum = totalNum;

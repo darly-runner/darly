@@ -24,4 +24,5 @@ public class Day {
     private Integer dayNum;
     private Float dayPace;
     private Integer dayHeart;
+    private Integer dayHeartNum;
 }
