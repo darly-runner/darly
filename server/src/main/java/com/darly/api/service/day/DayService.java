@@ -8,4 +8,5 @@ public interface DayService {
     Day saveToday(Long userId, RecordCreatePostReq recordCreatePostReq);
     StatGetRes getWeekStats(Long userId, String date);
     StatGetRes getMonthStats(Long userId, String date);
+    StatGetRes getYearStats(Long userId, String date);
 }

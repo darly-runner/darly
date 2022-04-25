@@ -112,6 +112,37 @@ public class DayServiceImpl implements DayService {
                 .build();
     }
 
+    @Override
+    public StatGetRes getYearStats(Long userId, String date) {
+        LocalDate startDate = LocalDate.parse(date, DateTimeFormatter.ISO_DATE).withMonth(1).withDayOfMonth(1);
+        LocalDate endDate = startDate.plusYears(1);
+        float[] distances = new float[12];
+        List<Day> dayList = dayRepositorySupport.findByStartAndEnd(userId, getTimeStamp(startDate), getTimeStamp(endDate));
+        float totalDistance = 0, totalPace = 0;
+        int totalTime = 0, totalHeart = 0, totalNum = 0, totalHeartNum = 0;
+        for (Day day : dayList) {
+            distances[getMonthByLongDate(day.getDayDate())] += day.getDayDistance();
+            totalDistance += day.getDayDistance();
+            totalPace += day.getDayPace();
+            totalTime += day.getDayTime();
+            totalNum += day.getDayNum();
+            if (day.getDayHeart() != 0) {
+                totalHeart += day.getDayHeart();
+                totalHeartNum += day.getDayHeartNum();
+            }
+        }
+        return StatGetRes.builder()
+                .statusCode(200)
+                .message("Success get year statistics")
+                .totalDistance(totalDistance)
+                .totalNum(totalNum)
+                .totalTime(totalTime)
+                .paceAvg(totalNum == 0 ? totalPace : (totalPace / totalNum))
+                .heartAvg(totalHeartNum == 0 ? null : (totalHeart / totalNum))
+                .distances(distances)
+                .build();
+    }
+
     private Long getTimestamp() {
         return Timestamp.valueOf(LocalDate.now().atStartOfDay()).getTime() / 1000;
     }
@@ -128,5 +159,10 @@ public class DayServiceImpl implements DayService {
     private int getMonthDayByLongDate(Long date) {
         Timestamp timestamp = new Timestamp(date * 1000);
         return timestamp.toLocalDateTime().getDayOfMonth() - 1;
+    }
+
+    private int getMonthByLongDate(Long date) {
+        Timestamp timestamp = new Timestamp(date * 1000);
+        return timestamp.toLocalDateTime().getMonth().getValue() - 1;
     }
 }
