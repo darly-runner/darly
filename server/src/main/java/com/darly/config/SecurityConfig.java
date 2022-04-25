@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/accounts/google").permitAll()
                 .antMatchers("/swagger").permitAll()
                 .antMatchers("/swagger-ui/**").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
                 .and().cors();
     }
 }
