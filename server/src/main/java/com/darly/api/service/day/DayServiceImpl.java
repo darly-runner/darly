@@ -163,7 +163,7 @@ public class DayServiceImpl implements DayService {
         }
         return StatAllGetRes.builder()
                 .statusCode(200)
-                .message("Success get year statistics")
+                .message("Success get all statistics")
                 .totalDistance(totalDistance)
                 .totalNum(totalNum)
                 .totalTime(totalTime)
