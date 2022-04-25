@@ -1,0 +1,25 @@
+package com.darly.api.service.crew;
+
+import com.darly.api.request.crew.CrewCreatePostReq;
+import com.darly.common.util.Type;
+import com.darly.db.entity.User;
+import com.darly.db.entity.crew.Crew;
+import com.darly.db.repository.crew.CrewRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service("crewService")
+@RequiredArgsConstructor
+public class CrewServiceImpl implements CrewService {
+    private final CrewRepository crewRepository;
+
+    @Override
+    public Crew createCrew(Long userId, CrewCreatePostReq crewCreatePostReq) {
+        return crewRepository.save(Crew.builder()
+                .user(User.builder().userId(userId).build())
+                .crewName(crewCreatePostReq.getCrewName())
+                .crewDesc(crewCreatePostReq.getCrewDesc())
+                .crewJoin(Type.valueOf(crewCreatePostReq.getCrewJoin()).getLabel())
+                .build());
+    }
+}
