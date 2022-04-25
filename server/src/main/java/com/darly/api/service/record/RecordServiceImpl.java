@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.format.TextStyle;
 import java.util.List;
@@ -58,6 +57,11 @@ public class RecordServiceImpl implements RecordService {
     @Override
     public Record getRecordDetail(Long recordId) {
         return recordRepository.findByRecordId(recordId);
+    }
+
+    @Override
+    public void updateRecord(Record record) {
+        recordRepository.save(record);
     }
 
     private Long getTimestamp(LocalDateTime today) {

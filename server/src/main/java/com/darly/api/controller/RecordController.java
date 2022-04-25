@@ -1,6 +1,7 @@
 package com.darly.api.controller;
 
 import com.darly.api.request.record.RecordCreatePostReq;
+import com.darly.api.request.record.RecordUpdatePatchReq;
 import com.darly.api.response.record.RecordDetailGetRes;
 import com.darly.api.response.record.RecordListGetRes;
 import com.darly.api.service.day.DayService;
@@ -68,4 +69,14 @@ public class RecordController {
                 .build());
     }
 
+    // R-004
+    @PatchMapping("/{recordId}")
+    public ResponseEntity<? extends BaseResponseBody> updateRecordTitle(@PathVariable("recordId") Long recordId, @RequestBody RecordUpdatePatchReq recordUpdatePatchReq, Authentication authentication) {
+        Record record = recordService.getRecordDetail(recordId);
+        if (record == null)
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail update record title: Not valid recordId"));
+        record.setRecordTitle(recordUpdatePatchReq.getRecordTitle());
+        recordService.updateRecord(record);
+        return ResponseEntity.ok(BaseResponseBody.of(200, "Success update record title"));
+    }
 }
