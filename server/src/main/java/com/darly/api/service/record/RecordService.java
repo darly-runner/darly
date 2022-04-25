@@ -11,4 +11,5 @@ public interface RecordService {
     List<RecordMapping> getRecordListAll(Long userId);
     List<RecordMapping> getRecordListTop(Long userId);
     Record getRecordDetail(Long recordId);
+    void updateRecord(Record record);
 }
