@@ -4,14 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-<<<<<<< HEAD
 import android.widget.ImageButton
-=======
-<<<<<<< HEAD
-=======
-import android.widget.ImageButton
->>>>>>> f5da09cd824a3d5676c830693e8c566ed06267e0
->>>>>>> 4c71ca21b94d25216676b343d90a6f9513ea0330
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
@@ -23,19 +16,6 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-<<<<<<< HEAD
-import com.kakao.sdk.auth.LoginClient
-import com.kakao.sdk.auth.model.OAuthToken
-import com.kakao.sdk.common.model.AuthErrorCause
-import com.kakao.sdk.user.UserApiClient
-import com.ssafy.darly.R
-import com.ssafy.darly.databinding.ActivityLoginBinding
-=======
-<<<<<<< HEAD
-import com.ssafy.darly.R
-import com.ssafy.darly.databinding.ActivityLoginBinding
-import com.ssafy.darly.service.DarlyService
-=======
 import com.kakao.sdk.auth.LoginClient
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.AuthErrorCause
@@ -46,9 +26,10 @@ import com.ssafy.darly.model.GoogleAccountRequest
 import com.ssafy.darly.service.DarlyService
 import com.ssafy.darly.util.GlobalApplication
 import com.ssafy.darly.util.PreferenceUtil
->>>>>>> f5da09cd824a3d5676c830693e8c566ed06267e0
->>>>>>> 4c71ca21b94d25216676b343d90a6f9513ea0330
 import com.ssafy.darly.viewmodel.LoginViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -57,43 +38,14 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var auth : FirebaseAuth
     private val RC_SIGN_IN = 99
 
-<<<<<<< HEAD
-=======
     val darlyService = DarlyService.getDarlyService()
 
->>>>>>> f5da09cd824a3d5676c830693e8c566ed06267e0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         binding.lifecycleOwner = this
         binding.viewModel = model
 
-<<<<<<< HEAD
-        googleLogin()
-        kakaoLogin()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        val account = GoogleSignIn.getLastSignedInAccount(this)
-        if(account !== null){
-            Log.d("LoginActivity","이미 로그인 되어있는 계정입니다.")
-            toMainActivity()
-        }
-    }
-
-    fun googleLogin(){
-        auth = Firebase.auth
-
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id2))
-=======
-<<<<<<< HEAD
-        auth = Firebase.auth
-
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-=======
         googleLogin()
         kakaoLogin()
     }
@@ -122,8 +74,6 @@ class LoginActivity : AppCompatActivity() {
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id2))
->>>>>>> f5da09cd824a3d5676c830693e8c566ed06267e0
->>>>>>> 4c71ca21b94d25216676b343d90a6f9513ea0330
             .requestEmail()
             .build()
         var googleSignInClient = GoogleSignIn.getClient(this,gso)
@@ -134,28 +84,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-<<<<<<< HEAD
     fun kakaoLogin(){
-        // 로그인 정보 확인
-        UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
-            if (tokenInfo != null) {
-                Toast.makeText(this, "토큰 정보 보기 성공", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                finish()
-            }
-        }
-=======
-<<<<<<< HEAD
-    override fun onStart() {
-        super.onStart()
-        val account = GoogleSignIn.getLastSignedInAccount(this)
-        if(account !== null){
-            Log.d("LoginActivity","이미 로그인 되어있는 계정입니다.")
-            toMainActivity(auth.currentUser)
-=======
-    fun kakaoLogin(){
->>>>>>> 4c71ca21b94d25216676b343d90a6f9513ea0330
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
             if (error != null) {
                 when {
@@ -189,10 +118,7 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
             else if (token != null) {
-<<<<<<< HEAD
-=======
                 Log.d("LoginActivity","kakao access token : ${token}")
->>>>>>> 4c71ca21b94d25216676b343d90a6f9513ea0330
                 Toast.makeText(this, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
                 toMainActivity()
             }
@@ -203,10 +129,6 @@ class LoginActivity : AppCompatActivity() {
             }else{
                 LoginClient.instance.loginWithKakaoAccount(this, callback = callback)
             }
-<<<<<<< HEAD
-=======
->>>>>>> f5da09cd824a3d5676c830693e8c566ed06267e0
->>>>>>> 4c71ca21b94d25216676b343d90a6f9513ea0330
         }
     }
 
@@ -215,12 +137,6 @@ class LoginActivity : AppCompatActivity() {
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
-<<<<<<< HEAD
-                // Google Sign In was successful, authenticate with Firebase
-                val account = task.getResult(ApiException::class.java)
-                account.idToken?.let { firebaseAuthWithGoogle(it) }
-                Log.d("idToken", "${account.idToken}")
-=======
                 val account = task.getResult(ApiException::class.java)
 
                 CoroutineScope(Dispatchers.IO).launch {
@@ -235,7 +151,6 @@ class LoginActivity : AppCompatActivity() {
                 }
 
                 account.idToken?.let { firebaseAuthWithGoogle(it) }
->>>>>>> f5da09cd824a3d5676c830693e8c566ed06267e0
             } catch (e: ApiException) {
                 Log.w("LoginActivity", "Google sign in failed", e)
             }
@@ -250,51 +165,18 @@ class LoginActivity : AppCompatActivity() {
                 if(task.isSuccessful){
                     val user = auth.currentUser
                     Log.d("인증 성공", user.toString())
-<<<<<<< HEAD
-                    if(user != null)
-                        toMainActivity()
-=======
-<<<<<<< HEAD
-
-                    val response = DarlyService.getDarlyService().accountGoogle(idToken)
-                    if(response.isSuccessful){
-                        Log.d("뭐임 ㅡㅡ" , "${response.body()}")
-                    }else{
-                        Log.d("안되넹..","ㅇㅇ")
-                    }
-
-                    toMainActivity(auth.currentUser)
->>>>>>> 4c71ca21b94d25216676b343d90a6f9513ea0330
-                }else{
-                    Log.d("인증 실패", "signInWithCredential : failire",task.exception)
-=======
                     if(user != null)
                         toMainActivity()
                 }else{
                     Log.d("LoginActivity", "인증 실패 signInWithCredential : failire",task.exception)
->>>>>>> f5da09cd824a3d5676c830693e8c566ed06267e0
                     Toast.makeText(this,"로그인에 실패하였습니다.",Toast.LENGTH_SHORT)
                 }
             }
     }
 
     // 메인 액티비티로 이동
-<<<<<<< HEAD
     private fun toMainActivity() {
         startActivity(Intent(this, MainActivity::class.java))
         finish()
-=======
-<<<<<<< HEAD
-    private fun toMainActivity(user: FirebaseUser?) {
-        if(user !=null) {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-        }
-=======
-    private fun toMainActivity() {
-        startActivity(Intent(this, MainActivity::class.java))
-        finish()
->>>>>>> f5da09cd824a3d5676c830693e8c566ed06267e0
->>>>>>> 4c71ca21b94d25216676b343d90a6f9513ea0330
     }
 }

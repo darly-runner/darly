@@ -1,15 +1,4 @@
 <resources>
     <string name="app_name">달리</string>
-<<<<<<< HEAD
-<<<<<<< HEAD
     <string name="default_web_client_id2">233937818335-7mrg3j77q7ojjb5b0nlbptgrbrt2cnme.apps.googleusercontent.com</string>
-=======
-    <string name="Challenge">Challenge</string>
->>>>>>> 65629ae438be66fbd50e88696eb1602b4bb1dcd2
-=======
-    <string name="Challenge">Challenge</string>
-=======
-    <string name="default_web_client_id2">233937818335-7mrg3j77q7ojjb5b0nlbptgrbrt2cnme.apps.googleusercontent.com</string>
->>>>>>> f5da09cd824a3d5676c830693e8c566ed06267e0
->>>>>>> 4c71ca21b94d25216676b343d90a6f9513ea0330
 </resources>

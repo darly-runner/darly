@@ -13,14 +13,11 @@ import com.ssafy.darly.R
 import com.ssafy.darly.viewmodel.MainViewModel
 import com.ssafy.darly.databinding.ActivityMainBinding
 import com.ssafy.darly.fragment.*
-<<<<<<< HEAD
-=======
 import com.ssafy.darly.service.DarlyService
 import com.ssafy.darly.util.GlobalApplication
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
->>>>>>> f5da09cd824a3d5676c830693e8c566ed06267e0
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -39,8 +36,6 @@ class MainActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = model
 
-<<<<<<< HEAD
-=======
 //        val token = GlobalApplication.prefs.getString("token","noToken")
 //        CoroutineScope(Dispatchers.IO).launch {
 //            val response = DarlyService.getDarlyService().getUsers("Bearer $token",1)
@@ -49,7 +44,6 @@ class MainActivity : AppCompatActivity() {
 //            DarlyService.getDarlyService()
 //        }
 
->>>>>>> f5da09cd824a3d5676c830693e8c566ed06267e0
         setBottomNavigationBar()
     }
 

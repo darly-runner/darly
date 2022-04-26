@@ -1,52 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--<layout xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    xmlns:tools="http://schemas.android.com/tools">-->
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.ssafy.darly.viewmodel.ChallengeViewModel" />
+    </data>
 
-<!--    <data>-->
-
-<!--        <variable-->
-<!--            name="viewModel"-->
-<!--            type="com.ssafy.darly.viewmodel.ChallengeViewModel" />-->
-<!--    </data>-->
-
-<!--    <FrameLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        tools:context=".fragment.ActFragment">-->
-
-<!--        &lt;!&ndash; TODO: Update blank fragment layout &ndash;&gt;-->
-<!--        <TextView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:fontFamily="@font/pretendard_bold"-->
-<!--            android:paddingTop="22dp"-->
-<!--            android:paddingHorizontal="22dp"-->
-<!--            android:text="@string/Challenge"-->
-<!--            android:textSize="30dp" />-->
-
-<!--    </FrameLayout>-->
-<!--</layout>-->
-
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/pretendard_bold"
-        android:padding="20dp"
-        android:text="@string/Challenge"
-        android:textSize="30dp" />
-
-    <androidx.recyclerview.widget.RecyclerView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:padding="20dp"/>
+        tools:context=".fragment.ActFragment">
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+        <!-- TODO: Update blank fragment layout -->
+        <TextView
+            android:fontFamily="@font/pretendard_bold"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="20dp"
+            android:paddingLeft="15dp"
+            android:textSize="28dp"
+            android:text="Challenge" />
 
+    </FrameLayout>
+</layout>
