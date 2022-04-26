@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
@@ -12,7 +11,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -22,10 +20,9 @@ import com.kakao.sdk.common.model.AuthErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.ssafy.darly.R
 import com.ssafy.darly.databinding.ActivityLoginBinding
-import com.ssafy.darly.model.GoogleAccountRequest
+import com.ssafy.darly.model.AccountLoginReq
 import com.ssafy.darly.service.DarlyService
 import com.ssafy.darly.util.GlobalApplication
-import com.ssafy.darly.util.PreferenceUtil
 import com.ssafy.darly.viewmodel.LoginViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -79,6 +76,7 @@ class LoginActivity : AppCompatActivity() {
         var googleSignInClient = GoogleSignIn.getClient(this,gso)
 
         binding.googleLogin.setOnClickListener {
+            GlobalApplication.prefs.setString("token","noToken")
             val signInIntent = googleSignInClient.signInIntent
             startActivityForResult(signInIntent,RC_SIGN_IN)
         }
@@ -119,12 +117,15 @@ class LoginActivity : AppCompatActivity() {
             }
             else if (token != null) {
                 Log.d("LoginActivity","kakao access token : ${token}")
-                GlobalApplication.prefs.setString("token", token.accessToken)
+                CoroutineScope(Dispatchers.IO).launch {
+                    val response = darlyService.accountKakao(AccountLoginReq(token.accessToken))
+                }
                 Toast.makeText(this, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
                 toMainActivity()
             }
         }
         binding.kakaoLogin.setOnClickListener {
+            GlobalApplication.prefs.setString("token","noToken")
             if(LoginClient.instance.isKakaoTalkLoginAvailable(this)){
                 LoginClient.instance.loginWithKakaoTalk(this, callback = callback)
             }else{
@@ -141,14 +142,13 @@ class LoginActivity : AppCompatActivity() {
                 val account = task.getResult(ApiException::class.java)
 
                 CoroutineScope(Dispatchers.IO).launch {
+                    Log.d("LoginActivity", "${account.idToken}")
                     val response = account.idToken?.let {
-                        GoogleAccountRequest(it)
+                        AccountLoginReq(it)
                     }?.let { darlyService.accountGoogle(it) }
 
                     // 얻어낸 access token을 Preference에 저장한다.
                     response?.body()?.accessToken?.let {GlobalApplication.prefs.setString("token",it)}
-
-                    Log.d("LoginActivity", "retrofit Test ${response?.body()}")
                 }
 
                 account.idToken?.let { firebaseAuthWithGoogle(it) }

@@ -1,5 +1,6 @@
 package com.ssafy.darly.service
 
+import android.util.Log
 import com.ssafy.darly.util.GlobalApplication
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -28,10 +29,17 @@ object DarlyService {
     class AppInterceptor : Interceptor{
         override fun intercept(chain: Interceptor.Chain): Response = with(chain) {
             val token = GlobalApplication.prefs.getString("token","noToken")
-            val newRequest = request().newBuilder()
-                .addHeader("Authorization", "Bearer $token")
-                .build()
-            proceed(newRequest)
+            if(token == "noToken"){
+                var newRequest = request().newBuilder()
+                    .build()
+                proceed(newRequest)
+            }else{
+                var newRequest = request().newBuilder()
+                    .addHeader("Authorization", "Bearer $token")
+                    .build()
+                proceed(newRequest)
+            }
+
         }
     }
 }

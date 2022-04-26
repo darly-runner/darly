@@ -1,6 +1,6 @@
 package com.ssafy.darly.model
 
-data class UserGetResponse(
+data class UserGetRes(
     var message : String,
     var statusCode : Int,
     var userEmail : String,

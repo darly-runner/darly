@@ -39,7 +39,6 @@ class MainActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             val response = DarlyService.getDarlyService().getUsers(1)
             Log.d("MainActivity", "${response}")
-            DarlyService.getDarlyService()
         }
 
         setBottomNavigationBar()
