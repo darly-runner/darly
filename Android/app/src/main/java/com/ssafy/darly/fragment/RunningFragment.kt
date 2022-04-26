@@ -17,10 +17,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.CircleOptions
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.Polyline
+import com.google.android.gms.maps.model.*
 import com.ssafy.darly.R
 import com.ssafy.darly.databinding.FragmentRunningBinding
 import com.ssafy.darly.util.LocationHelper
@@ -52,6 +49,8 @@ class RunningFragment : Fragment() , OnMapReadyCallback,
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap ?: return
 
+        val polylineOptions = PolylineOptions()
+
         // 현재 내위치 표시
         if (ContextCompat.checkSelfPermission(this.requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
             == PackageManager.PERMISSION_GRANTED) {
@@ -64,9 +63,11 @@ class RunningFragment : Fragment() , OnMapReadyCallback,
                 Log.d("Location","" + location.latitude + "," + location.longitude)
                 val marker = LatLng(location.latitude, location.longitude)
 
-                map.addMarker(MarkerOptions().position(marker).title("마커 제목"))
+                map.addMarker(MarkerOptions().position(marker).title("" + location.latitude + "," + location.longitude))
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(marker,18f))
 
+                polylineOptions.points.add(marker)
+                map.addPolyline(polylineOptions)
             }
         })
 

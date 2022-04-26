@@ -1,6 +1,5 @@
 package com.ssafy.darly.service
 
-import android.util.Log
 import com.ssafy.darly.util.GlobalApplication
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -39,7 +38,6 @@ object DarlyService {
                     .build()
                 proceed(newRequest)
             }
-
         }
     }
 }

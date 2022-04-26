@@ -17,7 +17,6 @@ interface ApiService{
         @Body tokenId : AccountLoginReq,
     ): Response<AccountLoginRes>
 
-
     @GET("users")
     suspend fun getUsers(
         @Query("userId") userId : Int,
