@@ -5,6 +5,8 @@ import com.darly.db.entity.match.MatchResultMapping;
 import com.darly.db.entity.record.Coordinate;
 import com.darly.db.entity.record.Record;
 import com.darly.db.entity.record.SectionMapping;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,23 +19,41 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@ApiModel("RecordDetailGetResponse")
 public class RecordDetailGetRes extends BaseResponseBody {
+    @ApiModelProperty(name="recordId", example="1")
     private Long recordId;
+    @ApiModelProperty(name="recordTitle", example="recordTitle1")
     private String recordTitle;
+    @ApiModelProperty(name="recordDate", example="recordDate")
     private String recordDate;
+    @ApiModelProperty(name="recordDistance", example="10.0")
     private Float recordDistance;
+    @ApiModelProperty(name="recordTime", example="5")
     private Long recordTime;
+    @ApiModelProperty(name="recordPace", example="5.0")
     private Float recordPace;
+    @ApiModelProperty(name="recordHeart", example="0")
     private Integer recordHeart;
+    @ApiModelProperty(name="recordCalories", example="100")
     private Integer recordCalories;
+    @ApiModelProperty(name="recordStartLatitude", example="0.0")
     private Float recordStartLatitude;
+    @ApiModelProperty(name="recordStartLongitude", example="0.0")
     private Float recordStartLongitude;
+    @ApiModelProperty(name="recordEndLatitude", example="10.0")
     private Float recordEndLatitude;
+    @ApiModelProperty(name="recordEndLongitude", example="10.0")
     private Float recordEndLongitude;
+    @ApiModelProperty(name="coordinateLatitudes", example="[string1,string2,string3]")
     private String[] coordinateLatitudes;
+    @ApiModelProperty(name="coordinateLongitudes", example="[string1,string2,string3]")
     private String[] coordinateLongitudes;
+    @ApiModelProperty(name="sections", example="[section1,section2,section3")
     private List<SectionMapping> sections;
+    @ApiModelProperty(name="recordRank", example="1")
     private Integer recordRank;
+    @ApiModelProperty(name="ranks", example="[rank1, rank2, rank3]")
     private List<MatchResultMapping> ranks;
 
     @Builder

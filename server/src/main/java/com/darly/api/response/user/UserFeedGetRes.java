@@ -1,4 +1,4 @@
-package com.darly.api.response.friend;
+package com.darly.api.response.user;
 
 import com.darly.common.model.response.BaseResponseBody;
 import io.swagger.annotations.ApiModel;
@@ -10,8 +10,8 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 @Getter
-@ApiModel("FriendFeedGetResponse")
-public class FriendFeedGetRes extends BaseResponseBody {
+@ApiModel("UserFeedGetResponse")
+public class UserFeedGetRes extends BaseResponseBody {
     @ApiModelProperty(name="size", example="10")
     private Integer size; //한 페이지의 피드 수
     @ApiModelProperty(name="totalPages", example="5")
@@ -26,7 +26,7 @@ public class FriendFeedGetRes extends BaseResponseBody {
     private List<String> feeds;
 
     @Builder
-    public FriendFeedGetRes(Integer statusCode, String message, Page<String> page, Integer currentPage) {
+    public UserFeedGetRes(Integer statusCode, String message, Page<String> page, Integer currentPage) {
         super(statusCode, message);
         this.size = page.getSize();
         this.totalPages = page.getTotalPages();

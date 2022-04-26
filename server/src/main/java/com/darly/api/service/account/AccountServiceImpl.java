@@ -4,7 +4,7 @@ import com.darly.api.request.account.AccountLoginGetReq;
 import com.darly.api.request.account.AccountSigninPostReq;
 import com.darly.api.response.account.GoogleUserRes;
 import com.darly.api.response.account.KakaoUserRes;
-import com.darly.db.entity.User;
+import com.darly.db.entity.user.User;
 import com.darly.db.entity.userAddress.UserAddress;
 import com.darly.db.entity.userAddress.UserAddressId;
 import com.darly.db.repository.account.AccountRepository;

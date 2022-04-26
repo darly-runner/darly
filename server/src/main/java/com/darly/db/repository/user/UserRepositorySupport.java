@@ -1,9 +1,10 @@
 package com.darly.db.repository.user;
 
-import com.darly.db.entity.QUser;
+;
 import com.darly.db.entity.friend.FriendTitleMapping;
 import com.darly.db.entity.friend.QFriend;
 import com.darly.db.entity.friend.QFriendTitleMapping;
+import com.darly.db.entity.user.QUser;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

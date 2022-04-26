@@ -1,7 +1,7 @@
 package com.darly.api.response.user;
 
 import com.darly.common.model.response.BaseResponseBody;
-import com.darly.db.entity.User;
+import com.darly.db.entity.user.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;

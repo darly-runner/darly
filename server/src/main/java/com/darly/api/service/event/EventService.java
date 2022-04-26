@@ -3,9 +3,9 @@ package com.darly.api.service.event;
 
 import com.darly.api.request.event.EventPatchReq;
 import com.darly.api.request.event.EventPostReq;
-import com.darly.db.entity.Event;
-import com.darly.db.entity.EventList;
-import com.darly.db.entity.EventOne;
+import com.darly.db.entity.event.Event;
+import com.darly.db.entity.event.EventList;
+import com.darly.db.entity.event.EventOne;
 
 import java.util.List;
 
