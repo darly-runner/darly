@@ -4,6 +4,7 @@ import com.darly.api.request.user.UserPatchConditionReq;
 import com.darly.api.request.user.UserPatchFeedReq;
 import com.darly.api.request.user.UserPatchReq;
 import com.darly.api.request.user.UserPostFeedReq;
+import com.darly.db.entity.address.Address;
 import com.darly.db.entity.badge.Badge;
 import com.darly.db.entity.user.User;
 import com.darly.db.entity.friend.FriendTitleMapping;

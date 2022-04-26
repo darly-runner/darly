@@ -84,7 +84,7 @@ public class EventController {
     public ResponseEntity<BaseResponseBody> patchEvent(EventPatchReq eventPatchReq, Long eventId) {
         eventService.patchEvent(eventPatchReq, eventId);
 
-        return ResponseEntity.ok(BaseResponseBody.of(200,"success"));
+        return ResponseEntity.ok(BaseResponseBody.of( 200,"success"));
     }
 
 
@@ -99,6 +99,6 @@ public class EventController {
     public ResponseEntity<BaseResponseBody> deleteEvent(Long eventId) {
         eventService.deleteEvent(eventId);
 
-        return ResponseEntity.ok(BaseResponseBody.of(200,"success"));
+        return ResponseEntity.ok(BaseResponseBody.of( 200,"success"));
     }
 }

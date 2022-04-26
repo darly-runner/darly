@@ -5,14 +5,12 @@ import com.darly.api.request.user.UserPatchConditionReq;
 import com.darly.api.request.user.UserPatchFeedReq;
 import com.darly.api.request.user.UserPatchReq;
 import com.darly.api.request.user.UserPostFeedReq;
-import com.darly.api.response.friend.FriendFeedGetRes;
-import com.darly.api.response.user.UserFeedGetRes;
-import com.darly.api.response.user.UserGetBadgeListRes;
-import com.darly.api.response.user.UserStatsGetRes;
+import com.darly.api.response.user.*;
 import com.darly.api.service.user.UserService;
-import com.darly.api.response.user.UserGetRes;
+import com.darly.api.service.userAddress.UserAddressService;
 import com.darly.api.service.userFeed.UserFeedService;
 import com.darly.common.model.response.BaseResponseBody;
+import com.darly.db.entity.address.AddressNameMapping;
 import com.darly.db.entity.badge.Badge;
 import com.darly.db.entity.user.User;
 import io.swagger.annotations.Api;
@@ -27,7 +25,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.ws.Response;
 import java.util.List;
 
 /**
@@ -44,6 +41,9 @@ public class UserController {
 
     @Autowired
     UserFeedService userFeedService;
+
+    @Autowired
+    UserAddressService userAddressService;
 
     // 1. 유저 정보 조회 GET
     @GetMapping
@@ -122,8 +122,22 @@ public class UserController {
     }
 
     // 6. 지역정보조회 GET /address
+    @GetMapping("/address")
+    @ApiOperation(value="지역정보조회", notes="유저의 지역정보를 조회")
+    @ApiResponses({
+            @ApiResponse(code=200, message="테스트 성공"),
+            @ApiResponse(code=404, message="잘못된 url 접근"),
+            @ApiResponse(code=500, message="서버 에러")
+    })
+    public ResponseEntity<UserGetAddress> getUserAddress(Authentication authentication) {
+        Long userId = Long.parseLong((String) authentication.getPrincipal());
+        List<AddressNameMapping> addresses = userAddressService.getAddressNameList(userId);
+
+        return ResponseEntity.ok(UserGetAddress.of(addresses, 200, "success"));
+    }
 
     // 7. 지역정보수정 PUT /address
+    
 
     // 8. 유저피드작성 POST /feed
     @PostMapping("/feed")
