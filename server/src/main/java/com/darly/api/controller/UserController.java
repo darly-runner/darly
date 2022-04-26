@@ -1,10 +1,7 @@
 package com.darly.api.controller;
 
 
-import com.darly.api.request.user.UserPatchConditionReq;
-import com.darly.api.request.user.UserPatchFeedReq;
-import com.darly.api.request.user.UserPatchReq;
-import com.darly.api.request.user.UserPostFeedReq;
+import com.darly.api.request.user.*;
 import com.darly.api.response.user.*;
 import com.darly.api.service.user.UserService;
 import com.darly.api.service.userAddress.UserAddressService;
@@ -137,7 +134,19 @@ public class UserController {
     }
 
     // 7. 지역정보수정 PUT /address
-    
+    @PutMapping("/address")
+    @ApiOperation(value="지역정보수정", notes="유저의 지역정보를 수정")
+    @ApiResponses({
+            @ApiResponse(code=200, message="테스트 성공"),
+            @ApiResponse(code=404, message="잘못된 url 접근"),
+            @ApiResponse(code=500, message="서버 에러")
+    })
+    public ResponseEntity<BaseResponseBody> putUserAddress(UserAddressPutReq userAddressPutReq, Authentication authentication) {
+        Long userId = Long.parseLong((String) authentication.getPrincipal());
+        userAddressService.putUserAddress(userAddressPutReq, userId);
+
+        return ResponseEntity.ok(BaseResponseBody.of(200,"success"));
+    }
 
     // 8. 유저피드작성 POST /feed
     @PostMapping("/feed")
