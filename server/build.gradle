@@ -54,13 +54,13 @@ dependencies {
     implementation("io.springfox:springfox-swagger2:3.0.0")
     implementation("io.springfox:springfox-swagger-ui:3.0.0")
     implementation("io.springfox:springfox-boot-starter:3.0.0")
-
     // Querydsl
     implementation("com.querydsl:querydsl-jpa:${queryDslVersion}")
     implementation("com.querydsl:querydsl-apt:${queryDslVersion}")
 
     // WebClient
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
 }
 
 tasks.named('test') {
