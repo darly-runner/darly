@@ -1,6 +1,7 @@
 package com.darly.api.service.user;
 
 import com.darly.api.request.user.UserPatchConditionReq;
+import com.darly.api.request.user.UserPatchFeedReq;
 import com.darly.api.request.user.UserPatchReq;
 import com.darly.api.request.user.UserPostFeedReq;
 import com.darly.db.entity.badge.Badge;
@@ -92,5 +93,14 @@ public class UserServiceImpl implements UserService{
         UserFeed userFeed = userFeedRepository.findById(userFeedId).get();
 
         userFeedRepository.delete(userFeed);
+    }
+
+    @Override
+    public UserFeed patchUserFeed(UserPatchFeedReq userPatchFeedReq, Long userFeedId) {
+        UserFeed userFeed = userFeedRepository.findById(userFeedId).get();
+
+        UserFeed patchUserFeed = UserPatchFeedReq.ofPatch(userFeed, userPatchFeedReq.getUserFeedImage());
+
+        return userFeedRepository.save(patchUserFeed);
     }
 }

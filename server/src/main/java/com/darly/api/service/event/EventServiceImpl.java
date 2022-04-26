@@ -75,9 +75,6 @@ public class EventServiceImpl implements EventService{
     public void patchEvent(EventPatchReq eventPatchReq, Long eventId) {
         Event event = eventRepository.findById(eventId).get();
 
-        System.out.println(eventPatchReq.getEventTitle());
-        System.out.println(eventPatchReq.getEventContent());
-        System.out.println(eventPatchReq.getEventImage());
         Event patchEvent = EventPatchReq.ofPatch(event, eventPatchReq.getEventTitle(),
                 eventPatchReq.getEventContent(), eventPatchReq.getEventImage());
 

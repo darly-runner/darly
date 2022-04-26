@@ -2,6 +2,7 @@ package com.darly.api.controller;
 
 
 import com.darly.api.request.user.UserPatchConditionReq;
+import com.darly.api.request.user.UserPatchFeedReq;
 import com.darly.api.request.user.UserPatchReq;
 import com.darly.api.request.user.UserPostFeedReq;
 import com.darly.api.response.user.UserGetBadgeListRes;
@@ -130,6 +131,7 @@ public class UserController {
 
         return ResponseEntity.ok(BaseResponseBody.of(200, "message"));
     }
+
     // 9. 유저피드목록 GET /feed?page
 
     // 10. 유저피드삭제 DELETE /feed/{feedId}
@@ -145,5 +147,20 @@ public class UserController {
 
         return ResponseEntity.ok(BaseResponseBody.of(200,"message"));
     }
+
     // 11. 유저피드수정 PATCH /feed/{feedId}
+    @PatchMapping("/feed")
+    @ApiOperation(value="유저피드수정", notes="userFeedImage 수정")
+    @ApiResponses({
+            @ApiResponse(code=200, message="테스트 성공"),
+            @ApiResponse(code=404, message="잘못된 url 접근"),
+            @ApiResponse(code=500, message="서버 에러")
+    })
+    public ResponseEntity<BaseResponseBody> patchUserFeed(UserPatchFeedReq userPatchFeedReq, Long userFeedId) {
+        userService.patchUserFeed(userPatchFeedReq, userFeedId);
+
+
+        return ResponseEntity.ok(BaseResponseBody.of(200, "message"));
+    }
+
 }

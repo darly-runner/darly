@@ -19,7 +19,8 @@ public class UserFeed {
     private String userFeedImage;
 
     @Builder
-    public UserFeed(Long userId, String userFeedImage) {
+    public UserFeed(Long userFeedId, Long userId, String userFeedImage) {
+        this.userFeedId = userFeedId;
         this.userId = userId;
         this.userFeedImage = userFeedImage;
     }
