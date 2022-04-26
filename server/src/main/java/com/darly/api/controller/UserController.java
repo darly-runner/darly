@@ -3,6 +3,7 @@ package com.darly.api.controller;
 
 import com.darly.api.request.user.UserPatchConditionReq;
 import com.darly.api.request.user.UserPatchReq;
+import com.darly.api.request.user.UserPostFeedReq;
 import com.darly.api.response.user.UserGetBadgeListRes;
 import com.darly.api.response.user.UserStatsGetRes;
 import com.darly.api.service.user.UserService;
@@ -17,11 +18,9 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.xml.ws.Response;
 import java.util.List;
 
 /**
@@ -111,4 +110,29 @@ public class UserController {
 
         return ResponseEntity.ok(BaseResponseBody.of(200, "success"));
     }
+
+    // 6. 지역정보조회 GET /address
+
+    // 7. 지역정보수정 PUT /address
+
+    // 8. 유저피드작성 POST /feed
+    @PostMapping("/feed")
+    @ApiOperation(value="유저피드작성", notes="feedImage 작성")
+    @ApiResponses({
+            @ApiResponse(code=200, message="테스트 성공"),
+            @ApiResponse(code=404, message="잘못된 url 접근"),
+            @ApiResponse(code=500, message="서버 에러")
+    })
+    public ResponseEntity<BaseResponseBody> postUserFeed(UserPostFeedReq userPostFeedReq, Authentication authentication) {
+        Long userId = Long.parseLong((String) authentication.getPrincipal());
+        userService.postUserFeed(userPostFeedReq, userId);
+
+
+        return ResponseEntity.ok(BaseResponseBody.of(200, "message"));
+    }
+    // 9. 유저피드목록 GET /feed?page
+
+    // 10. 유저피드삭제 DELETE /feed/{feedId}
+
+    // 11. 유저피드수정 PATCH /feed/{feedId}
 }

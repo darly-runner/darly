@@ -2,13 +2,16 @@ package com.darly.api.service.user;
 
 import com.darly.api.request.user.UserPatchConditionReq;
 import com.darly.api.request.user.UserPatchReq;
+import com.darly.api.request.user.UserPostFeedReq;
 import com.darly.db.entity.badge.Badge;
 import com.darly.db.entity.user.User;
 import com.darly.db.entity.user.UserBadge;
 import com.darly.db.entity.friend.FriendTitleMapping;
+import com.darly.db.entity.userFeed.UserFeed;
 import com.darly.db.repository.user.UserBadgeRepository;
 import com.darly.db.repository.user.UserRepository;
 import com.darly.db.repository.user.UserRepositorySupport;
+import com.darly.db.repository.userFeed.UserFeedRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +29,9 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private UserBadgeRepository userBadgeRepository;
+
+    @Autowired
+    private UserFeedRepository userFeedRepository;
 
     @Override
     public User getUserByUserId(Long userId) {
@@ -69,5 +75,15 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<FriendTitleMapping> getUserSearchList(Long userId, String nickname) {
         return userRepositorySupport.findUserTitleSearchList(userId, nickname);
+    }
+
+    @Override
+    public UserFeed postUserFeed(UserPostFeedReq userPostFeedReq, Long userId) {
+        UserFeed userFeed = UserFeed.builder()
+                .userId(userId)
+                .userFeedImage(userPostFeedReq.getUserFeedImage())
+                .build();
+        
+        return userFeedRepository.save(userFeed);
     }
 }
