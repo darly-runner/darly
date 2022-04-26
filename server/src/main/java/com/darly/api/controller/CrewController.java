@@ -10,12 +10,11 @@ import com.darly.common.model.response.BaseResponseBody;
 import com.darly.db.entity.crew.Crew;
 import com.darly.db.entity.crew.CrewTitleMapping;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -44,17 +43,23 @@ public class CrewController {
     @GetMapping
     public ResponseEntity<? extends BaseResponseBody> getCrewSearchList(GetCrewSearchModel getCrewSearchModel, Authentication authentication) {
         Long userId = Long.parseLong((String) authentication.getPrincipal());
-        PageRequest pageRequest = PageRequest.of(getCrewSearchModel.getPage(), 20); //, Sort.Direction.DESC, "crew_id"
-        Page<CrewTitleMapping> crewPage;
-        if (getCrewSearchModel.getAddress() != 0 || getCrewSearchModel.getAddress() != null)
-            crewPage = crewService.getCrewSearchListByAddressAndKey(userId, getCrewSearchModel.getAddress(), getCrewSearchModel.getKey(), pageRequest);
-        else
-            crewPage = crewService.getCrewSearchListByKey(userId, getCrewSearchModel.getKey(), pageRequest);
+        List<CrewTitleMapping> crewList;
+        Long crewCount;
+        if (getCrewSearchModel.getAddress() != 0 && getCrewSearchModel.getAddress() != null) {
+            crewList = crewService.getCrewSearchListByAddressAndKey(userId, getCrewSearchModel.getAddress(), getCrewSearchModel.getKey(), getCrewSearchModel.getSize(), getCrewSearchModel.getPage() * getCrewSearchModel.getSize());
+            crewCount = crewService.getCrewCountByAddressAndKey(userId, getCrewSearchModel.getAddress(), getCrewSearchModel.getKey());
+        } else {
+            crewList = crewService.getCrewSearchListByKey(userId, getCrewSearchModel.getKey(), getCrewSearchModel.getSize(), getCrewSearchModel.getPage() * getCrewSearchModel.getSize());
+            System.out.println((getCrewSearchModel.getPage() + ", " + getCrewSearchModel.getPage() * getCrewSearchModel.getSize()));
+            crewCount = crewService.getCrewCountByKey(userId, getCrewSearchModel.getKey());
+        }
         return ResponseEntity.ok(CrewSearchGetRes.builder()
                 .statusCode(200)
                 .message("Success get crew search list")
                 .currentPage(getCrewSearchModel.getPage())
-                .page(crewPage)
+                .crewCount(crewCount)
+                .crewList(crewList)
+                .size(getCrewSearchModel.getSize())
                 .build());
     }
 }

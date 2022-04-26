@@ -13,20 +13,18 @@ import java.util.List;
 @NoArgsConstructor
 public class CrewSearchGetRes extends BaseResponseBody {
     private Integer size; //한 페이지의 크루 수
-    private Integer totalPages; //전체 페이지 수
     private Long totalCrew; //전체 크루 수
     private Integer currentPage; //현재 페이지 번호
     private Integer numberOfCrew; //현재 페이지의 크루 수
     private List<CrewTitleMapping> crew;
 
     @Builder
-    public CrewSearchGetRes(Integer statusCode, String message, Page<CrewTitleMapping> page, Integer currentPage) {
+    public CrewSearchGetRes(Integer statusCode, String message, List<CrewTitleMapping> crewList, Integer currentPage, Long crewCount, Integer size) {
         super(statusCode, message);
-        this.size = page.getSize();
-        this.totalPages = page.getTotalPages();
-        this.totalCrew = page.getTotalElements();
+        this.size = size;
+        this.totalCrew = crewCount;
         this.currentPage = currentPage;
-        this.numberOfCrew = page.getNumberOfElements();
-        this.crew = page.getContent();
+        this.numberOfCrew = crewList.size();
+        this.crew = crewList;
     }
 }

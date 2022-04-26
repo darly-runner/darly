@@ -8,11 +8,13 @@ import lombok.*;
 @AllArgsConstructor
 public class GetCrewSearchModel {
     private Integer page;
+    private Integer size;
     private Integer address;
     private String key;
 
-    public GetCrewSearchModel(Integer page, Integer address) {
+    public GetCrewSearchModel(Integer page, Integer size, Integer address) {
         this.page = page;
+        this.size = size;
         this.address = address;
         this.key = "";
     }
