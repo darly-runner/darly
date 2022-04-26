@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package com.ssafy.darly.service
 
 import com.ssafy.darly.util.GlobalApplication
@@ -37,7 +36,7 @@ object DarlyService {
         }
 
     }
-=======
+
 package com.ssafy.darly.service
 
 import okhttp3.OkHttpClient
@@ -60,5 +59,4 @@ object DarlyService {
             .build()
             .create(ApiService::class.java)
     }
->>>>>>> 6446e3b831eb911e114be9c28feb2f3450c1622b
 }

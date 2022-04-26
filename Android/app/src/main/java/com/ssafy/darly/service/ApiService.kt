@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package com.ssafy.darly.service
 
 import com.ssafy.darly.model.GoogleAccountRequest
@@ -18,7 +17,7 @@ interface ApiService{
 
         @Query("userId") userId : Int,
     ): Response<UserGetResponse>
-=======
+
 package com.ssafy.darly.service
 
 import com.ssafy.darly.model.GoogleAccountRequest
@@ -39,5 +38,4 @@ interface ApiService{
         @Header("Authorization") token : String,
         @Query("userId") userId : Int,
     ): Response<UserGetResponse>
->>>>>>> 6446e3b831eb911e114be9c28feb2f3450c1622b
 }
