@@ -17,4 +17,5 @@ public interface UserService {
     List<Badge> getBadgeList(Long userId);
     List<FriendTitleMapping> getUserSearchList(Long userId, String nickname);
     UserFeed postUserFeed(UserPostFeedReq userPostFeedReq, Long userId);
+    void deleteUserFeed(Long userFeedId);
 }

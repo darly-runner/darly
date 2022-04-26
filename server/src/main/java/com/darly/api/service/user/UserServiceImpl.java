@@ -83,7 +83,14 @@ public class UserServiceImpl implements UserService{
                 .userId(userId)
                 .userFeedImage(userPostFeedReq.getUserFeedImage())
                 .build();
-        
+
         return userFeedRepository.save(userFeed);
+    }
+
+    @Override
+    public void deleteUserFeed(Long userFeedId) {
+        UserFeed userFeed = userFeedRepository.findById(userFeedId).get();
+
+        userFeedRepository.delete(userFeed);
     }
 }

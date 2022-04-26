@@ -133,6 +133,17 @@ public class UserController {
     // 9. 유저피드목록 GET /feed?page
 
     // 10. 유저피드삭제 DELETE /feed/{feedId}
+    @DeleteMapping("/feed")
+    @ApiOperation(value="유저피드삭제", notes="userFeed 삭제")
+    @ApiResponses({
+            @ApiResponse(code=200, message="테스트 성공"),
+            @ApiResponse(code=404, message="잘못된 url 접근"),
+            @ApiResponse(code=500, message="서버 에러")
+    })
+    public ResponseEntity<BaseResponseBody> deleteUserFeed(Long userFeedId) {
+        userService.deleteUserFeed(userFeedId);
 
+        return ResponseEntity.ok(BaseResponseBody.of(200,"message"));
+    }
     // 11. 유저피드수정 PATCH /feed/{feedId}
 }
