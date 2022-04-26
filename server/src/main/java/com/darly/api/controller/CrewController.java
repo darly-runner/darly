@@ -74,4 +74,15 @@ public class CrewController {
                 .crew(userCrewService.getMyCrewList(userId))
                 .build());
     }
+
+    // C-004
+    @GetMapping("/{crewId}")
+    public ResponseEntity<? extends BaseResponseBody> getMyCrewList(@PathVariable("crewId") Long crewId, Authentication authentication) {
+        Long userId = Long.parseLong((String) authentication.getPrincipal());
+        return ResponseEntity.ok(CrewMyGeyRes.builder()
+                .statusCode(200)
+                .message("Success get crew search list")
+                .crew(userCrewService.getMyCrewList(userId))
+                .build());
+    }
 }
