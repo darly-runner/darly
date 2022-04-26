@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="@color/main" android:state_checked="true" />
+    <!-- @color/colorTab1 = #006064 //define this in your res/values/color.xml or change the color directly here -->
+    <item android:color="@android:color/darker_gray" android:state_checked="false" />
+</selector>
