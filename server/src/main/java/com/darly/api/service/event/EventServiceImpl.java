@@ -2,11 +2,10 @@ package com.darly.api.service.event;
 
 import com.darly.api.request.event.EventPatchReq;
 import com.darly.api.request.event.EventPostReq;
-import com.darly.api.response.event.EventsGetRes;
-import com.darly.db.entity.Event;
+import com.darly.db.entity.event.Event;
 
-import com.darly.db.entity.EventOne;
-import com.darly.db.entity.User;
+import com.darly.db.entity.event.EventOne;
+import com.darly.db.entity.user.User;
 import com.darly.db.repository.event.EventRepository;
 import com.darly.db.repository.event.EventRepositorySupport;
 import com.darly.db.repository.user.UserRepository;

@@ -6,7 +6,7 @@ import com.darly.api.response.account.AccountLoginPostRes;
 import com.darly.api.service.account.AccountService;
 import com.darly.common.model.response.BaseResponseBody;
 import com.darly.common.util.JwtTokenUtil;
-import com.darly.db.entity.User;
+import com.darly.db.entity.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;

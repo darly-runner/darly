@@ -1,7 +1,7 @@
 package com.darly.api.response.friend;
 
 import com.darly.common.model.response.BaseResponseBody;
-import com.darly.db.entity.User;
+import com.darly.db.entity.user.User;
 import com.darly.db.entity.address.AddressNameMapping;
 import lombok.Builder;
 import lombok.Getter;

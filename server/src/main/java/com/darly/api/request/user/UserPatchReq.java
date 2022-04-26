@@ -1,6 +1,6 @@
 package com.darly.api.request.user;
 
-import com.darly.db.entity.User;
+import com.darly.db.entity.user.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;

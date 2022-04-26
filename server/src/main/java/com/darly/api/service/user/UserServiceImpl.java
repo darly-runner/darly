@@ -2,9 +2,9 @@ package com.darly.api.service.user;
 
 import com.darly.api.request.user.UserPatchConditionReq;
 import com.darly.api.request.user.UserPatchReq;
-import com.darly.db.entity.Badge;
-import com.darly.db.entity.User;
-import com.darly.db.entity.UserBadge;
+import com.darly.db.entity.badge.Badge;
+import com.darly.db.entity.user.User;
+import com.darly.db.entity.user.UserBadge;
 import com.darly.db.entity.friend.FriendTitleMapping;
 import com.darly.db.repository.user.UserBadgeRepository;
 import com.darly.db.repository.user.UserRepository;

@@ -1,4 +1,4 @@
-package com.darly.db.entity;
+package com.darly.db.entity.event;
 
 import lombok.Getter;
 

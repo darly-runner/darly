@@ -1,7 +1,6 @@
 package com.darly.db.repository.event;
 
-import com.darly.api.response.event.EventsGetRes;
-import com.darly.db.entity.EventList;
+import com.darly.db.entity.event.EventList;
 import com.darly.db.entity.QEvent;
 import com.darly.db.entity.QUser;
 import com.querydsl.core.types.Projections;

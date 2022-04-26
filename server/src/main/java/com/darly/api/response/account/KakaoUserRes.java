@@ -1,6 +1,6 @@
 package com.darly.api.response.account;
 
-import com.darly.db.entity.User;
+import com.darly.db.entity.user.User;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

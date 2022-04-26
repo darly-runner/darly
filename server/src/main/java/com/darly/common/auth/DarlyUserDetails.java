@@ -1,6 +1,6 @@
 package com.darly.common.auth;
 
-import com.darly.db.entity.User;
+import com.darly.db.entity.user.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

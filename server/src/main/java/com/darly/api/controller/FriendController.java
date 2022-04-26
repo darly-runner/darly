@@ -10,7 +10,7 @@ import com.darly.api.service.user.UserService;
 import com.darly.api.service.userAddress.UserAddressService;
 import com.darly.api.service.userFeed.UserFeedService;
 import com.darly.common.model.response.BaseResponseBody;
-import com.darly.db.entity.User;
+import com.darly.db.entity.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
