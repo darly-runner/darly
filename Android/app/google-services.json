@@ -14,6 +14,38 @@
       },
       "oauth_client": [
         {
+          "client_id": "233937818335-8k0lmuou88g7rtlpkshejd27i4io842b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ssafy.darly",
+            "certificate_hash": "9bf5dabea31eb9be25d610f329b99ec7ea6a0beb"
+          }
+        },
+        {
+          "client_id": "233937818335-b48vi4hf950r5tgaeh0kn4japv15v0nc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ssafy.darly",
+            "certificate_hash": "64d2b83490706ad3cddfcf920f1f026d0256d880"
+          }
+        },
+        {
+          "client_id": "233937818335-bcku9ssl04qun5i8oua7p32vfl7395i2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ssafy.darly",
+            "certificate_hash": "73a8227b35ddc0142c6a1d0b0b132f3f7d664e2c"
+          }
+        },
+        {
+          "client_id": "233937818335-cral40jli0olrim6labsa0maj310klfm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ssafy.darly",
+            "certificate_hash": "83cc7d30403ec0abe38cd19d02d320de782d9171"
+          }
+        },
+        {
           "client_id": "233937818335-s9hj7c7vu3548297kpuelqa1rk958k0m.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

@@ -2,6 +2,7 @@ package com.ssafy.darly.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -12,6 +13,11 @@ import com.ssafy.darly.R
 import com.ssafy.darly.viewmodel.MainViewModel
 import com.ssafy.darly.databinding.ActivityMainBinding
 import com.ssafy.darly.fragment.*
+import com.ssafy.darly.service.DarlyService
+import com.ssafy.darly.util.GlobalApplication
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -29,6 +35,14 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.lifecycleOwner = this
         binding.viewModel = model
+
+//        val token = GlobalApplication.prefs.getString("token","noToken")
+//        CoroutineScope(Dispatchers.IO).launch {
+//            val response = DarlyService.getDarlyService().getUsers("Bearer $token",1)
+//            Log.d("MainActivity", "${response.body()}")
+//
+//            DarlyService.getDarlyService()
+//        }
 
         setBottomNavigationBar()
     }

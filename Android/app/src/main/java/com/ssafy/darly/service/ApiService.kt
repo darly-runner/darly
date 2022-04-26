@@ -1,12 +1,21 @@
 package com.ssafy.darly.service
 
+import com.ssafy.darly.model.GoogleAccountRequest
+import com.ssafy.darly.model.GoogleAccountResponse
+import com.ssafy.darly.model.UserGetResponse
+import retrofit2.Call
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface ApiService{
     @POST("accounts/google")
-    fun accountGoogle(
-        @Body tokenId : String,
-    ): Response<String>
+    suspend fun accountGoogle(
+        @Body tokenId : GoogleAccountRequest,
+    ): Response<GoogleAccountResponse>
+
+    @GET("users")
+    suspend fun getUsers(
+        @Header("Authorization") token : String,
+        @Query("userId") userId : Int,
+    ): Response<UserGetResponse>
 }

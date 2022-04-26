@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ssafy.darly">
-    <!-- 인터넷 권한 -->
+    <!-- 권한 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
+        android:name=".util.GlobalApplication"
         android:networkSecurityConfig="@xml/network_security_config"
         android:usesCleartextTraffic="true"
         android:allowBackup="true"
@@ -17,15 +21,27 @@
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+
+            <intent-filter>
+                <data
+                    android:host="oauth"
+                    android:scheme="kakao3a20416392ebf79f9356a5ebfd94116a" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".activity.MainActivity"
             android:exported="true">
-
         </activity>
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="3a20416392ebf79f9356a5ebfd94116a" />
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyDYNSJFwtbcT6glxx9vpqqXpM6FLD8Q9Lw" />
     </application>
 
 </manifest>
