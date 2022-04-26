@@ -25,7 +25,10 @@
         tools:context=".fragment.ActFragment">
 
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
         <!-- TODO: Update blank fragment layout -->
+>>>>>>> 4c71ca21b94d25216676b343d90a6f9513ea0330
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"

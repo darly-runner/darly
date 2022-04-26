@@ -10,17 +10,33 @@
     </data>
 
 <<<<<<< HEAD
+    <LinearLayout
+        android:orientation="vertical"
+=======
+<<<<<<< HEAD
     <FrameLayout
+>>>>>>> 4c71ca21b94d25216676b343d90a6f9513ea0330
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".fragment.ActFragment">
-
-        <!-- TODO: Update blank fragment layout -->
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="마이페이지 프래그먼트" />
+        <Button
+            android:id="@+id/googleLogout"
+            android:text="구글 로그아웃"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
+        <Button
+            android:id="@+id/kakaoLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="카카오 로그아웃" />
+
+<<<<<<< HEAD
+=======
     </FrameLayout>
 =======
     <LinearLayout
@@ -38,11 +54,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
+>>>>>>> 4c71ca21b94d25216676b343d90a6f9513ea0330
         <Button
             android:id="@+id/kakaoUnlink"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="회원 탈퇴" />
     </LinearLayout>
+<<<<<<< HEAD
+=======
 >>>>>>> f5da09cd824a3d5676c830693e8c566ed06267e0
+>>>>>>> 4c71ca21b94d25216676b343d90a6f9513ea0330
 </layout>

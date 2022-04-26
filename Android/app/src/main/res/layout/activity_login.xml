@@ -25,14 +25,25 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
 <<<<<<< HEAD
+            app:layout_constraintBottom_toTopOf="@id/loginBtn"/>
+
+        <LinearLayout
+            android:id="@+id/loginBtn"
+            android:orientation="vertical"
+=======
+<<<<<<< HEAD
             app:layout_constraintBottom_toTopOf="@id/googleLogin"/>
         <com.google.android.gms.common.SignInButton
             android:id="@+id/googleLogin"
+>>>>>>> 4c71ca21b94d25216676b343d90a6f9513ea0330
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textLogo"
+<<<<<<< HEAD
+=======
             app:layout_constraintBottom_toBottomOf="parent"/>
 =======
             app:layout_constraintBottom_toTopOf="@id/loginBtn"/>
@@ -46,6 +57,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textLogo"
+>>>>>>> 4c71ca21b94d25216676b343d90a6f9513ea0330
             app:layout_constraintBottom_toBottomOf="parent">
             <com.google.android.gms.common.SignInButton
                 android:id="@+id/googleLogin"
@@ -64,6 +76,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
+<<<<<<< HEAD
+=======
 >>>>>>> f5da09cd824a3d5676c830693e8c566ed06267e0
+>>>>>>> 4c71ca21b94d25216676b343d90a6f9513ea0330
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
