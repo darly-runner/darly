@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<<<<<<< HEAD
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+=======
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+>>>>>>> f5da09cd824a3d5676c830693e8c566ed06267e0
     <data>
         <variable
             name="viewModel"
             type="com.ssafy.darly.viewmodel.RunningViewModel" />
     </data>
 
+<<<<<<< HEAD
     <FrameLayout
+=======
+    <androidx.constraintlayout.widget.ConstraintLayout
+>>>>>>> f5da09cd824a3d5676c830693e8c566ed06267e0
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".fragment.ActFragment">
 
+<<<<<<< HEAD
         <!-- TODO: Update blank fragment layout -->
         <TextView
             android:layout_width="match_parent"
@@ -21,4 +32,48 @@
             android:text="러닝 프래그먼트" />
 
     </FrameLayout>
+=======
+        <TextView
+            android:id="@+id/title"
+            android:fontFamily="@font/pretendard_bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="20dp"
+            android:paddingLeft="15dp"
+            android:textSize="28dp"
+            android:text="Running"
+            android:textColor="@color/black"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/runningTab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/title">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="혼자 달리기" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="랜덤 매칭" />
+        </com.google.android.material.tabs.TabLayout>
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/mapview"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            tools:layout="@layout/abc_search_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/runningTab"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+>>>>>>> f5da09cd824a3d5676c830693e8c566ed06267e0
 </layout>

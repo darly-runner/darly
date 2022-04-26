@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<<<<<<< HEAD
 <!--<layout xmlns:android="http://schemas.android.com/apk/res/android"-->
 <!--    xmlns:tools="http://schemas.android.com/tools">-->
 
@@ -49,3 +50,31 @@
         android:padding="20dp"/>
 
 </androidx.appcompat.widget.LinearLayoutCompat>
+=======
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.ssafy.darly.viewmodel.ChallengeViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragment.ActFragment">
+
+        <!-- TODO: Update blank fragment layout -->
+        <TextView
+            android:fontFamily="@font/pretendard_bold"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="20dp"
+            android:paddingLeft="15dp"
+            android:textSize="28dp"
+            android:text="Challenge" />
+
+    </FrameLayout>
+</layout>
+>>>>>>> f5da09cd824a3d5676c830693e8c566ed06267e0

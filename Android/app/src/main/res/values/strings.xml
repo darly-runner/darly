@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">달리</string>
+<<<<<<< HEAD
     <string name="Challenge">Challenge</string>
+=======
+    <string name="default_web_client_id2">233937818335-7mrg3j77q7ojjb5b0nlbptgrbrt2cnme.apps.googleusercontent.com</string>
+>>>>>>> f5da09cd824a3d5676c830693e8c566ed06267e0
 </resources>
