@@ -1,5 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<<<<<<< HEAD
+<!--<layout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:tools="http://schemas.android.com/tools">-->
+
+<!--    <data>-->
+
+<!--        <variable-->
+<!--            name="viewModel"-->
+<!--            type="com.ssafy.darly.viewmodel.ChallengeViewModel" />-->
+<!--    </data>-->
+
+<!--    <FrameLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        tools:context=".fragment.ActFragment">-->
+
+<!--        &lt;!&ndash; TODO: Update blank fragment layout &ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:fontFamily="@font/pretendard_bold"-->
+<!--            android:paddingTop="22dp"-->
+<!--            android:paddingHorizontal="22dp"-->
+<!--            android:text="@string/Challenge"-->
+<!--            android:textSize="30dp" />-->
+
+<!--    </FrameLayout>-->
+<!--</layout>-->
+
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pretendard_bold"
+        android:padding="20dp"
+        android:text="@string/Challenge"
+        android:textSize="30dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:padding="20dp"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
+=======
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
@@ -26,3 +77,4 @@
 
     </FrameLayout>
 </layout>
+>>>>>>> f5da09cd824a3d5676c830693e8c566ed06267e0

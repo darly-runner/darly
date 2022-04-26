@@ -25,7 +25,13 @@
         <entry key="..\:/S06P31A301/app/src/main/res/layout/activity_main.xml" value="0.1693840579710145" />
         <entry key="app/src/main/res/font/font.xml" value="0.5120370370370371" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.5158514492753623" />
+<<<<<<< HEAD
+        <entry key="app/src/main/res/layout/fragment_act.xml" value="0.1641337386018237" />
         <entry key="app/src/main/res/layout/fragment_challenge.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/menu/navi_menu.xml" value="0.487962962962963" />
+=======
+        <entry key="app/src/main/res/layout/fragment_challenge.xml" value="0.21666666666666667" />
+>>>>>>> f5da09cd824a3d5676c830693e8c566ed06267e0
       </map>
     </option>
   </component>

@@ -1,12 +1,20 @@
 package com.ssafy.darly.fragment
 
+<<<<<<< HEAD
+=======
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
+>>>>>>> f5da09cd824a3d5676c830693e8c566ed06267e0
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+<<<<<<< HEAD
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
+import com.ssafy.darly.R
+=======
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
@@ -17,6 +25,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.kakao.sdk.user.UserApiClient
 import com.ssafy.darly.R
 import com.ssafy.darly.activity.LoginActivity
+>>>>>>> f5da09cd824a3d5676c830693e8c566ed06267e0
 import com.ssafy.darly.databinding.FragmentMypageBinding
 import com.ssafy.darly.viewmodel.MypageViewModel
 
@@ -24,9 +33,12 @@ class MypageFragment : Fragment() {
     private lateinit var binding: FragmentMypageBinding
     private val model: MypageViewModel by viewModels()
 
+<<<<<<< HEAD
+=======
     var auth : FirebaseAuth?= null
     var googleSignInClient : GoogleSignInClient?= null
 
+>>>>>>> f5da09cd824a3d5676c830693e8c566ed06267e0
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,6 +48,11 @@ class MypageFragment : Fragment() {
             binding.lifecycleOwner = this
             binding.viewModel = model
         }
+<<<<<<< HEAD
+
+        return binding.root
+    }
+=======
         logout()
         unlink()
         return binding.root
@@ -82,4 +99,5 @@ class MypageFragment : Fragment() {
             }
         }
     }
+>>>>>>> f5da09cd824a3d5676c830693e8c566ed06267e0
 }

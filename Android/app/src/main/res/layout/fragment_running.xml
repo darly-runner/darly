@@ -1,19 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<<<<<<< HEAD
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+=======
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+>>>>>>> f5da09cd824a3d5676c830693e8c566ed06267e0
     <data>
         <variable
             name="viewModel"
             type="com.ssafy.darly.viewmodel.RunningViewModel" />
     </data>
 
+<<<<<<< HEAD
+    <FrameLayout
+=======
     <androidx.constraintlayout.widget.ConstraintLayout
+>>>>>>> f5da09cd824a3d5676c830693e8c566ed06267e0
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".fragment.ActFragment">
 
+<<<<<<< HEAD
+        <!-- TODO: Update blank fragment layout -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="러닝 프래그먼트" />
+
+    </FrameLayout>
+=======
         <TextView
             android:id="@+id/title"
             android:fontFamily="@font/pretendard_bold"
@@ -56,4 +75,5 @@
             app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+>>>>>>> f5da09cd824a3d5676c830693e8c566ed06267e0
 </layout>
