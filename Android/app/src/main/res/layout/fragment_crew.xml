@@ -1,24 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!--<layout-->
+<!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:tools="http://schemas.android.com/tools">-->
+<!--    <data>-->
+<!--        <variable-->
+<!--            name="viewModel"-->
+<!--            type="com.ssafy.darly.viewmodel.CrewViewModel" />-->
+<!--    </data>-->
+
+<!--    <FrameLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        tools:context=".fragment.ActFragment">-->
+
+<!--        &lt;!&ndash; TODO: Update blank fragment layout &ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:text="크루 프래그먼트" />-->
+
+<!--    </FrameLayout>-->
+<!--</layout>-->
+
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="viewModel"
             type="com.ssafy.darly.viewmodel.CrewViewModel" />
     </data>
 
-    <FrameLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".fragment.ActFragment">
+        android:orientation="vertical"
+        android:padding="20dp">
 
-        <!-- TODO: Update blank fragment layout -->
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="크루 프래그먼트" />
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard_bold"
+            android:paddingBottom="20dp"
+            android:text="Crew"
+            android:textSize="30dp" />
 
-    </FrameLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/myCrew"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="20dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/crewRecommendation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>
