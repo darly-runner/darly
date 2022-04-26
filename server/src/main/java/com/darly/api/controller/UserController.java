@@ -5,10 +5,13 @@ import com.darly.api.request.user.UserPatchConditionReq;
 import com.darly.api.request.user.UserPatchFeedReq;
 import com.darly.api.request.user.UserPatchReq;
 import com.darly.api.request.user.UserPostFeedReq;
+import com.darly.api.response.friend.FriendFeedGetRes;
+import com.darly.api.response.user.UserFeedGetRes;
 import com.darly.api.response.user.UserGetBadgeListRes;
 import com.darly.api.response.user.UserStatsGetRes;
 import com.darly.api.service.user.UserService;
 import com.darly.api.response.user.UserGetRes;
+import com.darly.api.service.userFeed.UserFeedService;
 import com.darly.common.model.response.BaseResponseBody;
 import com.darly.db.entity.badge.Badge;
 import com.darly.db.entity.user.User;
@@ -17,6 +20,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +41,9 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    UserFeedService userFeedService;
 
     // 1. 유저 정보 조회 GET
     @GetMapping
@@ -133,30 +142,47 @@ public class UserController {
     }
 
     // 9. 유저피드목록 GET /feed?page
+    @GetMapping("/feed")
+    @ApiOperation(value="유저피드가져오기", notes="user의 feedImage들 가져오기")
+    @ApiResponses({
+            @ApiResponse(code=200, message="테스트 성공"),
+            @ApiResponse(code=404, message="잘못된 url 접근"),
+            @ApiResponse(code=500, message="서버 에러")
+    })
+    public ResponseEntity<UserFeedGetRes> getUserFeed(Authentication authentication, @PageableDefault(size = 15, sort = "user_feed_id", direction = Sort.Direction.DESC) Pageable page) {
+        Long userId = Long.parseLong((String) authentication.getPrincipal());
+
+        return ResponseEntity.ok(UserFeedGetRes.builder()
+                .page(userFeedService.getUserFeedList(userId, page))
+                .currentPage(page.getPageNumber())
+                .statusCode(200)
+                .message("Success")
+                .build());
+    }
 
     // 10. 유저피드삭제 DELETE /feed/{feedId}
-    @DeleteMapping("/feed")
+    @DeleteMapping("/feed/{userFeedId}")
     @ApiOperation(value="유저피드삭제", notes="userFeed 삭제")
     @ApiResponses({
             @ApiResponse(code=200, message="테스트 성공"),
             @ApiResponse(code=404, message="잘못된 url 접근"),
             @ApiResponse(code=500, message="서버 에러")
     })
-    public ResponseEntity<BaseResponseBody> deleteUserFeed(Long userFeedId) {
+    public ResponseEntity<BaseResponseBody> deleteUserFeed(@PathVariable("userFeedId") Long userFeedId) {
         userService.deleteUserFeed(userFeedId);
 
         return ResponseEntity.ok(BaseResponseBody.of(200,"message"));
     }
 
     // 11. 유저피드수정 PATCH /feed/{feedId}
-    @PatchMapping("/feed")
+    @PatchMapping("/feed/{userFeedId}")
     @ApiOperation(value="유저피드수정", notes="userFeedImage 수정")
     @ApiResponses({
             @ApiResponse(code=200, message="테스트 성공"),
             @ApiResponse(code=404, message="잘못된 url 접근"),
             @ApiResponse(code=500, message="서버 에러")
     })
-    public ResponseEntity<BaseResponseBody> patchUserFeed(UserPatchFeedReq userPatchFeedReq, Long userFeedId) {
+    public ResponseEntity<BaseResponseBody> patchUserFeed(UserPatchFeedReq userPatchFeedReq,@PathVariable("userFeedId") Long userFeedId) {
         userService.patchUserFeed(userPatchFeedReq, userFeedId);
 
 
