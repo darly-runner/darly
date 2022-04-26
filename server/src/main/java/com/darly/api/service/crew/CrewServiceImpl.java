@@ -7,9 +7,9 @@ import com.darly.db.entity.crew.CrewTitleMapping;
 import com.darly.db.entity.user.User;
 import com.darly.db.repository.crew.CrewRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service("crewService")
 @RequiredArgsConstructor
@@ -27,7 +27,22 @@ public class CrewServiceImpl implements CrewService {
     }
 
     @Override
-    public Page<CrewTitleMapping> getCrewSearchList(Long userId, Integer address, String key, Pageable pageRequest) {
-        return crewRepository.findByUserIdAndAddressAndKey(userId, address, key, pageRequest);
+    public List<CrewTitleMapping> getCrewSearchListByAddressAndKey(Long userId, Integer address, String key, Integer limit, Integer offset) {
+        return crewRepository.findByUserIdAndAddressAndKey(userId, address, key, limit, offset);
+    }
+
+    @Override
+    public List<CrewTitleMapping> getCrewSearchListByKey(Long userId, String key, Integer limit, Integer offset) {
+        return crewRepository.findByUserIdAndKey(userId, key, limit, offset);
+    }
+
+    @Override
+    public Long getCrewCountByAddressAndKey(Long userId, Integer address, String key) {
+        return crewRepository.countByUserIdAndAddressAndKey(userId, address, key);
+    }
+
+    @Override
+    public Long getCrewCountByKey(Long userId, String key) {
+        return crewRepository.countByUserIdAndKey(userId, key);
     }
 }

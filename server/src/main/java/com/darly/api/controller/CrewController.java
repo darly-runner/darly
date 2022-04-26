@@ -2,22 +2,24 @@ package com.darly.api.controller;
 
 import com.darly.api.request.crew.CrewCreatePostReq;
 import com.darly.api.request.crew.GetCrewSearchModel;
+import com.darly.api.response.crew.CrewMyGeyRes;
 import com.darly.api.response.crew.CrewSearchGetRes;
 import com.darly.api.service.crew.CrewAddressService;
 import com.darly.api.service.crew.CrewService;
 import com.darly.api.service.crew.UserCrewService;
 import com.darly.common.model.response.BaseResponseBody;
 import com.darly.db.entity.crew.Crew;
+import com.darly.db.entity.crew.CrewTitleMapping;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Api(value="Crew Api", tags="Crew")
 @RestController
@@ -59,13 +61,45 @@ public class CrewController {
     })
     public ResponseEntity<? extends BaseResponseBody> getCrewSearchList(GetCrewSearchModel getCrewSearchModel, Authentication authentication) {
         Long userId = Long.parseLong((String) authentication.getPrincipal());
-        System.out.println(getCrewSearchModel);
-        PageRequest pageRequest = PageRequest.of(getCrewSearchModel.getPage(), 20, Sort.Direction.DESC);
+        List<CrewTitleMapping> crewList;
+        Long crewCount;
+        if (getCrewSearchModel.getAddress() != 0 && getCrewSearchModel.getAddress() != null) {
+            crewList = crewService.getCrewSearchListByAddressAndKey(userId, getCrewSearchModel.getAddress(), getCrewSearchModel.getKey(), getCrewSearchModel.getSize(), getCrewSearchModel.getPage() * getCrewSearchModel.getSize());
+            crewCount = crewService.getCrewCountByAddressAndKey(userId, getCrewSearchModel.getAddress(), getCrewSearchModel.getKey());
+        } else {
+            crewList = crewService.getCrewSearchListByKey(userId, getCrewSearchModel.getKey(), getCrewSearchModel.getSize(), getCrewSearchModel.getPage() * getCrewSearchModel.getSize());
+            System.out.println((getCrewSearchModel.getPage() + ", " + getCrewSearchModel.getPage() * getCrewSearchModel.getSize()));
+            crewCount = crewService.getCrewCountByKey(userId, getCrewSearchModel.getKey());
+        }
         return ResponseEntity.ok(CrewSearchGetRes.builder()
                 .statusCode(200)
                 .message("Success get crew search list")
                 .currentPage(getCrewSearchModel.getPage())
-                .page(crewService.getCrewSearchList(userId, getCrewSearchModel.getAddress(), getCrewSearchModel.getKey(), pageRequest))
+                .crewCount(crewCount)
+                .crewList(crewList)
+                .size(getCrewSearchModel.getSize())
+                .build());
+    }
+
+    // C-003
+    @GetMapping("/my")
+    public ResponseEntity<? extends BaseResponseBody> getMyCrewList(Authentication authentication) {
+        Long userId = Long.parseLong((String) authentication.getPrincipal());
+        return ResponseEntity.ok(CrewMyGeyRes.builder()
+                .statusCode(200)
+                .message("Success get crew search list")
+                .crew(userCrewService.getMyCrewList(userId))
+                .build());
+    }
+
+    // C-004
+    @GetMapping("/{crewId}")
+    public ResponseEntity<? extends BaseResponseBody> getMyCrewList(@PathVariable("crewId") Long crewId, Authentication authentication) {
+        Long userId = Long.parseLong((String) authentication.getPrincipal());
+        return ResponseEntity.ok(CrewMyGeyRes.builder()
+                .statusCode(200)
+                .message("Success get crew search list")
+                .crew(userCrewService.getMyCrewList(userId))
                 .build());
     }
 }

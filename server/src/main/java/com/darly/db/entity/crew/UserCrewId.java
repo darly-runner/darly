@@ -16,14 +16,16 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserCrewId implements Serializable {
-    private Long crewId;
+    @ManyToOne
+    @JoinColumn(name = "crew_id")
+    private Crew crew;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
     @Builder
     public UserCrewId(Long crewId, Long userId) {
-        this.crewId = crewId;
+        this.crew = Crew.builder().crewId(crewId).build();
         this.user = User.builder().userId(userId).build();
     }
 }

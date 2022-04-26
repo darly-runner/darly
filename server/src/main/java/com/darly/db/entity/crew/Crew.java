@@ -26,4 +26,5 @@ public class Crew {
     private String crewDesc;
     private String crewNotice;
     private Character crewJoin;
+    private String crewImage;
 }

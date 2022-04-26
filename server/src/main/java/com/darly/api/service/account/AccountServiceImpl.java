@@ -41,8 +41,7 @@ public class AccountServiceImpl implements AccountService {
                 .onStatus(HttpStatus::is5xxServerError, response -> Mono.error(new RuntimeException("Internal Server Error")))
                 .bodyToMono(KakaoUserRes.class)
                 .block();
-        System.out.println(kakaoUserResponse);
-        return (boolean)kakaoUserResponse.getKakao_account().get("has_email") ? (String)kakaoUserResponse.getKakao_account().get("email") : kakaoUserResponse.getId().toString();
+        return (boolean) kakaoUserResponse.getKakao_account().get("has_email") ? (String) kakaoUserResponse.getKakao_account().get("email") : kakaoUserResponse.getId().toString();
     }
 
     @Override
