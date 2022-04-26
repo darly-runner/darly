@@ -8,7 +8,9 @@ import com.darly.api.service.crew.CrewService;
 import com.darly.api.service.crew.UserCrewService;
 import com.darly.common.model.response.BaseResponseBody;
 import com.darly.db.entity.crew.Crew;
+import com.darly.db.entity.crew.CrewTitleMapping;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
@@ -42,13 +44,17 @@ public class CrewController {
     @GetMapping
     public ResponseEntity<? extends BaseResponseBody> getCrewSearchList(GetCrewSearchModel getCrewSearchModel, Authentication authentication) {
         Long userId = Long.parseLong((String) authentication.getPrincipal());
-        System.out.println(getCrewSearchModel);
-        PageRequest pageRequest = PageRequest.of(getCrewSearchModel.getPage(), 20, Sort.Direction.DESC);
+        PageRequest pageRequest = PageRequest.of(getCrewSearchModel.getPage(), 20); //, Sort.Direction.DESC, "crew_id"
+        Page<CrewTitleMapping> crewPage;
+        if (getCrewSearchModel.getAddress() != 0 || getCrewSearchModel.getAddress() != null)
+            crewPage = crewService.getCrewSearchListByAddressAndKey(userId, getCrewSearchModel.getAddress(), getCrewSearchModel.getKey(), pageRequest);
+        else
+            crewPage = crewService.getCrewSearchListByKey(userId, getCrewSearchModel.getKey(), pageRequest);
         return ResponseEntity.ok(CrewSearchGetRes.builder()
                 .statusCode(200)
                 .message("Success get crew search list")
                 .currentPage(getCrewSearchModel.getPage())
-                .page(crewService.getCrewSearchList(userId, getCrewSearchModel.getAddress(), getCrewSearchModel.getKey(), pageRequest))
+                .page(crewPage)
                 .build());
     }
 }

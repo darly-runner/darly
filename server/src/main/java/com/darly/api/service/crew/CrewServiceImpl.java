@@ -28,7 +28,12 @@ public class CrewServiceImpl implements CrewService {
     }
 
     @Override
-    public Page<CrewTitleMapping> getCrewSearchList(Long userId, Integer address, String key, Pageable pageRequest) {
+    public Page<CrewTitleMapping> getCrewSearchListByAddressAndKey(Long userId, Integer address, String key, Pageable pageRequest) {
         return crewRepository.findByUserIdAndAddressAndKey(userId, address, key, pageRequest);
+    }
+
+    @Override
+    public Page<CrewTitleMapping> getCrewSearchListByKey(Long userId, String key, Pageable pageRequest) {
+        return crewRepository.findByUserIdAndKey(userId, key, pageRequest);
     }
 }

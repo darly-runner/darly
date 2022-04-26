@@ -1,14 +1,11 @@
 package com.darly.api.request.crew;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class GetCrewSearchModel {
     private Integer page;
     private Integer address;
