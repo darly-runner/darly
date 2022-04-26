@@ -14,7 +14,11 @@ object DarlyService {
             .build()
 
         return Retrofit.Builder()
+<<<<<<< HEAD
             .baseUrl("http://10.0.2.2:8000/")
+=======
+            .baseUrl("http://3.36.61.107:8000/")
+>>>>>>> f5da09cd824a3d5676c830693e8c566ed06267e0
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
