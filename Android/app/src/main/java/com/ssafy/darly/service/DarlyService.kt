@@ -1,6 +1,9 @@
 package com.ssafy.darly.service
 
+import com.ssafy.darly.util.GlobalApplication
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
@@ -11,6 +14,7 @@ object DarlyService {
             .connectTimeout(100, TimeUnit.SECONDS)
             .readTimeout(100, TimeUnit.SECONDS)
             .writeTimeout(100, TimeUnit.SECONDS)
+            .addInterceptor(AppInterceptor())
             .build()
 
         return Retrofit.Builder()
@@ -19,5 +23,15 @@ object DarlyService {
             .client(okHttpClient)
             .build()
             .create(ApiService::class.java)
+    }
+
+    class AppInterceptor : Interceptor{
+        override fun intercept(chain: Interceptor.Chain): Response = with(chain) {
+            val token = GlobalApplication.prefs.getString("token","noToken")
+            val newRequest = request().newBuilder()
+                .addHeader("Authorization", "Bearer $token")
+                .build()
+            proceed(newRequest)
+        }
     }
 }

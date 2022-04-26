@@ -119,6 +119,7 @@ class LoginActivity : AppCompatActivity() {
             }
             else if (token != null) {
                 Log.d("LoginActivity","kakao access token : ${token}")
+                GlobalApplication.prefs.setString("token", token.accessToken)
                 Toast.makeText(this, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
                 toMainActivity()
             }
