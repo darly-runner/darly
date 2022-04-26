@@ -2,6 +2,7 @@ package com.darly.api.service.crew;
 
 import com.darly.api.request.crew.CrewCreatePostReq;
 import com.darly.db.entity.crew.Crew;
+import com.darly.db.entity.crew.CrewDetailMapping;
 import com.darly.db.entity.crew.CrewTitleMapping;
 
 import java.util.List;
@@ -12,4 +13,5 @@ public interface CrewService {
     List<CrewTitleMapping> getCrewSearchListByKey(Long userId, String key, Integer limit, Integer offset);
     Long getCrewCountByAddressAndKey(Long userId, Integer address, String key);
     Long getCrewCountByKey(Long userId, String key);
+    CrewDetailMapping getCrewDetailByCrewId(Long crewId);
 }
