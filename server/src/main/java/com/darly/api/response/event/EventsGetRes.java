@@ -1,13 +1,12 @@
 package com.darly.api.response.event;
 
 import com.darly.common.model.response.BaseResponseBody;
-import com.darly.db.entity.EventList;
+import com.darly.db.entity.event.EventList;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter

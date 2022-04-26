@@ -1,10 +1,14 @@
 package com.darly.api.service.user;
 
 import com.darly.api.request.user.UserPatchConditionReq;
+import com.darly.api.request.user.UserPatchFeedReq;
 import com.darly.api.request.user.UserPatchReq;
-import com.darly.db.entity.Badge;
-import com.darly.db.entity.User;
+import com.darly.api.request.user.UserPostFeedReq;
+import com.darly.db.entity.address.Address;
+import com.darly.db.entity.badge.Badge;
+import com.darly.db.entity.user.User;
 import com.darly.db.entity.friend.FriendTitleMapping;
+import com.darly.db.entity.userFeed.UserFeed;
 
 import java.util.List;
 
@@ -14,4 +18,7 @@ public interface UserService {
     User patchUserCondition(UserPatchConditionReq userPatchConditionReq, Long userId);
     List<Badge> getBadgeList(Long userId);
     List<FriendTitleMapping> getUserSearchList(Long userId, String nickname);
+    UserFeed postUserFeed(UserPostFeedReq userPostFeedReq, Long userId);
+    void deleteUserFeed(Long userFeedId);
+    UserFeed patchUserFeed(UserPatchFeedReq userPatchFeedReq, Long userFeedId);
 }

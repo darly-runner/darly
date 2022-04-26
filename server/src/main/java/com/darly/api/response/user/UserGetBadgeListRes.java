@@ -1,12 +1,10 @@
 package com.darly.api.response.user;
 
 import com.darly.common.model.response.BaseResponseBody;
-import com.darly.db.entity.Badge;
-import com.darly.db.entity.UserBadge;
+import com.darly.db.entity.badge.Badge;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
-import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.ArrayList;
 import java.util.List;

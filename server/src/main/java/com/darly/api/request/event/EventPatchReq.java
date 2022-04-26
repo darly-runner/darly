@@ -1,6 +1,6 @@
 package com.darly.api.request.event;
 
-import com.darly.db.entity.Event;
+import com.darly.db.entity.event.Event;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;

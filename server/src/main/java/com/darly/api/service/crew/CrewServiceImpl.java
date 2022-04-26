@@ -2,9 +2,9 @@ package com.darly.api.service.crew;
 
 import com.darly.api.request.crew.CrewCreatePostReq;
 import com.darly.common.util.Type;
-import com.darly.db.entity.User;
 import com.darly.db.entity.crew.Crew;
 import com.darly.db.entity.crew.CrewTitleMapping;
+import com.darly.db.entity.user.User;
 import com.darly.db.repository.crew.CrewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

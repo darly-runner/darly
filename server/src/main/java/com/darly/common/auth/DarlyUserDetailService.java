@@ -1,7 +1,7 @@
 package com.darly.common.auth;
 
 import com.darly.api.service.account.AccountService;
-import com.darly.db.entity.User;
+import com.darly.db.entity.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

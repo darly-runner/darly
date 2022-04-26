@@ -1,6 +1,6 @@
 package com.darly.db.entity.crew;
 
-import com.darly.db.entity.User;
+import com.darly.db.entity.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
