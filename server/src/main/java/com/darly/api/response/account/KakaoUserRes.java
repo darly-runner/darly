@@ -14,7 +14,9 @@ import java.util.Map;
 @ToString
 @ApiModel("KakaoUserResponse")
 public class KakaoUserRes {
+    @ApiModelProperty(name="id", example="1")
     private Long id;
+    @ApiModelProperty(name="kakao_account", example="kakao_account")
     private Map<String, Object> kakao_account;
 
     public User toEntity() {
