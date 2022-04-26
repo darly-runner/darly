@@ -5,16 +5,19 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.Map;
+
 @Getter
 @Setter
 @ToString
 public class KakaoUserRes {
-    private String email;
-    private String name;
+    private Long id;
+    private Map<String, Object> kakao_account;
 
-    public User toEntity(){
+    public User toEntity() {
+        String email = (boolean)kakao_account.get("has_email") ? (String)kakao_account.get("email") : id.toString();
         return User.builder()
-                .userNickname(name)
+                .userNickname(email)
                 .userEmail(email)
                 .build();
     }
