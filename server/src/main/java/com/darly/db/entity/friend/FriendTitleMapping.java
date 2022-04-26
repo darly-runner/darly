@@ -8,7 +8,6 @@ import lombok.ToString;
 
 @Getter
 @NoArgsConstructor
-@ToString
 public class FriendTitleMapping {
     private Long userId;
     private String userNickname;

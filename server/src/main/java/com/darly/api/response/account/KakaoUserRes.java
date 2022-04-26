@@ -7,19 +7,20 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.Map;
+
 @Getter
 @Setter
 @ToString
 @ApiModel("KakaoUserResponse")
 public class KakaoUserRes {
-    @ApiModelProperty(name="email", example="ssafy@ssafy.com")
-    private String email;
-    @ApiModelProperty(name="name", example="김싸피")
-    private String name;
+    private Long id;
+    private Map<String, Object> kakao_account;
 
-    public User toEntity(){
+    public User toEntity() {
+        String email = (boolean)kakao_account.get("has_email") ? (String)kakao_account.get("email") : id.toString();
         return User.builder()
-                .userNickname(name)
+                .userNickname(email)
                 .userEmail(email)
                 .build();
     }
