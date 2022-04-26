@@ -32,7 +32,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/design_default_color_error"
     android:orientation="vertical">
 
     <TextView
@@ -41,7 +40,6 @@
         android:fontFamily="@font/pretendard_bold"
         android:padding="20dp"
         android:text="@string/Challenge"
-        android:background="@color/design_default_color_primary"
         android:textSize="30dp" />
 
     <androidx.recyclerview.widget.RecyclerView
