@@ -15,6 +15,9 @@ import com.darly.db.entity.record.Coordinate;
 import com.darly.db.entity.record.Record;
 import com.darly.db.entity.record.SectionMapping;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -36,6 +39,12 @@ public class RecordController {
 
     // R-001
     @PostMapping
+    @ApiOperation(value="경로기록저장", notes="경로기록저장")
+    @ApiResponses({
+            @ApiResponse(code=200, message="테스트 성공"),
+            @ApiResponse(code=404, message="잘못된 url 접근"),
+            @ApiResponse(code=500, message="서버 에러")
+    })
     public ResponseEntity<? extends BaseResponseBody> createRecord(@RequestBody RecordCreatePostReq recordCreatePostReq, Authentication authentication) {
         Long userId = Long.parseLong((String) authentication.getPrincipal());
         Record record = recordService.createRecord(userId, dayService.saveToday(userId, recordCreatePostReq).getDayId(), recordCreatePostReq);
@@ -46,6 +55,12 @@ public class RecordController {
 
     // R-002
     @GetMapping
+    @ApiOperation(value="경로기록목록", notes="경로기록목록 가져오기")
+    @ApiResponses({
+            @ApiResponse(code=200, message="테스트 성공"),
+            @ApiResponse(code=404, message="잘못된 url 접근"),
+            @ApiResponse(code=500, message="서버 에러")
+    })
     public ResponseEntity<? extends BaseResponseBody> getRecordList(@RequestParam String type, Authentication authentication) {
         Long userId = Long.parseLong((String) authentication.getPrincipal());
         if (type.equals("all"))
@@ -57,6 +72,12 @@ public class RecordController {
 
     // R-003
     @GetMapping("/{recordId}")
+    @ApiOperation(value="경로기록상세보기", notes="경로기록1개 상세보기")
+    @ApiResponses({
+            @ApiResponse(code=200, message="테스트 성공"),
+            @ApiResponse(code=404, message="잘못된 url 접근"),
+            @ApiResponse(code=500, message="서버 에러")
+    })
     public ResponseEntity<? extends BaseResponseBody> getRecordDetail(@PathVariable("recordId") Long recordId, Authentication authentication) {
         Record record = recordService.getRecordDetail(recordId);
         if (record == null)
@@ -73,6 +94,12 @@ public class RecordController {
 
     // R-004
     @PatchMapping("/{recordId}")
+    @ApiOperation(value="경로기록 제목수정", notes="경로기록 제목수정")
+    @ApiResponses({
+            @ApiResponse(code=200, message="테스트 성공"),
+            @ApiResponse(code=404, message="잘못된 url 접근"),
+            @ApiResponse(code=500, message="서버 에러")
+    })
     public ResponseEntity<? extends BaseResponseBody> updateRecordTitle(@PathVariable("recordId") Long recordId, @RequestBody RecordUpdatePatchReq recordUpdatePatchReq, Authentication authentication) {
         Record record = recordService.getRecordDetail(recordId);
         if (record == null)
