@@ -21,6 +21,7 @@ public interface CrewRepository extends JpaRepository<Crew, Long> {
             "where uc.crew_id is null " +
             "and a.address_id = :addressId " +
             "and c.crew_name like %:key% " +
+            "order by crewPeopleNum desc, crewName asc " +
             "limit :offset, :limit ", nativeQuery = true)
     List<CrewTitleMapping> findByUserIdAndAddressAndKey(@Param(value = "userId") Long userId, @Param(value = "addressId") Integer address, @Param(value = "key") String key, @Param(value = "limit") Integer limit, @Param(value = "offset") Integer offset);
 
@@ -49,6 +50,7 @@ public interface CrewRepository extends JpaRepository<Crew, Long> {
             "on ca.address_id = a.address_id " +
             "where uc.crew_id is null " +
             "and c.crew_name like %:key% " +
+            "order by crewPeopleNum desc, crewName asc " +
             "limit :offset, :limit ", nativeQuery = true)
     List<CrewTitleMapping> findByUserIdAndKey(@Param(value = "userId") Long userId, @Param(value = "key") String key, @Param(value = "limit") Integer limit, @Param(value = "offset") Integer offset);
 

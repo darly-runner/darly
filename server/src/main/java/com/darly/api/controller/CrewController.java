@@ -2,6 +2,7 @@ package com.darly.api.controller;
 
 import com.darly.api.request.crew.CrewCreatePostReq;
 import com.darly.api.request.crew.GetCrewSearchModel;
+import com.darly.api.response.crew.CrewMyGeyRes;
 import com.darly.api.response.crew.CrewSearchGetRes;
 import com.darly.api.service.crew.CrewAddressService;
 import com.darly.api.service.crew.CrewService;
@@ -60,6 +61,17 @@ public class CrewController {
                 .crewCount(crewCount)
                 .crewList(crewList)
                 .size(getCrewSearchModel.getSize())
+                .build());
+    }
+
+    // C-003
+    @GetMapping("/my")
+    public ResponseEntity<? extends BaseResponseBody> getMyCrewList(Authentication authentication) {
+        Long userId = Long.parseLong((String) authentication.getPrincipal());
+        return ResponseEntity.ok(CrewMyGeyRes.builder()
+                .statusCode(200)
+                .message("Success get crew search list")
+                .crew(userCrewService.getMyCrewList(userId))
                 .build());
     }
 }
