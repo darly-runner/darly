@@ -14,6 +14,7 @@ import com.darly.db.entity.match.MatchResultMapping;
 import com.darly.db.entity.record.Coordinate;
 import com.darly.db.entity.record.Record;
 import com.darly.db.entity.record.SectionMapping;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Api(value="Record Api", tags = {"Records"})
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/records")

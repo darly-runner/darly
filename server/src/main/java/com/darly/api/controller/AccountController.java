@@ -7,6 +7,7 @@ import com.darly.api.service.account.AccountService;
 import com.darly.common.model.response.BaseResponseBody;
 import com.darly.common.util.JwtTokenUtil;
 import com.darly.db.entity.user.User;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+@Api(value="accout Api", tags = {"Accounts"})
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/accounts")

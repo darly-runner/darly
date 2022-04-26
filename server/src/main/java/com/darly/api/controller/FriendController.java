@@ -11,6 +11,7 @@ import com.darly.api.service.userAddress.UserAddressService;
 import com.darly.api.service.userFeed.UserFeedService;
 import com.darly.common.model.response.BaseResponseBody;
 import com.darly.db.entity.user.User;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -19,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+@Api(value="친구 Api", tags = {"Friends"})
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/friends")

@@ -2,6 +2,7 @@ package com.darly.api.controller;
 
 import com.darly.api.service.day.DayService;
 import com.darly.common.model.response.BaseResponseBody;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@Api(value="stats Api", tags = {"Stats"})
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/stats")

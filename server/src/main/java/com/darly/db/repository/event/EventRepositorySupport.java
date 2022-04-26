@@ -1,8 +1,9 @@
 package com.darly.db.repository.event;
 
 import com.darly.db.entity.event.EventList;
-import com.darly.db.entity.QEvent;
-import com.darly.db.entity.QUser;
+
+import com.darly.db.entity.event.QEvent;
+import com.darly.db.entity.user.QUser;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
