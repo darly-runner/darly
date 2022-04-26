@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Api(value="Crew Api", tags="Crew")
+@Api(value = "Crew Api", tags = "Crew")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/crew")
@@ -33,13 +33,13 @@ public class CrewController {
 
     // C-001
     @PostMapping
-    @ApiOperation(value="크루생성", notes="크루생성하기")
+    @ApiOperation(value = "크루생성", notes = "크루생성하기")
     @ApiResponses({
-            @ApiResponse(code=200, message="테스트 성공"),
-            @ApiResponse(code=404, message="잘못된 url 접근"),
-            @ApiResponse(code=500, message="서버 에러")
+            @ApiResponse(code = 200, message = "테스트 성공"),
+            @ApiResponse(code = 404, message = "잘못된 url 접근"),
+            @ApiResponse(code = 500, message = "서버 에러")
     })
-    public ResponseEntity<? extends BaseResponseBody> createCrew(@RequestBody CrewCreatePostReq crewCreatePostReq, Authentication authentication) {
+    public ResponseEntity<? extends BaseResponseBody> createCrew(@ModelAttribute CrewCreatePostReq crewCreatePostReq, Authentication authentication) {
         Long userId = Long.parseLong((String) authentication.getPrincipal());
         Crew crew = crewService.createCrew(userId, crewCreatePostReq);
         if (crew == null)
@@ -53,11 +53,11 @@ public class CrewController {
 
     // C-002
     @GetMapping
-    @ApiOperation(value="크루목록", notes="크루목록 가져오기")
+    @ApiOperation(value = "크루목록", notes = "크루목록 가져오기")
     @ApiResponses({
-            @ApiResponse(code=200, message="테스트 성공"),
-            @ApiResponse(code=404, message="잘못된 url 접근"),
-            @ApiResponse(code=500, message="서버 에러")
+            @ApiResponse(code = 200, message = "테스트 성공"),
+            @ApiResponse(code = 404, message = "잘못된 url 접근"),
+            @ApiResponse(code = 500, message = "서버 에러")
     })
     public ResponseEntity<? extends BaseResponseBody> getCrewSearchList(GetCrewSearchModel getCrewSearchModel, Authentication authentication) {
         Long userId = Long.parseLong((String) authentication.getPrincipal());
