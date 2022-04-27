@@ -23,9 +23,9 @@
 <!--    </FrameLayout>-->
 <!--</layout>-->
 
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
@@ -47,11 +47,13 @@
             android:text="Crew"
             android:textSize="30dp" />
 
-<!--        <androidx.recyclerview.widget.RecyclerView-->
-<!--            android:id="@+id/myCrew"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:paddingBottom="20dp" />-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/myCrew"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="horizontal"
+            android:paddingBottom="20dp" />
 
 <!--        <androidx.recyclerview.widget.RecyclerView-->
 <!--            android:id="@+id/crewRecommendation"-->
