@@ -28,7 +28,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="com.ssafy.darly.viewmodel.CrewViewModel" />
@@ -48,16 +47,16 @@
             android:text="Crew"
             android:textSize="30dp" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/myCrew"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="20dp" />
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/myCrew"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:paddingBottom="20dp" />-->
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/crewRecommendation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/crewRecommendation"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content" />-->
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>
