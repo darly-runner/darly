@@ -23,4 +23,5 @@ public interface CrewService {
     void updateCrewNotice(Crew crew, CrewUpdatePatchReq crewUpdatePatchReq);
     void updateCrewHost(Crew crew, CrewMandatePatchReq crewMandatePatchReq);
     void deleteCrew(Long crewId);
+    boolean isCrewExists(Long crewId);
 }

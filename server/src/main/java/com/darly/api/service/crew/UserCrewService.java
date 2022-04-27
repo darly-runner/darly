@@ -10,4 +10,5 @@ public interface UserCrewService {
     List<CrewMyMapping> getMyCrewList(Long userId);
     void leaveCrew(Long crewId, Long userId);
     Long countUserNum(Long crewId);
+    boolean isUserCrewExists(Long userId, Long crewId);
 }

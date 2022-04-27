@@ -4,7 +4,6 @@ import com.darly.api.request.crew.CrewCreatePostReq;
 import com.darly.api.request.crew.CrewMandatePatchReq;
 import com.darly.api.request.crew.CrewUpdatePatchReq;
 import com.darly.api.request.crew.CrewUpdatePutReq;
-import com.darly.api.service.address.AddressService;
 import com.darly.api.service.feed.FeedService;
 import com.darly.api.service.file.FileProcessService;
 import com.darly.api.service.match.MatchService;
@@ -114,5 +113,10 @@ public class CrewServiceImpl implements CrewService {
         crewAddressService.deleteByCrewId(crewId);
         crewWaitingService.deleteByCrewId(crewId);
         crewRepository.delete(getCrewByCrewId(crewId).get());
+    }
+
+    @Override
+    public boolean isCrewExists(Long crewId) {
+        return crewRepository.existsByCrewId(crewId);
     }
 }

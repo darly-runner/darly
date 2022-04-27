@@ -7,6 +7,8 @@ import com.darly.db.repository.crew.CrewWaitingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service("crewWaitingService")
 @RequiredArgsConstructor
 public class CrewWaitingServiceImpl implements CrewWaitingService {
@@ -26,5 +28,20 @@ public class CrewWaitingServiceImpl implements CrewWaitingService {
                                 .userId(userId)
                                 .build())
                 .build());
+    }
+
+    @Override
+    public void deleteByCrewIdAndUserId(Long crewId, Long userId) {
+        crewWaitingRepository.deleteByCrewWaitingId(CrewWaitingId.builder().crewId(crewId).userId(userId).build());
+    }
+
+    @Override
+    public Optional<CrewWaiting> getCrewWaiting(Long userId, Long crewId) {
+        return crewWaitingRepository.findById(CrewWaitingId.builder().userId(userId).crewId(crewId).build());
+    }
+
+    @Override
+    public void deleteByCrewWaiting(CrewWaiting crewWaiting) {
+        crewWaitingRepository.delete(crewWaiting);
     }
 }

@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserCrewRepository extends JpaRepository<UserCrew, UserCrewId> {
     Long countByUserCrewId_Crew(Crew crew);
+    boolean existsByUserCrewId(UserCrewId userCrewId);
 }
