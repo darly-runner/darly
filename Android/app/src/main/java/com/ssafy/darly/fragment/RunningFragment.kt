@@ -63,9 +63,7 @@ class RunningFragment : Fragment() , OnMapReadyCallback,
                 Log.d("Location","" + location.latitude + "," + location.longitude)
                 val marker = LatLng(location.latitude, location.longitude)
 
-                map.addMarker(MarkerOptions().position(marker).title("" + location.latitude + "," + location.longitude))
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(marker,18f))
-
                 polylineOptions.points.add(marker)
                 map.addPolyline(polylineOptions)
             }
