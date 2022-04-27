@@ -57,7 +57,7 @@ public class CrewServiceImpl implements CrewService {
     }
 
     @Override
-    public CrewDetailMapping getCrewDetailByCrewId(Long crewId) {
+    public List<CrewDetailMapping> getCrewDetailByCrewId(Long crewId) {
         return crewRepositorySupport.findCrewDetailByCrewId(crewId);
     }
 }

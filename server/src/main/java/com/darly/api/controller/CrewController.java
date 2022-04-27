@@ -97,10 +97,13 @@ public class CrewController {
     // C-004
     @GetMapping("/{crewId}")
     public ResponseEntity<? extends BaseResponseBody> getMyCrewList(@PathVariable("crewId") Long crewId, Authentication authentication) {
+        List<CrewDetailMapping> crewDetailList = crewService.getCrewDetailByCrewId(crewId);
+        if (crewDetailList.size() == 0)
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail get crew detail: Not valid crewId"));
         return ResponseEntity.ok(CrewDetailGetRes.builder()
                 .statusCode(200)
                 .message("Success get crew detail")
-                .crewDetailMapping(crewService.getCrewDetailByCrewId(crewId))
+                .crewDetailMapping(crewDetailList.get(0))
                 .build());
     }
 }

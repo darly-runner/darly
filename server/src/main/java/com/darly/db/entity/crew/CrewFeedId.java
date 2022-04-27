@@ -1,6 +1,6 @@
 package com.darly.db.entity.crew;
 
-import com.darly.db.entity.user.User;
+import com.darly.db.entity.feed.Feed;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,6 +26,6 @@ public class CrewFeedId implements Serializable {
     @Builder
     public CrewFeedId(Long crewId, Long feedId) {
         this.crew = Crew.builder().crewId(crewId).build();
-        this.feed = Feed.builder().userId(feedId).build();
+        this.feed = Feed.builder().feedId(feedId).build();
     }
 }

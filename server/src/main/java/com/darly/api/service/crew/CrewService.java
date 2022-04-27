@@ -13,5 +13,5 @@ public interface CrewService {
     List<CrewTitleMapping> getCrewSearchListByKey(Long userId, String key, Integer limit, Integer offset);
     Long getCrewCountByAddressAndKey(Long userId, Integer address, String key);
     Long getCrewCountByKey(Long userId, String key);
-    CrewDetailMapping getCrewDetailByCrewId(Long crewId);
+    List<CrewDetailMapping> getCrewDetailByCrewId(Long crewId);
 }

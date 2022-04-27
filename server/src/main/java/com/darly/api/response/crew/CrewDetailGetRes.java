@@ -15,8 +15,8 @@ public class CrewDetailGetRes extends BaseResponseBody {
     private String crewHost;
     private String crewLocation;
     private String crewImage;
-    private Integer crewPeople;
-    private Integer crewFeedNum;
+    private Long crewPeople;
+    private Long crewFeedNum;
 
     @Builder
     public CrewDetailGetRes(Integer statusCode, String message, CrewDetailMapping crewDetailMapping) {
@@ -27,7 +27,7 @@ public class CrewDetailGetRes extends BaseResponseBody {
         this.crewHost = crewDetailMapping.getCrewHost();
         this.crewLocation = crewDetailMapping.getCrewLocation();
         this.crewImage = crewDetailMapping.getCrewImage();
-        this.crewPeople = 1;
-        this.crewFeedNum = 1;
+        this.crewPeople = crewDetailMapping.getCrewPeople();
+        this.crewFeedNum = crewDetailMapping.getCrewFeedNum();
     }
 }
