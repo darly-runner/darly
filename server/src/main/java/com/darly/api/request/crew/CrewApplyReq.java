@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 @ApiModel("CrewAcceptPostRequest")
-public class CrewAcceptPostReq {
+public class CrewApplyReq {
     @ApiModelProperty(name = "userId", example = "1")
     private Long userId;
 }

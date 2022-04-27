@@ -31,8 +31,8 @@ public class CrewWaitingServiceImpl implements CrewWaitingService {
     }
 
     @Override
-    public void deleteByCrewIdAndUserId(Long crewId, Long userId) {
-        crewWaitingRepository.deleteByCrewWaitingId(CrewWaitingId.builder().crewId(crewId).userId(userId).build());
+    public void deleteByUserIdAndCrewId(Long userId, Long crewId) {
+        crewWaitingRepository.delete(CrewWaiting.builder().crewWaitingId(CrewWaitingId.builder().crewId(crewId).userId(userId).build()).build());
     }
 
     @Override

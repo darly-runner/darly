@@ -181,7 +181,7 @@ public class CrewController {
         Optional<Crew> crew = crewService.getCrewByCrewId(crewId);
         if (!crew.isPresent())
             return ResponseEntity.ok(BaseResponseBody.of(405, "Fail join crew: Not valid crewId"));
-        if(userCrewService.isUserCrewExists(userId, crewId))
+        if (userCrewService.isUserCrewExists(userId, crewId))
             return ResponseEntity.ok(BaseResponseBody.of(406, "Fail join crew: Already crew"));
         if (crew.get().getCrewJoin() == Type.Lock.getLabel()) {
             userCrewService.createUserCrew(userId, crewId);
@@ -193,18 +193,34 @@ public class CrewController {
 
     // C-010
     @PostMapping("/{crewId}/accept")
-    public ResponseEntity<? extends BaseResponseBody> acceptCrew(@PathVariable("crewId") Long crewId, @RequestBody CrewAcceptPostReq crewAcceptPostReq, Authentication authentication) {
+    public ResponseEntity<? extends BaseResponseBody> acceptCrew(@PathVariable("crewId") Long crewId, @RequestBody CrewApplyReq crewApplyReq, Authentication authentication) {
         Long userId = getUserId(authentication);
         Optional<Crew> crew = crewService.getCrewByCrewId(crewId);
         if (!crew.isPresent())
-            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail accept crew: Not valid crew"));
-        if(!crew.get().getUser().getUserId().equals(userId))
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail accept crew: Not valid crewId"));
+        if (!crew.get().getUser().getUserId().equals(userId))
             return ResponseEntity.ok(BaseResponseBody.of(406, "Fail accept crew: User is not host"));
-        Optional<CrewWaiting> crewWaiting = crewWaitingService.getCrewWaiting(crewAcceptPostReq.getUserId(), crewId);
-        if(!crewWaiting.isPresent())
+        Optional<CrewWaiting> crewWaiting = crewWaitingService.getCrewWaiting(crewApplyReq.getUserId(), crewId);
+        if (!crewWaiting.isPresent())
             return ResponseEntity.ok(BaseResponseBody.of(407, "Fail accept crew: No apply"));
         crewWaitingService.deleteByCrewWaiting(crewWaiting.get());
-        userCrewService.createUserCrew(crewAcceptPostReq.getUserId(), crewId);
+        userCrewService.createUserCrew(crewApplyReq.getUserId(), crewId);
         return ResponseEntity.ok(BaseResponseBody.of(200, "Success accept crew"));
+    }
+
+    // C-011
+    @DeleteMapping("/{crewId}/deny")
+    public ResponseEntity<? extends BaseResponseBody> denyCrew(@PathVariable("crewId") Long crewId, @RequestBody CrewApplyReq crewApplyReq, Authentication authentication) {
+        Long userId = getUserId(authentication);
+        Optional<Crew> crew = crewService.getCrewByCrewId(crewId);
+        if (!crew.isPresent())
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail deny crew: Not valid crewId"));
+        if (!crew.get().getUser().getUserId().equals(userId))
+            return ResponseEntity.ok(BaseResponseBody.of(406, "Fail deny crew: User is not host"));
+        Optional<CrewWaiting> crewWaiting = crewWaitingService.getCrewWaiting(crewApplyReq.getUserId(), crewId);
+        if (!crewWaiting.isPresent())
+            return ResponseEntity.ok(BaseResponseBody.of(407, "Fail deny crew: No apply"));
+        crewWaitingService.deleteByCrewWaiting(crewWaiting.get());
+        return ResponseEntity.ok(BaseResponseBody.of(200, "Success deny crew"));
     }
 }
