@@ -1,5 +1,6 @@
-package com.darly.db.entity;
+package com.darly.db.entity.event;
 
+import com.darly.db.entity.user.User;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -7,7 +8,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -28,12 +28,12 @@ public class Event {
     private String eventContent;
     private String eventImage;
 
-    private LocalDateTime eventDate;
+    private Long eventDate;
 
 
     @Builder
     public Event(Long eventId, User user, String eventTitle, String eventContent,
-                 String eventImage, LocalDateTime eventDate) {
+                 String eventImage, Long eventDate) {
         this.eventId = eventId;
         this.user = user;
         this.eventTitle = eventTitle;

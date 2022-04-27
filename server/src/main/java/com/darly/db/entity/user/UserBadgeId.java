@@ -1,7 +1,7 @@
-package com.darly.db.entity;
+package com.darly.db.entity.user;
 
+import com.darly.db.entity.badge.Badge;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.io.Serializable;
 

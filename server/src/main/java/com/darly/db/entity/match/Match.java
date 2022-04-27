@@ -1,6 +1,6 @@
 package com.darly.db.entity.match;
 
-import com.darly.db.entity.User;
+import com.darly.db.entity.user.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

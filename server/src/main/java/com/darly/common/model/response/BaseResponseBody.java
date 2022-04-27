@@ -1,8 +1,11 @@
 package com.darly.common.model.response;
 
+import com.darly.db.entity.address.AddressNameMapping;
 import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 /**
  * 서버 요청에대한 기본 응답값(바디) 정의.

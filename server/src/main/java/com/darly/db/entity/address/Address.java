@@ -15,4 +15,5 @@ public class Address {
     @Id
     private Long addressId;
     private String addressName;
+
 }

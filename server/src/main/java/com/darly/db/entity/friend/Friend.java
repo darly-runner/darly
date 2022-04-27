@@ -1,6 +1,6 @@
 package com.darly.db.entity.friend;
 
-import com.darly.db.entity.User;
+import com.darly.db.entity.user.User;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 

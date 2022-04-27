@@ -1,13 +1,9 @@
-package com.darly.db.entity;
+package com.darly.db.entity.user;
 
-import com.darly.api.request.user.UserPatchReq;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter

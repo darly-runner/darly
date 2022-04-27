@@ -4,7 +4,7 @@ import com.darly.api.request.account.AccountLoginGetReq;
 import com.darly.api.request.account.AccountSigninPostReq;
 import com.darly.api.response.account.GoogleUserRes;
 import com.darly.api.response.account.KakaoUserRes;
-import com.darly.db.entity.User;
+import com.darly.db.entity.user.User;
 import com.darly.db.entity.userAddress.UserAddress;
 import com.darly.db.entity.userAddress.UserAddressId;
 import com.darly.db.repository.account.AccountRepository;
@@ -34,14 +34,14 @@ public class AccountServiceImpl implements AccountService {
     public String kakaoLogin(AccountLoginGetReq accountLoginPostReq) {
         KakaoUserRes kakaoUserResponse = webClient.get()
                 .uri("https://kapi.kakao.com/v2/user/me") // KAKAO의 유저 정보 받아오는 url
-                .headers(h -> h.setBearerAuth(accountLoginPostReq.getTokenId())) // JWT 토큰을 Bearer 토큰으로 지정
+//                .headers(h -> h.setBearerAuth(accountLoginPostReq.getTokenId())) // JWT 토큰을 Bearer 토큰으로 지정
+                .header("Authorization", "Bearer " + accountLoginPostReq.getTokenId())
                 .retrieve()
                 .onStatus(HttpStatus::is4xxClientError, response -> Mono.error(new RuntimeException("Social Access Token is unauthorized")))
                 .onStatus(HttpStatus::is5xxServerError, response -> Mono.error(new RuntimeException("Internal Server Error")))
                 .bodyToMono(KakaoUserRes.class)
                 .block();
-
-        return kakaoUserResponse.getEmail();
+        return (boolean) kakaoUserResponse.getKakao_account().get("has_email") ? (String) kakaoUserResponse.getKakao_account().get("email") : kakaoUserResponse.getId().toString();
     }
 
     @Override

@@ -1,25 +1,26 @@
 package com.darly.api.controller;
 
 
-import com.darly.api.request.user.UserPatchConditionReq;
-import com.darly.api.request.user.UserPatchReq;
-import com.darly.api.response.user.UserGetBadgeListRes;
-import com.darly.api.response.user.UserStatsGetRes;
+import com.darly.api.request.user.*;
+import com.darly.api.response.user.*;
 import com.darly.api.service.user.UserService;
-import com.darly.api.response.user.UserGetRes;
+import com.darly.api.service.userAddress.UserAddressService;
+import com.darly.api.service.userFeed.UserFeedService;
 import com.darly.common.model.response.BaseResponseBody;
-import com.darly.db.entity.Badge;
-import com.darly.db.entity.User;
+import com.darly.db.entity.address.AddressNameMapping;
+import com.darly.db.entity.badge.Badge;
+import com.darly.db.entity.user.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -35,6 +36,12 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    UserFeedService userFeedService;
+
+    @Autowired
+    UserAddressService userAddressService;
+
     // 1. 유저 정보 조회 GET
     @GetMapping
     @ApiOperation(value="유저정보조회", notes="userNickname, userEmail, userPoint, userImage를 가져옴")
@@ -43,7 +50,8 @@ public class UserController {
             @ApiResponse(code=404, message="잘못된 url 접근"),
             @ApiResponse(code=500, message="서버 에러")
     })
-    public ResponseEntity<UserGetRes> getUser(Long userId) {
+    public ResponseEntity<UserGetRes> getUser(Authentication authentication) {
+        Long userId = Long.parseLong((String) authentication.getPrincipal());
         User user = userService.getUserByUserId(userId);
 
         return ResponseEntity.ok(UserGetRes.of(user, 200, "success"));
@@ -57,7 +65,8 @@ public class UserController {
             @ApiResponse(code=404, message="잘못된 url 접근"),
             @ApiResponse(code=500, message="서버 에러")
     })
-    public ResponseEntity<BaseResponseBody> patchUser(UserPatchReq userPatchReq, Long userId) {
+    public ResponseEntity<BaseResponseBody> patchUser(UserPatchReq userPatchReq, Authentication authentication) {
+        Long userId = Long.parseLong((String) authentication.getPrincipal());
         userService.patchUser(userPatchReq, userId);
 
         return ResponseEntity.ok(BaseResponseBody.of(200, "success"));
@@ -72,7 +81,8 @@ public class UserController {
             @ApiResponse(code=404, message="잘못된 url 접근"),
             @ApiResponse(code=500, message="서버 에러")
     })
-    public ResponseEntity<UserStatsGetRes> getUserStats(Long userId){
+    public ResponseEntity<UserStatsGetRes> getUserStats(Authentication authentication){
+        Long userId = Long.parseLong((String) authentication.getPrincipal());
         User user = userService.getUserByUserId(userId);
 
         return ResponseEntity.ok(UserStatsGetRes.of(user, 200, "success"));
@@ -86,7 +96,8 @@ public class UserController {
             @ApiResponse(code=404, message="잘못된 url 접근"),
             @ApiResponse(code=500, message="서버 에러")
     })
-    public ResponseEntity<UserGetBadgeListRes> getBadge(Long userId) {
+    public ResponseEntity<UserGetBadgeListRes> getBadge(Authentication authentication) {
+        Long userId = Long.parseLong((String) authentication.getPrincipal());
         List<Badge> badgeList = userService.getBadgeList(userId);
 
         return ResponseEntity.ok(UserGetBadgeListRes.of(badgeList, 200, "success"));
@@ -100,10 +111,105 @@ public class UserController {
             @ApiResponse(code=404, message="잘못된 url 접근"),
             @ApiResponse(code=500, message="서버 에러")
     })
-    public ResponseEntity<BaseResponseBody> patchUserCondition(UserPatchConditionReq userPatchConditionReq, Long userId) {
-
+    public ResponseEntity<BaseResponseBody> patchUserCondition(UserPatchConditionReq userPatchConditionReq, Authentication authentication) {
+        Long userId = Long.parseLong((String) authentication.getPrincipal());
         userService.patchUserCondition(userPatchConditionReq, userId);
 
         return ResponseEntity.ok(BaseResponseBody.of(200, "success"));
     }
+
+    // 6. 지역정보조회 GET /address
+    @GetMapping("/address")
+    @ApiOperation(value="지역정보조회", notes="유저의 지역정보를 조회")
+    @ApiResponses({
+            @ApiResponse(code=200, message="테스트 성공"),
+            @ApiResponse(code=404, message="잘못된 url 접근"),
+            @ApiResponse(code=500, message="서버 에러")
+    })
+    public ResponseEntity<UserGetAddress> getUserAddress(Authentication authentication) {
+        Long userId = Long.parseLong((String) authentication.getPrincipal());
+        List<AddressNameMapping> addresses = userAddressService.getAddressNameList(userId);
+
+        return ResponseEntity.ok(UserGetAddress.of(addresses, 200, "success"));
+    }
+
+    // 7. 지역정보수정 PUT /address
+    @PutMapping("/address")
+    @ApiOperation(value="지역정보수정", notes="유저의 지역정보를 수정")
+    @ApiResponses({
+            @ApiResponse(code=200, message="테스트 성공"),
+            @ApiResponse(code=404, message="잘못된 url 접근"),
+            @ApiResponse(code=500, message="서버 에러")
+    })
+    public ResponseEntity<BaseResponseBody> putUserAddress(UserAddressPutReq userAddressPutReq, Authentication authentication) {
+        Long userId = Long.parseLong((String) authentication.getPrincipal());
+        userAddressService.putUserAddress(userAddressPutReq, userId);
+
+        return ResponseEntity.ok(BaseResponseBody.of(200,"success"));
+    }
+
+    // 8. 유저피드작성 POST /feed
+    @PostMapping("/feed")
+    @ApiOperation(value="유저피드작성", notes="feedImage 작성")
+    @ApiResponses({
+            @ApiResponse(code=200, message="테스트 성공"),
+            @ApiResponse(code=404, message="잘못된 url 접근"),
+            @ApiResponse(code=500, message="서버 에러")
+    })
+    public ResponseEntity<BaseResponseBody> postUserFeed(UserPostFeedReq userPostFeedReq, Authentication authentication) {
+        Long userId = Long.parseLong((String) authentication.getPrincipal());
+        userService.postUserFeed(userPostFeedReq, userId);
+
+
+        return ResponseEntity.ok(BaseResponseBody.of(200, "message"));
+    }
+
+    // 9. 유저피드목록 GET /feed?page
+    @GetMapping("/feed")
+    @ApiOperation(value="유저피드가져오기", notes="user의 feedImage들 가져오기")
+    @ApiResponses({
+            @ApiResponse(code=200, message="테스트 성공"),
+            @ApiResponse(code=404, message="잘못된 url 접근"),
+            @ApiResponse(code=500, message="서버 에러")
+    })
+    public ResponseEntity<UserFeedGetRes> getUserFeed(Authentication authentication, @PageableDefault(size = 15, sort = "user_feed_id", direction = Sort.Direction.DESC) Pageable page) {
+        Long userId = Long.parseLong((String) authentication.getPrincipal());
+
+        return ResponseEntity.ok(UserFeedGetRes.builder()
+                .page(userFeedService.getUserFeedList(userId, page))
+                .currentPage(page.getPageNumber())
+                .statusCode(200)
+                .message("Success")
+                .build());
+    }
+
+    // 10. 유저피드삭제 DELETE /feed/{feedId}
+    @DeleteMapping("/feed/{userFeedId}")
+    @ApiOperation(value="유저피드삭제", notes="userFeed 삭제")
+    @ApiResponses({
+            @ApiResponse(code=200, message="테스트 성공"),
+            @ApiResponse(code=404, message="잘못된 url 접근"),
+            @ApiResponse(code=500, message="서버 에러")
+    })
+    public ResponseEntity<BaseResponseBody> deleteUserFeed(@PathVariable("userFeedId") Long userFeedId) {
+        userService.deleteUserFeed(userFeedId);
+
+        return ResponseEntity.ok(BaseResponseBody.of(200,"message"));
+    }
+
+    // 11. 유저피드수정 PATCH /feed/{feedId}
+    @PatchMapping("/feed/{userFeedId}")
+    @ApiOperation(value="유저피드수정", notes="userFeedImage 수정")
+    @ApiResponses({
+            @ApiResponse(code=200, message="테스트 성공"),
+            @ApiResponse(code=404, message="잘못된 url 접근"),
+            @ApiResponse(code=500, message="서버 에러")
+    })
+    public ResponseEntity<BaseResponseBody> patchUserFeed(UserPatchFeedReq userPatchFeedReq,@PathVariable("userFeedId") Long userFeedId) {
+        userService.patchUserFeed(userPatchFeedReq, userFeedId);
+
+
+        return ResponseEntity.ok(BaseResponseBody.of(200, "message"));
+    }
+
 }
