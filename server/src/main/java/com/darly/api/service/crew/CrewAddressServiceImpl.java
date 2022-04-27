@@ -1,5 +1,6 @@
 package com.darly.api.service.crew;
 
+import com.darly.db.entity.crew.Crew;
 import com.darly.db.entity.crew.CrewAddress;
 import com.darly.db.entity.crew.CrewAddressId;
 import com.darly.db.repository.crew.CrewAddressRepository;
@@ -28,6 +29,6 @@ public class CrewAddressServiceImpl implements CrewAddressService {
 
     @Override
     public Optional<CrewAddress> getCrewAddressByCrewId(Long crewId) {
-        return crewAddressRepository.findByCrewAddressId_CrewId(crewId);
+        return crewAddressRepository.findByCrewAddressId_Crew(Crew.builder().crewId(crewId).build());
     }
 }

@@ -1,5 +1,7 @@
 package com.darly.api.service.crew;
 
+import com.darly.api.request.crew.CrewMandatePatchReq;
+import com.darly.db.entity.crew.Crew;
 import com.darly.db.entity.crew.CrewMyMapping;
 import com.darly.db.entity.crew.UserCrew;
 import com.darly.db.entity.crew.UserCrewId;
@@ -30,5 +32,10 @@ public class UserCrewServiceImpl implements UserCrewService {
     @Override
     public void leaveCrew(Long crewId, Long userId) {
         userCrewRepository.delete(new UserCrew(UserCrewId.builder().userId(userId).crewId(crewId).build()));
+    }
+
+    @Override
+    public Long countUserNum(Long crewId) {
+        return userCrewRepository.countByUserCrewId_Crew(Crew.builder().crewId(crewId).build());
     }
 }

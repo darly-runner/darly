@@ -20,7 +20,7 @@ public class SectionRepositorySupport {
     public List<SectionMapping> getSectionList(Long recordId) {
         return jpaQueryFactory.select(new QSectionMapping(qSection.sectionKm, qSection.sectionPace, qSection.sectionCalories))
                 .from(qSection)
-                .where(qSection.recordId.eq(recordId))
+                .where(qSection.record.recordId.eq(recordId))
                 .fetch();
     }
 }

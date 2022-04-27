@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 
 @Getter
-@ApiModel("크루 공지 업데이트")
+@ApiModel("CrewUpdatePatchRequest")
 public class CrewUpdatePatchReq {
     @ApiModelProperty(name = "crewNotice", example = "crewNotice")
     private String crewNotice;

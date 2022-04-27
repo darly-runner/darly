@@ -1,6 +1,6 @@
 package com.darly.db.entity.crew;
 
-import com.darly.db.entity.feed.Feed;
+import com.darly.db.entity.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,17 +17,19 @@ import java.io.Serializable;
 @Embeddable
 @NoArgsConstructor
 @AllArgsConstructor
-public class CrewFeedId implements Serializable {
+public class CrewWaitingId implements Serializable {
     @ManyToOne
     @JoinColumn(name = "crew_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Crew crew;
     @ManyToOne
-    @JoinColumn(name = "feed_id")
-    private Feed feed;
+    @JoinColumn(name = "user_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private User user;
 
     @Builder
-    public CrewFeedId(Long crewId, Long feedId) {
+    public CrewWaitingId(Long crewId, Long usreId) {
         this.crew = Crew.builder().crewId(crewId).build();
-        this.feed = Feed.builder().feedId(feedId).build();
+        this.user = User.builder().userId(usreId).build();
     }
 }

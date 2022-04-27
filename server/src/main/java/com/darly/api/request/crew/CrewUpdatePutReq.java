@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
-@ApiModel("크루 상세정보 업데이트")
+@ApiModel("CrewUpdatePatchRequest")
 public class CrewUpdatePutReq {
     @ApiModelProperty(name = "crewName", example = "crewName")
     @Nullable

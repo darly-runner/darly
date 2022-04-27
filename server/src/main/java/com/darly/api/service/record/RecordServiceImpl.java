@@ -3,6 +3,7 @@ package com.darly.api.service.record;
 import com.darly.api.request.record.RecordCreatePostReq;
 import com.darly.db.entity.record.Record;
 import com.darly.db.entity.record.RecordMapping;
+import com.darly.db.entity.user.User;
 import com.darly.db.repository.record.RecordRepository;
 import com.darly.db.repository.record.RecordRepositorySupport;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class RecordServiceImpl implements RecordService {
     public Record createRecord(Long userId, Long dayId, RecordCreatePostReq recordCreatePostReq) {
         LocalDateTime today = LocalDateTime.now();
         return recordRepository.save(Record.builder()
-                .userId(userId)
+                .user(User.builder().userId(userId).build())
                 .dayId(dayId)
                 .matchId(recordCreatePostReq.getMatchId())
                 .recordTitle(getTitle(today))

@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
@@ -16,14 +18,17 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CrewAddressId implements Serializable {
-    private Long crewId;
+    @ManyToOne
+    @JoinColumn(name = "crew_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Crew crew;
     @ManyToOne
     @JoinColumn(name = "address_id")
     private Address address;
 
     @Builder
     public CrewAddressId(Long crewId, Long addressId) {
-        this.crewId = crewId;
+        this.crew = Crew.builder().crewId(crewId).build();
         this.address = Address.builder().addressId(addressId).build();
     }
 }

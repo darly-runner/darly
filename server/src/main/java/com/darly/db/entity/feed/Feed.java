@@ -3,6 +3,8 @@ package com.darly.db.entity.feed;
 import com.darly.db.entity.user.User;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -20,6 +22,7 @@ public class Feed {
     private Long feedId;
     @ManyToOne
     @JoinColumn(name = "host_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
     private String feedTitle;
     private String feedContent;

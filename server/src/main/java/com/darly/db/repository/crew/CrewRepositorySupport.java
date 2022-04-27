@@ -32,7 +32,7 @@ public class CrewRepositorySupport {
                                 .where(qCrewFeed.crewFeedId.crew.crewId.eq(crewId)),
                         "crewFeedNum")))
                 .from(qCrew).innerJoin(qCrewAddress)
-                .on(qCrew.crewId.eq(qCrewAddress.crewAddressId.crewId))
+                .on(qCrew.crewId.eq(qCrewAddress.crewAddressId.crew.crewId))
                 .where(qCrew.crewId.eq(crewId))
                 .fetch();
     }

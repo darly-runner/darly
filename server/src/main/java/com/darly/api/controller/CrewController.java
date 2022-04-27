@@ -1,9 +1,6 @@
 package com.darly.api.controller;
 
-import com.darly.api.request.crew.CrewCreatePostReq;
-import com.darly.api.request.crew.CrewUpdatePatchReq;
-import com.darly.api.request.crew.CrewUpdatePutReq;
-import com.darly.api.request.crew.GetCrewSearchModel;
+import com.darly.api.request.crew.*;
 import com.darly.api.response.crew.CrewDetailGetRes;
 import com.darly.api.response.crew.CrewMyGetRes;
 import com.darly.api.response.crew.CrewSearchGetRes;
@@ -36,7 +33,7 @@ public class CrewController {
     private final UserCrewService userCrewService;
     private final CrewAddressService crewAddressService;
 
-    private Long getUserId(Authentication authentication){
+    private Long getUserId(Authentication authentication) {
         return Long.parseLong((String) authentication.getPrincipal());
     }
 
@@ -147,9 +144,30 @@ public class CrewController {
         Optional<Crew> crew = crewService.getCrewByCrewId(crewId);
         if (!crew.isPresent())
             return ResponseEntity.ok(BaseResponseBody.of(405, "Fail leave crew: Not valid crewId"));
-        if (crew.get().getUser().getUserId().equals(userId))
+        if (crew.get().getUser().getUserId().equals(userId)) {
+            Long userNum = userCrewService.countUserNum(crewId);
+            if(userNum == 1){
+                userCrewService.leaveCrew(crewId, userId);
+                crewService.deleteCrew(crewId);
+                return ResponseEntity.ok(BaseResponseBody.of(201, "Success delete crew"));
+            }
             return ResponseEntity.ok(BaseResponseBody.of(406, "Fail leave crew: Host can't leave crew"));
+        }
         userCrewService.leaveCrew(crewId, userId);
         return ResponseEntity.ok(BaseResponseBody.of(200, "Success leave crew"));
     }
+
+    // C-008
+    @PatchMapping("/{crewId}/mandate")
+    public ResponseEntity<? extends BaseResponseBody> mandateCrew(@PathVariable("crewId") Long crewId, @RequestBody CrewMandatePatchReq crewMandatePatchReq, Authentication authentication) {
+        Long userId = getUserId(authentication);
+        Optional<Crew> crew = crewService.getCrewByCrewId(crewId);
+        if (!crew.isPresent())
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail mandate crew: Not valid crewId"));
+        if (!crew.get().getUser().getUserId().equals(userId))
+            return ResponseEntity.ok(BaseResponseBody.of(406, "Fail mandate crew: User is not host"));
+        crewService.updateCrewHost(crew.get(), crewMandatePatchReq);
+        return ResponseEntity.ok(BaseResponseBody.of(200, "Success mandate crew"));
+    }
+
 }

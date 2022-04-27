@@ -1,5 +1,6 @@
 package com.darly.db.repository.userAddress;
 
+import com.darly.db.entity.user.User;
 import com.darly.db.entity.userAddress.UserAddress;
 import com.darly.db.entity.userAddress.UserAddressId;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,5 +12,5 @@ import javax.transaction.Transactional;
 public interface UserAddressRepository extends JpaRepository<UserAddress, UserAddressId> {
 
     @Transactional
-    void deleteByUserAddressId_UserId(Long userId);
+    void deleteByUserAddressId_User(User user);
 }

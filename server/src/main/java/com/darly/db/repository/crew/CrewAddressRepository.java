@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface CrewAddressRepository extends JpaRepository<CrewAddress, CrewAddressId> {
-    Optional<CrewAddress> findByCrewAddressId_CrewId(Long crewId);
+    Optional<CrewAddress> findByCrewAddressId_Crew(Crew crew);
 }
