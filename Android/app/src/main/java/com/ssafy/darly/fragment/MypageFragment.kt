@@ -18,6 +18,7 @@ import com.kakao.sdk.user.UserApiClient
 import com.ssafy.darly.R
 import com.ssafy.darly.activity.LoginActivity
 import com.ssafy.darly.databinding.FragmentMypageBinding
+import com.ssafy.darly.util.GlobalApplication
 import com.ssafy.darly.viewmodel.MypageViewModel
 
 class MypageFragment : Fragment() {
@@ -64,6 +65,8 @@ class MypageFragment : Fragment() {
 
             var logoutIntent = Intent(this.context, LoginActivity::class.java)
             logoutIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+
+            GlobalApplication.prefs.setString("token","noToken")
             startActivity(logoutIntent)
         }
     }
@@ -77,6 +80,7 @@ class MypageFragment : Fragment() {
                 }else {
                     Toast.makeText(context, "회원 탈퇴 성공", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this.context, LoginActivity::class.java)
+                    GlobalApplication.prefs.setString("token","noToken")
                     startActivity(intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP))
                 }
             }

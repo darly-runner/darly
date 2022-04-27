@@ -36,13 +36,10 @@ class MainActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = model
 
-//        val token = GlobalApplication.prefs.getString("token","noToken")
-//        CoroutineScope(Dispatchers.IO).launch {
-//            val response = DarlyService.getDarlyService().getUsers("Bearer $token",1)
-//            Log.d("MainActivity", "${response.body()}")
-//
-//            DarlyService.getDarlyService()
-//        }
+        CoroutineScope(Dispatchers.IO).launch {
+            val response = DarlyService.getDarlyService().getUsers(1)
+            Log.d("MainActivity", "${response}")
+        }
 
         setBottomNavigationBar()
     }
