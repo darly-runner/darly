@@ -1,4 +1,4 @@
-package com.darly.db.entity;
+package com.darly.db.entity.event;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -14,10 +14,10 @@ public class EventOne {
     private String eventContent;
     private String userNickname;
     private String eventImage;
-    private LocalDateTime eventDate;
+    private String eventDate;
 
     @Builder
-    public EventOne(Long eventId, String eventTitle, String eventContent, String userNickname, String eventImage, LocalDateTime eventDate) {
+    public EventOne(Long eventId, String eventTitle, String eventContent, String userNickname, String eventImage, String eventDate) {
         this.eventId = eventId;
         this.eventTitle = eventTitle;
         this.eventContent = eventContent;

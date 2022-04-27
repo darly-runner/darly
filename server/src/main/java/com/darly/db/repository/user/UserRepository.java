@@ -1,6 +1,6 @@
 package com.darly.db.repository.user;
 
-import com.darly.db.entity.User;
+import com.darly.db.entity.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

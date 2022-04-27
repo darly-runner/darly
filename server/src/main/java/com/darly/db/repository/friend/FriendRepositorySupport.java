@@ -1,13 +1,12 @@
 package com.darly.db.repository.friend;
 
-import com.darly.db.entity.QUser;
+
 import com.darly.db.entity.friend.FriendTitleMapping;
 import com.darly.db.entity.friend.QFriend;
 import com.darly.db.entity.friend.QFriendTitleMapping;
-import com.querydsl.core.types.Projections;
+import com.darly.db.entity.user.QUser;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

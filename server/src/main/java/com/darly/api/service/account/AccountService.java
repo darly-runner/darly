@@ -2,7 +2,7 @@ package com.darly.api.service.account;
 
 import com.darly.api.request.account.AccountLoginGetReq;
 import com.darly.api.request.account.AccountSigninPostReq;
-import com.darly.db.entity.User;
+import com.darly.db.entity.user.User;
 
 import java.util.Optional;
 
