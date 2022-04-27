@@ -2,6 +2,7 @@ package com.darly.api.service.event;
 
 import com.darly.api.request.event.EventPatchReq;
 import com.darly.api.request.event.EventPostReq;
+import com.darly.api.service.file.FileProcessService;
 import com.darly.db.entity.event.Event;
 
 import com.darly.db.entity.event.EventOne;
@@ -22,13 +23,16 @@ import java.util.List;
 public class EventServiceImpl implements EventService{
 
     @Autowired
-    EventRepository eventRepository;
+    private EventRepository eventRepository;
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    EventRepositorySupport eventRepositorySupport;
+    private EventRepositorySupport eventRepositorySupport;
+
+    @Autowired
+    private FileProcessService fileProcessService;
 
     @Override
     public List getEventList() {
@@ -38,13 +42,16 @@ public class EventServiceImpl implements EventService{
     @Override
     public Event createEvent(EventPostReq eventPostReq, Long userId) {
         User user = userRepository.findById(userId).get();
-
         LocalDateTime today = LocalDateTime.now();
+        String url = null;
+        if (eventPostReq.getEventImage() != null) {
+            url = fileProcessService.uploadImage(eventPostReq.getEventImage(), "event");
+        }
 
         Event event = Event.builder()
                         .eventTitle(eventPostReq.getEventTitle())
                         .eventContent(eventPostReq.getEventContent())
-                        .eventImage(eventPostReq.getEventImage())
+                        .eventImage(url)
                         .user(user)
                         .eventDate(getTimestamp(today))
                         .build();
@@ -67,16 +74,25 @@ public class EventServiceImpl implements EventService{
 
     @Override
     public void deleteEvent(Long eventId) {
+        Event event = eventRepository.findById(eventId).get();
 
+        if(event.getEventImage() != null) {
+            fileProcessService.deleteImage(event.getEventImage());
+        }
         eventRepository.deleteById(eventId);
     }
 
     @Override
     public void patchEvent(EventPatchReq eventPatchReq, Long eventId) {
         Event event = eventRepository.findById(eventId).get();
+        String url = null;
+
+        if(eventPatchReq.getEventImage() != null) {
+            url = fileProcessService.uploadImage(eventPatchReq.getEventImage(), "event");
+        }
 
         Event patchEvent = EventPatchReq.ofPatch(event, eventPatchReq.getEventTitle(),
-                eventPatchReq.getEventContent(), eventPatchReq.getEventImage());
+                eventPatchReq.getEventContent(), url);
 
         eventRepository.save(patchEvent);
     }

@@ -65,7 +65,7 @@ public class UserController {
             @ApiResponse(code=404, message="잘못된 url 접근"),
             @ApiResponse(code=500, message="서버 에러")
     })
-    public ResponseEntity<BaseResponseBody> patchUser(UserPatchReq userPatchReq, Authentication authentication) {
+    public ResponseEntity<BaseResponseBody> patchUser(@ModelAttribute UserPatchReq userPatchReq, Authentication authentication) {
         Long userId = Long.parseLong((String) authentication.getPrincipal());
         userService.patchUser(userPatchReq, userId);
 
@@ -156,7 +156,7 @@ public class UserController {
             @ApiResponse(code=404, message="잘못된 url 접근"),
             @ApiResponse(code=500, message="서버 에러")
     })
-    public ResponseEntity<BaseResponseBody> postUserFeed(UserPostFeedReq userPostFeedReq, Authentication authentication) {
+    public ResponseEntity<BaseResponseBody> postUserFeed(@ModelAttribute UserPostFeedReq userPostFeedReq, Authentication authentication) {
         Long userId = Long.parseLong((String) authentication.getPrincipal());
         userService.postUserFeed(userPostFeedReq, userId);
 
@@ -205,7 +205,7 @@ public class UserController {
             @ApiResponse(code=404, message="잘못된 url 접근"),
             @ApiResponse(code=500, message="서버 에러")
     })
-    public ResponseEntity<BaseResponseBody> patchUserFeed(UserPatchFeedReq userPatchFeedReq,@PathVariable("userFeedId") Long userFeedId) {
+    public ResponseEntity<BaseResponseBody> patchUserFeed(@ModelAttribute UserPatchFeedReq userPatchFeedReq,@PathVariable("userFeedId") Long userFeedId) {
         userService.patchUserFeed(userPatchFeedReq, userFeedId);
 
 

@@ -6,13 +6,17 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.annotation.Nullable;
 
 @Getter
 @ApiModel("UserPatchFeedRequest")
 @Builder
 public class UserPatchFeedReq {
+    @Nullable
     @ApiModelProperty(name="userFeedImage", example="string")
-    String userFeedImage;
+    private MultipartFile userFeedImage;
 
     public static UserFeed ofPatch(UserFeed userFeed, String userFeedImage) {
         return UserFeed.builder()

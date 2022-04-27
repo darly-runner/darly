@@ -4,6 +4,7 @@ import com.darly.api.request.user.UserPatchConditionReq;
 import com.darly.api.request.user.UserPatchFeedReq;
 import com.darly.api.request.user.UserPatchReq;
 import com.darly.api.request.user.UserPostFeedReq;
+import com.darly.api.service.file.FileProcessService;
 import com.darly.db.entity.address.Address;
 import com.darly.db.entity.badge.Badge;
 import com.darly.db.entity.user.User;
@@ -35,6 +36,9 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private UserFeedRepository userFeedRepository;
 
+    @Autowired
+    private FileProcessService fileProcessService;
+
     @Override
     public User getUserByUserId(Long userId) {
         return userRepository.findById(userId).get();
@@ -43,7 +47,18 @@ public class UserServiceImpl implements UserService{
     @Override
     public User patchUser(UserPatchReq userPatchReq, Long userId) {
         User user = userRepository.findById(userId).get();
-        User patchUser = UserPatchReq.ofPatch(user, userPatchReq.getUserNickname(), userPatchReq.getUserImage(), userPatchReq.getUserMessage());
+        String url = null;
+
+        // 기존에 등록돼있는 이미지 지우기
+        if(user.getUserImage() != null) {
+            fileProcessService.deleteImage(user.getUserImage());
+        }
+
+        // 새로 저장
+        if(userPatchReq.getUserImage() != null) {
+            url = fileProcessService.uploadImage(userPatchReq.getUserImage(), "user");
+        }
+        User patchUser = UserPatchReq.ofPatch(user, userPatchReq.getUserNickname(), url, userPatchReq.getUserMessage());
 
         return userRepository.save(patchUser);
     }
@@ -81,9 +96,15 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserFeed postUserFeed(UserPostFeedReq userPostFeedReq, Long userId) {
+        String url = null;
+
+        if(userPostFeedReq.getUserFeedImage() != null) {
+            url = fileProcessService.uploadImage(userPostFeedReq.getUserFeedImage(), "feed");
+        }
+
         UserFeed userFeed = UserFeed.builder()
                 .userId(userId)
-                .userFeedImage(userPostFeedReq.getUserFeedImage())
+                .userFeedImage(url)
                 .build();
 
         return userFeedRepository.save(userFeed);
@@ -93,14 +114,27 @@ public class UserServiceImpl implements UserService{
     public void deleteUserFeed(Long userFeedId) {
         UserFeed userFeed = userFeedRepository.findById(userFeedId).get();
 
+        if(userFeed.getUserFeedImage() != null) {
+            fileProcessService.deleteImage(userFeed.getUserFeedImage());
+        }
         userFeedRepository.delete(userFeed);
     }
 
     @Override
     public UserFeed patchUserFeed(UserPatchFeedReq userPatchFeedReq, Long userFeedId) {
         UserFeed userFeed = userFeedRepository.findById(userFeedId).get();
+        String url = null;
 
-        UserFeed patchUserFeed = UserPatchFeedReq.ofPatch(userFeed, userPatchFeedReq.getUserFeedImage());
+        // 기존의 이미지 삭제
+        if(userFeed.getUserFeedImage() != null) {
+            fileProcessService.deleteImage(userFeed.getUserFeedImage());
+        }
+
+        if(userPatchFeedReq.getUserFeedImage() != null) {
+            url = fileProcessService.uploadImage(userPatchFeedReq.getUserFeedImage(),"feed");
+        }
+
+        UserFeed patchUserFeed = UserPatchFeedReq.ofPatch(userFeed, url);
 
         return userFeedRepository.save(patchUserFeed);
     }

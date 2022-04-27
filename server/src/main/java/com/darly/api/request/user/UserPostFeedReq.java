@@ -4,11 +4,15 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.annotation.Nullable;
 
 @Getter
 @ApiModel("UserPostFeedRequest")
 @Builder
 public class UserPostFeedReq {
+    @Nullable
     @ApiModelProperty(name="userFeedImage", example="string")
-    String userFeedImage;
+    private MultipartFile userFeedImage;
 }
