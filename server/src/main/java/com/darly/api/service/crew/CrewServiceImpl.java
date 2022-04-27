@@ -4,7 +4,10 @@ import com.darly.api.request.crew.CrewCreatePostReq;
 import com.darly.api.request.crew.CrewMandatePatchReq;
 import com.darly.api.request.crew.CrewUpdatePatchReq;
 import com.darly.api.request.crew.CrewUpdatePutReq;
+import com.darly.api.service.address.AddressService;
+import com.darly.api.service.feed.FeedService;
 import com.darly.api.service.file.FileProcessService;
+import com.darly.api.service.match.MatchService;
 import com.darly.common.util.Type;
 import com.darly.db.entity.crew.Crew;
 import com.darly.db.entity.crew.CrewDetailMapping;
@@ -23,8 +26,11 @@ import java.util.Optional;
 public class CrewServiceImpl implements CrewService {
     private final CrewRepository crewRepository;
     private final CrewRepositorySupport crewRepositorySupport;
-    private final FileProcessService fileProcessService;
     private final CrewAddressService crewAddressService;
+    private final CrewWaitingService crewWaitingService;
+    private final FileProcessService fileProcessService;
+    private final FeedService feedService;
+    private final MatchService matchService;
 
     @Override
     public Crew createCrew(Long userId, CrewCreatePostReq crewCreatePostReq) {
@@ -103,6 +109,10 @@ public class CrewServiceImpl implements CrewService {
 
     @Override
     public void deleteCrew(Long crewId) {
+        feedService.deleteByCrewId(crewId);
+        matchService.setNullByCrewId(crewId);
+        crewAddressService.deleteByCrewId(crewId);
+        crewWaitingService.deleteByCrewId(crewId);
         crewRepository.delete(getCrewByCrewId(crewId).get());
     }
 }

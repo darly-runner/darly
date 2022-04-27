@@ -31,4 +31,9 @@ public class CrewAddressServiceImpl implements CrewAddressService {
     public Optional<CrewAddress> getCrewAddressByCrewId(Long crewId) {
         return crewAddressRepository.findByCrewAddressId_Crew(Crew.builder().crewId(crewId).build());
     }
+
+    @Override
+    public void deleteByCrewId(Long crewId) {
+        crewAddressRepository.deleteByCrewAddressId_Crew(Crew.builder().crewId(crewId).build());
+    }
 }

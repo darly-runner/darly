@@ -9,4 +9,8 @@ import org.springframework.stereotype.Service;
 public class MatchServiceImpl implements MatchService{
     private final MatchRepository matchRepository;
 
+    @Override
+    public void setNullByCrewId(Long crewId) {
+        matchRepository.setNullByCrewId(crewId);
+    }
 }

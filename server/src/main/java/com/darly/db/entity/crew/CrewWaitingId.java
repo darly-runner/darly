@@ -28,8 +28,8 @@ public class CrewWaitingId implements Serializable {
     private User user;
 
     @Builder
-    public CrewWaitingId(Long crewId, Long usreId) {
+    public CrewWaitingId(Long crewId, Long userId) {
         this.crew = Crew.builder().crewId(crewId).build();
-        this.user = User.builder().userId(usreId).build();
+        this.user = User.builder().userId(userId).build();
     }
 }
