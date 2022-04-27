@@ -10,11 +10,11 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class CrewMyGeyRes extends BaseResponseBody {
+public class CrewMyGetRes extends BaseResponseBody {
     private List<CrewMyMapping> crew;
 
     @Builder
-    public CrewMyGeyRes(Integer statusCode, String message, List<CrewMyMapping> crew) {
+    public CrewMyGetRes(Integer statusCode, String message, List<CrewMyMapping> crew) {
         super(statusCode, message);
         this.crew = crew;
     }

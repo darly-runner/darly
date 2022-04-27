@@ -24,6 +24,5 @@ public class UserCrewRepositorySupport {
                 .on(qUserCrew.userCrewId.crew.crewId.eq(qCrew.crewId))
                 .where(qUserCrew.userCrewId.user.userId.eq(userId))
                 .fetch();
-
     }
 }
