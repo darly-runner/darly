@@ -6,8 +6,10 @@ import com.darly.api.response.crew.CrewMyGetRes;
 import com.darly.api.response.crew.CrewSearchGetRes;
 import com.darly.api.service.crew.CrewAddressService;
 import com.darly.api.service.crew.CrewService;
+import com.darly.api.service.crew.CrewWaitingService;
 import com.darly.api.service.crew.UserCrewService;
 import com.darly.common.model.response.BaseResponseBody;
+import com.darly.common.util.Type;
 import com.darly.db.entity.crew.Crew;
 import com.darly.db.entity.crew.CrewDetailMapping;
 import com.darly.db.entity.crew.CrewTitleMapping;
@@ -32,6 +34,7 @@ public class CrewController {
     private final CrewService crewService;
     private final UserCrewService userCrewService;
     private final CrewAddressService crewAddressService;
+    private final CrewWaitingService crewWaitingService;
 
     private Long getUserId(Authentication authentication) {
         return Long.parseLong((String) authentication.getPrincipal());
@@ -170,4 +173,18 @@ public class CrewController {
         return ResponseEntity.ok(BaseResponseBody.of(200, "Success mandate crew"));
     }
 
+    // C-009
+    @PostMapping("/{crewId}/join")
+    public ResponseEntity<? extends BaseResponseBody> joinCrew(@PathVariable("crewId") Long crewId, @RequestBody CrewMandatePatchReq crewMandatePatchReq, Authentication authentication) {
+        Long userId = getUserId(authentication);
+        Optional<Crew> crew = crewService.getCrewByCrewId(crewId);
+        if(!crew.isPresent())
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail join crew: Not valid crewId"));
+        if(crew.get().getCrewJoin() == Type.Lock.getLabel()) {
+            userCrewService.createUserCrew(userId, crewId);
+            return ResponseEntity.ok(BaseResponseBody.of(201, "Success join crew"));
+        }
+        crewWaitingService.createCrewWaiting(userId, crewId);
+        return ResponseEntity.ok(BaseResponseBody.of(200, "Success apply crew"));
+    }
 }
