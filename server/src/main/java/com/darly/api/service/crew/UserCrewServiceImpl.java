@@ -26,4 +26,9 @@ public class UserCrewServiceImpl implements UserCrewService {
     public List<CrewMyMapping> getMyCrewList(Long userId) {
         return userCrewRepositorySupport.findByUserId(userId);
     }
+
+    @Override
+    public void leaveCrew(Long crewId, Long userId) {
+        userCrewRepository.delete(new UserCrew(UserCrewId.builder().userId(userId).crewId(crewId).build()));
+    }
 }
