@@ -1,11 +1,13 @@
 package com.darly.api.service.crew;
 
 import com.darly.api.request.crew.CrewCreatePostReq;
+import com.darly.api.request.crew.CrewUpdatePutReq;
 import com.darly.db.entity.crew.Crew;
 import com.darly.db.entity.crew.CrewDetailMapping;
 import com.darly.db.entity.crew.CrewTitleMapping;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CrewService {
     Crew createCrew(Long userId, CrewCreatePostReq crewCreatePostReq);
@@ -14,4 +16,6 @@ public interface CrewService {
     Long getCrewCountByAddressAndKey(Long userId, Integer address, String key);
     Long getCrewCountByKey(Long userId, String key);
     List<CrewDetailMapping> getCrewDetailByCrewId(Long crewId);
+    Optional<Crew> getCrewByCrewId(Long crewId);
+    void updateCrew(Crew crew, CrewUpdatePutReq crewUpdatePutReq);
 }

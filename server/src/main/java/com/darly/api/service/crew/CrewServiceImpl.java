@@ -1,6 +1,7 @@
 package com.darly.api.service.crew;
 
 import com.darly.api.request.crew.CrewCreatePostReq;
+import com.darly.api.request.crew.CrewUpdatePutReq;
 import com.darly.api.service.file.FileProcessService;
 import com.darly.common.util.Type;
 import com.darly.db.entity.crew.Crew;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service("crewService")
 @RequiredArgsConstructor
@@ -20,6 +22,7 @@ public class CrewServiceImpl implements CrewService {
     private final CrewRepository crewRepository;
     private final CrewRepositorySupport crewRepositorySupport;
     private final FileProcessService fileProcessService;
+    private final CrewAddressService crewAddressService;
 
     @Override
     public Crew createCrew(Long userId, CrewCreatePostReq crewCreatePostReq) {
@@ -59,5 +62,28 @@ public class CrewServiceImpl implements CrewService {
     @Override
     public List<CrewDetailMapping> getCrewDetailByCrewId(Long crewId) {
         return crewRepositorySupport.findCrewDetailByCrewId(crewId);
+    }
+
+    @Override
+    public Optional<Crew> getCrewByCrewId(Long crewId) {
+        return crewRepository.findById(crewId);
+    }
+
+    @Override
+    public void updateCrew(Crew crew, CrewUpdatePutReq crewUpdatePutReq) {
+        if (crewUpdatePutReq.getCrewName() != null)
+            crew.setCrewName(crewUpdatePutReq.getCrewName());
+        if (crewUpdatePutReq.getCrewDesc() != null)
+            crew.setCrewDesc(crewUpdatePutReq.getCrewDesc());
+        if (crewUpdatePutReq.getCrewJoin() != null)
+            crew.setCrewJoin(Type.valueOf(crewUpdatePutReq.getCrewJoin()).getLabel());
+        if (crewUpdatePutReq.getCrewImage() != null) {
+            if (crew.getCrewImage() != null)
+                fileProcessService.deleteImage(crew.getCrewImage());
+            crew.setCrewImage(fileProcessService.uploadImage(crewUpdatePutReq.getCrewImage(), "crew"));
+        }
+        if (crewUpdatePutReq.getCrewAddress() != null)
+            crewAddressService.updateCrewAddress(crew.getCrewId(), crewUpdatePutReq.getCrewAddress());
+        crewRepository.save(crew);
     }
 }

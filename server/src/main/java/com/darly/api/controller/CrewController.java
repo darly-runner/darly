@@ -1,6 +1,7 @@
 package com.darly.api.controller;
 
 import com.darly.api.request.crew.CrewCreatePostReq;
+import com.darly.api.request.crew.CrewUpdatePutReq;
 import com.darly.api.request.crew.GetCrewSearchModel;
 import com.darly.api.response.crew.CrewDetailGetRes;
 import com.darly.api.response.crew.CrewMyGetRes;
@@ -22,6 +23,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Api(value = "Crew Api", tags = "Crew")
 @RestController
@@ -105,5 +107,18 @@ public class CrewController {
                 .message("Success get crew detail")
                 .crewDetailMapping(crewDetailList.get(0))
                 .build());
+    }
+
+    // C-005
+    @PutMapping("/{crewId}")
+    public ResponseEntity<? extends BaseResponseBody> updateCrew(@PathVariable("crewId") Long crewId, @ModelAttribute CrewUpdatePutReq crewUpdatePutReq, Authentication authentication) {
+        Long userId = Long.parseLong((String) authentication.getPrincipal());
+        Optional<Crew> crew = crewService.getCrewByCrewId(crewId);
+        if(!crew.isPresent())
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail update crew: Not valid crewId"));
+        if(crew.get().getUser().getUserId() != userId)
+            return ResponseEntity.ok(BaseResponseBody.of(406, "Fail update crew: User is not host"));
+        crewService.updateCrew(crew.get(), crewUpdatePutReq);
+        return ResponseEntity.ok(BaseResponseBody.of(200, "Success update crew"));
     }
 }
