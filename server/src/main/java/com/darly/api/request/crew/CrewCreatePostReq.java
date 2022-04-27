@@ -13,7 +13,7 @@ public class CrewCreatePostReq {
     private String crewName;
     @ApiModelProperty(name="crewDesc", example="crewDesc1")
     private String crewDesc;
-    @ApiModelProperty(name="crewAddress", example="crewAddress")
+    @ApiModelProperty(name="crewAddress", example="1")
     private Long crewAddress;
     @ApiModelProperty(name="crewJoin", example="crewJoin1")
     private String crewJoin;
