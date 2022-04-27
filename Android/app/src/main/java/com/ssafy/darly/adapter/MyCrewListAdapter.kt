@@ -29,7 +29,7 @@ class MyCrewListAdapter(
 
         fun bind(crew: MyCrewDetails) {
             myCrewName.text = crew.crewName
-            glide.load((crew.crewImage)).into(myCrewImg)
+            glide.load((crew.crewImage)).circleCrop().into(myCrewImg)
             Log.d("Crew Stop", crew.crewName)
         }
     }
