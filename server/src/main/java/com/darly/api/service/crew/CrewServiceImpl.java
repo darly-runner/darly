@@ -1,6 +1,7 @@
 package com.darly.api.service.crew;
 
 import com.darly.api.request.crew.CrewCreatePostReq;
+import com.darly.api.request.crew.CrewUpdatePatchReq;
 import com.darly.api.request.crew.CrewUpdatePutReq;
 import com.darly.api.service.file.FileProcessService;
 import com.darly.common.util.Type;
@@ -84,6 +85,12 @@ public class CrewServiceImpl implements CrewService {
         }
         if (crewUpdatePutReq.getCrewAddress() != null)
             crewAddressService.updateCrewAddress(crew.getCrewId(), crewUpdatePutReq.getCrewAddress());
+        crewRepository.save(crew);
+    }
+
+    @Override
+    public void updateCrewNotice(Crew crew, CrewUpdatePatchReq crewUpdatePatchReq) {
+        crew.setCrewNotice(crewUpdatePatchReq.getCrewNotice());
         crewRepository.save(crew);
     }
 }

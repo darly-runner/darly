@@ -1,6 +1,7 @@
 package com.darly.api.service.crew;
 
 import com.darly.api.request.crew.CrewCreatePostReq;
+import com.darly.api.request.crew.CrewUpdatePatchReq;
 import com.darly.api.request.crew.CrewUpdatePutReq;
 import com.darly.db.entity.crew.Crew;
 import com.darly.db.entity.crew.CrewDetailMapping;
@@ -18,4 +19,5 @@ public interface CrewService {
     List<CrewDetailMapping> getCrewDetailByCrewId(Long crewId);
     Optional<Crew> getCrewByCrewId(Long crewId);
     void updateCrew(Crew crew, CrewUpdatePutReq crewUpdatePutReq);
+    void updateCrewNotice(Crew crew, CrewUpdatePatchReq crewUpdatePatchReq);
 }

@@ -1,6 +1,7 @@
 package com.darly.api.controller;
 
 import com.darly.api.request.crew.CrewCreatePostReq;
+import com.darly.api.request.crew.CrewUpdatePatchReq;
 import com.darly.api.request.crew.CrewUpdatePutReq;
 import com.darly.api.request.crew.GetCrewSearchModel;
 import com.darly.api.response.crew.CrewDetailGetRes;
@@ -119,6 +120,19 @@ public class CrewController {
         if(crew.get().getUser().getUserId() != userId)
             return ResponseEntity.ok(BaseResponseBody.of(406, "Fail update crew: User is not host"));
         crewService.updateCrew(crew.get(), crewUpdatePutReq);
+        return ResponseEntity.ok(BaseResponseBody.of(200, "Success update crew"));
+    }
+
+    // C-006
+    @PatchMapping("/{crewId}")
+    public ResponseEntity<? extends BaseResponseBody> updateCrewNotice(@PathVariable("crewId") Long crewId, @RequestBody CrewUpdatePatchReq crewUpdatePatchReq, Authentication authentication) {
+        Long userId = Long.parseLong((String) authentication.getPrincipal());
+        Optional<Crew> crew = crewService.getCrewByCrewId(crewId);
+        if(!crew.isPresent())
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail update crew: Not valid crewId"));
+        if(crew.get().getUser().getUserId() != userId)
+            return ResponseEntity.ok(BaseResponseBody.of(406, "Fail update crew: User is not host"));
+        crewService.updateCrewNotice(crew.get(), crewUpdatePatchReq);
         return ResponseEntity.ok(BaseResponseBody.of(200, "Success update crew"));
     }
 }
