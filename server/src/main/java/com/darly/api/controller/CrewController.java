@@ -4,6 +4,7 @@ import com.darly.api.request.crew.*;
 import com.darly.api.response.crew.CrewDetailGetRes;
 import com.darly.api.response.crew.CrewMyGetRes;
 import com.darly.api.response.crew.CrewSearchGetRes;
+import com.darly.api.response.crew.CrewWaitingGetRes;
 import com.darly.api.service.crew.CrewAddressService;
 import com.darly.api.service.crew.CrewService;
 import com.darly.api.service.crew.CrewWaitingService;
@@ -228,7 +229,16 @@ public class CrewController {
     @GetMapping("/{crewId}/waiting")
     public ResponseEntity<? extends BaseResponseBody> getCrewWaitingList(@PathVariable("crewId") Long crewId, Authentication authentication) {
         Long userId = getUserId(authentication);
-        return ResponseEntity.ok(BaseResponseBody.of(200, "Success deny crew"));
+        Optional<Crew> crew = crewService.getCrewByCrewId(crewId);
+        if (!crew.isPresent())
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail get waiting list: Not valid crewId"));
+        if (!crew.get().getUser().getUserId().equals(userId))
+            return ResponseEntity.ok(BaseResponseBody.of(406, "Fail get waiting list: User is not host"));
+        return ResponseEntity.ok(CrewWaitingGetRes.builder()
+                .statusCode(200)
+                .message("Success get waiting list")
+                .users(crewWaitingService.getCrewWaitingList(crewId))
+                .build());
     }
 
 }
