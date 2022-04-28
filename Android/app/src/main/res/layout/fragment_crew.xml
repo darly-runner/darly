@@ -55,6 +55,13 @@
             android:orientation="horizontal"
             android:paddingBottom="20dp" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard_semibold"
+            android:text="크루 추천"
+            android:textSize="20dp"/>
+
 <!--        <androidx.recyclerview.widget.RecyclerView-->
 <!--            android:id="@+id/crewRecommendation"-->
 <!--            android:layout_width="wrap_content"-->
