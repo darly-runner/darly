@@ -3,9 +3,11 @@ package com.darly.api.controller;
 import com.darly.api.request.crew.*;
 import com.darly.api.request.feed.FeedCreatePostReq;
 import com.darly.api.response.crew.*;
+import com.darly.api.response.match.MatchListGetRes;
 import com.darly.api.service.crew.*;
 import com.darly.api.service.feed.FeedImageService;
 import com.darly.api.service.feed.FeedService;
+import com.darly.api.service.match.MatchService;
 import com.darly.common.model.response.BaseResponseBody;
 import com.darly.common.util.Type;
 import com.darly.db.entity.crew.*;
@@ -36,6 +38,7 @@ public class CrewController {
     private final CrewFeedService crewFeedService;
     private final FeedService feedService;
     private final FeedImageService feedImageService;
+    private final MatchService matchService;
 
     private Long getUserId(Authentication authentication) {
         return Long.parseLong((String) authentication.getPrincipal());
@@ -294,5 +297,19 @@ public class CrewController {
         crewFeedService.createCrewFeed(crewId, feed.getFeedId());
         feedImageService.createFeedImage(feed.getFeedId(), feedCreatePostReq.getFeedImages());
         return ResponseEntity.ok(BaseResponseBody.of(200, "Success create crew feed"));
+    }
+
+    // C-017
+    @GetMapping("/{crewId}/match")
+    public ResponseEntity<? extends BaseResponseBody> getCrewMatchList(@PathVariable("crewId") Long crewId, Pageable page, Authentication authentication) {
+        //비활성화는 안보여야함
+        if (!crewService.isCrewExists(crewId))
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail get crew match list: Not valid crewId"));
+        return ResponseEntity.ok(MatchListGetRes.builder()
+                .statusCode(200)
+                .message("Success get crew match list")
+                .page(matchService.getCrewMatchList(crewId, page))
+                .currentPage(page.getPageNumber())
+                .build());
     }
 }

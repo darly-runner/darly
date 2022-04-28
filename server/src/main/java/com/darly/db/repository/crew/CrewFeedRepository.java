@@ -16,7 +16,8 @@ public interface CrewFeedRepository extends JpaRepository<CrewFeed, CrewFeedId> 
             "inner join tb_feed_image fi " +
             "on f.feed_id = fi.feed_id " +
             "where cf.crew_id = :crewId " +
-            "group by f.feed_id ",
+            "group by f.feed_id " +
+            "order by f.feed_id desc ",
             countQuery = "select count(fi.feed_id) from tb_feed_image fi\n" +
                     "inner join tb_crew_feed cf\n" +
                     "on cf.feed_id = fi.feed_id\n" +

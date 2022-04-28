@@ -24,12 +24,13 @@ public class Match {
     @JoinColumn(name = "crew_id")
     private Crew crew;
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "host_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User host;
     private String matchTitle;
     private Short matchMaxPerson;
-    private Short matchGoalDistance;
+    private Short matchCurPerson;
+    private Float matchGoalDistance;
     private Long matchDate;
     private Long matchStartTime;
     private Character matchStatus;
