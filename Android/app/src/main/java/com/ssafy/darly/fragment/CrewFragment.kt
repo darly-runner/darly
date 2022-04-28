@@ -52,10 +52,17 @@ class CrewFragment : Fragment() {
         })
     }
 
+    fun subscribeObserversCrew() {
+        model.crewRecommendationList.observe(viewLifecycleOwner, Observer { crewList ->
+            recAdapter.submitList(crewList)
+        })
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         subscribeObservers()
+        subscribeObserversCrew()
         val glide = Glide.with(this@CrewFragment)
         adapter = MyCrewListAdapter(
             LayoutInflater.from(context),
@@ -79,7 +86,7 @@ class CrewFragment : Fragment() {
 
         CoroutineScope(Dispatchers.Main).launch {
             val response = DarlyService.getDarlyService().getCrewList(page=0, size = 8, address = 0, key = "" )
-            model.crewRecommendationList.value = response.body()?.crews ?: listOf()
+            model.crewRecommendationList.value = response.body()?.crew ?: listOf()
 
             Log.d("Crew Recommendation", "${response}")
             Log.d("Crew Recommendation", "${response.body()}")

@@ -18,7 +18,7 @@ data class CrewRecommendationResponse(
     var totalCrew: Int,
     var currentPage: Int,
     var numberOfCrew: Int,
-    var crews: List<CrewRecommendations>
+    var crew: List<CrewRecommendations>
 )
 
 data class CrewRecommendations(
