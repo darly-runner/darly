@@ -4,6 +4,7 @@ import com.darly.db.entity.crew.Crew;
 import com.darly.db.entity.crew.CrewMyMapping;
 import com.darly.db.entity.crew.UserCrew;
 import com.darly.db.entity.crew.UserCrewId;
+import com.darly.db.entity.user.UserTitleMapping;
 import com.darly.db.repository.crew.UserCrewRepository;
 import com.darly.db.repository.crew.UserCrewRepositorySupport;
 import lombok.RequiredArgsConstructor;
@@ -41,5 +42,10 @@ public class UserCrewServiceImpl implements UserCrewService {
     @Override
     public boolean isUserCrewExists(Long userId, Long crewId) {
         return userCrewRepository.existsByUserCrewId(UserCrewId.builder().userId(userId).crewId(crewId).build());
+    }
+
+    @Override
+    public List<UserTitleMapping> getCrewPeopleList(Long crewId) {
+        return userCrewRepositorySupport.findTitleMappingByCrewId(crewId);
     }
 }

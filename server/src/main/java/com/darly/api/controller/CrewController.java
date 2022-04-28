@@ -1,10 +1,7 @@
 package com.darly.api.controller;
 
 import com.darly.api.request.crew.*;
-import com.darly.api.response.crew.CrewDetailGetRes;
-import com.darly.api.response.crew.CrewMyGetRes;
-import com.darly.api.response.crew.CrewSearchGetRes;
-import com.darly.api.response.crew.CrewWaitingGetRes;
+import com.darly.api.response.crew.*;
 import com.darly.api.service.crew.CrewAddressService;
 import com.darly.api.service.crew.CrewService;
 import com.darly.api.service.crew.CrewWaitingService;
@@ -241,4 +238,19 @@ public class CrewController {
                 .build());
     }
 
+    // C-013
+    @GetMapping("/{crewId}/people")
+    public ResponseEntity<? extends BaseResponseBody> getUserCrewList(@PathVariable("crewId") Long crewId, Authentication authentication) {
+        Long userId = getUserId(authentication);
+        Optional<Crew> crew = crewService.getCrewByCrewId(crewId);
+        if (!crew.isPresent())
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail get crew user list: Not valid crewId"));
+        if (!crew.get().getUser().getUserId().equals(userId))
+            return ResponseEntity.ok(BaseResponseBody.of(406, "Fail get crew user list: User is not host"));
+        return ResponseEntity.ok(CrewPeopleGetRes.builder()
+                .statusCode(200)
+                .message("Success get crew user list")
+                .users(userCrewService.getCrewPeopleList(crewId))
+                .build());
+    }
 }

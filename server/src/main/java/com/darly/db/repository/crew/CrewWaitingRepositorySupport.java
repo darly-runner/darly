@@ -19,7 +19,7 @@ public class CrewWaitingRepositorySupport {
     QUser qUser = QUser.user;
     QCrewWaiting qCrewWaiting = QCrewWaiting.crewWaiting;
 
-    public List<UserTitleMapping> findByCrewId(Long crewId) {
+    public List<UserTitleMapping> findTitleMappingByCrewId(Long crewId) {
         return jpaQueryFactory.select(new QUserTitleMapping(qUser.userId, qUser.userNickname, qUser.userMessage, qUser.userImage))
                 .from(qCrewWaiting).innerJoin(qUser)
                 .on(qCrewWaiting.crewWaitingId.user.userId.eq(qUser.userId))

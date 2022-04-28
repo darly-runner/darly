@@ -51,6 +51,6 @@ public class CrewWaitingServiceImpl implements CrewWaitingService {
 
     @Override
     public List<UserTitleMapping> getCrewWaitingList(Long crewId) {
-        return crewWaitingRepositorySupport.findByCrewId(crewId);
+        return crewWaitingRepositorySupport.findTitleMappingByCrewId(crewId);
     }
 }
