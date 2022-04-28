@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/S06P31A301/android/app/src/main/res/drawable/dialog_bottom_round.xml" value="0.191" />
         <entry key="..\:/S06P31A301/android/app/src/main/res/drawable/ic_act.xml" value="0.1695" />
         <entry key="..\:/S06P31A301/android/app/src/main/res/drawable/ic_challenge.xml" value="0.1" />
         <entry key="..\:/S06P31A301/android/app/src/main/res/drawable/ic_icon_home.xml" value="0.1" />
@@ -12,11 +13,16 @@
         <entry key="..\:/S06P31A301/android/app/src/main/res/drawable/ic_users.xml" value="0.1" />
         <entry key="..\:/S06P31A301/android/app/src/main/res/layout/activity_login.xml" value="0.2151268115942029" />
         <entry key="..\:/S06P31A301/android/app/src/main/res/layout/activity_main.xml" value="0.14351851851851852" />
+        <entry key="..\:/S06P31A301/android/app/src/main/res/layout/activity_pause.xml" value="0.25" />
+        <entry key="..\:/S06P31A301/android/app/src/main/res/layout/activity_running.xml" value="0.18" />
+        <entry key="..\:/S06P31A301/android/app/src/main/res/layout/dialog_target.xml" value="0.2866847826086957" />
         <entry key="..\:/S06P31A301/android/app/src/main/res/layout/fragment_act.xml" value="0.1388888888888889" />
         <entry key="..\:/S06P31A301/android/app/src/main/res/layout/fragment_challenge.xml" value="0.32608695652173914" />
         <entry key="..\:/S06P31A301/android/app/src/main/res/layout/fragment_crew.xml" value="0.36614583333333334" />
         <entry key="..\:/S06P31A301/android/app/src/main/res/layout/fragment_mypage.xml" value="0.22" />
-        <entry key="..\:/S06P31A301/android/app/src/main/res/layout/fragment_running.xml" value="0.2" />
+        <entry key="..\:/S06P31A301/android/app/src/main/res/layout/fragment_pause.xml" value="0.33" />
+        <entry key="..\:/S06P31A301/android/app/src/main/res/layout/fragment_running.xml" value="0.25" />
+        <entry key="..\:/S06P31A301/android/app/src/main/res/layout/target_dialog.xml" value="0.1590678824721378" />
         <entry key="..\:/S06P31A301/android/app/src/main/res/menu/navi_menu.xml" value="0.2833333333333333" />
         <entry key="..\:/S06P31A301/android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.122" />
         <entry key="..\:/S06P31A301/android/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.122" />
@@ -26,12 +32,11 @@
         <entry key="app/src/main/res/font/font.xml" value="0.5120370370370371" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.5158514492753623" />
         <entry key="app/src/main/res/layout/fragment_challenge.xml" value="0.21666666666666667" />
-        <entry key="app/src/main/res/layout/fragment_crew.xml" value="0.335" />
       </map>
     </option>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

@@ -1,40 +1,38 @@
 package com.ssafy.darly.fragment
 
 import android.Manifest
-import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
-import android.widget.TextView
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.*
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.PolylineOptions
 import com.ssafy.darly.R
 import com.ssafy.darly.activity.RunningActivity
-import com.ssafy.darly.databinding.FragmentRunningBinding
-import com.ssafy.darly.dialog.TargetDialog
+import com.ssafy.darly.databinding.FragmentPauseBinding
 import com.ssafy.darly.util.LocationHelper
+import com.ssafy.darly.viewmodel.MainViewModel
 import com.ssafy.darly.viewmodel.RunningViewModel
 
-class RunningFragment : Fragment() , OnMapReadyCallback,
-    ActivityCompat.OnRequestPermissionsResultCallback {
-    private lateinit var binding: FragmentRunningBinding
-    private val model: RunningViewModel by viewModels()
+class PauseFragment : Fragment() , OnMapReadyCallback {
+    private lateinit var binding: FragmentPauseBinding
+    private lateinit var model : RunningViewModel
 
     private lateinit var map: GoogleMap
 
@@ -42,34 +40,19 @@ class RunningFragment : Fragment() , OnMapReadyCallback,
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_running,container,false)
+        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_pause,container,false)
         activity?.let {
             binding.lifecycleOwner = this
+            model = activity?.let { ViewModelProvider(it, ViewModelProvider.NewInstanceFactory()).get(RunningViewModel::class.java) }!!
             binding.viewModel = model
         }
 
         val mapFragment: SupportMapFragment = childFragmentManager.findFragmentById(R.id.mapview) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        // 목표 설정 버튼
-        binding.targetButton.setOnClickListener {
-            val targetDialog = TargetDialog(this.requireContext())
-
-            targetDialog.show()
-            targetDialog.setOnClickedListener(object : TargetDialog.ButtonClickListener{
-                override fun onClicked(target : String) {
-                    model.target.value = target
-                }
-            })
-        }
-
-        binding.startButton.setOnClickListener {
-            val intent = Intent(this.requireContext(),RunningActivity::class.java)
-            startActivity(intent)
-        }
-
         return binding.root
     }
+
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
@@ -88,7 +71,6 @@ class RunningFragment : Fragment() , OnMapReadyCallback,
                 Log.d("Location","" + location.latitude + "," + location.longitude)
                 val marker = LatLng(location.latitude, location.longitude)
 
-
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(marker,18f))
                 polylineOptions.points.add(marker)
                 map.addPolyline(polylineOptions)
@@ -96,3 +78,4 @@ class RunningFragment : Fragment() , OnMapReadyCallback,
         })
     }
 }
+
