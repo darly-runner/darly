@@ -1,18 +1,20 @@
 package com.darly.api.controller;
 
 import com.darly.api.request.crew.*;
+import com.darly.api.request.feed.FeedCreatePostReq;
 import com.darly.api.response.crew.*;
 import com.darly.api.service.crew.*;
+import com.darly.api.service.feed.FeedImageService;
+import com.darly.api.service.feed.FeedService;
 import com.darly.common.model.response.BaseResponseBody;
 import com.darly.common.util.Type;
 import com.darly.db.entity.crew.*;
-import com.darly.db.entity.feed.FeedMapping;
+import com.darly.db.entity.feed.Feed;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -32,6 +34,8 @@ public class CrewController {
     private final CrewAddressService crewAddressService;
     private final CrewWaitingService crewWaitingService;
     private final CrewFeedService crewFeedService;
+    private final FeedService feedService;
+    private final FeedImageService feedImageService;
 
     private Long getUserId(Authentication authentication) {
         return Long.parseLong((String) authentication.getPrincipal());
@@ -278,5 +282,17 @@ public class CrewController {
                 .currentPage(page.getPageNumber())
                 .message("Success get crew feed list")
                 .build());
+    }
+
+    // C-016
+    @PostMapping("/{crewId}/feed")
+    public ResponseEntity<? extends BaseResponseBody> createCrewFeed(@PathVariable("crewId") Long crewId, @ModelAttribute FeedCreatePostReq feedCreatePostReq, Authentication authentication) {
+        Long userId = getUserId(authentication);
+        if (!crewService.isCrewExists(crewId))
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail create crew feed: Not valid crewId"));
+        Feed feed = feedService.createFeed(userId, feedCreatePostReq.getFeedTitle(), feedCreatePostReq.getFeedContent());
+        crewFeedService.createCrewFeed(crewId, feed.getFeedId());
+        feedImageService.createFeedImage(feed.getFeedId(), feedCreatePostReq.getFeedImages());
+        return ResponseEntity.ok(BaseResponseBody.of(200, "Success create crew feed"));
     }
 }

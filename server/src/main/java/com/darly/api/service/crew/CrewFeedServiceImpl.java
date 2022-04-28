@@ -1,5 +1,7 @@
 package com.darly.api.service.crew;
 
+import com.darly.db.entity.crew.CrewFeed;
+import com.darly.db.entity.crew.CrewFeedId;
 import com.darly.db.entity.feed.FeedMapping;
 import com.darly.db.repository.crew.CrewFeedRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,5 +19,15 @@ public class CrewFeedServiceImpl implements CrewFeedService {
     @Override
     public Page<FeedMapping> getCrewFeedList(Long crewId, Pageable page) {
         return crewFeedRepository.findByCrewId(crewId, page);
+    }
+
+    @Override
+    public void createCrewFeed(Long crewId, Long feedId) {
+        crewFeedRepository.save(CrewFeed.builder()
+                .crewFeedId(CrewFeedId.builder()
+                        .crewId(crewId)
+                        .feedId(feedId)
+                        .build())
+                .build());
     }
 }

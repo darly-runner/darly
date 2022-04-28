@@ -6,4 +6,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface CrewFeedService {
     Page<FeedMapping> getCrewFeedList(Long crewId, Pageable page);
+    void createCrewFeed(Long crewId, Long feedId);
 }
