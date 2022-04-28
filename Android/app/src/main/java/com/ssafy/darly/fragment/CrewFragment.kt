@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.ssafy.darly.R
 import com.ssafy.darly.adapter.MyCrewListAdapter
+import com.ssafy.darly.adapter.crew.main.CrewRecommendationAdapter
 import com.ssafy.darly.databinding.FragmentActBinding
 import com.ssafy.darly.databinding.FragmentCrewBinding
 import com.ssafy.darly.model.MyCrewDetails
@@ -30,6 +31,7 @@ class CrewFragment : Fragment() {
     private lateinit var binding: FragmentCrewBinding
     private val model: CrewViewModel by viewModels()
     lateinit var adapter: MyCrewListAdapter
+    lateinit var recAdapter: CrewRecommendationAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,6 +63,12 @@ class CrewFragment : Fragment() {
         )
         binding.myCrew.adapter = adapter
 
+        recAdapter = CrewRecommendationAdapter(
+            LayoutInflater.from(context),
+            glide
+        )
+        binding.crewRecommendation.adapter = recAdapter
+
         CoroutineScope(Dispatchers.Main).launch {
             val response = DarlyService.getDarlyService().myCrewList()
             model.myCrewList.value = response.body()?.crew ?: listOf()
@@ -68,6 +76,15 @@ class CrewFragment : Fragment() {
             Log.d("Crew List", "${response}")
             Log.d("Crew List 2", "${response.body()}")
         }
+
+        CoroutineScope(Dispatchers.Main).launch {
+            val response = DarlyService.getDarlyService().getCrewList(page=0, size = 8, address = 0, key = "" )
+            model.crewRecommendationList.value = response.body()?.crews ?: listOf()
+
+            Log.d("Crew Recommendation", "${response}")
+            Log.d("Crew Recommendation", "${response.body()}")
+        }
+
     }
 }
 
