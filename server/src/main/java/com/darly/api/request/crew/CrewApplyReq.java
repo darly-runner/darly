@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 
 @Getter
-@ApiModel("CrewAcceptPostRequest")
+@ApiModel("CrewApplyRequest")
 public class CrewApplyReq {
     @ApiModelProperty(name = "userId", example = "1")
     private Long userId;

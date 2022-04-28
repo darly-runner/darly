@@ -223,4 +223,12 @@ public class CrewController {
         crewWaitingService.deleteByCrewWaiting(crewWaiting.get());
         return ResponseEntity.ok(BaseResponseBody.of(200, "Success deny crew"));
     }
+
+    // C-012
+    @GetMapping("/{crewId}/waiting")
+    public ResponseEntity<? extends BaseResponseBody> getCrewWaitingList(@PathVariable("crewId") Long crewId, Authentication authentication) {
+        Long userId = getUserId(authentication);
+        return ResponseEntity.ok(BaseResponseBody.of(200, "Success deny crew"));
+    }
+
 }
