@@ -1,15 +1,14 @@
 package com.darly.api.service.crew;
 
-import com.darly.db.entity.crew.Crew;
-import com.darly.db.entity.crew.CrewMyMapping;
-import com.darly.db.entity.crew.UserCrew;
-import com.darly.db.entity.crew.UserCrewId;
+import com.darly.db.entity.crew.*;
 import com.darly.db.entity.user.UserTitleMapping;
 import com.darly.db.repository.crew.UserCrewRepository;
 import com.darly.db.repository.crew.UserCrewRepositorySupport;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service("userCrewService")
@@ -47,5 +46,28 @@ public class UserCrewServiceImpl implements UserCrewService {
     @Override
     public List<UserTitleMapping> getCrewPeopleList(Long crewId) {
         return userCrewRepositorySupport.findTitleMappingByCrewId(crewId);
+    }
+
+    @Override
+    public List<CrewSummaryMapping> getCrewSummaryList(Long crewId, String type) {
+        LocalDate today = LocalDate.now();
+        LocalDate startDay, endDay;
+        switch (type) {
+            case("week") :
+                startDay = today.minusDays(today.getDayOfWeek().getValue() - 1);
+                endDay = startDay.plusDays(7);
+                return userCrewRepositorySupport.findCrewSummaryByCrewIdAndDate(crewId, getTimeStamp(startDay), getTimeStamp(endDay));
+            case("month"):
+                startDay = today.withDayOfMonth(1);
+                endDay = startDay.plusMonths(1);
+                return userCrewRepositorySupport.findCrewSummaryByCrewIdAndDate(crewId, getTimeStamp(startDay), getTimeStamp(endDay));
+            case("all"):
+                return userCrewRepositorySupport.findCrewSummaryByCrewId(crewId);
+        }
+        return null;
+    }
+
+    private Long getTimeStamp(LocalDate localDate) {
+        return Timestamp.valueOf(localDate.atStartOfDay()).getTime() / 1000;
     }
 }

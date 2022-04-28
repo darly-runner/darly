@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Getter
-@ApiModel("AccountSinginPostRequest")
+@ApiModel("AccountSigninPostRequest")
 public class AccountSigninPostReq {
     @ApiModelProperty(name = "addresses", example = "[1,3,5]")
     private List<Long> addresses;
-    @ApiModelProperty(name = "userNickname", example = "흐앙쥬금털썩")
+    @ApiModelProperty(name = "userNickname", example = "userNickname")
     private String userNickname;
 }

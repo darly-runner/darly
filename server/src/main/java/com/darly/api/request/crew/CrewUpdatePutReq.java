@@ -23,7 +23,7 @@ public class CrewUpdatePutReq {
     @ApiModelProperty(name = "crewJoin", example = "Free")
     @Nullable
     private String crewJoin;
-    @ApiModelProperty(name = "crewImage", example = "image.png (file)")
+    @ApiModelProperty(name = "crewImage", example = "image.png")
     @Nullable
     private MultipartFile crewImage;
 }

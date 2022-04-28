@@ -8,10 +8,7 @@ import com.darly.api.service.crew.CrewWaitingService;
 import com.darly.api.service.crew.UserCrewService;
 import com.darly.common.model.response.BaseResponseBody;
 import com.darly.common.util.Type;
-import com.darly.db.entity.crew.Crew;
-import com.darly.db.entity.crew.CrewDetailMapping;
-import com.darly.db.entity.crew.CrewTitleMapping;
-import com.darly.db.entity.crew.CrewWaiting;
+import com.darly.db.entity.crew.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -251,6 +248,21 @@ public class CrewController {
                 .statusCode(200)
                 .message("Success get crew user list")
                 .users(userCrewService.getCrewPeopleList(crewId))
+                .build());
+    }
+
+    // C-014
+    @GetMapping("/{crewId}/summary")
+    public ResponseEntity<? extends BaseResponseBody> getCrewSummary(@PathVariable("crewId") Long crewId, @RequestParam(name = "type") String type, Authentication authentication) {
+        if (!crewService.isCrewExists(crewId))
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail get crew summary: Not valid crewId"));
+        List<CrewSummaryMapping> crewSummaryMappingList = userCrewService.getCrewSummaryList(crewId, type);
+        if (crewSummaryMappingList == null)
+            return ResponseEntity.ok(BaseResponseBody.of(406, "Fail get crew summary: Not valid type"));
+        return ResponseEntity.ok(CrewSummaryGetRes.builder()
+                .statusCode(200)
+                .message("Success get crew summary")
+                .summaryList(crewSummaryMappingList)
                 .build());
     }
 }
