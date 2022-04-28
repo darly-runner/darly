@@ -52,5 +52,5 @@ class CrewRecommendationAdapter(
         myCrewItemList?.get(position)?.let { holder.bind(it) }
     }
 
-    override fun getItemCount(): Int = 1
+    override fun getItemCount(): Int = 5
 }

@@ -76,6 +76,8 @@ class CrewFragment : Fragment() {
         )
         binding.crewRecommendation.adapter = recAdapter
 
+
+
         CoroutineScope(Dispatchers.Main).launch {
             val response = DarlyService.getDarlyService().myCrewList()
             model.myCrewList.value = response.body()?.crew ?: listOf()

@@ -46,6 +46,7 @@
             android:fontFamily="@font/pretendard_bold"
             android:paddingBottom="20dp"
             android:text="Crew"
+            android:textColor="@color/black"
             android:textSize="30dp" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -61,13 +62,15 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/pretendard_semibold"
             android:text="크루 추천"
+            android:textColor="@color/black"
             android:textSize="20dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/crewRecommendation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>
