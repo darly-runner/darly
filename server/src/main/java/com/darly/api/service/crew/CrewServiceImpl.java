@@ -34,7 +34,7 @@ public class CrewServiceImpl implements CrewService {
     @Override
     public Crew createCrew(Long userId, CrewCreatePostReq crewCreatePostReq) {
         String url = null;
-        if (crewCreatePostReq.getCrewImage() != null)
+        if (crewCreatePostReq.getCrewImage() != null && !crewCreatePostReq.getCrewImage().isEmpty())
             url = fileProcessService.uploadImage(crewCreatePostReq.getCrewImage(), "crew");
 
         return crewRepository.save(Crew.builder()

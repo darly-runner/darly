@@ -2,18 +2,18 @@ package com.darly.api.controller;
 
 import com.darly.api.request.crew.*;
 import com.darly.api.response.crew.*;
-import com.darly.api.service.crew.CrewAddressService;
-import com.darly.api.service.crew.CrewService;
-import com.darly.api.service.crew.CrewWaitingService;
-import com.darly.api.service.crew.UserCrewService;
+import com.darly.api.service.crew.*;
 import com.darly.common.model.response.BaseResponseBody;
 import com.darly.common.util.Type;
 import com.darly.db.entity.crew.*;
+import com.darly.db.entity.feed.FeedMapping;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +31,7 @@ public class CrewController {
     private final UserCrewService userCrewService;
     private final CrewAddressService crewAddressService;
     private final CrewWaitingService crewWaitingService;
+    private final CrewFeedService crewFeedService;
 
     private Long getUserId(Authentication authentication) {
         return Long.parseLong((String) authentication.getPrincipal());
@@ -263,6 +264,19 @@ public class CrewController {
                 .statusCode(200)
                 .message("Success get crew summary")
                 .summaryList(crewSummaryMappingList)
+                .build());
+    }
+
+    // C-015
+    @GetMapping("/{crewId}/feed")
+    public ResponseEntity<? extends BaseResponseBody> getCrewFeedList(@PathVariable("crewId") Long crewId, Pageable page, Authentication authentication) {
+        if (!crewService.isCrewExists(crewId))
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail get crew feed list: Not valid crewId"));
+        return ResponseEntity.ok(CrewFeedGetRes.builder()
+                .statusCode(200)
+                .page(crewFeedService.getCrewFeedList(crewId, page))
+                .currentPage(page.getPageNumber())
+                .message("Success get crew feed list")
                 .build());
     }
 }

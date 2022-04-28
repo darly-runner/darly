@@ -23,6 +23,6 @@ public class RankEntity implements Comparable<RankEntity>{
 
     @Override
     public int compareTo(RankEntity o) {
-        return this.userDistance.compareTo(o.userDistance);
+        return o.userDistance.compareTo(this.userDistance);
     }
 }

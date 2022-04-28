@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Getter
@@ -31,5 +32,6 @@ public class CrewSummaryGetRes extends BaseResponseBody {
             crewTime += summary.getDatTime();
             ranks.add(RankEntity.builder().crewSummaryMapping(summary).build());
         }
+        Collections.sort(ranks);
     }
 }
