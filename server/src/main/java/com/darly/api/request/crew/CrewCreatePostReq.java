@@ -11,13 +11,13 @@ import org.springframework.web.multipart.MultipartFile;
 @Setter
 @ApiModel("CrewCreatePostRequest")
 public class CrewCreatePostReq {
-    @ApiModelProperty(name = "crewName", example = "crewName1")
+    @ApiModelProperty(name = "crewName", example = "crewName")
     private String crewName;
-    @ApiModelProperty(name = "crewDesc", example = "crewDesc1")
+    @ApiModelProperty(name = "crewDesc", example = "crewDesc")
     private String crewDesc;
-    @ApiModelProperty(name="crewAddress", example="1")
+    @ApiModelProperty(name = "crewAddress", example = "1")
     private Long crewAddress;
-    @ApiModelProperty(name = "crewJoin", example = "crewJoin1")
+    @ApiModelProperty(name = "crewJoin", example = "Free")
     private String crewJoin;
     @Nullable
     private MultipartFile crewImage;

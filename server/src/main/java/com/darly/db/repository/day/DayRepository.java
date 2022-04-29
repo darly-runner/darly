@@ -7,6 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface DayRepository extends JpaRepository<Day, Long> {
-    Optional<Day> findByUserIdAndDayDate(Long userId, Long dayDate);
-    List<Day> findByUserId(Long userId);
+    Optional<Day> findByUser_UserIdAndDayDate(Long userId, Long dayDate);
+    List<Day> findByUser_UserId(Long userId);
 }

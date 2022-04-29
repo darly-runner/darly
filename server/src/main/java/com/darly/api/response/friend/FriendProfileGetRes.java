@@ -15,17 +15,17 @@ import java.util.List;
 @NoArgsConstructor
 @ApiModel("FriendProfileGetResponse")
 public class FriendProfileGetRes extends BaseResponseBody {
-    @ApiModelProperty(name="userNickname", example="닉네임1")
+    @ApiModelProperty(name="userNickname", example="userNickname")
     private String userNickname;
-    @ApiModelProperty(name="userMessage", example="메시지1")
+    @ApiModelProperty(name="userMessage", example="userMessage")
     private String userMessage;
-    @ApiModelProperty(name="userEmail", example="ssafy@ssafy.com")
+    @ApiModelProperty(name="userEmail", example="email@email.com")
     private String userEmail;
-    @ApiModelProperty(name="userAddresses", example="[address1, address2, address3]")
+    @ApiModelProperty(name="userAddresses", example="[1, 2, 3]")
     private List<AddressNameMapping> userAddresses;
     @ApiModelProperty(name="userPoint", example="0")
     private Integer userPoint;
-    @ApiModelProperty(name="userImage", example="userImg1")
+    @ApiModelProperty(name="userImage", example="image.png")
     private String userImage;
     @ApiModelProperty(name="userTotalDistance", example="10.0")
     private Float userTotalDistance;

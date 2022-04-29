@@ -28,7 +28,7 @@ public class UserRepositorySupport {
     public List<FriendTitleMapping> findUserTitleSearchList(Long userId, String nickname) {
         return jpaQueryFactory.select(new QFriendTitleMapping(qUser.userId, qUser.userNickname, qUser.userMessage, qUser.userImage))
                 .from(qUser)
-                .leftJoin(qFriend).on(qFriend.friendOne.eq(userId), qUser.userId.eq(qFriend.friendTwo.userId))
+                .leftJoin(qFriend).on(qFriend.friendOne.userId.eq(userId), qUser.userId.eq(qFriend.friendTwo.userId))
                 .where(qFriend.friendTwo.isNull(), qUser.userNickname.contains(nickname), qUser.userId.ne(userId))
                 .fetch();
     }

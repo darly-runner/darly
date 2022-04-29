@@ -20,7 +20,7 @@ public class FriendFeedGetRes extends BaseResponseBody {
     private Long totalFeeds; //전체 피드 수
     @ApiModelProperty(name="currentPage", example="1")
     private Integer currentPage; //현재 페이지 번호
-    @ApiModelProperty(name="numberOfFeeds", example="10")
+    @ApiModelProperty(name="numberOfFeeds", example="3")
     private Integer numberOfFeeds; //현재 페이지의 피드 수
     @ApiModelProperty(name="feeds", example="[string1, string2, string3]")
     private List<String> feeds;
