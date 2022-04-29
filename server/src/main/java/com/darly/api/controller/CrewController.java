@@ -2,16 +2,19 @@ package com.darly.api.controller;
 
 import com.darly.api.request.crew.*;
 import com.darly.api.request.feed.FeedCreatePostReq;
+import com.darly.api.request.match.MatchCreatePostReq;
 import com.darly.api.response.crew.*;
 import com.darly.api.response.match.MatchListGetRes;
 import com.darly.api.service.crew.*;
 import com.darly.api.service.feed.FeedImageService;
 import com.darly.api.service.feed.FeedService;
 import com.darly.api.service.match.MatchService;
+import com.darly.api.service.match.UserMatchService;
 import com.darly.common.model.response.BaseResponseBody;
 import com.darly.common.util.Type;
 import com.darly.db.entity.crew.*;
 import com.darly.db.entity.feed.Feed;
+import com.darly.db.entity.match.Match;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -39,6 +42,7 @@ public class CrewController {
     private final FeedService feedService;
     private final FeedImageService feedImageService;
     private final MatchService matchService;
+    private final UserMatchService userMatchService;
 
     private Long getUserId(Authentication authentication) {
         return Long.parseLong((String) authentication.getPrincipal());
@@ -293,6 +297,8 @@ public class CrewController {
         Long userId = getUserId(authentication);
         if (!crewService.isCrewExists(crewId))
             return ResponseEntity.ok(BaseResponseBody.of(405, "Fail create crew feed: Not valid crewId"));
+        if (!userCrewService.isUserCrewExists(userId, crewId))
+            return ResponseEntity.ok(BaseResponseBody.of(406, "Fail create crew feed: User is not member"));
         Feed feed = feedService.createFeed(userId, feedCreatePostReq.getFeedTitle(), feedCreatePostReq.getFeedContent());
         crewFeedService.createCrewFeed(crewId, feed.getFeedId());
         feedImageService.createFeedImage(feed.getFeedId(), feedCreatePostReq.getFeedImages());
@@ -302,7 +308,6 @@ public class CrewController {
     // C-017
     @GetMapping("/{crewId}/match")
     public ResponseEntity<? extends BaseResponseBody> getCrewMatchList(@PathVariable("crewId") Long crewId, Pageable page, Authentication authentication) {
-        //비활성화는 안보여야함
         if (!crewService.isCrewExists(crewId))
             return ResponseEntity.ok(BaseResponseBody.of(405, "Fail get crew match list: Not valid crewId"));
         return ResponseEntity.ok(MatchListGetRes.builder()
@@ -311,5 +316,18 @@ public class CrewController {
                 .page(matchService.getCrewMatchList(crewId, page))
                 .currentPage(page.getPageNumber())
                 .build());
+    }
+
+    // C-018
+    @PostMapping("/{crewId}/match")
+    public ResponseEntity<? extends BaseResponseBody> createCrewMatch(@PathVariable("crewId") Long crewId, @RequestBody MatchCreatePostReq matchCreatePostReq, Authentication authentication) {
+        Long userId = getUserId(authentication);
+        if (!crewService.isCrewExists(crewId))
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail create crew match: Not valid crewId"));
+        if (!userCrewService.isUserCrewExists(userId, crewId))
+            return ResponseEntity.ok(BaseResponseBody.of(406, "Fail create crew match: User is not member"));
+        Match match = matchService.createCrewMatch(crewId, userId, matchCreatePostReq);
+        userMatchService.createUserMatch(userId, match.getMatchId());
+        return ResponseEntity.ok(BaseResponseBody.of(200, "Success create crew match"));
     }
 }
