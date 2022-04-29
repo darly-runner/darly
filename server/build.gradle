@@ -63,6 +63,13 @@ dependencies {
 
     // S3 cloud
     implementation('org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE')
+
+    // websocket
+    implementation('org.springframework.boot:spring-boot-starter-websocket')
+
+//    // thymeleaf <- 프론트없을때 자체적으로 프론트 페이지 만들어서 확인용
+//    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+//    compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-java8time'
 }
 
 tasks.named('test') {

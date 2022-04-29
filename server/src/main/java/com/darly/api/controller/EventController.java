@@ -76,7 +76,7 @@ public class EventController {
     }
 
     // 4. 이벤트 수정 PATCH
-    @PatchMapping
+    @PatchMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ApiOperation(value="이벤트 수정", notes="eventTitle, eventContent, eventImage 수정")
     @ApiResponses({
             @ApiResponse(code=200, message="테스트 성공"),
