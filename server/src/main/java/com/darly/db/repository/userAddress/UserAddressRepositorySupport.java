@@ -26,7 +26,7 @@ public class UserAddressRepositorySupport {
         return jpaQueryFactory.select(new QAddressNameMapping(qAddress.addressName))
                 .from(qAddress).innerJoin(qUserAddress)
                 .on(qAddress.addressId.eq(qUserAddress.userAddressId.address.addressId))
-                .where(qUserAddress.userAddressId.userId.eq(friendId))
+                .where(qUserAddress.userAddressId.user.userId.eq(friendId))
                 .fetch();
     }
 }

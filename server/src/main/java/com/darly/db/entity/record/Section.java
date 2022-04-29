@@ -1,6 +1,9 @@
 package com.darly.db.entity.record;
 
+import com.darly.db.entity.user.User;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -14,7 +17,10 @@ public class Section {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long sectionId;
-    private Long recordId;
+    @ManyToOne
+    @JoinColumn(name = "record_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Record record;
     private Float sectionKm;
     private Float sectionPace;
     private Integer sectionCalories;

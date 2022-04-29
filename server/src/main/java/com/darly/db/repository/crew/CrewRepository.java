@@ -66,4 +66,6 @@ public interface CrewRepository extends JpaRepository<Crew, Long> {
             "where uc.crew_id is null " +
             "and c.crew_name like %:key% ", nativeQuery = true)
     long countByUserIdAndKey(@Param(value = "userId") Long userId, @Param(value = "key") String key);
+
+    boolean existsByCrewId(Long crewId);
 }

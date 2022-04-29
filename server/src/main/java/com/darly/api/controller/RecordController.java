@@ -100,7 +100,7 @@ public class RecordController {
         if (record == null)
             return ResponseEntity.ok(BaseResponseBody.of(405, "Fail update record title: Not valid recordId"));
         Long userId = Long.parseLong((String) authentication.getPrincipal());
-        if(userId != record.getUserId())
+        if(userId != record.getUser().getUserId())
             return ResponseEntity.ok(BaseResponseBody.of(406, "Fail update record title: User is not record owner"));
         record.setRecordTitle(recordUpdatePatchReq.getRecordTitle());
         recordService.updateRecord(record);
