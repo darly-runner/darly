@@ -2,12 +2,14 @@ package com.darly.api.response.crew;
 
 import com.darly.common.model.response.BaseResponseBody;
 import com.darly.db.entity.crew.CrewDetailMapping;
+import io.swagger.annotations.ApiModel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
+@ApiModel("CrewDetailGetResponse")
 public class CrewDetailGetRes extends BaseResponseBody {
     private String crewName;
     private String crewDesc;

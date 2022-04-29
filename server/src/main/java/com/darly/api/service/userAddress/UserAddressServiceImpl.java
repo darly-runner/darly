@@ -2,6 +2,7 @@ package com.darly.api.service.userAddress;
 
 import com.darly.api.request.user.UserAddressPutReq;
 import com.darly.db.entity.address.AddressNameMapping;
+import com.darly.db.entity.user.User;
 import com.darly.db.entity.userAddress.UserAddress;
 import com.darly.db.entity.userAddress.UserAddressId;
 import com.darly.db.repository.userAddress.UserAddressRepository;
@@ -10,12 +11,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service("userAddressService")
 @RequiredArgsConstructor
-public class UserAddressServiceImpl implements UserAddressService{
+public class UserAddressServiceImpl implements UserAddressService {
 
     @Autowired
     UserAddressRepository userAddressRepository;
@@ -30,9 +30,9 @@ public class UserAddressServiceImpl implements UserAddressService{
 
     @Override
     public void putUserAddress(UserAddressPutReq userAddressPutReq, Long userId) {
-        userAddressRepository.deleteByUserAddressId_UserId(userId);
+        userAddressRepository.deleteByUserAddressId_User(User.builder().userId(userId).build());
 
-        for(int i = 0; i < userAddressPutReq.getAddresses().size(); i++) {
+        for (int i = 0; i < userAddressPutReq.getAddresses().size(); i++) {
             UserAddressId userAddressId = UserAddressId.builder()
                     .addressId(userAddressPutReq.getAddresses().get(i))
                     .userId(userId)

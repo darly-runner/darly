@@ -1,27 +1,32 @@
 package com.darly.api.controller;
 
-import com.darly.api.request.crew.CrewCreatePostReq;
-import com.darly.api.request.crew.GetCrewSearchModel;
-import com.darly.api.response.crew.CrewDetailGetRes;
-import com.darly.api.response.crew.CrewMyGetRes;
-import com.darly.api.response.crew.CrewSearchGetRes;
-import com.darly.api.service.crew.CrewAddressService;
-import com.darly.api.service.crew.CrewService;
-import com.darly.api.service.crew.UserCrewService;
+import com.darly.api.request.crew.*;
+import com.darly.api.request.feed.FeedCreatePostReq;
+import com.darly.api.request.match.MatchCreatePostReq;
+import com.darly.api.response.crew.*;
+import com.darly.api.response.match.MatchListGetRes;
+import com.darly.api.service.crew.*;
+import com.darly.api.service.feed.FeedImageService;
+import com.darly.api.service.feed.FeedService;
+import com.darly.api.service.match.MatchService;
+import com.darly.api.service.match.UserMatchService;
 import com.darly.common.model.response.BaseResponseBody;
-import com.darly.db.entity.crew.Crew;
-import com.darly.db.entity.crew.CrewDetailMapping;
-import com.darly.db.entity.crew.CrewTitleMapping;
+import com.darly.common.util.Type;
+import com.darly.db.entity.crew.*;
+import com.darly.db.entity.feed.Feed;
+import com.darly.db.entity.match.Match;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Api(value = "Crew Api", tags = "Crew")
 @RestController
@@ -32,6 +37,16 @@ public class CrewController {
     private final CrewService crewService;
     private final UserCrewService userCrewService;
     private final CrewAddressService crewAddressService;
+    private final CrewWaitingService crewWaitingService;
+    private final CrewFeedService crewFeedService;
+    private final FeedService feedService;
+    private final FeedImageService feedImageService;
+    private final MatchService matchService;
+    private final UserMatchService userMatchService;
+
+    private Long getUserId(Authentication authentication) {
+        return Long.parseLong((String) authentication.getPrincipal());
+    }
 
     // C-001
     @PostMapping
@@ -42,7 +57,7 @@ public class CrewController {
             @ApiResponse(code = 500, message = "서버 에러")
     })
     public ResponseEntity<? extends BaseResponseBody> createCrew(@ModelAttribute CrewCreatePostReq crewCreatePostReq, Authentication authentication) {
-        Long userId = Long.parseLong((String) authentication.getPrincipal());
+        Long userId = getUserId(authentication);
         Crew crew = crewService.createCrew(userId, crewCreatePostReq);
         if (crew == null)
             return ResponseEntity.ok(BaseResponseBody.of(405, "Fail save crew: Not valid userId or crewJoin"));
@@ -62,7 +77,7 @@ public class CrewController {
             @ApiResponse(code = 500, message = "서버 에러")
     })
     public ResponseEntity<? extends BaseResponseBody> getCrewSearchList(GetCrewSearchModel getCrewSearchModel, Authentication authentication) {
-        Long userId = Long.parseLong((String) authentication.getPrincipal());
+        Long userId = getUserId(authentication);
         List<CrewTitleMapping> crewList;
         Long crewCount;
         if (getCrewSearchModel.getAddress() != 0 && getCrewSearchModel.getAddress() != null) {
@@ -86,7 +101,7 @@ public class CrewController {
     // C-003
     @GetMapping("/my")
     public ResponseEntity<? extends BaseResponseBody> getMyCrewList(Authentication authentication) {
-        Long userId = Long.parseLong((String) authentication.getPrincipal());
+        Long userId = getUserId(authentication);
         return ResponseEntity.ok(CrewMyGetRes.builder()
                 .statusCode(200)
                 .message("Success get crew search list")
@@ -105,5 +120,214 @@ public class CrewController {
                 .message("Success get crew detail")
                 .crewDetailMapping(crewDetailList.get(0))
                 .build());
+    }
+
+    // C-005
+    @PutMapping("/{crewId}")
+    public ResponseEntity<? extends BaseResponseBody> updateCrew(@PathVariable("crewId") Long crewId, @ModelAttribute CrewUpdatePutReq crewUpdatePutReq, Authentication authentication) {
+        Long userId = getUserId(authentication);
+        Optional<Crew> crew = crewService.getCrewByCrewId(crewId);
+        if (!crew.isPresent())
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail update crew: Not valid crewId"));
+        if (!crew.get().getUser().getUserId().equals(userId))
+            return ResponseEntity.ok(BaseResponseBody.of(406, "Fail update crew: User is not host"));
+        crewService.updateCrew(crew.get(), crewUpdatePutReq);
+        return ResponseEntity.ok(BaseResponseBody.of(200, "Success update crew"));
+    }
+
+    // C-006
+    @PatchMapping("/{crewId}")
+    public ResponseEntity<? extends BaseResponseBody> updateCrewNotice(@PathVariable("crewId") Long crewId, @RequestBody CrewUpdatePatchReq crewUpdatePatchReq, Authentication authentication) {
+        Long userId = getUserId(authentication);
+        Optional<Crew> crew = crewService.getCrewByCrewId(crewId);
+        if (!crew.isPresent())
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail update crew notice: Not valid crewId"));
+        if (!crew.get().getUser().getUserId().equals(userId))
+            return ResponseEntity.ok(BaseResponseBody.of(406, "Fail update crew notice: User is not host"));
+        crewService.updateCrewNotice(crew.get(), crewUpdatePatchReq);
+        return ResponseEntity.ok(BaseResponseBody.of(200, "Success update crew notice"));
+    }
+
+    // C-007
+    @DeleteMapping("/{crewId}")
+    public ResponseEntity<? extends BaseResponseBody> leaveCrew(@PathVariable("crewId") Long crewId, Authentication authentication) {
+        Long userId = getUserId(authentication);
+        Optional<Crew> crew = crewService.getCrewByCrewId(crewId);
+        if (!crew.isPresent())
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail leave crew: Not valid crewId"));
+        if (crew.get().getUser().getUserId().equals(userId)) {
+            Long userNum = userCrewService.countUserNum(crewId);
+            if (userNum == 1) {
+                userCrewService.leaveCrew(crewId, userId);
+                crewService.deleteCrew(crewId);
+                return ResponseEntity.ok(BaseResponseBody.of(201, "Success delete crew"));
+            }
+            return ResponseEntity.ok(BaseResponseBody.of(406, "Fail leave crew: Host can't leave crew"));
+        }
+        userCrewService.leaveCrew(crewId, userId);
+        return ResponseEntity.ok(BaseResponseBody.of(200, "Success leave crew"));
+    }
+
+    // C-008
+    @PatchMapping("/{crewId}/mandate")
+    public ResponseEntity<? extends BaseResponseBody> mandateCrew(@PathVariable("crewId") Long crewId, @RequestBody CrewMandatePatchReq crewMandatePatchReq, Authentication authentication) {
+        Long userId = getUserId(authentication);
+        Optional<Crew> crew = crewService.getCrewByCrewId(crewId);
+        if (!crew.isPresent())
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail mandate crew: Not valid crewId"));
+        if (!crew.get().getUser().getUserId().equals(userId))
+            return ResponseEntity.ok(BaseResponseBody.of(406, "Fail mandate crew: User is not host"));
+        crewService.updateCrewHost(crew.get(), crewMandatePatchReq);
+        return ResponseEntity.ok(BaseResponseBody.of(200, "Success mandate crew"));
+    }
+
+    // C-009
+    @PostMapping("/{crewId}/join")
+    public ResponseEntity<? extends BaseResponseBody> joinCrew(@PathVariable("crewId") Long crewId, Authentication authentication) {
+        Long userId = getUserId(authentication);
+        Optional<Crew> crew = crewService.getCrewByCrewId(crewId);
+        if (!crew.isPresent())
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail join crew: Not valid crewId"));
+        if (userCrewService.isUserCrewExists(userId, crewId))
+            return ResponseEntity.ok(BaseResponseBody.of(406, "Fail join crew: Already crew"));
+        if (crew.get().getCrewJoin() == Type.Lock.getLabel()) {
+            userCrewService.createUserCrew(userId, crewId);
+            return ResponseEntity.ok(BaseResponseBody.of(201, "Success join crew"));
+        }
+        crewWaitingService.createCrewWaiting(userId, crewId);
+        return ResponseEntity.ok(BaseResponseBody.of(200, "Success apply crew"));
+    }
+
+    // C-010
+    @PostMapping("/{crewId}/accept")
+    public ResponseEntity<? extends BaseResponseBody> acceptCrew(@PathVariable("crewId") Long crewId, @RequestBody CrewApplyReq crewApplyReq, Authentication authentication) {
+        Long userId = getUserId(authentication);
+        Optional<Crew> crew = crewService.getCrewByCrewId(crewId);
+        if (!crew.isPresent())
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail accept crew: Not valid crewId"));
+        if (!crew.get().getUser().getUserId().equals(userId))
+            return ResponseEntity.ok(BaseResponseBody.of(406, "Fail accept crew: User is not host"));
+        Optional<CrewWaiting> crewWaiting = crewWaitingService.getCrewWaiting(crewApplyReq.getUserId(), crewId);
+        if (!crewWaiting.isPresent())
+            return ResponseEntity.ok(BaseResponseBody.of(407, "Fail accept crew: No apply"));
+        crewWaitingService.deleteByCrewWaiting(crewWaiting.get());
+        userCrewService.createUserCrew(crewApplyReq.getUserId(), crewId);
+        return ResponseEntity.ok(BaseResponseBody.of(200, "Success accept crew"));
+    }
+
+    // C-011
+    @DeleteMapping("/{crewId}/deny")
+    public ResponseEntity<? extends BaseResponseBody> denyCrew(@PathVariable("crewId") Long crewId, @RequestBody CrewApplyReq crewApplyReq, Authentication authentication) {
+        Long userId = getUserId(authentication);
+        Optional<Crew> crew = crewService.getCrewByCrewId(crewId);
+        if (!crew.isPresent())
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail deny crew: Not valid crewId"));
+        if (!crew.get().getUser().getUserId().equals(userId))
+            return ResponseEntity.ok(BaseResponseBody.of(406, "Fail deny crew: User is not host"));
+        Optional<CrewWaiting> crewWaiting = crewWaitingService.getCrewWaiting(crewApplyReq.getUserId(), crewId);
+        if (!crewWaiting.isPresent())
+            return ResponseEntity.ok(BaseResponseBody.of(407, "Fail deny crew: No apply"));
+        crewWaitingService.deleteByCrewWaiting(crewWaiting.get());
+        return ResponseEntity.ok(BaseResponseBody.of(200, "Success deny crew"));
+    }
+
+    // C-012
+    @GetMapping("/{crewId}/waiting")
+    public ResponseEntity<? extends BaseResponseBody> getCrewWaitingList(@PathVariable("crewId") Long crewId, Authentication authentication) {
+        Long userId = getUserId(authentication);
+        Optional<Crew> crew = crewService.getCrewByCrewId(crewId);
+        if (!crew.isPresent())
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail get waiting list: Not valid crewId"));
+        if (!crew.get().getUser().getUserId().equals(userId))
+            return ResponseEntity.ok(BaseResponseBody.of(406, "Fail get waiting list: User is not host"));
+        return ResponseEntity.ok(CrewWaitingGetRes.builder()
+                .statusCode(200)
+                .message("Success get waiting list")
+                .users(crewWaitingService.getCrewWaitingList(crewId))
+                .build());
+    }
+
+    // C-013
+    @GetMapping("/{crewId}/people")
+    public ResponseEntity<? extends BaseResponseBody> getUserCrewList(@PathVariable("crewId") Long crewId, Authentication authentication) {
+        Long userId = getUserId(authentication);
+        Optional<Crew> crew = crewService.getCrewByCrewId(crewId);
+        if (!crew.isPresent())
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail get crew user list: Not valid crewId"));
+        if (!crew.get().getUser().getUserId().equals(userId))
+            return ResponseEntity.ok(BaseResponseBody.of(406, "Fail get crew user list: User is not host"));
+        return ResponseEntity.ok(CrewPeopleGetRes.builder()
+                .statusCode(200)
+                .message("Success get crew user list")
+                .users(userCrewService.getCrewPeopleList(crewId))
+                .build());
+    }
+
+    // C-014
+    @GetMapping("/{crewId}/summary")
+    public ResponseEntity<? extends BaseResponseBody> getCrewSummary(@PathVariable("crewId") Long crewId, @RequestParam(name = "type") String type, Authentication authentication) {
+        if (!crewService.isCrewExists(crewId))
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail get crew summary: Not valid crewId"));
+        List<CrewSummaryMapping> crewSummaryMappingList = userCrewService.getCrewSummaryList(crewId, type);
+        if (crewSummaryMappingList == null)
+            return ResponseEntity.ok(BaseResponseBody.of(406, "Fail get crew summary: Not valid type"));
+        return ResponseEntity.ok(CrewSummaryGetRes.builder()
+                .statusCode(200)
+                .message("Success get crew summary")
+                .summaryList(crewSummaryMappingList)
+                .build());
+    }
+
+    // C-015
+    @GetMapping("/{crewId}/feed")
+    public ResponseEntity<? extends BaseResponseBody> getCrewFeedList(@PathVariable("crewId") Long crewId, Pageable page, Authentication authentication) {
+        if (!crewService.isCrewExists(crewId))
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail get crew feed list: Not valid crewId"));
+        return ResponseEntity.ok(CrewFeedGetRes.builder()
+                .statusCode(200)
+                .page(crewFeedService.getCrewFeedList(crewId, page))
+                .currentPage(page.getPageNumber())
+                .message("Success get crew feed list")
+                .build());
+    }
+
+    // C-016
+    @PostMapping("/{crewId}/feed")
+    public ResponseEntity<? extends BaseResponseBody> createCrewFeed(@PathVariable("crewId") Long crewId, @ModelAttribute FeedCreatePostReq feedCreatePostReq, Authentication authentication) {
+        Long userId = getUserId(authentication);
+        if (!crewService.isCrewExists(crewId))
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail create crew feed: Not valid crewId"));
+        if (!userCrewService.isUserCrewExists(userId, crewId))
+            return ResponseEntity.ok(BaseResponseBody.of(406, "Fail create crew feed: User is not member"));
+        Feed feed = feedService.createFeed(userId, feedCreatePostReq.getFeedTitle(), feedCreatePostReq.getFeedContent());
+        crewFeedService.createCrewFeed(crewId, feed.getFeedId());
+        feedImageService.createFeedImage(feed.getFeedId(), feedCreatePostReq.getFeedImages());
+        return ResponseEntity.ok(BaseResponseBody.of(200, "Success create crew feed"));
+    }
+
+    // C-017
+    @GetMapping("/{crewId}/match")
+    public ResponseEntity<? extends BaseResponseBody> getCrewMatchList(@PathVariable("crewId") Long crewId, Pageable page, Authentication authentication) {
+        if (!crewService.isCrewExists(crewId))
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail get crew match list: Not valid crewId"));
+        return ResponseEntity.ok(MatchListGetRes.builder()
+                .statusCode(200)
+                .message("Success get crew match list")
+                .page(matchService.getCrewMatchList(crewId, page))
+                .currentPage(page.getPageNumber())
+                .build());
+    }
+
+    // C-018
+    @PostMapping("/{crewId}/match")
+    public ResponseEntity<? extends BaseResponseBody> createCrewMatch(@PathVariable("crewId") Long crewId, @RequestBody MatchCreatePostReq matchCreatePostReq, Authentication authentication) {
+        Long userId = getUserId(authentication);
+        if (!crewService.isCrewExists(crewId))
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail create crew match: Not valid crewId"));
+        if (!userCrewService.isUserCrewExists(userId, crewId))
+            return ResponseEntity.ok(BaseResponseBody.of(406, "Fail create crew match: User is not member"));
+        Match match = matchService.createCrewMatch(crewId, userId, matchCreatePostReq);
+        userMatchService.createUserMatch(userId, match.getMatchId());
+        return ResponseEntity.ok(BaseResponseBody.of(200, "Success create crew match"));
     }
 }
