@@ -1,5 +1,6 @@
 package com.darly.db.entity.feed;
 
+import com.darly.db.entity.crew.Crew;
 import com.darly.db.entity.user.User;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
@@ -24,6 +25,10 @@ public class Feed {
     @JoinColumn(name = "host_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
+    @ManyToOne
+    @JoinColumn(name = "crew_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Crew crew;
     private String feedTitle;
     private String feedContent;
     private Long feedLike;

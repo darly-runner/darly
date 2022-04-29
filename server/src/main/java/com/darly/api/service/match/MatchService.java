@@ -8,6 +8,6 @@ import org.springframework.data.domain.Pageable;
 
 public interface MatchService {
     void setNullByCrewId(Long crewId);
-    Page<MatchTitleMapping> getCrewMatchList(Long crewId, Pageable page);
+    Page<Match> getCrewMatchList(Long crewId, Pageable page);
     Match createCrewMatch(Long crewId, Long userId, MatchCreatePostReq matchCreatePostReq);
 }

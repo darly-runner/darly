@@ -36,9 +36,7 @@ public class CrewController {
 
     private final CrewService crewService;
     private final UserCrewService userCrewService;
-    private final CrewAddressService crewAddressService;
     private final CrewWaitingService crewWaitingService;
-    private final CrewFeedService crewFeedService;
     private final FeedService feedService;
     private final FeedImageService feedImageService;
     private final MatchService matchService;
@@ -64,9 +62,7 @@ public class CrewController {
         if (crew == null)
             return ResponseEntity.ok(BaseResponseBody.of(405, "Fail save crew: Not valid userId or crewJoin"));
         if (!userCrewService.createUserCrew(userId, crew.getCrewId()))
-            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail save crew: Not valid userId or crewJoind"));
-        if (!crewAddressService.createCrewAddress(crew.getCrewId(), crewCreatePostReq.getCrewAddress()))
-            return ResponseEntity.ok(BaseResponseBody.of(406, "Fail save crew: Not valid addressId"));
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail save crew: Not valid userId or crewJoin"));
         return ResponseEntity.ok(BaseResponseBody.of(200, "Success save crew"));
     }
 
@@ -390,7 +386,7 @@ public class CrewController {
             return ResponseEntity.ok(BaseResponseBody.of(405, "Fail get crew feed list: Not valid crewId"));
         return ResponseEntity.ok(CrewFeedGetRes.builder()
                 .statusCode(200)
-                .page(crewFeedService.getCrewFeedList(crewId, page))
+                .page(feedService.getFeedList(crewId, page))
                 .currentPage(page.getPageNumber())
                 .message("Success get crew feed list")
                 .build());
@@ -412,8 +408,7 @@ public class CrewController {
             return ResponseEntity.ok(BaseResponseBody.of(405, "Fail create crew feed: Not valid crewId"));
         if (!userCrewService.isUserCrewExists(userId, crewId))
             return ResponseEntity.ok(BaseResponseBody.of(406, "Fail create crew feed: User is not member"));
-        Feed feed = feedService.createFeed(userId, feedCreatePostReq.getFeedTitle(), feedCreatePostReq.getFeedContent());
-        crewFeedService.createCrewFeed(crewId, feed.getFeedId());
+        Feed feed = feedService.createFeed(userId, crewId, feedCreatePostReq.getFeedTitle(), feedCreatePostReq.getFeedContent());
         feedImageService.createFeedImage(feed.getFeedId(), feedCreatePostReq.getFeedImages());
         return ResponseEntity.ok(BaseResponseBody.of(200, "Success create crew feed"));
     }
