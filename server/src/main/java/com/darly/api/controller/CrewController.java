@@ -54,6 +54,8 @@ public class CrewController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "테스트 성공"),
             @ApiResponse(code = 404, message = "잘못된 url 접근"),
+            @ApiResponse(code = 405, message = "잘못된 userId 혹은 crewJoin"),
+            @ApiResponse(code = 406, message = "잘못된 addressId"),
             @ApiResponse(code = 500, message = "서버 에러")
     })
     public ResponseEntity<? extends BaseResponseBody> createCrew(@ModelAttribute CrewCreatePostReq crewCreatePostReq, Authentication authentication) {
@@ -70,7 +72,7 @@ public class CrewController {
 
     // C-002
     @GetMapping
-    @ApiOperation(value = "크루목록", notes = "크루목록 가져오기")
+    @ApiOperation(value = "크루목록", notes = "크루목록얻기")
     @ApiResponses({
             @ApiResponse(code = 200, message = "테스트 성공"),
             @ApiResponse(code = 404, message = "잘못된 url 접근"),
@@ -100,6 +102,12 @@ public class CrewController {
 
     // C-003
     @GetMapping("/my")
+    @ApiOperation(value = "내크루목록", notes = "내크루목록얻기")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "테스트 성공"),
+            @ApiResponse(code = 404, message = "잘못된 url 접근"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
     public ResponseEntity<? extends BaseResponseBody> getMyCrewList(Authentication authentication) {
         Long userId = getUserId(authentication);
         return ResponseEntity.ok(CrewMyGetRes.builder()
@@ -111,7 +119,14 @@ public class CrewController {
 
     // C-004
     @GetMapping("/{crewId}")
-    public ResponseEntity<? extends BaseResponseBody> getMyCrewList(@PathVariable("crewId") Long crewId, Authentication authentication) {
+    @ApiOperation(value = "크루 상세정보", notes = "크루 상세정보 얻기")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "테스트 성공"),
+            @ApiResponse(code = 404, message = "잘못된 url 접근"),
+            @ApiResponse(code = 405, message = "잘못된 crewId"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
+    public ResponseEntity<? extends BaseResponseBody> getCrewDetail(@PathVariable("crewId") Long crewId, Authentication authentication) {
         List<CrewDetailMapping> crewDetailList = crewService.getCrewDetailByCrewId(crewId);
         if (crewDetailList.size() == 0)
             return ResponseEntity.ok(BaseResponseBody.of(405, "Fail get crew detail: Not valid crewId"));
@@ -124,6 +139,14 @@ public class CrewController {
 
     // C-005
     @PutMapping("/{crewId}")
+    @ApiOperation(value = "크루 설정변경", notes = "크루 설정변경하기")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "테스트 성공"),
+            @ApiResponse(code = 404, message = "잘못된 url 접근"),
+            @ApiResponse(code = 405, message = "잘못된 crewId"),
+            @ApiResponse(code = 406, message = "권한 없음(유저가 호스트가아님)"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
     public ResponseEntity<? extends BaseResponseBody> updateCrew(@PathVariable("crewId") Long crewId, @ModelAttribute CrewUpdatePutReq crewUpdatePutReq, Authentication authentication) {
         Long userId = getUserId(authentication);
         Optional<Crew> crew = crewService.getCrewByCrewId(crewId);
@@ -137,6 +160,14 @@ public class CrewController {
 
     // C-006
     @PatchMapping("/{crewId}")
+    @ApiOperation(value = "크루 공지변경", notes = "크루 공지변경하기")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "테스트 성공"),
+            @ApiResponse(code = 404, message = "잘못된 url 접근"),
+            @ApiResponse(code = 405, message = "잘못된 crewId"),
+            @ApiResponse(code = 406, message = "권한 없음(유저가 호스트가아님)"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
     public ResponseEntity<? extends BaseResponseBody> updateCrewNotice(@PathVariable("crewId") Long crewId, @RequestBody CrewUpdatePatchReq crewUpdatePatchReq, Authentication authentication) {
         Long userId = getUserId(authentication);
         Optional<Crew> crew = crewService.getCrewByCrewId(crewId);
@@ -150,6 +181,14 @@ public class CrewController {
 
     // C-007
     @DeleteMapping("/{crewId}")
+    @ApiOperation(value = "크루 탈퇴", notes = "크루 탈퇴하기")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "테스트 성공"),
+            @ApiResponse(code = 404, message = "잘못된 url 접근"),
+            @ApiResponse(code = 405, message = "잘못된 crewId"),
+            @ApiResponse(code = 406, message = "호스트의 탈퇴요청"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
     public ResponseEntity<? extends BaseResponseBody> leaveCrew(@PathVariable("crewId") Long crewId, Authentication authentication) {
         Long userId = getUserId(authentication);
         Optional<Crew> crew = crewService.getCrewByCrewId(crewId);
@@ -170,6 +209,14 @@ public class CrewController {
 
     // C-008
     @PatchMapping("/{crewId}/mandate")
+    @ApiOperation(value = "크루 위임", notes = "크루 위임하기")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "테스트 성공"),
+            @ApiResponse(code = 404, message = "잘못된 url 접근"),
+            @ApiResponse(code = 405, message = "잘못된 crewId"),
+            @ApiResponse(code = 406, message = "권한 없음(유저가 호스트가아님)"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
     public ResponseEntity<? extends BaseResponseBody> mandateCrew(@PathVariable("crewId") Long crewId, @RequestBody CrewMandatePatchReq crewMandatePatchReq, Authentication authentication) {
         Long userId = getUserId(authentication);
         Optional<Crew> crew = crewService.getCrewByCrewId(crewId);
@@ -183,6 +230,15 @@ public class CrewController {
 
     // C-009
     @PostMapping("/{crewId}/join")
+    @ApiOperation(value = "크루 가입신청", notes = "크루 가입신청하기")
+    @ApiResponses({           
+            @ApiResponse(code = 200, message = "테스트 성공, 대기중(crew Lock)"),
+            @ApiResponse(code = 201, message = "테스트 성공, 바로가입(crew Free)"),
+            @ApiResponse(code = 404, message = "잘못된 url 접근"),
+            @ApiResponse(code = 405, message = "잘못된 crewId"),
+            @ApiResponse(code = 406, message = "이미 크루원"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
     public ResponseEntity<? extends BaseResponseBody> joinCrew(@PathVariable("crewId") Long crewId, Authentication authentication) {
         Long userId = getUserId(authentication);
         Optional<Crew> crew = crewService.getCrewByCrewId(crewId);
@@ -200,6 +256,15 @@ public class CrewController {
 
     // C-010
     @PostMapping("/{crewId}/accept")
+    @ApiOperation(value = "크루 가입허가", notes = "크루 가입허가하기")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "테스트 성공"),
+            @ApiResponse(code = 404, message = "잘못된 url 접근"),
+            @ApiResponse(code = 405, message = "잘못된 crewId"),
+            @ApiResponse(code = 406, message = "권한 없음(유저가 호스트가아님)"),
+            @ApiResponse(code = 407, message = "신청이 없음"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
     public ResponseEntity<? extends BaseResponseBody> acceptCrew(@PathVariable("crewId") Long crewId, @RequestBody CrewApplyReq crewApplyReq, Authentication authentication) {
         Long userId = getUserId(authentication);
         Optional<Crew> crew = crewService.getCrewByCrewId(crewId);
@@ -217,6 +282,15 @@ public class CrewController {
 
     // C-011
     @DeleteMapping("/{crewId}/deny")
+    @ApiOperation(value = "크루 가입거절", notes = "크루 가입거절하기")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "테스트 성공"),
+            @ApiResponse(code = 404, message = "잘못된 url 접근"),
+            @ApiResponse(code = 405, message = "잘못된 crewId"),
+            @ApiResponse(code = 406, message = "권한 없음(유저가 호스트가아님)"),
+            @ApiResponse(code = 407, message = "신청이 없음"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
     public ResponseEntity<? extends BaseResponseBody> denyCrew(@PathVariable("crewId") Long crewId, @RequestBody CrewApplyReq crewApplyReq, Authentication authentication) {
         Long userId = getUserId(authentication);
         Optional<Crew> crew = crewService.getCrewByCrewId(crewId);
@@ -233,6 +307,14 @@ public class CrewController {
 
     // C-012
     @GetMapping("/{crewId}/waiting")
+    @ApiOperation(value = "크루 가입대기원 목록", notes = "크루 가입대기원 목록 얻기")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "테스트 성공"),
+            @ApiResponse(code = 404, message = "잘못된 url 접근"),
+            @ApiResponse(code = 405, message = "잘못된 crewId"),
+            @ApiResponse(code = 406, message = "권한 없음(유저가 호스트가아님)"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
     public ResponseEntity<? extends BaseResponseBody> getCrewWaitingList(@PathVariable("crewId") Long crewId, Authentication authentication) {
         Long userId = getUserId(authentication);
         Optional<Crew> crew = crewService.getCrewByCrewId(crewId);
@@ -249,6 +331,14 @@ public class CrewController {
 
     // C-013
     @GetMapping("/{crewId}/people")
+    @ApiOperation(value = "크루원 목록", notes = "크루원 목록 얻기")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "테스트 성공"),
+            @ApiResponse(code = 404, message = "잘못된 url 접근"),
+            @ApiResponse(code = 405, message = "잘못된 crewId"),
+            @ApiResponse(code = 406, message = "권한 없음(유저가 호스트가아님)"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
     public ResponseEntity<? extends BaseResponseBody> getUserCrewList(@PathVariable("crewId") Long crewId, Authentication authentication) {
         Long userId = getUserId(authentication);
         Optional<Crew> crew = crewService.getCrewByCrewId(crewId);
@@ -265,6 +355,14 @@ public class CrewController {
 
     // C-014
     @GetMapping("/{crewId}/summary")
+    @ApiOperation(value = "크루 요약", notes = "크루 요약 얻기")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "테스트 성공"),
+            @ApiResponse(code = 404, message = "잘못된 url 접근"),
+            @ApiResponse(code = 405, message = "잘못된 crewId"),
+            @ApiResponse(code = 406, message = "잘못된 type(week, month, all중 하나여야함)"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
     public ResponseEntity<? extends BaseResponseBody> getCrewSummary(@PathVariable("crewId") Long crewId, @RequestParam(name = "type") String type, Authentication authentication) {
         if (!crewService.isCrewExists(crewId))
             return ResponseEntity.ok(BaseResponseBody.of(405, "Fail get crew summary: Not valid crewId"));
@@ -280,6 +378,13 @@ public class CrewController {
 
     // C-015
     @GetMapping("/{crewId}/feed")
+    @ApiOperation(value = "크루 피드목록", notes = "크루 피드목록 얻기")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "테스트 성공"),
+            @ApiResponse(code = 404, message = "잘못된 url 접근"),
+            @ApiResponse(code = 405, message = "잘못된 crewId"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
     public ResponseEntity<? extends BaseResponseBody> getCrewFeedList(@PathVariable("crewId") Long crewId, Pageable page, Authentication authentication) {
         if (!crewService.isCrewExists(crewId))
             return ResponseEntity.ok(BaseResponseBody.of(405, "Fail get crew feed list: Not valid crewId"));
@@ -293,6 +398,14 @@ public class CrewController {
 
     // C-016
     @PostMapping("/{crewId}/feed")
+    @ApiOperation(value = "크루 피드 생성", notes = "크루 피드 생성하기")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "테스트 성공"),
+            @ApiResponse(code = 404, message = "잘못된 url 접근"),
+            @ApiResponse(code = 405, message = "잘못된 crewId"),
+            @ApiResponse(code = 406, message = "권한 없음(유저가 크루원이 아님)"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
     public ResponseEntity<? extends BaseResponseBody> createCrewFeed(@PathVariable("crewId") Long crewId, @ModelAttribute FeedCreatePostReq feedCreatePostReq, Authentication authentication) {
         Long userId = getUserId(authentication);
         if (!crewService.isCrewExists(crewId))
@@ -307,6 +420,13 @@ public class CrewController {
 
     // C-017
     @GetMapping("/{crewId}/match")
+    @ApiOperation(value = "크루 경쟁방 목록", notes = "크루 경쟁방 목록 얻기")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "테스트 성공"),
+            @ApiResponse(code = 404, message = "잘못된 url 접근"),
+            @ApiResponse(code = 405, message = "잘못된 crewId"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
     public ResponseEntity<? extends BaseResponseBody> getCrewMatchList(@PathVariable("crewId") Long crewId, Pageable page, Authentication authentication) {
         if (!crewService.isCrewExists(crewId))
             return ResponseEntity.ok(BaseResponseBody.of(405, "Fail get crew match list: Not valid crewId"));
@@ -320,6 +440,14 @@ public class CrewController {
 
     // C-018
     @PostMapping("/{crewId}/match")
+    @ApiOperation(value = "크루 경쟁방 생성", notes = "크루원 경쟁방 만들기")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "테스트 성공"),
+            @ApiResponse(code = 404, message = "잘못된 url 접근"),
+            @ApiResponse(code = 405, message = "잘못된 crewId"),
+            @ApiResponse(code = 406, message = "권한 없음(유저가 크루원이 아님)"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
     public ResponseEntity<? extends BaseResponseBody> createCrewMatch(@PathVariable("crewId") Long crewId, @RequestBody MatchCreatePostReq matchCreatePostReq, Authentication authentication) {
         Long userId = getUserId(authentication);
         if (!crewService.isCrewExists(crewId))
