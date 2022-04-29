@@ -1,28 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<!--<layout-->
-<!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    xmlns:tools="http://schemas.android.com/tools">-->
-<!--    <data>-->
-<!--        <variable-->
-<!--            name="viewModel"-->
-<!--            type="com.ssafy.darly.viewmodel.CrewViewModel" />-->
-<!--    </data>-->
-
-<!--    <FrameLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        tools:context=".fragment.ActFragment">-->
-
-<!--        &lt;!&ndash; TODO: Update blank fragment layout &ndash;&gt;-->
-<!--        <TextView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:text="크루 프래그먼트" />-->
-
-<!--    </FrameLayout>-->
-<!--</layout>-->
-
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
@@ -40,14 +16,37 @@
         android:orientation="vertical"
         android:padding="20dp">
 
-        <TextView
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/pretendard_bold"
-            android:paddingBottom="20dp"
-            android:text="Crew"
-            android:textColor="@color/black"
-            android:textSize="30dp" />
+            android:orientation="horizontal"
+            android:paddingBottom="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/pretendard_bold"
+                android:text="Crew"
+                android:textColor="@color/black"
+                android:textSize="30dp" />
+
+            <ImageView
+                android:id="@+id/searchCrew"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingHorizontal="10dp"
+                android:src="@drawable/ic_search" />
+
+            <ImageView
+                android:id="@+id/createCrew"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_plus" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/myCrew"
@@ -61,6 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/pretendard_semibold"
+            android:padding="5dp"
             android:text="크루 추천"
             android:textColor="@color/black"
             android:textSize="20dp" />
