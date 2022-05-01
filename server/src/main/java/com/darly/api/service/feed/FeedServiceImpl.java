@@ -1,5 +1,6 @@
 package com.darly.api.service.feed;
 
+import com.darly.api.request.feed.FeedUpdatePatchReq;
 import com.darly.db.entity.crew.Crew;
 import com.darly.db.entity.feed.Feed;
 import com.darly.db.entity.feed.FeedMapping;
@@ -25,7 +26,7 @@ public class FeedServiceImpl implements FeedService {
     @Override
     public void deleteByCrewId(Long crewId) {
         List<Feed> feedList = feedRepository.findByCrew_CrewId(crewId);
-        for (Feed feed: feedList) {
+        for (Feed feed : feedList) {
             feedImageService.deleteByFeedId(feed.getFeedId());
             feedRepository.delete(feed);
         }
@@ -50,6 +51,23 @@ public class FeedServiceImpl implements FeedService {
     @Override
     public Optional<Feed> getFeedDetail(Long feedId) {
         return feedRepository.findById(feedId);
+    }
+
+    @Override
+    public boolean updateFeed(Long feedId, FeedUpdatePatchReq feedUpdatePatchReq) {
+        Optional<Feed> feedOptional = getFeedDetail(feedId);
+        if (!feedOptional.isPresent())
+            return false;
+        Feed feed = feedOptional.get();
+        if (feedUpdatePatchReq.getFeedTitle() != null)
+            feed.setFeedTitle(feedUpdatePatchReq.getFeedTitle());
+        if (feedUpdatePatchReq.getFeedContent() != null)
+            feed.setFeedContent(feedUpdatePatchReq.getFeedContent());
+        if (feedUpdatePatchReq.getFeedImages() != null) {
+            feedImageService.deleteByFeedId(feed.getFeedId());
+            feedImageService.createFeedImage(feedId, feedUpdatePatchReq.getFeedImages());
+        }
+        return true;
     }
 
     private Long getTimestamp() {

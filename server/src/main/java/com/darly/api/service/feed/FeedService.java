@@ -1,5 +1,6 @@
 package com.darly.api.service.feed;
 
+import com.darly.api.request.feed.FeedUpdatePatchReq;
 import com.darly.db.entity.feed.Feed;
 import com.darly.db.entity.feed.FeedMapping;
 import org.springframework.data.domain.Page;
@@ -12,4 +13,5 @@ public interface FeedService {
     Feed createFeed(Long userId, Long crewId, String feedTitle, String feedContent);
     Page<FeedMapping> getFeedList(Long crewId, Pageable page);
     Optional<Feed> getFeedDetail(Long feedId);
+    boolean updateFeed(Long feedId, FeedUpdatePatchReq feedUpdatePatchReq);
 }
