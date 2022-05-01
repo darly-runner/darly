@@ -1,5 +1,6 @@
 package com.darly.api.controller;
 
+import com.darly.api.request.comment.CommentCreatePostReq;
 import com.darly.api.request.feed.FeedUpdatePatchReq;
 import com.darly.api.response.feed.FeedDetailGetRes;
 import com.darly.api.service.comment.CommentService;
@@ -63,7 +64,7 @@ public class FeedController {
             @ApiResponse(code = 500, message = "서버 에러")
     })
     public ResponseEntity<? extends BaseResponseBody> updateFeed(@PathVariable("feedId") Long feedId, @ModelAttribute FeedUpdatePatchReq feedUpdatePatchReq, Authentication authentication) {
-        if(!feedService.updateFeed(feedId, feedUpdatePatchReq))
+        if (!feedService.updateFeed(feedId, feedUpdatePatchReq))
             return ResponseEntity.ok(BaseResponseBody.of(405, "Fail update feed: Not valid feedId"));
         return ResponseEntity.ok(BaseResponseBody.of(200, "Success update feed"));
     }
@@ -76,10 +77,25 @@ public class FeedController {
             @ApiResponse(code = 405, message = "잘못된 feedId"),
             @ApiResponse(code = 500, message = "서버 에러")
     })
-    public ResponseEntity<? extends BaseResponseBody> deleteFeed(@PathVariable("feedId") Long feedId, @ModelAttribute FeedUpdatePatchReq feedUpdatePatchReq, Authentication authentication) {
-        if(!feedService.deleteByFeedId(feedId))
+    public ResponseEntity<? extends BaseResponseBody> deleteFeed(@PathVariable("feedId") Long feedId, Authentication authentication) {
+        if (!feedService.deleteByFeedId(feedId))
             return ResponseEntity.ok(BaseResponseBody.of(405, "Fail delete feed: Not valid feedId"));
         return ResponseEntity.ok(BaseResponseBody.of(200, "Success delete feed"));
     }
 
+    @PostMapping("/{feedId}/comment")
+    @ApiOperation(value = "댓글 생성", notes = "댓글 생성하기")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "테스트 성공"),
+            @ApiResponse(code = 404, message = "잘못된 url 접근"),
+            @ApiResponse(code = 405, message = "잘못된 feedId"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
+    public ResponseEntity<? extends BaseResponseBody> createComment(@PathVariable("feedId") Long feedId, @RequestBody CommentCreatePostReq commentCreatePostReq, Authentication authentication) {
+        Long userId = getUserId(authentication);
+        if (!feedService.existsByFeedId(feedId))
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail create comment: Not valid feedId"));
+        commentService.createComment(feedId, userId, commentCreatePostReq.getCommentContent());
+        return ResponseEntity.ok(BaseResponseBody.of(200, "Success create comment"));
+    }
 }

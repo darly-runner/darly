@@ -32,4 +32,6 @@ public interface FeedRepository extends JpaRepository<Feed, Long> {
     Page<FeedMapping> findByCrewId(@Param("crewId")Long crewId, Pageable page);
 
     List<Feed> findByCrew_CrewId(Long crewId);
+
+    boolean existsByFeedId(Long feedId);
 }

@@ -15,4 +15,5 @@ public interface FeedService {
     Optional<Feed> getFeedDetail(Long feedId);
     boolean updateFeed(Long feedId, FeedUpdatePatchReq feedUpdatePatchReq);
     boolean deleteByFeedId(Long feedId);
+    boolean existsByFeedId(Long feedId);
 }

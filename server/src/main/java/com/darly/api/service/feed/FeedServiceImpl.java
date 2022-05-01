@@ -81,6 +81,11 @@ public class FeedServiceImpl implements FeedService {
         return true;
     }
 
+    @Override
+    public boolean existsByFeedId(Long feedId) {
+        return feedRepository.existsByFeedId(feedId);
+    }
+
     private Long getTimestamp() {
         return Timestamp.valueOf(LocalDate.now().atStartOfDay()).getTime() / 1000;
     }

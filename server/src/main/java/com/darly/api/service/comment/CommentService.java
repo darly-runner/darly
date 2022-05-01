@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface CommentService {
     List<Comment> getCommentList(Long feedId);
+    void createComment(Long feedId, Long userId, String commentContent);
 }
