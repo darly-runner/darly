@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service("commentService")
 @RequiredArgsConstructor
@@ -29,6 +30,17 @@ public class CommentServiceImpl implements CommentService {
                 .commentContent(commentContent)
                 .commentDate(getTimestamp())
                 .build());
+    }
+
+    @Override
+    public Optional<Comment> getComment(Long commentId) {
+        return commentRepository.findById(commentId);
+    }
+
+    @Override
+    public void updateComment(Comment comment, String commentContent) {
+        comment.setCommentContent(commentContent);
+        commentRepository.save(comment);
     }
 
     private Long getTimestamp() {
