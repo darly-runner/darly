@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service("feedService")
 @RequiredArgsConstructor
@@ -44,6 +45,11 @@ public class FeedServiceImpl implements FeedService {
     @Override
     public Page<FeedMapping> getFeedList(Long crewId, Pageable page) {
         return feedRepository.findByCrewId(crewId, page);
+    }
+
+    @Override
+    public Optional<Feed> getFeedDetail(Long feedId) {
+        return feedRepository.findById(feedId);
     }
 
     private Long getTimestamp() {
