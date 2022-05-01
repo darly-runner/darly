@@ -14,4 +14,5 @@ public interface FeedService {
     Page<FeedMapping> getFeedList(Long crewId, Pageable page);
     Optional<Feed> getFeedDetail(Long feedId);
     boolean updateFeed(Long feedId, FeedUpdatePatchReq feedUpdatePatchReq);
+    boolean deleteByFeedId(Long feedId);
 }

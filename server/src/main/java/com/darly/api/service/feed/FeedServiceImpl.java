@@ -70,6 +70,17 @@ public class FeedServiceImpl implements FeedService {
         return true;
     }
 
+    @Override
+    public boolean deleteByFeedId(Long feedId) {
+        Optional<Feed> feedOptional = getFeedDetail(feedId);
+        if (!feedOptional.isPresent())
+            return false;
+        Feed feed = feedOptional.get();
+        feedImageService.deleteByFeedId(feed.getFeedId());
+        feedRepository.delete(feed);
+        return true;
+    }
+
     private Long getTimestamp() {
         return Timestamp.valueOf(LocalDate.now().atStartOfDay()).getTime() / 1000;
     }

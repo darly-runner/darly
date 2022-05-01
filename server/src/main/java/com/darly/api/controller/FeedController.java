@@ -68,4 +68,18 @@ public class FeedController {
         return ResponseEntity.ok(BaseResponseBody.of(200, "Success update feed"));
     }
 
+    @DeleteMapping("/{feedId}")
+    @ApiOperation(value = "피드 삭제", notes = "피드 삭제하기")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "테스트 성공"),
+            @ApiResponse(code = 404, message = "잘못된 url 접근"),
+            @ApiResponse(code = 405, message = "잘못된 feedId"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
+    public ResponseEntity<? extends BaseResponseBody> deleteFeed(@PathVariable("feedId") Long feedId, @ModelAttribute FeedUpdatePatchReq feedUpdatePatchReq, Authentication authentication) {
+        if(!feedService.deleteByFeedId(feedId))
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail delete feed: Not valid feedId"));
+        return ResponseEntity.ok(BaseResponseBody.of(200, "Success delete feed"));
+    }
+
 }
