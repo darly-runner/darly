@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingVertical="20dp"
     android:paddingHorizontal="18dp"
+    android:paddingVertical="20dp"
     tools:context=".activity.CreateCrewActivity">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="15dp">
 
         <ImageView
             android:id="@+id/back"
@@ -19,13 +20,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:paddingRight="5dp"
-            android:src="@drawable/ic_chevron_left"/>
+            android:src="@drawable/ic_chevron_left" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18dp"
             android:text="크루 만들기"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:textSize="18dp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -38,44 +40,87 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingBottom="3dp"
             android:text="크루명"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black" />
 
         <EditText
             android:id="@+id/createCrewName"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/crew_create_background"/>
+            android:background="@drawable/crew_create_background"
+            android:maxLength="20" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="활동 내역"
-            android:textColor="@color/black"/>
+            android:paddingBottom="3dp"
+            android:text="활동 지역"
+            android:textColor="@color/black" />
 
         <EditText
             android:id="@+id/createCrewLocation"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_marginBottom="20dp"
+            android:background="@drawable/crew_create_background"
             android:hint="시, 군, 구로 검색 (ex. 서울시 종로구)"
+            android:paddingLeft="10dp"
             android:textColorHint="@color/gray_500"
-            android:textSize="12dp"
-            android:background="@drawable/crew_create_background"/>
+            android:textSize="12dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingBottom="3dp"
             android:text="크루 소개글"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black" />
 
         <EditText
             android:id="@+id/createCrewDesc"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/crew_create_background"/>
+            android:background="@drawable/crew_create_background" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="가입 방법"
+            android:textColor="@color/black" />
+
+        <RadioGroup
+            android:id="@+id/crewJoin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="20dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/crewJoinDirect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="바로 가입" />
+
+            <RadioButton
+                android:id="@+id/crewJoinApproval"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="승인 후 가입" />
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/button_background_lg"
+            android:fontFamily="@font/pretendard_medium"
+            android:gravity="center"
+            android:text="완료"
+            android:textColor="@color/white_custom"
+            android:textSize="18dp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
