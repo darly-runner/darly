@@ -23,7 +23,8 @@ import com.ssafy.darly.databinding.FragmentRunningBinding
 import com.ssafy.darly.util.LocationHelper
 import com.ssafy.darly.viewmodel.RunningViewModel
 
-class RunningFragment : Fragment() , OnMapReadyCallback,
+class RunningFragment : Fragment() ,
+//    OnMapReadyCallback,
     ActivityCompat.OnRequestPermissionsResultCallback {
     private lateinit var binding: FragmentRunningBinding
     private val model: RunningViewModel by viewModels()
@@ -40,34 +41,34 @@ class RunningFragment : Fragment() , OnMapReadyCallback,
             binding.viewModel = model
         }
 
-        val mapFragment: SupportMapFragment = childFragmentManager.findFragmentById(R.id.mapview) as SupportMapFragment
-        mapFragment.getMapAsync(this)
+//        val mapFragment: SupportMapFragment = childFragmentManager.findFragmentById(R.id.mapview) as SupportMapFragment
+//        mapFragment.getMapAsync(this)
 
         return binding.root
     }
 
-    override fun onMapReady(googleMap: GoogleMap) {
-        map = googleMap ?: return
+//    override fun onMapReady(googleMap: GoogleMap) {
+//        map = googleMap ?: return
+//
+//        val polylineOptions = PolylineOptions()
+//
+//        // 현재 내위치 표시
+//        if (ContextCompat.checkSelfPermission(this.requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+//            == PackageManager.PERMISSION_GRANTED) {
+//            map.isMyLocationEnabled = true
+//        }
+//
+//        LocationHelper().startListeningUserLocation(this.requireContext(), object : LocationHelper.MyLocationListener {
+//            override fun onLocationChanged(location: Location) {
+//                // Here you got user location :)
+//                Log.d("Location","" + location.latitude + "," + location.longitude)
+//                val marker = LatLng(location.latitude, location.longitude)
+//
+//                map.moveCamera(CameraUpdateFactory.newLatLngZoom(marker,18f))
+//                polylineOptions.points.add(marker)
+//                map.addPolyline(polylineOptions)
+//            }
+//        })
 
-        val polylineOptions = PolylineOptions()
-
-        // 현재 내위치 표시
-        if (ContextCompat.checkSelfPermission(this.requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-            == PackageManager.PERMISSION_GRANTED) {
-            map.isMyLocationEnabled = true
-        }
-
-        LocationHelper().startListeningUserLocation(this.requireContext(), object : LocationHelper.MyLocationListener {
-            override fun onLocationChanged(location: Location) {
-                // Here you got user location :)
-                Log.d("Location","" + location.latitude + "," + location.longitude)
-                val marker = LatLng(location.latitude, location.longitude)
-
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(marker,18f))
-                polylineOptions.points.add(marker)
-                map.addPolyline(polylineOptions)
-            }
-        })
-
-    }
+//    }
 }
