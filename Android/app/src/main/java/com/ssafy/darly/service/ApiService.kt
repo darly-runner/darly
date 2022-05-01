@@ -30,4 +30,13 @@ interface ApiService{
         @Query("address") address: Int,
         @Query("key") key: String,
     ): Response<CrewRecommendationResponse>
+
+    @POST("crew")
+    suspend fun createCrew(
+        @Body crewName: String,
+        @Body crewDesc: String,
+        @Body crewAddress: Long,
+//        @Body crewImage:
+        @Body crewJoin: String
+    ): Response<CreateCrew>
 }
