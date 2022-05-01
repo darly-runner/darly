@@ -113,6 +113,7 @@
         </RadioGroup>
 
         <TextView
+            android:id="@+id/createCrewButton"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/button_background_lg"

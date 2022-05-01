@@ -67,6 +67,6 @@ class CrewRecommendationAdapterDecoration() : RecyclerView.ItemDecoration() {
 
         val position = parent.getChildAdapterPosition(view)
         val count = state.itemCount
-        val offset = 5
+//        val offset = 5
     }
 }
