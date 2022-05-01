@@ -50,4 +50,26 @@ public class CommentController {
         commentService.updateComment(comment, commentUpdatePatchReq.getCommentContent());
         return ResponseEntity.ok(BaseResponseBody.of(200, "Success update comment"));
     }
+
+    // CM-002
+    @DeleteMapping("/{commentId}")
+    @ApiOperation(value = "댓글 수정", notes = "댓글 수정하기")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "테스트 성공"),
+            @ApiResponse(code = 404, message = "잘못된 url 접근"),
+            @ApiResponse(code = 405, message = "잘못된 commentId"),
+            @ApiResponse(code = 406, message = "userId != hostId"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
+    public ResponseEntity<? extends BaseResponseBody> deleteComment(@PathVariable("commentId") Long commentId, Authentication authentication) {
+        Long userId = getUserId(authentication);
+        Optional<Comment> commentOptional = commentService.getComment(commentId);
+        if(!commentOptional.isPresent())
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail delete comment: Not valid commentId"));
+        Comment comment = commentOptional.get();
+        if(!userId.equals(comment.getUser().getUserId()))
+            return ResponseEntity.ok(BaseResponseBody.of(406, "Fail delete comment: User is not host"));
+        commentService.deleteComment(comment);
+        return ResponseEntity.ok(BaseResponseBody.of(200, "Success delete comment"));
+    }
 }

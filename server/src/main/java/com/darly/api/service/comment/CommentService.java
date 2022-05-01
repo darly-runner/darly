@@ -10,4 +10,5 @@ public interface CommentService {
     void createComment(Long feedId, Long userId, String commentContent);
     Optional<Comment> getComment(Long commentId);
     void updateComment(Comment comment, String commentContent);
+    void deleteComment(Comment comment);
 }

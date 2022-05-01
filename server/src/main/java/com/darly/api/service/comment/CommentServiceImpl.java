@@ -43,6 +43,11 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.save(comment);
     }
 
+    @Override
+    public void deleteComment(Comment comment) {
+        commentRepository.delete(comment);
+    }
+
     private Long getTimestamp() {
         return Timestamp.valueOf(LocalDate.now().atStartOfDay()).getTime() / 1000;
     }
