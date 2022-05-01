@@ -19,7 +19,7 @@ public interface FeedRepository extends JpaRepository<Feed, Long> {
             "where crew_id = :crewId ", nativeQuery = true)
     void deleteByCrewId(@Param(value = "crewId") Long crewId);
 
-    @Query(value = "select f.feed_id as feedId, fi.feed_image as feedImage from tb_feed f " +
+    @Query(value = "select f.feed_id as feedId, ANY_VALUE(fi.feed_image) as feedImage from tb_feed f " +
             "inner join tb_feed_image fi " +
             "on f.feed_id = fi.feed_id " +
             "where f.crew_id = :crewId " +
