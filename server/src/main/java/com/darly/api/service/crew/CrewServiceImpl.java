@@ -37,7 +37,8 @@ public class CrewServiceImpl implements CrewService {
         if (crewCreatePostReq.getCrewImage() != null && !crewCreatePostReq.getCrewImage().isEmpty())
             url = fileProcessService.uploadImage(crewCreatePostReq.getCrewImage(), "crew");
 
-        System.out.println("CrewJoin: " + crewCreatePostReq.getCrewJoin());
+        System.out.println("crewCreatePostReq: ");
+        System.out.println(crewCreatePostReq);
 
         return crewRepository.save(Crew.builder()
                 .user(User.builder().userId(userId).build())
