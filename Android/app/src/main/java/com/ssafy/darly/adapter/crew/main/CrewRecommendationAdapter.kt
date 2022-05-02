@@ -53,7 +53,7 @@ class CrewRecommendationAdapter(
         myCrewItemList?.get(position)?.let { holder.bind(it) }
     }
 
-    override fun getItemCount(): Int = 5
+    override fun getItemCount(): Int = 7
 }
 
 class CrewRecommendationAdapterDecoration() : RecyclerView.ItemDecoration() {
