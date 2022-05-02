@@ -4,6 +4,7 @@ import com.darly.api.service.user.UserService;
 import com.darly.common.auth.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -36,15 +37,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/swagger").permitAll()
                 .antMatchers("/swagger-ui/**").permitAll()
                 .antMatchers("/swagger-resources/**").permitAll()
-                .antMatchers("/ws/**").permitAll()
-                .antMatchers("/comm/**").permitAll()
+                .antMatchers("/chat/**").permitAll()
+                .antMatchers("/ws").permitAll()
                 .anyRequest().authenticated()
                 .and().cors();
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/static/css/**, /static/js/**, *.ico");
+        web.ignoring().antMatchers("/static/**, /static/css/**, /static/js/**, *.ico");
 
         // swagger
         web.ignoring().antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources",

@@ -15,7 +15,7 @@ public class SwaggerController {
     // 기존의 주소를 좀더 간결하게 입력해서 들어가려고 만든 함수
     @GetMapping("/swagger")
     public void home(HttpServletResponse response, HttpServletRequest request) throws IOException {
-        String redirect_url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/swagger-ui/index.html#";
+        String redirect_url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/swagger-ui/chat.html#";
         response.sendRedirect(redirect_url);
     }
 }
