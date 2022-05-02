@@ -35,6 +35,7 @@
         <entry key="app/src/main/res/layout/crew_recommendations.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_challenge.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/layout/fragment_crew.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_crew_image_upload.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_running.xml" value="0.1" />
       </map>
     </option>
