@@ -93,9 +93,8 @@ public class UserServiceImpl implements UserService {
     public UserFeed postUserFeed(UserPostFeedReq userPostFeedReq, Long userId) {
         UserFeed userFeed = UserFeed.builder()
                 .userId(userId)
-                .userFeedImage(userPostFeedReq.getUserFeedImage())
+                .userFeedImage(fileProcessService.uploadImage(userPostFeedReq.getUserFeedImage(), "user"))
                 .build();
-
         return userFeedRepository.save(userFeed);
     }
 

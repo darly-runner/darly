@@ -159,11 +159,9 @@ public class UserController {
             @ApiResponse(code = 404, message = "잘못된 url 접근"),
             @ApiResponse(code = 500, message = "서버 에러")
     })
-    public ResponseEntity<BaseResponseBody> postUserFeed(UserPostFeedReq userPostFeedReq, Authentication authentication) {
+    public ResponseEntity<BaseResponseBody> postUserFeed(@ModelAttribute UserPostFeedReq userPostFeedReq, Authentication authentication) {
         Long userId = Long.parseLong((String) authentication.getPrincipal());
         userService.postUserFeed(userPostFeedReq, userId);
-
-
         return ResponseEntity.ok(BaseResponseBody.of(200, "message"));
     }
 
