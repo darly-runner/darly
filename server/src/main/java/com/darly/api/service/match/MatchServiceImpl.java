@@ -26,8 +26,8 @@ public class MatchServiceImpl implements MatchService {
     }
 
     @Override
-    public Page<MatchTitleMapping> getCrewMatchList(Long crewId, Pageable page) {
-        return matchRepository.findByCrewId(crewId, page);
+    public Page<Match> getCrewMatchList(Long crewId, Pageable page) {
+        return matchRepository.findByCrew_CrewId(crewId, page);
     }
 
     @Override

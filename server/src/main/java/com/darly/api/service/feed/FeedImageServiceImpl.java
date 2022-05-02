@@ -26,4 +26,13 @@ public class FeedImageServiceImpl implements FeedImageService {
                     .build());
         }
     }
+
+    @Override
+    public void deleteByFeedId(Long feedId) {
+        List<FeedImage> feedImageList = feedImageRepository.findByFeed_FeedId(feedId);
+        for (FeedImage feedImage : feedImageList) {
+            fileProcessService.deleteImage(feedImage.getFeedImage());
+            feedImageRepository.delete(feedImage);
+        }
+    }
 }

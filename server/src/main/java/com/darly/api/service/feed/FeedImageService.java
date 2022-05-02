@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface FeedImageService {
     void createFeedImage(Long feedId, List<MultipartFile> feedImageList);
+    void deleteByFeedId(Long feedId);
 }
