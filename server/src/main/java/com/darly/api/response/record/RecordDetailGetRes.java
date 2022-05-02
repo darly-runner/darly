@@ -49,7 +49,7 @@ public class RecordDetailGetRes extends BaseResponseBody {
     private String[] coordinateLatitudes;
     @ApiModelProperty(name="coordinateLongitudes", example="[string1,string2,string3]")
     private String[] coordinateLongitudes;
-    @ApiModelProperty(name="sections", example="[section1,section2,section3")
+    @ApiModelProperty(name="sections", example="[section1,section2,section3]")
     private List<SectionMapping> sections;
     @ApiModelProperty(name="recordRank", example="1")
     private Integer recordRank;

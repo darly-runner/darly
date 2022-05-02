@@ -1,6 +1,7 @@
 package com.darly.db.repository.crew;
 
 import com.darly.db.entity.crew.*;
+import com.darly.db.entity.feed.QFeed;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -15,24 +16,22 @@ public class CrewRepositorySupport {
     private final JPAQueryFactory jpaQueryFactory;
 
     QCrew qCrew = QCrew.crew;
-    QCrewAddress qCrewAddress = QCrewAddress.crewAddress;
+    QFeed qFeed = QFeed.feed;
     QUserCrew qUserCrew = QUserCrew.userCrew;
-    QCrewFeed qCrewFeed = QCrewFeed.crewFeed;
 
 
     public List<CrewDetailMapping> findCrewDetailByCrewId(Long crewId) {
-        return jpaQueryFactory.select(new QCrewDetailMapping(qCrew.crewName, qCrew.crewDesc, qCrew.crewNotice, qCrew.user.userNickname, qCrewAddress.crewAddressId.address.addressName, qCrew.crewImage,
+        return jpaQueryFactory.select(new QCrewDetailMapping(qCrew.crewName, qCrew.crewDesc, qCrew.crewNotice, qCrew.user.userNickname, qCrew.address.addressName, qCrew.crewImage,
                         ExpressionUtils.as(
                                 JPAExpressions.select(qUserCrew.userCrewId.user.userId.count())
                                         .from(qUserCrew)
                                         .where(qUserCrew.userCrewId.crew.crewId.eq(crewId)),
                                 "crewPeople"), ExpressionUtils.as(
-                        JPAExpressions.select(qCrewFeed.crewFeedId.feed.feedId.count())
-                                .from(qCrewFeed)
-                                .where(qCrewFeed.crewFeedId.crew.crewId.eq(crewId)),
+                        JPAExpressions.select(qFeed.feedId.count())
+                                .from(qFeed)
+                                .where(qFeed.crew.crewId.eq(crewId)),
                         "crewFeedNum")))
-                .from(qCrew).innerJoin(qCrewAddress)
-                .on(qCrew.crewId.eq(qCrewAddress.crewAddressId.crew.crewId))
+                .from(qCrew)
                 .where(qCrew.crewId.eq(crewId))
                 .fetch();
     }

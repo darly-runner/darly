@@ -1,7 +1,6 @@
-package com.darly.db.entity.crew;
+package com.darly.db.entity.comment;
 
-
-import com.darly.db.entity.address.Address;
+import com.darly.db.entity.feed.Feed;
 import com.darly.db.entity.user.User;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
@@ -15,20 +14,17 @@ import javax.persistence.*;
 @AllArgsConstructor
 @DynamicInsert
 @Builder
-@Table(name = "tb_crew")
-public class Crew {
+@Table(name = "tb_comment")
+public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long crewId;
+    private Long commentId;
     @ManyToOne
     @JoinColumn(name = "host_id")
     private User user;
     @ManyToOne
-    @JoinColumn(name = "address_id")
-    private Address address;
-    private String crewName;
-    private String crewDesc;
-    private String crewNotice;
-    private Character crewJoin;
-    private String crewImage;
+    @JoinColumn(name = "feed_id")
+    private Feed feed;
+    private String commentContent;
+    private Long commentDate;
 }

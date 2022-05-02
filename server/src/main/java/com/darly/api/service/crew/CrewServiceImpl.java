@@ -8,6 +8,7 @@ import com.darly.api.service.feed.FeedService;
 import com.darly.api.service.file.FileProcessService;
 import com.darly.api.service.match.MatchService;
 import com.darly.common.util.Type;
+import com.darly.db.entity.address.Address;
 import com.darly.db.entity.crew.Crew;
 import com.darly.db.entity.crew.CrewDetailMapping;
 import com.darly.db.entity.crew.CrewTitleMapping;
@@ -25,7 +26,6 @@ import java.util.Optional;
 public class CrewServiceImpl implements CrewService {
     private final CrewRepository crewRepository;
     private final CrewRepositorySupport crewRepositorySupport;
-    private final CrewAddressService crewAddressService;
     private final CrewWaitingService crewWaitingService;
     private final FileProcessService fileProcessService;
     private final FeedService feedService;
@@ -39,6 +39,7 @@ public class CrewServiceImpl implements CrewService {
 
         return crewRepository.save(Crew.builder()
                 .user(User.builder().userId(userId).build())
+                .address(Address.builder().addressId(crewCreatePostReq.getCrewAddress()).build())
                 .crewName(crewCreatePostReq.getCrewName())
                 .crewDesc(crewCreatePostReq.getCrewDesc())
                 .crewJoin(Type.valueOf(crewCreatePostReq.getCrewJoin()).getLabel())
@@ -90,7 +91,7 @@ public class CrewServiceImpl implements CrewService {
             crew.setCrewImage(fileProcessService.uploadImage(crewUpdatePutReq.getCrewImage(), "crew"));
         }
         if (crewUpdatePutReq.getCrewAddress() != null)
-            crewAddressService.updateCrewAddress(crew.getCrewId(), crewUpdatePutReq.getCrewAddress());
+            crew.setAddress(Address.builder().addressId(crewUpdatePutReq.getCrewAddress()).build());
         crewRepository.save(crew);
     }
 
@@ -110,7 +111,6 @@ public class CrewServiceImpl implements CrewService {
     public void deleteCrew(Long crewId) {
         feedService.deleteByCrewId(crewId);
         matchService.setNullByCrewId(crewId);
-        crewAddressService.deleteByCrewId(crewId);
         crewWaitingService.deleteByCrewId(crewId);
         crewRepository.delete(getCrewByCrewId(crewId).get());
     }

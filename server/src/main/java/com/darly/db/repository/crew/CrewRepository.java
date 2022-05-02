@@ -14,10 +14,8 @@ public interface CrewRepository extends JpaRepository<Crew, Long> {
             "left join tb_user_crew uc " +
             "on c.crew_id = uc.crew_id " +
             "and uc.user_id = :userId " +
-            "inner join tb_crew_address ca " +
-            "on c.crew_id = ca.crew_id " +
             "inner join tb_address a " +
-            "on ca.address_id = a.address_id " +
+            "on c.address_id = a.address_id " +
             "where uc.crew_id is null " +
             "and a.address_id = :addressId " +
             "and c.crew_name like %:key% " +
@@ -30,10 +28,8 @@ public interface CrewRepository extends JpaRepository<Crew, Long> {
             "left join tb_user_crew uc " +
             "on c.crew_id = uc.crew_id " +
             "and uc.user_id = :userId " +
-            "inner join tb_crew_address ca " +
-            "on c.crew_id = ca.crew_id " +
             "inner join tb_address a " +
-            "on ca.address_id = a.address_id " +
+            "on c.address_id = a.address_id " +
             "where uc.crew_id is null " +
             "and a.address_id = :addressId " +
             "and c.crew_name like %:key% ", nativeQuery = true)
@@ -44,10 +40,8 @@ public interface CrewRepository extends JpaRepository<Crew, Long> {
             "left join tb_user_crew uc " +
             "on c.crew_id = uc.crew_id " +
             "and uc.user_id = :userId " +
-            "inner join tb_crew_address ca " +
-            "on c.crew_id = ca.crew_id " +
             "inner join tb_address a " +
-            "on ca.address_id = a.address_id " +
+            "on c.address_id = a.address_id " +
             "where uc.crew_id is null " +
             "and c.crew_name like %:key% " +
             "order by crewPeopleNum desc, crewName asc " +
@@ -59,10 +53,8 @@ public interface CrewRepository extends JpaRepository<Crew, Long> {
             "left join tb_user_crew uc " +
             "on c.crew_id = uc.crew_id " +
             "and uc.user_id = :userId " +
-            "inner join tb_crew_address ca " +
-            "on c.crew_id = ca.crew_id " +
             "inner join tb_address a " +
-            "on ca.address_id = a.address_id " +
+            "on c.address_id = a.address_id " +
             "where uc.crew_id is null " +
             "and c.crew_name like %:key% ", nativeQuery = true)
     long countByUserIdAndKey(@Param(value = "userId") Long userId, @Param(value = "key") String key);
