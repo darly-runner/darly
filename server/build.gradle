@@ -67,6 +67,9 @@ dependencies {
     // websocket
     implementation('org.springframework.boot:spring-boot-starter-websocket')
 
+    // freemarker
+    implementation('org.springframework.boot:spring-boot-starter-freemarker')
+
 //    // thymeleaf <- 프론트없을때 자체적으로 프론트 페이지 만들어서 확인용
 //    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 //    compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-java8time'
