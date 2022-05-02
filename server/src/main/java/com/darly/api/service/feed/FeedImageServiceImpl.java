@@ -35,4 +35,9 @@ public class FeedImageServiceImpl implements FeedImageService {
             feedImageRepository.delete(feedImage);
         }
     }
+
+    @Override
+    public List<String> getFeedImages(Long feedId) {
+        return feedImageRepository.findFeedImageTitleByFeedId(feedId);
+    }
 }
