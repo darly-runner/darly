@@ -76,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal">
                     <TextView
-                        android:text="@{viewModel.pace}"
+                        android:text="@{viewModel.pace.toString()}"
                         android:textSize="24dp"
                         android:textColor="@color/white"
                         android:layout_width="wrap_content"
@@ -100,7 +100,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent">
                 <TextView
-                    android:text="@{viewModel.distance}"
+                    android:text="@{viewModel.dist.toString()}"
                     android:textSize="48dp"
                     android:textColor="@color/white"
                     android:layout_width="wrap_content"
@@ -150,7 +150,8 @@
                 android:text="종료"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="50dp"/>
+                android:layout_marginRight="50dp"
+                android:layout_marginBottom="50dp"/>
             <Button
                 android:id="@+id/resumeButton"
                 android:text="계속 하기"

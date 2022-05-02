@@ -1,17 +1,21 @@
 package com.ssafy.darly.activity
 
+import android.app.ActivityManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Bundle
+import android.os.Handler
 import android.os.IBinder
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import com.ssafy.darly.BuildConfig
 import com.ssafy.darly.R
 import com.ssafy.darly.background.MyService
 import com.ssafy.darly.databinding.ActivityRunningBinding
@@ -25,21 +29,6 @@ class RunningActivity : AppCompatActivity() {
 
     private lateinit var service : MyService
     private var bound: Boolean = false
-
-    // Service와 Running Activity를 Binding
-    private val connection = object : ServiceConnection {
-        override fun onServiceConnected(className: ComponentName, ibinder: IBinder) {
-            // We've bound to LocalService, cast the IBinder and get LocalService instance
-            val binder = ibinder as MyService.MyBinder
-            service = binder.getService()
-            bound = true
-            subscribeObserver()
-        }
-
-        override fun onServiceDisconnected(arg0: ComponentName) {
-            bound = false
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,13 +46,12 @@ class RunningActivity : AppCompatActivity() {
 
         // 일시정지
         binding.pauseButton.setOnClickListener {
-            serviceStop()
             model.isPause.value = true
         }
 
         // 계속 하기
         binding.resumeButton.setOnClickListener {
-            model.isPause.value= false
+            model.isPause.value = false
         }
 
         // 종료
@@ -85,9 +73,21 @@ class RunningActivity : AppCompatActivity() {
             model.setTime(time)
         })
 
+        // 이동거리
+        service.dist.observe(this, Observer { dist->
+            model.setDist(dist)
+            model.setSpeed()
+            model.setPace()
+            Toast.makeText(this,"$dist 만큼 이동",Toast.LENGTH_LONG).show()
+        })
+
+        // 일시정지를 누르면 일시정지화면을 보여준다.
         model.isPause.observe(this, Observer { isPause ->
             if(isPause){
+                serviceStop()
                 Log.d("MainActivity", "일시정지 입니다.")
+                Toast.makeText(this,"일시정지 합니다.",Toast.LENGTH_SHORT).show()
+
                 binding.pauseFragment.visibility = View.VISIBLE
                 binding.endButton.visibility = View.VISIBLE
                 binding.resumeButton.visibility = View.VISIBLE
@@ -96,9 +96,10 @@ class RunningActivity : AppCompatActivity() {
                 binding.resumeButton.isEnabled = true
                 binding.endButton.isEnabled = true
             }else{
-                bindService(Intent(this, MyService::class.java), connection, Context.BIND_AUTO_CREATE)
+                serviceStart()
+                Log.d("MainActivity", "운동을 시작합니다.")
+                Toast.makeText(this,"운동을 시작합니다.",Toast.LENGTH_SHORT).show()
 
-                Log.d("MainActivity", "운동을 계속합니다.")
                 binding.pauseFragment.visibility = View.INVISIBLE
                 binding.endButton.visibility = View.INVISIBLE
                 binding.resumeButton.visibility = View.INVISIBLE
@@ -110,18 +111,54 @@ class RunningActivity : AppCompatActivity() {
         })
     }
 
+    // Service와 Running Activity를 Binding
+    private val connection = object : ServiceConnection {
+        override fun onServiceConnected(className: ComponentName, ibinder: IBinder) {
+            // We've bound to LocalService, cast the IBinder and get LocalService instance
+            val binder = ibinder as MyService.MyBinder
+            service = binder.getService()
+            bound = true
+            subscribeObserver()
+        }
+
+        override fun onServiceDisconnected(arg0: ComponentName) {
+            bound = false
+        }
+    }
+
+
     fun serviceStart() {
         val intent = Intent(this, MyService::class.java)
+        startService(intent)
         Intent(this, MyService::class.java).also { intent ->
             bindService(intent, connection, Context.BIND_AUTO_CREATE)
         }
-
-        startService(intent)
     }
 
-    // 2022.04.28 서비스 스탑이 안됨! 나중에 해결
     fun serviceStop() {
-        unbindService(connection)
-        bound = false
+        val intentStop = Intent(this,MyService::class.java)
+        intentStop.action = ACTION_STOP
+        startService(intentStop)
+    }
+
+    private fun isMyServiceRunning(serviceClass: Class<*>): Boolean {
+        try {
+            val manager =
+                getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+            for (service in manager.getRunningServices(
+                Int.MAX_VALUE
+            )) {
+                if (serviceClass.name == service.service.className) {
+                    return true
+                }
+            }
+        } catch (e: Exception) {
+            return false
+        }
+        return false
+    }
+
+    companion object{
+        const val  ACTION_STOP = "${BuildConfig.APPLICATION_ID}.stop"
     }
 }

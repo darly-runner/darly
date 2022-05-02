@@ -19,6 +19,7 @@
         android:usesCleartextTraffic="true">
         <service
             android:name=".background.MyService"
+            android:foregroundServiceType="location|camera"
             android:enabled="true"
             android:exported="true"/>
         <activity

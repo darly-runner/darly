@@ -81,18 +81,5 @@ class RunningFragment : Fragment() , OnMapReadyCallback,
             == PackageManager.PERMISSION_GRANTED) {
             map.isMyLocationEnabled = true
         }
-
-        LocationHelper().startListeningUserLocation(this.requireContext(), object : LocationHelper.MyLocationListener {
-            override fun onLocationChanged(location: Location) {
-                // Here you got user location :)
-                Log.d("Location","" + location.latitude + "," + location.longitude)
-                val marker = LatLng(location.latitude, location.longitude)
-
-
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(marker,18f))
-                polylineOptions.points.add(marker)
-                map.addPolyline(polylineOptions)
-            }
-        })
     }
 }
