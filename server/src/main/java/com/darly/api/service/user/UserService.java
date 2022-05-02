@@ -1,5 +1,6 @@
 package com.darly.api.service.user;
 
+import com.darly.api.request.record.RecordCreatePostReq;
 import com.darly.api.request.user.UserPatchConditionReq;
 import com.darly.api.request.user.UserPatchFeedReq;
 import com.darly.api.request.user.UserPatchReq;
@@ -21,4 +22,5 @@ public interface UserService {
     UserFeed postUserFeed(UserPostFeedReq userPostFeedReq, Long userId);
     void deleteUserFeed(Long userFeedId);
     UserFeed patchUserFeed(UserPatchFeedReq userPatchFeedReq, Long userFeedId);
+    void updateUserRecord(Long userId, RecordCreatePostReq recordCreatePostReq);
 }
