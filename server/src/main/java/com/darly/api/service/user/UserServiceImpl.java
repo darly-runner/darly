@@ -4,6 +4,7 @@ import com.darly.api.request.user.UserPatchConditionReq;
 import com.darly.api.request.user.UserPatchFeedReq;
 import com.darly.api.request.user.UserPatchReq;
 import com.darly.api.request.user.UserPostFeedReq;
+import com.darly.api.service.file.FileProcessService;
 import com.darly.db.entity.address.Address;
 import com.darly.db.entity.badge.Badge;
 import com.darly.db.entity.user.User;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service("userService")
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
@@ -35,6 +36,9 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private UserFeedRepository userFeedRepository;
 
+    @Autowired
+    private FileProcessService fileProcessService;
+
     @Override
     public User getUserByUserId(Long userId) {
         return userRepository.findById(userId).get();
@@ -43,8 +47,13 @@ public class UserServiceImpl implements UserService{
     @Override
     public User patchUser(UserPatchReq userPatchReq, Long userId) {
         User user = userRepository.findById(userId).get();
-        User patchUser = UserPatchReq.ofPatch(user, userPatchReq.getUserNickname(), userPatchReq.getUserImage(), userPatchReq.getUserMessage());
-
+        String url = null;
+        if (userPatchReq.getUserImage() != null) {
+            if (user.getUserImage() != null)
+                fileProcessService.deleteImage(user.getUserImage());
+            url = fileProcessService.uploadImage(userPatchReq.getUserImage(), "user");
+        }
+        User patchUser = UserPatchReq.ofPatch(user, userPatchReq.getUserNickname(), url, userPatchReq.getUserMessage());
         return userRepository.save(patchUser);
     }
 
@@ -61,13 +70,13 @@ public class UserServiceImpl implements UserService{
         List<UserBadge> badges = userBadgeRepository.findUserBadgesByUser_UserId(userId);
 
         List<Badge> badgeList = new ArrayList<>();
-        for(int i = 0; i < badges.size(); i++) {
+        for (int i = 0; i < badges.size(); i++) {
             Badge badge = Badge.builder()
-                            .badgeId((badges.get(i).getBadge().getBadgeId()))
-                            .badgeName(badges.get(i).getBadge().getBadgeName())
-                            .badgeImage(badges.get(i).getBadge().getBadgeImage())
-                            .badgeCondition(badges.get(i).getBadge().getBadgeCondition())
-                            .build();
+                    .badgeId((badges.get(i).getBadge().getBadgeId()))
+                    .badgeName(badges.get(i).getBadge().getBadgeName())
+                    .badgeImage(badges.get(i).getBadge().getBadgeImage())
+                    .badgeCondition(badges.get(i).getBadge().getBadgeCondition())
+                    .build();
             badgeList.add(badge);
         }
 

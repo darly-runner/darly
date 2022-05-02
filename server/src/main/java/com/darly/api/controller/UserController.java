@@ -63,16 +63,15 @@ public class UserController {
 
     // 2. 유저정보수정 PATCH
     @PatchMapping
-    @ApiOperation(value = "유저정보수정", notes = "userNickname, userImage 수정")
+    @ApiOperation(value = "유저정보수정", notes = "userNickname, userImage, userMessage 수정")
     @ApiResponses({
             @ApiResponse(code = 200, message = "테스트 성공"),
             @ApiResponse(code = 404, message = "잘못된 url 접근"),
             @ApiResponse(code = 500, message = "서버 에러")
     })
-    public ResponseEntity<BaseResponseBody> patchUser(UserPatchReq userPatchReq, Authentication authentication) {
+    public ResponseEntity<BaseResponseBody> patchUser(@ModelAttribute UserPatchReq userPatchReq, Authentication authentication) {
         Long userId = Long.parseLong((String) authentication.getPrincipal());
         userService.patchUser(userPatchReq, userId);
-
         return ResponseEntity.ok(BaseResponseBody.of(200, "success"));
     }
 
