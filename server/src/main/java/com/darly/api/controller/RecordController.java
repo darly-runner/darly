@@ -9,6 +9,7 @@ import com.darly.api.service.match.MatchResultService;
 import com.darly.api.service.record.CoordinateService;
 import com.darly.api.service.record.RecordService;
 import com.darly.api.service.record.SectionService;
+import com.darly.api.service.user.UserService;
 import com.darly.common.model.response.BaseResponseBody;
 import com.darly.db.entity.record.Record;
 import io.swagger.annotations.Api;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 public class RecordController {
 
     private final DayService dayService;
+    private final UserService userService;
     private final RecordService recordService;
     private final SectionService sectionService;
     private final CoordinateService coordinateService;
@@ -45,6 +47,7 @@ public class RecordController {
         Record record = recordService.createRecord(userId, dayService.saveToday(userId, recordCreatePostReq).getDayId(), recordCreatePostReq);
         sectionService.createSection(record.getRecordId(), recordCreatePostReq.getSections());
         coordinateService.createCoordinate(record.getRecordId(), recordCreatePostReq.getCoordinateLatitudes(), recordCreatePostReq.getCoordinateLongitudes());
+        userService.updateUserRecord(userId, recordCreatePostReq);
         return ResponseEntity.ok(BaseResponseBody.of(200, "Success save record"));
     }
 

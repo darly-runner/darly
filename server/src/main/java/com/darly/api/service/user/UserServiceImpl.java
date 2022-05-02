@@ -1,5 +1,6 @@
 package com.darly.api.service.user;
 
+import com.darly.api.request.record.RecordCreatePostReq;
 import com.darly.api.request.user.UserPatchConditionReq;
 import com.darly.api.request.user.UserPatchFeedReq;
 import com.darly.api.request.user.UserPatchReq;
@@ -112,5 +113,24 @@ public class UserServiceImpl implements UserService {
         UserFeed patchUserFeed = UserPatchFeedReq.ofPatch(userFeed, userPatchFeedReq.getUserFeedImage());
 
         return userFeedRepository.save(patchUserFeed);
+    }
+
+    @Override
+    public void updateUserRecord(Long userId, RecordCreatePostReq recordCreatePostReq) {
+        User user = getUserByUserId(userId);
+        user.setUserTotalDistance(user.getUserTotalDistance() + recordCreatePostReq.getRecordDistance());
+        user.setUserTotalTime(user.getUserTotalTime() + recordCreatePostReq.getRecordTime());
+        if (user.getUserTotalHeart() == null)
+            user.setUserTotalHeart(recordCreatePostReq.getRecordHeart());
+        if (user.getUserHeartNum() == null) {
+            if (recordCreatePostReq.getRecordHeart() != 0)
+                user.setUserHeartNum(1);
+        } else {
+            if (recordCreatePostReq.getRecordHeart() != 0)
+                user.setUserHeartNum(user.getUserHeartNum() + 1);
+        }
+        user.setUserTotalCalories(user.getUserTotalCalories() + recordCreatePostReq.getRecordCalories());
+        user.setUserTotalPace(user.getUserTotalPace() + recordCreatePostReq.getRecordPace());
+        userRepository.save(user);
     }
 }
