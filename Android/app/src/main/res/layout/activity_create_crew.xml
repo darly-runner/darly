@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingHorizontal="18dp"
     android:paddingVertical="20dp"
     tools:context=".activity.CreateCrewActivity">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="15dp">
+        android:paddingHorizontal="18dp"
+        android:paddingBottom="18dp">
 
         <ImageView
             android:id="@+id/back"
@@ -31,11 +31,40 @@
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:background="@drawable/crew_img_upload_background" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/uploadCrewImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:padding="15dp"
+                android:src="@drawable/ic_camera" />
+        </LinearLayout>
+    </FrameLayout>
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingHorizontal="10dp">
+        android:paddingHorizontal="28dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -94,8 +123,8 @@
             android:id="@+id/crewJoin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="20dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingBottom="20dp">
 
             <RadioButton
                 android:id="@+id/crewJoinDirect"
