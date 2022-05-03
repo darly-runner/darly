@@ -116,9 +116,10 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
             else if (token != null) {
-                Log.d("LoginActivity","kakao access token : ${token}")
+
                 CoroutineScope(Dispatchers.IO).launch {
                     val response = darlyService.accountKakao(AccountLoginReq(token.accessToken))
+                    Log.d("LoginActivity","kakao access token : ${response.body()}")
                 }
                 Toast.makeText(this, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
                 toMainActivity()
