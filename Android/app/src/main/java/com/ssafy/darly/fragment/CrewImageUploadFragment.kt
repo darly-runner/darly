@@ -1,10 +1,13 @@
 package com.ssafy.darly.fragment
 
+import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import com.ssafy.darly.R
 import com.ssafy.darly.databinding.FragmentCrewImageUploadBinding
@@ -22,6 +25,19 @@ class CrewImageUploadFragment : Fragment() {
             binding.lifecycleOwner = this
         }
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val imgPickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+
+        }
+        imgPickerLauncher.launch(
+            Intent(Intent.ACTION_PICK).apply {
+                this.type = MediaStore.Images.Media.CONTENT_TYPE
+            }
+        )
     }
 
 //    companion object {

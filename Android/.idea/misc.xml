@@ -30,6 +30,7 @@
         <entry key="app/src/main/res/drawable/ic_camera.xml" value="0.1925" />
         <entry key="app/src/main/res/font/font.xml" value="0.5120370370370371" />
         <entry key="app/src/main/res/layout/activity_create_crew.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.5158514492753623" />
         <entry key="app/src/main/res/layout/crew_mycrew.xml" value="0.189209726443769" />
         <entry key="app/src/main/res/layout/crew_recommendations.xml" value="0.335" />
