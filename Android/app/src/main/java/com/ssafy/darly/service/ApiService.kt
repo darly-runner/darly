@@ -25,9 +25,9 @@ interface ApiService{
     suspend fun getUsers(
         @Query("userId") userId : Int,
     ): Response<UserGetRes>
-  
+
     @GET("crew/my")
-      suspend fun myCrewList(): Response<MyCrewResponse>
+    suspend fun myCrewList(): Response<MyCrewResponse>
 
     @GET( "crew")
     suspend fun getCrewList(

@@ -4,11 +4,13 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.lang.Nullable;
 import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
+@ToString
 @ApiModel("CrewCreatePostRequest")
 public class CrewCreatePostReq {
     @ApiModelProperty(name = "crewName", example = "crewName")

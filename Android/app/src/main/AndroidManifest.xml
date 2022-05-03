@@ -26,6 +26,9 @@
             android:enabled="true"
             android:exported="true"/>
         <activity
+            android:name=".activity.CreateCrewActivity"
+            android:exported="false" />
+        <activity
             android:name=".fragment.PauseFragment"
             android:exported="false" />
         <activity
