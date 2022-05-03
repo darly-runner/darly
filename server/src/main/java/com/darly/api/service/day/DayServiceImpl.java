@@ -4,6 +4,7 @@ import com.darly.api.request.record.RecordCreatePostReq;
 import com.darly.api.response.stat.StatAllGetRes;
 import com.darly.api.response.stat.StatGetRes;
 import com.darly.db.entity.day.Day;
+import com.darly.db.entity.user.User;
 import com.darly.db.repository.day.DayRepository;
 import com.darly.db.repository.day.DayRepositorySupport;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class DayServiceImpl implements DayService {
     @Override
     public Day saveToday(Long userId, RecordCreatePostReq recordCreatePostReq) {
         Long today = getTimestamp();
-        Optional<Day> opDay = dayRepository.findByUserIdAndDayDate(userId, today);
+        Optional<Day> opDay = dayRepository.findByUser_UserIdAndDayDate(userId, today);
         if (opDay.isPresent()) {
             Day day = opDay.get();
             day.setDayDistance(day.getDayDistance() + recordCreatePostReq.getRecordDistance());
@@ -38,7 +39,7 @@ public class DayServiceImpl implements DayService {
             return dayRepository.save(day);
         }
         return dayRepository.save(Day.builder()
-                .userId(userId)
+                .user(User.builder().userId(userId).build())
                 .dayDate(today)
                 .dayDistance(recordCreatePostReq.getRecordDistance())
                 .dayNum(1)
@@ -144,7 +145,7 @@ public class DayServiceImpl implements DayService {
 
     @Override
     public StatAllGetRes getAllStats(Long userId) {
-        List<Day> dayList = dayRepository.findByUserId(userId);
+        List<Day> dayList = dayRepository.findByUser_UserId(userId);
         int startYear = getYearByLongDate(dayList.get(0).getDayDate());
         int endYear = getYearByLongDate(dayList.get(dayList.size() - 1).getDayDate());
         float[] distances = new float[endYear - startYear + 1];

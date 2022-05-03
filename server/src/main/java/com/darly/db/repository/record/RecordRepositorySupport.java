@@ -21,8 +21,8 @@ public class RecordRepositorySupport {
     public List<RecordMapping> getRecordListAll(Long userId) {
         return jpaQueryFactory.select(new QRecordMapping(qRecord.recordId, qRecord.recordTitle, qRecord.recordDate, qRecord.recordDistance, qRecord.recordTime, qRecord.recordPace, qRecord.recordHeart, qRecord.recordCalories, qCoordinate.coordinateLatitude, qCoordinate.coordinateLongitude))
                 .from(qRecord).innerJoin(qCoordinate)
-                .on(qRecord.recordId.eq(qCoordinate.recordId))
-                .where(qRecord.userId.eq(userId))
+                .on(qRecord.recordId.eq(qCoordinate.record.recordId))
+                .where(qRecord.user.userId.eq(userId))
                 .orderBy(qRecord.recordId.desc())
                 .fetch();
     }
@@ -30,8 +30,8 @@ public class RecordRepositorySupport {
     public List<RecordMapping> getRecordListTop(Long userId) {
         return jpaQueryFactory.select(new QRecordMapping(qRecord.recordId, qRecord.recordTitle, qRecord.recordDate, qRecord.recordDistance, qRecord.recordTime, qRecord.recordPace, qRecord.recordHeart, qRecord.recordCalories, qCoordinate.coordinateLatitude, qCoordinate.coordinateLongitude))
                 .from(qRecord).innerJoin(qCoordinate)
-                .on(qRecord.recordId.eq(qCoordinate.recordId))
-                .where(qRecord.userId.eq(userId))
+                .on(qRecord.recordId.eq(qCoordinate.record.recordId))
+                .where(qRecord.user.userId.eq(userId))
                 .limit(3)
                 .orderBy(qRecord.recordId.desc())
                 .fetch();

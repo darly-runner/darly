@@ -22,7 +22,7 @@ public class FriendRepositorySupport {
     public List<FriendTitleMapping> findFriendTitleList(Long userId) {
         return jpaQueryFactory.select(new QFriendTitleMapping(qUser.userId, qUser.userNickname, qUser.userMessage, qUser.userImage))
                 .from(qFriend, qUser)
-                .where(qFriend.friendTwo.userId.eq(qUser.userId), qFriend.friendOne.eq(userId))
+                .where(qFriend.friendTwo.userId.eq(qUser.userId), qFriend.friendOne.userId.eq(userId))
                 .fetch();
     }
 }
