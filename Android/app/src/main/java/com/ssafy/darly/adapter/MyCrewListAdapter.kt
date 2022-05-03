@@ -16,7 +16,7 @@ class MyCrewListAdapter(
     val inflater: LayoutInflater,
     val glide: RequestManager
 ): RecyclerView.Adapter<MyCrewListAdapter.ViewHolder>(){
-    var myCrewItemList: List<MyCrewDetails>? = null
+    lateinit var myCrewItemList: List<MyCrewDetails>
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val myCrewName: TextView
@@ -50,5 +50,5 @@ class MyCrewListAdapter(
         myCrewItemList?.get(position)?.let { holder.bind(it) }
     }
 
-    override fun getItemCount(): Int = 0
+    override fun getItemCount(): Int = myCrewItemList.size
 }
