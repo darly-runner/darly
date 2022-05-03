@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Service("friendService")
 @RequiredArgsConstructor
-public class FriendServiceImpl implements FriendService{
+public class FriendServiceImpl implements FriendService {
 
     private final FriendRepository friendRepository;
     private final FriendRepositorySupport friendRepositorySupport;
@@ -24,7 +24,7 @@ public class FriendServiceImpl implements FriendService{
 
     @Override
     public boolean isFriend(Long userId, Long friendId) {
-        return friendRepository.existsByFriendOneAndFriendTwo_UserId(userId, friendId);
+        return friendRepository.existsByFriendOne_UserIdAndFriendTwo_UserId(userId, friendId);
     }
 
     @Override
@@ -35,10 +35,10 @@ public class FriendServiceImpl implements FriendService{
 
     @Override
     public boolean deleteFriend(Long userId, Long friendId) {
-        Optional<Friend> friend = friendRepository.getByFriendOneAndFriendTwo_UserId(userId, friendId);
+        Optional<Friend> friend = friendRepository.getByFriendOne_UserIdAndFriendTwo_UserId(userId, friendId);
         if (friend.isPresent())
             friendRepository.delete(friend.get());
-        friend = friendRepository.getByFriendOneAndFriendTwo_UserId(friendId, userId);
+        friend = friendRepository.getByFriendOne_UserIdAndFriendTwo_UserId(friendId, userId);
         if (friend.isPresent()) {
             friendRepository.delete(friend.get());
             return true;
@@ -48,6 +48,6 @@ public class FriendServiceImpl implements FriendService{
 
     @Override
     public long getFriendNum(Long friendId) {
-        return friendRepository.countByFriendOne(friendId);
+        return friendRepository.countByFriendOne_UserId(friendId);
     }
 }

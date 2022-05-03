@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface UserFeedRepository extends JpaRepository<UserFeed, Long> {
-    @Query(value = "select user_feed_image from tb_user_feed where user_id = :userId", nativeQuery = true)
+    @Query(value = "select user_feed_image from tb_user_feed " +
+            "where user_id = :userId " +
+            "order by user_feed_id desc ", nativeQuery = true)
     Page<String> findByUserId(@Param(value = "userId") Long userId, Pageable pageRequest);
 }

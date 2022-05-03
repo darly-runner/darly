@@ -1,8 +1,10 @@
-package com.darly.db.entity.crew;
+package com.darly.db.entity.match;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -12,8 +14,11 @@ import javax.persistence.Table;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "tb_crew_address")
-public class CrewAddress {
+@DynamicInsert
+@Builder
+@Table(name = "tb_user_match")
+public class UserMatch {
     @EmbeddedId
-    CrewAddressId crewAddressId;
+    private UserMatchId userMatchId;
+    private Character userMatchStatus;
 }

@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface FriendWaitingRepository  extends JpaRepository<FriendWaiting, Long> {
-    boolean existsByFriendOneAndFriendTwo_UserId(Long userId, Long friendId);
-    Optional<FriendWaiting> getByFriendOneAndFriendTwo_UserId(Long userId, Long friendId);
+    boolean existsByFriendOne_UserIdAndFriendTwo_UserId(Long userId, Long friendId);
+    Optional<FriendWaiting> getByFriendOne_UserIdAndFriendTwo_UserId(Long userId, Long friendId);
 }

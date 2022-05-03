@@ -4,6 +4,7 @@ import com.ssafy.darly.model.AccountLoginReq
 import com.ssafy.darly.model.AccountLoginRes
 import com.ssafy.darly.model.MyCrewResponse
 import com.ssafy.darly.model.UserGetRes
+import com.ssafy.darly.model.*
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -25,4 +26,12 @@ interface ApiService{
   
     @GET("crew/my")
       suspend fun myCrewList(): Response<MyCrewResponse>
+
+    @GET( "crew")
+    suspend fun getCrewList(
+        @Query("page") page: Int,
+        @Query("size") size: Int,
+        @Query("address") address: Int,
+        @Query("key") key: String,
+    ): Response<CrewRecommendationResponse>
 }
