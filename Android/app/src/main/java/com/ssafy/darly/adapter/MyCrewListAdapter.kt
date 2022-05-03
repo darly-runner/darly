@@ -12,11 +12,11 @@ import com.ssafy.darly.R
 import com.ssafy.darly.model.MyCrewDetails
 
 class MyCrewListAdapter(
-//    val myCrewItemList: List<MyCrewDetails>,
+//    var myCrewItemList: List<MyCrewDetails>,
     val inflater: LayoutInflater,
     val glide: RequestManager
 ): RecyclerView.Adapter<MyCrewListAdapter.ViewHolder>(){
-    lateinit var myCrewItemList: List<MyCrewDetails>
+    var myCrewItemList: List<MyCrewDetails>?= null
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val myCrewName: TextView
@@ -50,5 +50,5 @@ class MyCrewListAdapter(
         myCrewItemList?.get(position)?.let { holder.bind(it) }
     }
 
-    override fun getItemCount(): Int = myCrewItemList.size
+    override fun getItemCount(): Int = 4
 }
