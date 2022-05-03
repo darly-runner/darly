@@ -1,7 +1,10 @@
 package com.darly.db.entity.day;
 
+import com.darly.db.entity.user.User;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -17,7 +20,10 @@ public class Day {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long dayId;
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private User user;
     private Long dayDate;
     private Float dayDistance;
     private Long dayTime;

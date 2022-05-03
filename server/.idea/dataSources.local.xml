@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="dataSourceStorageLocal" created-in="IU-212.5284.40">
+  <component name="dataSourceStorageLocal" created-in="IU-213.6461.79">
     <data-source name="darly.main/Hibernate" uuid="2d4898a7-e3c6-4566-92a7-c1abe462e1f4">
       <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="MYSQL" exact-version="0" />
-      <schema-mapping />
+      <schema-mapping>
+        <introspection-scope>
+          <node kind="schema" negative="1" />
+        </introspection-scope>
+      </schema-mapping>
     </data-source>
     <data-source name="darly.test/Hibernate" uuid="47c479fe-d740-45f2-b5c4-1e2bc4bc980e">
       <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="MYSQL" exact-version="0" />

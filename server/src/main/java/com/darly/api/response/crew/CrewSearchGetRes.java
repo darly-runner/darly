@@ -2,6 +2,7 @@ package com.darly.api.response.crew;
 
 import com.darly.common.model.response.BaseResponseBody;
 import com.darly.db.entity.crew.CrewTitleMapping;
+import io.swagger.annotations.ApiModel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
+@ApiModel("CrewSearchGetResponse")
 public class CrewSearchGetRes extends BaseResponseBody {
     private Integer size; //한 페이지의 크루 수
     private Long totalCrew; //전체 크루 수

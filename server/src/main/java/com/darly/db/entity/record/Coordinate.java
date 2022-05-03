@@ -1,6 +1,8 @@
 package com.darly.db.entity.record;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -14,7 +16,10 @@ public class Coordinate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long coordinateId;
-    private Long recordId;
+    @ManyToOne
+    @JoinColumn(name = "record_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Record record;
     private String coordinateLatitude;
     private String coordinateLongitude;
 }

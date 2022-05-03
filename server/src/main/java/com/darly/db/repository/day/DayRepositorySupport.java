@@ -17,7 +17,7 @@ public class DayRepositorySupport {
 
     public List<Day> findByStartAndEnd(Long userId, Long startDay, Long endDay) {
         return jpaQueryFactory.selectFrom(qDay)
-                .where(qDay.userId.eq(userId), qDay.dayDate.goe(startDay), qDay.dayDate.lt(endDay))
+                .where(qDay.user.userId.eq(userId), qDay.dayDate.goe(startDay), qDay.dayDate.lt(endDay))
                 .fetch();
     }
 }
