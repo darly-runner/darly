@@ -29,3 +29,8 @@ data class CrewRecommendations(
     var crewAddress: String,
     var crewPeopleNum: Int,
 )
+
+data class CreateCrew(
+    var message : String,
+    var statusCode : Int,
+)
