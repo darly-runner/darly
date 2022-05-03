@@ -32,7 +32,7 @@ import com.ssafy.darly.util.LocationHelper
 import com.ssafy.darly.viewmodel.RunningViewModel
 
 class RunningFragment : Fragment() ,
-//    OnMapReadyCallback,
+    OnMapReadyCallback,
     ActivityCompat.OnRequestPermissionsResultCallback {
     private lateinit var binding: FragmentRunningBinding
     private val model: RunningViewModel by viewModels()
