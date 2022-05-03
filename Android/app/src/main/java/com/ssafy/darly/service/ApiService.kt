@@ -5,6 +5,8 @@ import com.ssafy.darly.model.AccountLoginRes
 import com.ssafy.darly.model.MyCrewResponse
 import com.ssafy.darly.model.UserGetRes
 import com.ssafy.darly.model.*
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -34,4 +36,16 @@ interface ApiService{
         @Query("address") address: Int,
         @Query("key") key: String,
     ): Response<CrewRecommendationResponse>
+
+    @Multipart
+    @POST("crew")
+    suspend fun createCrew(
+        @PartMap data: HashMap<String, RequestBody>,
+//        @Part("crewName") crewName: String,
+//        @Part("crewDesc") crewDesc: String,
+//        @Part("crewAddress") crewAddress: Long,
+//        @Part("crewJoin") crewJoin: String,
+        @Part crewImage: MultipartBody.Part?,
+//        @PartMap data: HashMap<String, CreateCrewReq>
+    ): Response<CreateCrew>
 }
