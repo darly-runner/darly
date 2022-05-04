@@ -14,7 +14,8 @@ public class AddressServiceImpl implements AddressService{
     AddressRepository addressRepository;
 
     @Override
-    public List<Address> getAddresses() {
-        return addressRepository.findAll();
+    public List<Address> getAddresses(String address) {
+
+        return addressRepository.findAddressesByAddressNameContains(address);
     }
 }
