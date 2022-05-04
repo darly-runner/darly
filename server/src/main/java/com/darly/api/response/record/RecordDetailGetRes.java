@@ -32,19 +32,11 @@ public class RecordDetailGetRes extends BaseResponseBody {
     @ApiModelProperty(name="recordTime", example="5")
     private Long recordTime;
     @ApiModelProperty(name="recordPace", example="5.0")
-    private Float recordPace;
+    private Integer recordPace;
     @ApiModelProperty(name="recordHeart", example="0")
     private Integer recordHeart;
     @ApiModelProperty(name="recordCalories", example="100")
     private Integer recordCalories;
-    @ApiModelProperty(name="recordStartLatitude", example="0.0")
-    private Float recordStartLatitude;
-    @ApiModelProperty(name="recordStartLongitude", example="0.0")
-    private Float recordStartLongitude;
-    @ApiModelProperty(name="recordEndLatitude", example="10.0")
-    private Float recordEndLatitude;
-    @ApiModelProperty(name="recordEndLongitude", example="10.0")
-    private Float recordEndLongitude;
     @ApiModelProperty(name="coordinateLatitudes", example="[string1,string2,string3]")
     private String[] coordinateLatitudes;
     @ApiModelProperty(name="coordinateLongitudes", example="[string1,string2,string3]")
@@ -67,10 +59,6 @@ public class RecordDetailGetRes extends BaseResponseBody {
         this.recordPace = record.getRecordPace();
         this.recordHeart = record.getRecordHeart();
         this.recordCalories = record.getRecordCalories();
-        this.recordStartLatitude = record.getRecordStartLatitude();
-        this.recordStartLongitude = record.getRecordStartLongitude();
-        this.recordEndLatitude = record.getRecordEndLatitude();
-        this.recordEndLongitude = record.getRecordEndLongitude();
         this.sections = sections;
         this.coordinateLatitudes = coordinate == null ? null : coordinate.getCoordinateLatitude().split(",");
         this.coordinateLongitudes = coordinate == null ? null : coordinate.getCoordinateLongitude().split(",");
