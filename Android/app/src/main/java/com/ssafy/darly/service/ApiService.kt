@@ -1,35 +1,33 @@
 package com.ssafy.darly.service
 
-import com.ssafy.darly.model.AccountLoginReq
-import com.ssafy.darly.model.AccountLoginRes
-import com.ssafy.darly.model.MyCrewResponse
-import com.ssafy.darly.model.UserGetRes
 import com.ssafy.darly.model.*
+import com.ssafy.darly.model.user.UserFeedGetRes
+import com.ssafy.darly.model.user.UserProfileGetRes
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 
-interface ApiService{
+interface ApiService {
     @POST("accounts/google")
     suspend fun accountGoogle(
-        @Body tokenId : AccountLoginReq,
+        @Body tokenId: AccountLoginReq,
     ): Response<AccountLoginRes>
 
     @POST("accounts/kakao")
     suspend fun accountKakao(
-        @Body tokenId : AccountLoginReq,
+        @Body tokenId: AccountLoginReq,
     ): Response<AccountLoginRes>
 
     @GET("users")
     suspend fun getUsers(
-        @Query("userId") userId : Int,
+        @Query("userId") userId: Int,
     ): Response<UserGetRes>
 
     @GET("crew/my")
     suspend fun myCrewList(): Response<MyCrewResponse>
 
-    @GET( "crew")
+    @GET("crew")
     suspend fun getCrewList(
         @Query("page") page: Int,
         @Query("size") size: Int,
@@ -48,4 +46,10 @@ interface ApiService{
         @Part crewImage: MultipartBody.Part?,
 //        @PartMap data: HashMap<String, CreateCrewReq>
     ): Response<CreateCrew>
+
+    @GET("users/profile")
+    suspend fun getUserProfile(): Response<UserProfileGetRes>
+
+    @GET("users/feed")
+    suspend fun getUserFeedList(@Query("page") page: Int): Response<UserFeedGetRes>
 }
