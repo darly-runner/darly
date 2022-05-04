@@ -30,7 +30,7 @@ public class Record {
     private Long recordDate;
     private Float recordDistance;
     private Long recordTime;
-    private Float recordPace;
+    private Integer recordPace;
     private Float recordSpeed;
     private Integer recordHeart;
     private Float recordStartLatitude;
