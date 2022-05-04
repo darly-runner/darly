@@ -1,7 +1,11 @@
 package com.ssafy.darly.fragment
 
 import android.Manifest
+import android.app.AlertDialog
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +13,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -19,12 +25,14 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.ssafy.darly.R
+import com.ssafy.darly.activity.RunningActivity
 import com.ssafy.darly.databinding.FragmentRunningBinding
+import com.ssafy.darly.dialog.TargetDialog
 import com.ssafy.darly.util.LocationHelper
 import com.ssafy.darly.viewmodel.RunningViewModel
 
 class RunningFragment : Fragment() ,
-//    OnMapReadyCallback,
+    OnMapReadyCallback,
     ActivityCompat.OnRequestPermissionsResultCallback {
     private lateinit var binding: FragmentRunningBinding
     private val model: RunningViewModel by viewModels()
@@ -44,31 +52,35 @@ class RunningFragment : Fragment() ,
 //        val mapFragment: SupportMapFragment = childFragmentManager.findFragmentById(R.id.mapview) as SupportMapFragment
 //        mapFragment.getMapAsync(this)
 
+        // 목표 설정 버튼
+        binding.targetButton.setOnClickListener {
+            val targetDialog = TargetDialog(this.requireContext())
+
+            targetDialog.show()
+            targetDialog.setOnClickedListener(object : TargetDialog.ButtonClickListener{
+                override fun onClicked(target : String) {
+                    model.target.value = target
+                }
+            })
+        }
+
+        binding.startButton.setOnClickListener {
+            val intent = Intent(this.requireContext(),RunningActivity::class.java)
+            startActivity(intent)
+        }
+
         return binding.root
     }
 
-//    override fun onMapReady(googleMap: GoogleMap) {
-//        map = googleMap ?: return
-//
-//        val polylineOptions = PolylineOptions()
-//
-//        // 현재 내위치 표시
-//        if (ContextCompat.checkSelfPermission(this.requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-//            == PackageManager.PERMISSION_GRANTED) {
-//            map.isMyLocationEnabled = true
-//        }
-//
-//        LocationHelper().startListeningUserLocation(this.requireContext(), object : LocationHelper.MyLocationListener {
-//            override fun onLocationChanged(location: Location) {
-//                // Here you got user location :)
-//                Log.d("Location","" + location.latitude + "," + location.longitude)
-//                val marker = LatLng(location.latitude, location.longitude)
-//
-//                map.moveCamera(CameraUpdateFactory.newLatLngZoom(marker,18f))
-//                polylineOptions.points.add(marker)
-//                map.addPolyline(polylineOptions)
-//            }
-//        })
+    override fun onMapReady(googleMap: GoogleMap) {
+        map = googleMap
 
-//    }
+        val polylineOptions = PolylineOptions()
+
+        // 현재 내위치 표시
+        if (ContextCompat.checkSelfPermission(this.requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+            == PackageManager.PERMISSION_GRANTED) {
+            map.isMyLocationEnabled = true
+        }
+    }
 }

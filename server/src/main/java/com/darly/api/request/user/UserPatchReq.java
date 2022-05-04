@@ -5,19 +5,20 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
+import org.springframework.lang.Nullable;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Nullable;
-
 @Getter
+@Setter
 @ApiModel("UserPatchRequest")
 public class UserPatchReq {
-    @ApiModelProperty(name="userNickname", example="김싸피")
+    @ApiModelProperty(name = "userNickname", example = "김싸피")
     private String userNickname;
+    @ApiModelProperty(name = "userImage", example = "userImage.png")
     @Nullable
-    @ApiModelProperty(name="userImage", example="userImageURL")
     private MultipartFile userImage;
-    @ApiModelProperty(name="userMessage", example="userMessage")
+    @ApiModelProperty(name = "userMessage", example = "userMessage")
     private String userMessage;
 
     public static User ofPatch(User user, String userNickname, String userImage, String userMessage) {
@@ -48,3 +49,4 @@ public class UserPatchReq {
         this.userMessage = userMessage;
     }
 }
+
