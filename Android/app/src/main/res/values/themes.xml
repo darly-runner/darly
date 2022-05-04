@@ -40,4 +40,9 @@
         <item name="android:background">@drawable/dialog_bottom_round</item>
     </style>
 
+    <style name="CustomRadioButton" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/main</item>
+        <item name="colorControlNormal">@color/gray_600</item>
+    </style>
+
 </resources>
