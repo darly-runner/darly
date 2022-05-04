@@ -22,7 +22,8 @@ import com.ssafy.darly.databinding.FragmentRunningBinding
 import com.ssafy.darly.dialog.TargetDialog
 import com.ssafy.darly.viewmodel.RunningViewModel
 
-class RunningFragment : Fragment() , OnMapReadyCallback,
+class RunningFragment : Fragment() ,
+//    OnMapReadyCallback,
     ActivityCompat.OnRequestPermissionsResultCallback {
     private lateinit var binding: FragmentRunningBinding
     private val model: RunningViewModel by viewModels()
@@ -39,8 +40,8 @@ class RunningFragment : Fragment() , OnMapReadyCallback,
             binding.viewModel = model
         }
 
-        val mapFragment: SupportMapFragment = childFragmentManager.findFragmentById(R.id.mapview) as SupportMapFragment
-        mapFragment.getMapAsync(this)
+//        val mapFragment: SupportMapFragment = childFragmentManager.findFragmentById(R.id.mapview) as SupportMapFragment
+//        mapFragment.getMapAsync(this)
 
         // 목표 설정 버튼
         binding.targetButton.setOnClickListener {

@@ -18,7 +18,7 @@ public class FriendWaitingServiceImpl implements FriendWaitingService {
 
     @Override
     public boolean isFriendWaiting(Long userId, Long friendId) {
-        return friendWaitingRepository.existsByFriendOneAndFriendTwo_UserId(userId, friendId);
+        return friendWaitingRepository.existsByFriendOne_UserIdAndFriendTwo_UserId(userId, friendId);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class FriendWaitingServiceImpl implements FriendWaitingService {
 
     @Override
     public boolean deleteFriendWaiting(Long userId, Long friendId) {
-        Optional<FriendWaiting> friendWaiting = friendWaitingRepository.getByFriendOneAndFriendTwo_UserId(userId, friendId);
+        Optional<FriendWaiting> friendWaiting = friendWaitingRepository.getByFriendOne_UserIdAndFriendTwo_UserId(userId, friendId);
         if (friendWaiting.isPresent()) {
             friendWaitingRepository.delete(friendWaiting.get());
             return true;
