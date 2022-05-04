@@ -3,159 +3,178 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingVertical="20dp"
-        tools:context=".activity.CreateCrewActivity">
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="18dp"
-            android:paddingBottom="18dp">
-
-            <ImageView
-                android:id="@+id/back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:paddingRight="5dp"
-                android:src="@drawable/ic_chevron_left" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="크루 만들기"
-                android:textColor="@color/black"
-                android:textSize="18dp" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="25dp">
-
-            <ImageView
-                android:id="@+id/selectedCrewImg"
-                android:layout_width="match_parent"
-                android:layout_height="170dp"
-                android:background="@drawable/crew_img_upload_background" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-
-                <ImageView
-                    android:id="@+id/uploadCrewImg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:padding="15dp"
-                    android:src="@drawable/ic_camera" />
-            </LinearLayout>
-        </FrameLayout>
+        android:layout_height="match_parent">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingHorizontal="28dp">
+            android:paddingVertical="20dp"
+            tools:context=".activity.CreateCrewActivity">
 
-            <TextView
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="3dp"
-                android:text="크루명"
-                android:textColor="@color/black" />
+                android:paddingHorizontal="18dp"
+                android:paddingBottom="18dp">
 
-            <EditText
-                android:id="@+id/createCrewName"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/crew_create_background"
-                android:maxLength="20" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="3dp"
-                android:text="활동 지역"
-                android:textColor="@color/black" />
-
-            <EditText
-                android:id="@+id/createCrewLocation"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/crew_create_background"
-                android:hint="시, 군, 구로 검색 (ex. 서울시 종로구)"
-                android:paddingLeft="10dp"
-                android:textColorHint="@color/gray_500"
-                android:textSize="12dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="3dp"
-                android:text="크루 소개글"
-                android:textColor="@color/black" />
-
-            <EditText
-                android:id="@+id/createCrewDesc"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/crew_create_background" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="가입 방법"
-                android:textColor="@color/black" />
-
-            <RadioGroup
-                android:id="@+id/crewJoin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingBottom="20dp">
-
-                <RadioButton
-                    android:id="@+id/crewJoinDirect"
+                <ImageView
+                    android:id="@+id/back"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="바로 가입" />
+                    android:layout_gravity="center_horizontal"
+                    android:paddingTop="1dp"
+                    android:paddingRight="5dp"
+                    android:src="@drawable/ic_chevron_left" />
 
-                <RadioButton
-                    android:id="@+id/crewJoinApproval"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="승인 후 가입" />
-            </RadioGroup>
+                    android:text="크루 만들기"
+                    android:textColor="@color/black"
+                    android:textSize="18dp" />
 
-            <TextView
-                android:id="@+id/createCrewButton"
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/button_background_lg"
-                android:fontFamily="@font/pretendard_medium"
-                android:gravity="center"
-                android:text="완료"
-                android:textColor="@color/white_custom"
-                android:textSize="18dp" />
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="25dp">
 
+                <ImageView
+                    android:id="@+id/selectedCrewImg"
+                    android:layout_width="match_parent"
+                    android:layout_height="170dp"
+                    android:background="@drawable/crew_img_upload_background" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <ImageView
+                        android:id="@+id/uploadCrewImg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:padding="15dp"
+                        android:src="@drawable/ic_camera" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingHorizontal="28dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="3dp"
+                    android:text="크루명"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/createCrewName"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/crew_create_background"
+                    android:inputType="text"
+                    android:maxLength="20"
+                    android:paddingLeft="10dp"
+                    android:maxLines="1"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="3dp"
+                    android:text="활동 지역"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/createCrewLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/crew_create_background"
+                    android:hint="시, 군, 구로 검색 (ex. 서울시 종로구)"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingLeft="10dp"
+                    android:textColorHint="@color/gray_500"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="3dp"
+                    android:text="크루 소개글"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/createCrewDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginBottom="20dp"
+                    android:paddingHorizontal="10dp"
+                    android:background="@drawable/crew_create_background"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dp"
+                    android:text="가입 방법"
+                    android:textColor="@color/black" />
+
+                <RadioGroup
+                    android:id="@+id/crewJoin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="20dp">
+
+                    <RadioButton
+                        android:id="@+id/crewJoinDirect"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:text="바로 가입"
+                        android:theme="@style/CustomRadioButton" />
+
+                    <RadioButton
+                        android:id="@+id/crewJoinApproval"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="승인 후 가입"
+                        android:theme="@style/CustomRadioButton" />
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/createCrewButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/button_background_lg"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:gravity="center"
+                    android:text="완료"
+                    android:textColor="@color/white_custom"
+                    android:textSize="18dp" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.appcompat.widget.LinearLayoutCompat>
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    </ScrollView>
 </layout>

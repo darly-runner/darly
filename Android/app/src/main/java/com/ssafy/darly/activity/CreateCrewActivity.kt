@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.AttributeSet
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
@@ -19,6 +20,7 @@ import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.ssafy.darly.R
 import com.ssafy.darly.databinding.ActivityCreateCrewBinding
+import com.ssafy.darly.fragment.CrewFragment
 import com.ssafy.darly.fragment.CrewImageUploadFragment
 import com.ssafy.darly.model.AccountLoginReq
 import com.ssafy.darly.model.CreateCrewReq
@@ -53,8 +55,6 @@ class CreateCrewActivity : AppCompatActivity() {
             imageURI = it.data?.data!!
             glide.load(imageURI).into(selectedImageView)
             Log.d("select img", ""+imageURI)
-
-//            val file = getImgFile(imageURI)
         }
 
         binding.uploadCrewImg.setOnClickListener {
@@ -65,28 +65,25 @@ class CreateCrewActivity : AppCompatActivity() {
             )
         }
 
-//        val = getImgFile(imageURI)file
-//        val requestFile = RequestBody.create(MediaType.parse(contentResolver.getType(imageURI!!)), file)
-//        val crewImgBody = MultipartBody.Part.createFormData("crewImage", file!!.name, requestFile)
-//        val crewNameBody = RequestBody.create(MediaType.parse("text/plain"), crewName)
-//        val crewAddressBody = RequestBody.create(MediaType.parse("text/plain"), crewAddress.toString())
-//        val crewDescBody = RequestBody.create(MediaType.parse("text/plain"), crewDesc)
-//        val crewJoinBody = RequestBody.create(MediaType.parse("text/plain"), crewJoin)
-//
-//        val textHashMap = hashMapOf<String, RequestBody>()
-//
-//        textHashMap["crewName"] = crewNameBody
-//        textHashMap["crewAddress"] = crewAddressBody
-//        textHashMap["crewDesc"] = crewDescBody
-//        textHashMap["crewJoin"] = crewJoinBody
-
-        findViewById<EditText>(R.id.createCrewName).doAfterTextChanged {
+        binding.createCrewName.doAfterTextChanged {
             crewName = it.toString()
         }
-        findViewById<EditText>(R.id.createCrewDesc).doAfterTextChanged {
+        binding.createCrewDesc.doAfterTextChanged {
             crewDesc = it.toString()
         }
-        findViewById<TextView>(R.id.createCrewButton).setOnClickListener() {
+        binding.createCrewLocation.setOnKeyListener { _, keyCode, event ->
+            if ((event.action == KeyEvent.ACTION_DOWN)&&(keyCode == KeyEvent.KEYCODE_ENTER)) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    val response = DarlyService.getDarlyService().createCrew(crewImage = crewImgBody, data = textHashMap)
+                    Log.d("Create Crew", "${response}")
+                }
+                true
+            } else {
+                false
+            }
+        }
+
+        binding.createCrewButton.setOnClickListener {
             val file = getImgFile(imageURI)
             val requestFile = RequestBody.create(MediaType.parse(contentResolver.getType(imageURI!!)), file)
             val crewImgBody = MultipartBody.Part.createFormData("crewImage", file!!.name, requestFile)
@@ -108,23 +105,18 @@ class CreateCrewActivity : AppCompatActivity() {
             }
         }
 
-//        // FEAT: upload image
-//        val selectedImageView = findViewById<ImageView>(R.id.selectedCrewImg)
-//        val glide = Glide.with(this)
-//
-//        val imgPickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-//            imageURI = it.data!!.data
-//            glide.load(imageURI).into(selectedImageView)
-//            Log.d("select img", ""+imageURI)
-//        }
-//
-//        binding.uploadCrewImg.setOnClickListener {
-//            imgPickerLauncher.launch(
-//                Intent(Intent.ACTION_PICK).apply {
-//                    this.type = MediaStore.Images.Media.CONTENT_TYPE
-//                }
-//            )
-//        }
+        binding.crewJoin.setOnCheckedChangeListener { group, checkedId ->
+            when(checkedId) {
+                R.id.crewJoinDirect -> crewJoin = "Free"
+                R.id.crewJoinApproval -> crewJoin = "Lock"
+
+            }
+            Log.d("Join", crewJoin)
+        }
+
+        binding.back.setOnClickListener {
+            finish()
+        }
     }
 
     private fun getImgFile(uri: Uri): File? {
