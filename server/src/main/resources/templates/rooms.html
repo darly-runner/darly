@@ -36,6 +36,9 @@
             <td th:text="${room.getMatchCurPerson()}"></td>
             <td th:text="${room.getMatchMaxPerson()}"></td>
             <td th:text="${room.getMatchGoalDistance()}"></td>
+            <td>
+                <a class = "btn btn-primary" th:href = "@{/match/rooms/{id} (id = ${room.getMatchId()})}"></a>
+            </td>
         </tr>
         </tbody>
     </table>

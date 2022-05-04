@@ -18,10 +18,10 @@
 <input type="text" id="nickname" class="form-inline" placeholder="닉네임을 입력해주세요" required autofocus>
 <button class = "btn btn-primary" id = "name">확인</button>
 <label for="roomId" class="label label-default">방 번호</label>
-<label th:text="*{room.roomId}" id="roomId" class="form-inline"></label>
+<label th:text="*{room.getMatchId()}" id="roomId" class="form-inline"></label>
 <br>
 <label for="roomName" class="label label-default">방 이름</label>
-<label th:text="*{room.name}" id="roomName" class="form-inline"></label>
+<label th:text="*{room.getMatchTitle()}" id="roomName" class="form-inline"></label>
 <div id = "chatroom" style = "width:400px; height: 600px; border:1px solid; background-color : gray"></div>
 <input type = "text" id = "message" style = "height : 30px; width : 340px" placeholder="내용을 입력하세요" autofocus>
 <button class = "btn btn-primary" id = "send">전송</button>
@@ -32,9 +32,7 @@
 <script th:inline = "javascript">
   var webSocket;
   var nickname;
-  /* <![CDATA[*/
-  var roomId = /*[[${room.roomId}]]*/;
-  /* ]]> */
+
   document.getElementById("name").addEventListener("click",function(){
     nickname = document.getElementById("nickname").value;
     document.getElementById("nickname").style.display = "none";
