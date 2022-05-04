@@ -36,10 +36,6 @@ public class RecordServiceImpl implements RecordService {
                 .recordPace(recordCreatePostReq.getRecordPace())
                 .recordSpeed(recordCreatePostReq.getRecordSpeed())
                 .recordHeart(recordCreatePostReq.getRecordHeart())
-                .recordStartLatitude(recordCreatePostReq.getRecordStartLatitude())
-                .recordStartLongitude(recordCreatePostReq.getRecordStartLongitude())
-                .recordEndLatitude(recordCreatePostReq.getRecordEndLatitude())
-                .recordEndLongitude(recordCreatePostReq.getRecordEndLongitude())
                 .recordCalories(recordCreatePostReq.getRecordCalories())
                 .recordRank(recordCreatePostReq.getRecordRank())
                 .build());

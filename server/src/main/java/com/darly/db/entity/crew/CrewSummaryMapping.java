@@ -12,10 +12,10 @@ public class CrewSummaryMapping {
     private Float dayDistance;
     private Long datTime;
     private Integer dayNum;
-    private Float dayPace;
+    private Integer dayPace;
 
     @QueryProjection
-    public CrewSummaryMapping(String userNickname, String userImage, Float dayDistance, Long datTime, Integer dayNum, Float dayPace) {
+    public CrewSummaryMapping(String userNickname, String userImage, Float dayDistance, Long datTime, Integer dayNum, Integer dayPace) {
         this.userNickname = userNickname;
         this.userImage = userImage;
         this.dayDistance = dayDistance;
