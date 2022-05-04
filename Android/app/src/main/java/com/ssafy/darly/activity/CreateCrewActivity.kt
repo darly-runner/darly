@@ -1,29 +1,21 @@
 package com.ssafy.darly.activity
 
-import android.content.Context
 import android.content.Intent
 import android.database.Cursor
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.AttributeSet
 import android.util.Log
 import android.view.KeyEvent
-import android.view.View
-import android.widget.EditText
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.ssafy.darly.R
 import com.ssafy.darly.databinding.ActivityCreateCrewBinding
-import com.ssafy.darly.fragment.CrewFragment
-import com.ssafy.darly.fragment.CrewImageUploadFragment
-import com.ssafy.darly.model.AccountLoginReq
-import com.ssafy.darly.model.CreateCrewReq
+import com.ssafy.darly.model.SearchLocationReq
 import com.ssafy.darly.service.DarlyService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -37,6 +29,7 @@ class CreateCrewActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateCrewBinding
     var crewName: String = ""
     var crewDesc: String = ""
+    var crewSearchAddress: String = ""
     var crewAddress: Long = 1
     var crewJoin: String = "Lock"
 
@@ -71,11 +64,14 @@ class CreateCrewActivity : AppCompatActivity() {
         binding.createCrewDesc.doAfterTextChanged {
             crewDesc = it.toString()
         }
+        binding.createCrewLocation.doAfterTextChanged {
+            crewSearchAddress = it.toString()
+        }
         binding.createCrewLocation.setOnKeyListener { _, keyCode, event ->
             if ((event.action == KeyEvent.ACTION_DOWN)&&(keyCode == KeyEvent.KEYCODE_ENTER)) {
                 CoroutineScope(Dispatchers.IO).launch {
-                    val response = DarlyService.getDarlyService().createCrew(crewImage = crewImgBody, data = textHashMap)
-                    Log.d("Create Crew", "${response}")
+                    val response = DarlyService.getDarlyService().searchAddress(address = crewSearchAddress)
+                    Log.d("Search Location", "${response}")
                 }
                 true
             } else {
