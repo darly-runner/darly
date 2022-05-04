@@ -16,6 +16,11 @@ public class AddressServiceImpl implements AddressService{
     @Override
     public List<Address> getAddresses(String address) {
 
-        return addressRepository.findAddressesByAddressNameContains(address);
+        if(address != null) {
+            return addressRepository.findAddressesByAddressNameContains(address);
+        }
+        else {
+            return addressRepository.findAll();
+        }
     }
 }
