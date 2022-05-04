@@ -56,9 +56,9 @@
 
         <ImageView
             android:id="@+id/imageView5"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:src="@drawable/ic_outline_location_on_24"
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            android:src="@drawable/ic_location"
             app:layout_constraintBottom_toBottomOf="@+id/circleImageView"
             app:layout_constraintStart_toStartOf="@+id/textView2"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
@@ -67,6 +67,7 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
             android:text="@{viewModel.userAddress}"
             android:textColor="#ADB5BD"
             android:textSize="11sp"

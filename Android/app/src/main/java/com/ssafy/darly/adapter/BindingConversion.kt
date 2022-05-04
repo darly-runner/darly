@@ -12,7 +12,6 @@ object BindingConversion {
     @JvmStatic
     @BindingAdapter("setImage")
     fun setImageUrl(view: ImageView, imageUrl: String?) {
-        Log.d("image", imageUrl ?: "null");
         if (!imageUrl.isNullOrEmpty()) {
             Glide.with(view.context)
                 .load(imageUrl)
@@ -23,8 +22,12 @@ object BindingConversion {
     @JvmStatic
     @BindingAdapter("setItems")
     fun setItems(recyclerView: RecyclerView, items: List<String>) {
+        var feedList = mutableListOf<Feed>()
+        for ((index, item) in items.withIndex()){
+            feedList.add(Feed(item, index))
+        }
         items?.let {
-            (recyclerView.adapter as UserFeedListAdapter).userFeedList = items
+            (recyclerView.adapter as UserFeedListAdapter).userFeedList = feedList
         }
     }
 }

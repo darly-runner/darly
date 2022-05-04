@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="String" />
+            type="com.ssafy.darly.model.user.Feed" />
     </data>
 
     <LinearLayout
@@ -17,7 +17,7 @@
 
         <ImageView
             android:id="@+id/imageView"
-            setImage="@{viewModel}"
+            setImage="@{viewModel.feedImage}"
             android:layout_margin="1.3dp"
             android:scaleType="centerCrop"
             android:layout_width="wrap_content"

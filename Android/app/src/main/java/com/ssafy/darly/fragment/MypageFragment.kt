@@ -24,6 +24,7 @@ import com.ssafy.darly.R
 import com.ssafy.darly.activity.LoginActivity
 import com.ssafy.darly.adapter.user.UserFeedListAdapter
 import com.ssafy.darly.databinding.FragmentMypageBinding
+import com.ssafy.darly.databinding.MypageFeedDialogBinding
 import com.ssafy.darly.model.user.Feed
 import com.ssafy.darly.service.DarlyService
 import com.ssafy.darly.util.GlobalApplication

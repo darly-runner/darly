@@ -12,8 +12,10 @@ class MypageViewModel : ViewModel(){
     var userFriendNum = MutableLiveData<String>()
     var userImage = MutableLiveData<String>()
     var userFeedList = MutableLiveData<List<String>>()
+    var selectedFeed = MutableLiveData<String>()
 
     init {
         userFeedList.value = listOf()
+        selectedFeed.value = "https://darly-bucket.s3.ap-northeast-2.amazonaws.com/user/3dd2067c-2d35-45a1-a151-26cff402990b.png"
     }
 }
