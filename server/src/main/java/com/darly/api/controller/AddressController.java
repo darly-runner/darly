@@ -25,14 +25,14 @@ public class AddressController {
     AddressService addressService;
 
     // 1. 지역목록 GET
-    @GetMapping("/{address}")
+    @GetMapping
     @ApiOperation(value="지역목록", notes="지역목록 가져오기")
     @ApiResponses({
             @ApiResponse(code=200, message="테스트 성공"),
             @ApiResponse(code=404, message="잘못된 url 접근"),
             @ApiResponse(code=500, message="서버 에러")
     })
-    public ResponseEntity<AddressesGetRes> getAddresses(@PathVariable String address) {
+    public ResponseEntity<AddressesGetRes> getAddresses(String address) {
         List<Address> addresses = addressService.getAddresses(address);
 
         return ResponseEntity.ok(AddressesGetRes.of(addresses, 200 ,"success"));
