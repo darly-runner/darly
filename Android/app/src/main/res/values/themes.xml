@@ -26,8 +26,8 @@
 
     <style name="Text.TitleStyle" parent="android:TextAppearance">
         <item name="android:textStyle">bold</item>
-<!--        <item name="android:textSize">@dimen/text_size_16</item>-->
-<!--        <item name="android:textColor">@color/colorBlack</item>-->
+        <!--        <item name="android:textSize">@dimen/text_size_16</item>-->
+        <!--        <item name="android:textColor">@color/colorBlack</item>-->
         <item name="android:fontFamily">@font/font</item>
         <item name="android:includeFontPadding">false</item>
     </style>
@@ -43,6 +43,16 @@
     <style name="CustomRadioButton" parent="Theme.AppCompat.Light">
         <item name="colorAccent">@color/main</item>
         <item name="colorControlNormal">@color/gray_600</item>
+    </style>
+
+    <style name="ThemeOverlay.DarlyApplication.FullscreenContainer" parent="">
+        <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
+        <item name="fullscreenTextColor">@color/light_blue_A200</item>
+    </style>
+
+    <style name="CustomFullDialog">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowIsFloating">true</item>
     </style>
 
 </resources>

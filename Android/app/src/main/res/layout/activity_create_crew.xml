@@ -127,6 +127,7 @@
                     android:layout_height="100dp"
                     android:layout_marginBottom="20dp"
                     android:paddingHorizontal="10dp"
+                    android:paddingVertical="8dp"
                     android:background="@drawable/crew_create_background"
                     android:textSize="14dp" />
 

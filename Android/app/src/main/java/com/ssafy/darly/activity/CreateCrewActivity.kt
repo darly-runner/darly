@@ -15,6 +15,8 @@ import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.ssafy.darly.R
 import com.ssafy.darly.databinding.ActivityCreateCrewBinding
+import com.ssafy.darly.fragment.SearchLocationFragment
+//import com.ssafy.darly.fragment.SearchLocationFragment
 import com.ssafy.darly.service.DarlyService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -63,20 +65,24 @@ class CreateCrewActivity : AppCompatActivity() {
         binding.createCrewDesc.doAfterTextChanged {
             crewDesc = it.toString()
         }
-        binding.createCrewLocation.doAfterTextChanged {
-            crewSearchAddress = it.toString()
+//        binding.createCrewLocation.doAfterTextChanged {
+//            crewSearchAddress = it.toString()
+//        }
+        binding.createCrewLocation.setOnClickListener {
+            val dialog = SearchLocationFragment()
+            dialog.show(supportFragmentManager, "SearchLocationFragment")
         }
-        binding.createCrewLocation.setOnKeyListener { _, keyCode, event ->
-            if ((event.action == KeyEvent.ACTION_DOWN)&&(keyCode == KeyEvent.KEYCODE_ENTER)) {
-                CoroutineScope(Dispatchers.IO).launch {
-                    val response = DarlyService.getDarlyService().searchAddress(address = crewSearchAddress)
-                    Log.d("Search Location", "${response}")
-                }
-                true
-            } else {
-                false
-            }
-        }
+//        binding.createCrewLocation.setOnKeyListener { _, keyCode, event ->
+//            if ((event.action == KeyEvent.ACTION_DOWN)&&(keyCode == KeyEvent.KEYCODE_ENTER)) {
+//                CoroutineScope(Dispatchers.IO).launch {
+//                    val response = DarlyService.getDarlyService().searchAddress(address = crewSearchAddress)
+//                    Log.d("Search Location", "${response}")
+//                }
+//                true
+//            } else {
+//                false
+//            }
+//        }
 
         binding.createCrewButton.setOnClickListener {
             val file = getImgFile(imageURI)
