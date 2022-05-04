@@ -85,6 +85,8 @@ class SearchLocationFragment : DialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NORMAL, R.style.CustomFullDialog)
+
+
     }
 
     override fun onStart() {
@@ -111,5 +113,8 @@ class SearchLocationFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.closeDialog.setOnClickListener {
+            dialog?.dismiss()
+        }
     }
 }
