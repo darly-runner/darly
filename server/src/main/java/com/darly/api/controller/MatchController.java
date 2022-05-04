@@ -1,5 +1,6 @@
 package com.darly.api.controller;
 
+import com.darly.api.request.match.MatchCreatePostReq;
 import com.darly.db.entity.socket.ChatRoom;
 import com.darly.db.entity.socket.ChatRoomForm;
 import com.darly.db.repository.socket.ChatRoomRepository;
@@ -13,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/chat")
-public class ChatController {
+@RequestMapping("/match")
+public class MatchController {
     private final ChatRoomRepository chatRoomRepository;
 
     @GetMapping
@@ -30,10 +31,15 @@ public class ChatController {
         return "room";
     }
 
-    @GetMapping("/new")
-    public String make(Model model){
-        ChatRoomForm form = new ChatRoomForm();
-        model.addAttribute("form",form);
+    @GetMapping("/new/{crewId}")
+    public String make(Model model,@PathVariable String crewId){
+//        ChatRoomForm form = new ChatRoomForm();
+//        model.addAttribute("form",form);
+
+        Long id = Long.parseLong(crewId);
+        model.addAttribute("matchCreatePostReq",new MatchCreatePostReq());
+        model.addAttribute("crewId", id);
+        model.addAttribute("authorization", "1");
         return "newRoom";
     }
 
