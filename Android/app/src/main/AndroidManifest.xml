@@ -5,7 +5,10 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".util.GlobalApplication"
@@ -17,11 +20,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DarlyApplication"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".activity.ResultActivity"
+            android:exported="false" />
+
         <service
             android:name=".background.MyService"
-            android:foregroundServiceType="location|camera"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true"
+            android:foregroundServiceType="location|camera" />
+
         <activity
             android:name=".fragment.PauseFragment"
             android:exported="false" />

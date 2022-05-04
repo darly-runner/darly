@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Bundle
-import android.os.Handler
 import android.os.IBinder
 import android.util.Log
 import android.view.View
@@ -56,8 +55,7 @@ class RunningActivity : AppCompatActivity() {
 
         // 종료
         binding.endButton.setOnClickListener {
-            // 결과페이지로 넘어가야함
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, ResultActivity::class.java)
             startActivity(intent)
         }
     }
@@ -78,7 +76,10 @@ class RunningActivity : AppCompatActivity() {
             model.setDist(dist)
             model.setSpeed()
             model.setPace()
-            Toast.makeText(this,"$dist 만큼 이동",Toast.LENGTH_LONG).show()
+            model.setKalory()
+
+            model.locationList.value = service.locationList.value
+            Toast.makeText(this,"${service.locationList.value?.size} , 좌표크기",Toast.LENGTH_LONG).show()
         })
 
         // 일시정지를 누르면 일시정지화면을 보여준다.
@@ -118,6 +119,7 @@ class RunningActivity : AppCompatActivity() {
             val binder = ibinder as MyService.MyBinder
             service = binder.getService()
             bound = true
+
             subscribeObserver()
         }
 
@@ -125,7 +127,6 @@ class RunningActivity : AppCompatActivity() {
             bound = false
         }
     }
-
 
     fun serviceStart() {
         val intent = Intent(this, MyService::class.java)

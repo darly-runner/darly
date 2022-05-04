@@ -1,25 +1,17 @@
 package com.ssafy.darly.fragment
 
 import android.Manifest
-import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.location.Location
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
-import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -28,7 +20,6 @@ import com.ssafy.darly.R
 import com.ssafy.darly.activity.RunningActivity
 import com.ssafy.darly.databinding.FragmentRunningBinding
 import com.ssafy.darly.dialog.TargetDialog
-import com.ssafy.darly.util.LocationHelper
 import com.ssafy.darly.viewmodel.RunningViewModel
 
 class RunningFragment : Fragment() , OnMapReadyCallback,
@@ -73,8 +64,6 @@ class RunningFragment : Fragment() , OnMapReadyCallback,
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-
-        val polylineOptions = PolylineOptions()
 
         // 현재 내위치 표시
         if (ContextCompat.checkSelfPermission(this.requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
