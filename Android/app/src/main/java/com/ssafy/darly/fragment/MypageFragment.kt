@@ -1,33 +1,24 @@
 package com.ssafy.darly.fragment
 
-import android.content.Intent
-import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
-import com.kakao.sdk.user.UserApiClient
 import com.ssafy.darly.R
-import com.ssafy.darly.activity.LoginActivity
 import com.ssafy.darly.adapter.user.UserFeedListAdapter
 import com.ssafy.darly.databinding.FragmentMypageBinding
-import com.ssafy.darly.databinding.MypageFeedDialogBinding
-import com.ssafy.darly.model.user.Feed
+import com.ssafy.darly.dialog.MyPageMenuDialog
 import com.ssafy.darly.service.DarlyService
-import com.ssafy.darly.util.GlobalApplication
 import com.ssafy.darly.viewmodel.MypageViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -39,8 +30,8 @@ class MypageFragment : Fragment() {
     private lateinit var userFeedListAdapter: UserFeedListAdapter
     private val model: MypageViewModel by viewModels()
 
-//    var auth: FirebaseAuth? = null
-//    var googleSignInClient: GoogleSignInClient? = null
+    var auth: FirebaseAuth? = null
+    var googleSignInClient: GoogleSignInClient? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,6 +45,18 @@ class MypageFragment : Fragment() {
         userFeedListAdapter = UserFeedListAdapter()
         binding.recyclerView.adapter = userFeedListAdapter
         binding.recyclerView.layoutManager = GridLayoutManager(context, 3)
+
+//        var layout_manager = GridLayoutManager{}
+//        private RecyclerView.LayoutManager layout_manager;
+//        layout_manager = new LinearLayoutManager(getContext().getApplicationContext()){ @Override public boolean canScrollVertically() { return false; } };
+
+        binding.menuBtn.setOnClickListener {
+            val myPageMenuDialog = MyPageMenuDialog(context as AppCompatActivity)
+            myPageMenuDialog.show()
+//            targetDialog.setOnClickedListener(object : TargetDialog.ButtonClickListener{
+//            })
+        }
+
 //        logout()
 //        unlink()
         return binding.root
@@ -91,18 +94,18 @@ class MypageFragment : Fragment() {
         }
     }
 
-    //    fun logout(){
-//        // 구글 로그아웃을 위해 로그인 세션 가져오기
-//        var gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//            .requestIdToken(getString(R.string.default_web_client_id2))
-//            .requestEmail()
-//            .build()
-//        googleSignInClient = this.context?.let { GoogleSignIn.getClient(it, gso) }
-//
-//        // firebaseauth를 사용하기 위한 인스턴스 get
-//        auth = FirebaseAuth.getInstance()
-//
-//        // 구글 로그아웃 버튼 클릭 시 이벤트
+    fun logout() {
+        // 구글 로그아웃을 위해 로그인 세션 가져오기
+        var gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id2))
+            .requestEmail()
+            .build()
+        googleSignInClient = this.context?.let { GoogleSignIn.getClient(it, gso) }
+
+        // firebaseauth를 사용하기 위한 인스턴스 get
+        auth = FirebaseAuth.getInstance()
+
+        // 구글 로그아웃 버튼 클릭 시 이벤트
 //        binding.logoutBtn.setOnClickListener {
 //            UserApiClient.instance.logout { error ->
 //                if (error == null)
@@ -115,24 +118,24 @@ class MypageFragment : Fragment() {
 //            var logoutIntent = Intent(this.context, LoginActivity::class.java)
 //            logoutIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
 //
-//            GlobalApplication.prefs.setString("token","noToken")
+//            GlobalApplication.prefs.setString("token", "noToken")
 //            startActivity(logoutIntent)
 //        }
-//    }
-//
-//    // 카카오 회원 탈퇴
-//    fun unlink(){
+    }
+
+    // 카카오 회원 탈퇴
+    fun unlink() {
 //        binding.kakaoUnlink.setOnClickListener {
 //            UserApiClient.instance.unlink { error ->
 //                if (error != null) {
 //                    Toast.makeText(context, "회원 탈퇴 실패 $error", Toast.LENGTH_SHORT).show()
-//                }else {
+//                } else {
 //                    Toast.makeText(context, "회원 탈퇴 성공", Toast.LENGTH_SHORT).show()
 //                    val intent = Intent(this.context, LoginActivity::class.java)
-//                    GlobalApplication.prefs.setString("token","noToken")
+//                    GlobalApplication.prefs.setString("token", "noToken")
 //                    startActivity(intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP))
 //                }
 //            }
 //        }
-//    }
+    }
 }

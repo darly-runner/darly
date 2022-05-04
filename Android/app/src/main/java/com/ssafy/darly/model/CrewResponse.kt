@@ -34,3 +34,14 @@ data class CreateCrew(
     var message : String,
     var statusCode : Int,
 )
+
+data class SearchAddress(
+    var message: String,
+    var statusCode: Int,
+    var addresses: List<MyAddress>
+)
+
+data class MyAddress(
+    var addressId: Int,
+    var addressName: String
+)
