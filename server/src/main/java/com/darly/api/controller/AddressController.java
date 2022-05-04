@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,14 +25,14 @@ public class AddressController {
     AddressService addressService;
 
     // 1. 지역목록 GET
-    @GetMapping
+    @GetMapping("/{address}")
     @ApiOperation(value="지역목록", notes="지역목록 가져오기")
     @ApiResponses({
             @ApiResponse(code=200, message="테스트 성공"),
             @ApiResponse(code=404, message="잘못된 url 접근"),
             @ApiResponse(code=500, message="서버 에러")
     })
-    public ResponseEntity<AddressesGetRes> getAddresses(String address) {
+    public ResponseEntity<AddressesGetRes> getAddresses(@PathVariable String address) {
         List<Address> addresses = addressService.getAddresses(address);
 
         return ResponseEntity.ok(AddressesGetRes.of(addresses, 200 ,"success"));
