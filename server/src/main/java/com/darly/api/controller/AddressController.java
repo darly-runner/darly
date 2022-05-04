@@ -31,8 +31,8 @@ public class AddressController {
             @ApiResponse(code=404, message="잘못된 url 접근"),
             @ApiResponse(code=500, message="서버 에러")
     })
-    public ResponseEntity<AddressesGetRes> getAddresses() {
-        List<Address> addresses = addressService.getAddresses();
+    public ResponseEntity<AddressesGetRes> getAddresses(String address) {
+        List<Address> addresses = addressService.getAddresses(address);
 
         return ResponseEntity.ok(AddressesGetRes.of(addresses, 200 ,"success"));
     }

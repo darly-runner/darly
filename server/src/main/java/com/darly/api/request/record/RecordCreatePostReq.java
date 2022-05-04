@@ -13,8 +13,8 @@ public class RecordCreatePostReq {
     private Long matchId;
     @ApiModelProperty(name="recordDistance", example="10.0")
     private Float recordDistance;
-    @ApiModelProperty(name="recordPace", example="6.0")
-    private Float recordPace;
+    @ApiModelProperty(name="recordPace", example="6")
+    private Integer recordPace;
     @ApiModelProperty(name="recordCalories", example="0")
     private Integer recordCalories;
     @ApiModelProperty(name="recordHeart", example="0")
@@ -25,14 +25,6 @@ public class RecordCreatePostReq {
     private Long recordTime;
     @ApiModelProperty(name="recordRank", example="1")
     private Integer recordRank;
-    @ApiModelProperty(name="recordStartLatitude", example="0.0")
-    private Float recordStartLatitude;
-    @ApiModelProperty(name="recordStartLongitude", example="0.0")
-    private Float recordStartLongitude;
-    @ApiModelProperty(name="recordEndLatitude", example="0.0")
-    private Float recordEndLatitude;
-    @ApiModelProperty(name="recordEndLongitude", example="0.0")
-    private Float recordEndLongitude;
     @ApiModelProperty(name="coordinateLatitudes", example="[0.0, 1.1, 2.2]")
     private List<String> coordinateLatitudes;
     @ApiModelProperty(name="coordinateLongitudes", example="[0.0, 1.1, 2.2]")
