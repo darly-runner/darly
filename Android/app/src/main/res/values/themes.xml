@@ -29,4 +29,8 @@
         <item name="android:fontFamily">@font/font</item>
         <item name="android:includeFontPadding">false</item>
     </style>
+    <style name="CustomRadioButton" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/main</item>
+        <item name="colorControlNormal">@color/gray_600</item>
+    </style>
 </resources>

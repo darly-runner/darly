@@ -24,6 +24,8 @@ interface ApiService {
         @Query("userId") userId: Int,
     ): Response<UserGetRes>
 
+
+    // CREW
     @GET("crew/my")
     suspend fun myCrewList(): Response<MyCrewResponse>
 
@@ -39,13 +41,13 @@ interface ApiService {
     @POST("crew")
     suspend fun createCrew(
         @PartMap data: HashMap<String, RequestBody>,
-//        @Part("crewName") crewName: String,
-//        @Part("crewDesc") crewDesc: String,
-//        @Part("crewAddress") crewAddress: Long,
-//        @Part("crewJoin") crewJoin: String,
         @Part crewImage: MultipartBody.Part?,
-//        @PartMap data: HashMap<String, CreateCrewReq>
     ): Response<CreateCrew>
+
+    @GET("addresses")
+    suspend fun searchAddress(
+        @Query("address") address: String
+    ): Response<SearchAddress>
 
     @GET("users/profile")
     suspend fun getUserProfile(): Response<UserProfileGetRes>
