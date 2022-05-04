@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">달리</string>
     <string name="default_web_client_id2">233937818335-7mrg3j77q7ojjb5b0nlbptgrbrt2cnme.apps.googleusercontent.com</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="run_distance">달린 거리</string>
+    <string name="friend">친구</string>
+    <string name="km">km</string>
+    <string name="people">명</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
