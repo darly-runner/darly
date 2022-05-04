@@ -33,7 +33,7 @@ import kotlinx.coroutines.launch
 class CrewFragment : Fragment() {
     private lateinit var binding: FragmentCrewBinding
     private val model: CrewViewModel by viewModels()
-    lateinit var adapter: MyCrewListAdapter
+//    lateinit var adapter: MyCrewListAdapter
     lateinit var recAdapter: CrewRecommendationAdapter
 
     override fun onCreateView(
@@ -49,11 +49,11 @@ class CrewFragment : Fragment() {
         return binding.root
     }
 
-    fun subscribeObservers() {
-        model.myCrewList.observe(viewLifecycleOwner, Observer { crewList ->
-            adapter.submitList(crewList)
-        })
-    }
+//    fun subscribeObservers() {
+//        model.myCrewList.observe(viewLifecycleOwner, Observer { crewList ->
+//            adapter.submitList(crewList)
+//        })
+//    }
 
     fun subscribeObserversCrew() {
         model.crewRecommendationList.observe(viewLifecycleOwner, Observer { crewList ->
@@ -63,15 +63,16 @@ class CrewFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        subscribeObservers()
+//        subscribeObservers()
         subscribeObserversCrew()
 
         val glide = Glide.with(this@CrewFragment)
-        adapter = MyCrewListAdapter(
-            LayoutInflater.from(context),
-            glide
-        )
-        binding.myCrew.adapter = adapter
+//        val adapter = MyCrewListAdapter(
+//            LayoutInflater.from()
+////            LayoutInflater.from(context),
+////            glide
+//        )
+//        binding.myCrew.adapter = adapter
 
         binding.crewRecommendation.addItemDecoration(CrewRecommendationAdapterDecoration())
         recAdapter = CrewRecommendationAdapter(
@@ -83,6 +84,16 @@ class CrewFragment : Fragment() {
         CoroutineScope(Dispatchers.Main).launch {
             val response = DarlyService.getDarlyService().myCrewList()
             model.myCrewList.value = response.body()?.crew ?: listOf()
+
+            val crewItemList = model.myCrewList.value
+            val adapter = MyCrewListAdapter(
+                crewItemList!!,
+                LayoutInflater.from(context),
+                glide
+            )
+            binding.myCrew.adapter = adapter
+            Log.d("Crew List check", "${model.myCrewList}")
+            Log.d("Crew List check", "${model.myCrewList.value}")
 
             Log.d("Crew List", "${response}")
             Log.d("Crew List 2", "${response.body()}")
