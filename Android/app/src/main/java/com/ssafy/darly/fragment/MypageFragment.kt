@@ -1,10 +1,12 @@
 package com.ssafy.darly.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -14,11 +16,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.kakao.sdk.user.UserApiClient
 import com.ssafy.darly.R
+import com.ssafy.darly.activity.LoginActivity
 import com.ssafy.darly.adapter.user.UserFeedListAdapter
 import com.ssafy.darly.databinding.FragmentMypageBinding
 import com.ssafy.darly.dialog.MyPageMenuDialog
+import com.ssafy.darly.dialog.TargetDialog
 import com.ssafy.darly.service.DarlyService
+import com.ssafy.darly.util.GlobalApplication
 import com.ssafy.darly.viewmodel.MypageViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -53,11 +59,26 @@ class MypageFragment : Fragment() {
         binding.menuBtn.setOnClickListener {
             val myPageMenuDialog = MyPageMenuDialog(context as AppCompatActivity)
             myPageMenuDialog.show()
-//            targetDialog.setOnClickedListener(object : TargetDialog.ButtonClickListener{
-//            })
+            myPageMenuDialog.setOnClickedListener(object: MyPageMenuDialog.ButtonClickListener{
+                override fun onClicked() {
+                    UserApiClient.instance.logout { error ->
+                        if (error == null)
+                            Toast.makeText(context, "로그아웃 성공", Toast.LENGTH_SHORT).show()
+                    }
+
+                    FirebaseAuth.getInstance().signOut()
+                    googleSignInClient?.signOut()
+
+                    var logoutIntent = Intent(context, LoginActivity::class.java)
+                    logoutIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+
+                    GlobalApplication.prefs.setString("token", "noToken")
+                    startActivity(logoutIntent)
+                }
+            })
         }
 
-//        logout()
+        logout()
 //        unlink()
         return binding.root
     }

@@ -1,25 +1,36 @@
 package com.ssafy.darly.dialog
 
-import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.Window
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.DialogFragment
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.firebase.auth.FirebaseAuth
+import com.kakao.sdk.user.UserApiClient
 import com.ssafy.darly.R
-import com.ssafy.darly.model.user.Feed
+import com.ssafy.darly.activity.LoginActivity
+import com.ssafy.darly.util.GlobalApplication
 
 class MyPageMenuDialog(private val context: AppCompatActivity) {
-//    private lateinit var onClickedListener: ButtonClickListener
+    private lateinit var onClickedListener: ButtonClickListener
     private val dlg = BottomSheetDialog(context)   //부모 액티비티의 context 가 들어감
+    var auth: FirebaseAuth? = null
+    var googleSignInClient: GoogleSignInClient? = null
 
-//    interface ButtonClickListener {
-//        fun onClicked(target: String)
-//    }
+    interface ButtonClickListener {
+        fun onClicked()
+    }
 
-//    fun setOnClickedListener(listener: ButtonClickListener) {
-//        onClickedListener = listener
-//    }
+    fun setOnClickedListener(listener: ButtonClickListener) {
+        onClickedListener = listener
+    }
 
     fun show() {
         dlg.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -34,6 +45,10 @@ class MyPageMenuDialog(private val context: AppCompatActivity) {
 //                .load(content.feedImage)
 //                .into(imageView)
 //        }
+        val logoutView = dlg.findViewById<TextView>(R.id.logoutText)
+        logoutView?.setOnClickListener {
+            onClickedListener.onClicked()
+        }
 
         dlg.show()
     }
