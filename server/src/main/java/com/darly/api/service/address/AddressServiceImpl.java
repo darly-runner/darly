@@ -5,6 +5,8 @@ import com.darly.db.repository.address.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("AddressServiceImpl")
@@ -16,12 +18,13 @@ public class AddressServiceImpl implements AddressService{
     // 주소 검색
     @Override
     public List<Address> getAddresses(String address) {
+        List<Address> result;
 
-        if(address != null) {
-            return addressRepository.findAddressesByAddressNameContains(address);
+        if (address != null) {
+            result = addressRepository.findAddressesByAddressNameContaining(address);
+        } else {
+            result = addressRepository.findAll();
         }
-        else {
-            return addressRepository.findAll();
-        }
+        return result;
     }
 }
