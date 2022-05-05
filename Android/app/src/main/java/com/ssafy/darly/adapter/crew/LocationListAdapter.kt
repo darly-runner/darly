@@ -12,7 +12,6 @@ import com.ssafy.darly.model.MyAddress
 class LocationListAdapter(
     val locationList: List<MyAddress>,
     val inflater: LayoutInflater,
-    val glide: RequestManager,
 ): RecyclerView.Adapter<LocationListAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {

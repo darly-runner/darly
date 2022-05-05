@@ -2,12 +2,21 @@ package com.ssafy.darly.fragment
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.*
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
 import com.ssafy.darly.R
+import com.ssafy.darly.adapter.crew.LocationListAdapter
 import com.ssafy.darly.databinding.FragmentSearchLocationBinding
+import com.ssafy.darly.service.DarlyService
+import com.ssafy.darly.viewmodel.CrewViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 //class SearchLocationFragment : Fragment() {
 //    private lateinit var binding: FragmentSearchLocationBinding
@@ -81,11 +90,12 @@ import com.ssafy.darly.databinding.FragmentSearchLocationBinding
 
 class SearchLocationFragment : DialogFragment() {
     private lateinit var binding: FragmentSearchLocationBinding
+    private val model: CrewViewModel by viewModels()
+    var crewLocation: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NORMAL, R.style.CustomFullDialog)
-
 
     }
 
@@ -106,12 +116,39 @@ class SearchLocationFragment : DialogFragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search_location, container, false)
         activity?.let {
             binding.lifecycleOwner = this
+//            binding.viewModel = model
         }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.searchCrewLocation.doAfterTextChanged {
+            crewLocation = it.toString()
+        }
+
+        binding.searchCrewLocation.setOnKeyListener { _, keyCode, event ->
+            if ((event.action == KeyEvent.ACTION_DOWN)&&(keyCode == KeyEvent.KEYCODE_ENTER)) {
+                CoroutineScope(Dispatchers.Main).launch {
+                    val response = DarlyService.getDarlyService().searchAddress(address = crewLocation)
+                    model.myAddress.value = response.body()?.addresses ?: listOf()
+
+                    val adapter = LocationListAdapter(
+                        model.myAddress.value!!,
+                        LayoutInflater.from(context),
+                    )
+                    binding.locationList.adapter = adapter
+
+
+//                    val locationList = model.MyAddress.value
+                    Log.d("Search Location", "${response}")
+                }
+                true
+            } else {
+                false
+            }
+        }
 
         binding.closeDialog.setOnClickListener {
             dialog?.dismiss()
