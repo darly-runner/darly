@@ -70,7 +70,7 @@
                 android:text="취소"
                 android:textColor="@color/gray_700"
                 android:textSize="16dp" />
-            
+
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView

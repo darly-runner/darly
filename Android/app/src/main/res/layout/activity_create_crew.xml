@@ -100,19 +100,34 @@
                     android:text="활동 지역"
                     android:textColor="@color/black" />
 
-                <EditText
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/createCrewLocation"
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
                     android:layout_marginBottom="20dp"
                     android:background="@drawable/crew_create_background"
-                    android:hint="시, 군, 구로 검색 (ex. 서울시 종로구)"
+                    android:gravity="center_vertical"
                     android:imeOptions="actionSearch"
                     android:inputType="text"
                     android:maxLines="1"
                     android:paddingLeft="10dp"
                     android:textColorHint="@color/gray_500"
-                    android:textSize="14dp" />
+                    android:textSize="14dp" >
+
+                    <TextView
+                        android:id="@+id/selectedLocation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="시, 군, 구로 검색 (ex. 서울시 종로구)"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="4dp"
+                        android:src="@drawable/ic_chevron_right"/>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <TextView
                     android:layout_width="wrap_content"

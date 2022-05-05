@@ -9,6 +9,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.KeyEvent
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
@@ -62,27 +63,22 @@ class CreateCrewActivity : AppCompatActivity() {
         binding.createCrewName.doAfterTextChanged {
             crewName = it.toString()
         }
+
         binding.createCrewDesc.doAfterTextChanged {
             crewDesc = it.toString()
         }
-//        binding.createCrewLocation.doAfterTextChanged {
-//            crewSearchAddress = it.toString()
-//        }
+
         binding.createCrewLocation.setOnClickListener {
             val dialog = SearchLocationFragment()
             dialog.show(supportFragmentManager, "SearchLocationFragment")
         }
-//        binding.createCrewLocation.setOnKeyListener { _, keyCode, event ->
-//            if ((event.action == KeyEvent.ACTION_DOWN)&&(keyCode == KeyEvent.KEYCODE_ENTER)) {
-//                CoroutineScope(Dispatchers.IO).launch {
-//                    val response = DarlyService.getDarlyService().searchAddress(address = crewSearchAddress)
-//                    Log.d("Search Location", "${response}")
-//                }
-//                true
-//            } else {
-//                false
-//            }
-//        }
+
+        crewAddress = intent.getIntExtra("addressId", 0).toLong()
+        val addressName = intent.getStringExtra("addressName")
+
+        if (addressName != null) {
+            binding.selectedLocation.setText(addressName)
+        }
 
         binding.createCrewButton.setOnClickListener {
             val file = getImgFile(imageURI)
