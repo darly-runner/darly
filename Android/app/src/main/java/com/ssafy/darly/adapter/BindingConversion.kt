@@ -1,11 +1,12 @@
 package com.ssafy.darly.adapter
 
-import android.util.Log
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.ssafy.darly.adapter.friend.FriendListAdapter
 import com.ssafy.darly.adapter.user.UserFeedListAdapter
+import com.ssafy.darly.model.friend.Friend
 import com.ssafy.darly.model.user.Feed
 
 object BindingConversion {
@@ -20,14 +21,26 @@ object BindingConversion {
     }
 
     @JvmStatic
-    @BindingAdapter("setItems")
-    fun setItems(recyclerView: RecyclerView, items: List<String>) {
+    @BindingAdapter("setFeedItems")
+    fun setFeedItems(recyclerView: RecyclerView, items: List<String>) {
         var feedList = mutableListOf<Feed>()
-        for ((index, item) in items.withIndex()){
+        for ((index, item) in items.withIndex()) {
             feedList.add(Feed(item, index))
         }
         items?.let {
             (recyclerView.adapter as UserFeedListAdapter).userFeedList = feedList
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("setFriendItems")
+    fun setFriendItems(recyclerView: RecyclerView, items: List<Friend>) {
+        var friendList = mutableListOf<Friend>()
+        for (item in items) {
+            friendList.add(item)
+        }
+        items?.let {
+            (recyclerView.adapter as FriendListAdapter).friendList = friendList
         }
     }
 }

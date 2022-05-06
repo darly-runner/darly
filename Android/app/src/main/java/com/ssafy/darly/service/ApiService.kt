@@ -1,6 +1,7 @@
 package com.ssafy.darly.service
 
 import com.ssafy.darly.model.*
+import com.ssafy.darly.model.friend.FriendListGetRes
 import com.ssafy.darly.model.user.UserFeedGetRes
 import com.ssafy.darly.model.user.UserProfileGetRes
 import okhttp3.MultipartBody
@@ -54,4 +55,7 @@ interface ApiService {
 
     @GET("users/feed")
     suspend fun getUserFeedList(@Query("page") page: Int): Response<UserFeedGetRes>
+
+    @GET("friends")
+    suspend fun getFriendList(): Response<FriendListGetRes>
 }

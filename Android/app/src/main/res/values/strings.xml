@@ -9,4 +9,7 @@
     <string name="setting">설정</string>
     <string name="update_profile">내 정보 수정</string>
     <string name="logout">로그아웃</string>
+    <string name="search">검색</string>
+    <string name="friend_apply">친구 요청</string>
+    <string name="all_friend">모든 친구</string>
 </resources>
