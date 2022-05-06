@@ -2,7 +2,6 @@ package com.ssafy.darly.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +19,6 @@ import com.kakao.sdk.user.UserApiClient
 import com.ssafy.darly.R
 import com.ssafy.darly.activity.FriendActivity
 import com.ssafy.darly.activity.LoginActivity
-import com.ssafy.darly.activity.RunningActivity
 import com.ssafy.darly.adapter.user.UserFeedListAdapter
 import com.ssafy.darly.databinding.FragmentMypageBinding
 import com.ssafy.darly.dialog.MyPageMenuDialog

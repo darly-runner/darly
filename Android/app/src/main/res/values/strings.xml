@@ -12,4 +12,6 @@
     <string name="search">검색</string>
     <string name="friend_apply">친구 요청</string>
     <string name="all_friend">모든 친구</string>
+    <string name="delete">삭제</string>
+    <string name="delete_friend_answer">친구를 삭제하시겠습니까?</string>
 </resources>
