@@ -108,7 +108,7 @@ class SearchLocationFragment : DialogFragment() {
             onClickedListener.onClicked(addressId = addressIdData, addressName = addressNameData)
             dialog?.dismiss()
         }
-        
+
         binding.closeDialog.setOnClickListener {
             dialog?.dismiss()
         }
