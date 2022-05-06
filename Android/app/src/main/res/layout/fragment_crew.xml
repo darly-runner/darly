@@ -10,22 +10,17 @@
             type="com.ssafy.darly.viewmodel.CrewViewModel" />
     </data>
 
-    <!--    <ScrollView-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent">-->
-
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingHorizontal="20dp"
-        android:paddingTop="20dp"
-        android:paddingBottom="80dp">
+        android:paddingTop="20dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:paddingHorizontal="10dp"
             android:paddingBottom="20dp">
 
             <TextView
@@ -34,6 +29,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/pretendard_bold"
                 android:text="Crew"
+                android:paddingHorizontal="10dp"
                 android:textColor="@color/black"
                 android:textSize="30dp" />
 
@@ -42,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:paddingHorizontal="10dp"
+                android:paddingHorizontal="8dp"
                 android:src="@drawable/ic_search" />
 
             <ImageView
@@ -50,34 +46,67 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:paddingHorizontal="8dp"
                 android:src="@drawable/ic_plus" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/myCrew"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingBottom="20dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-
-        <TextView
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/pretendard_semibold"
-            android:padding="5dp"
-            android:text="크루 추천"
-            android:textColor="@color/black"
-            android:textSize="20dp" />
+            android:layout_height="wrap_content">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/crewRecommendation"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="2" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/myCrew"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="20dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendard_semibold"
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="5dp"
+                    android:text="크루 추천"
+                    android:textColor="@color/black"
+                    android:textSize="20dp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/crewRecommendation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="8dp"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingTop="30dp"
+                    android:paddingBottom="2dp"
+                    android:text="원하는 크루를 찾을 수 없으신가요?"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:id="@+id/allCrewList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:paddingBottom="90dp"
+                    android:text="모든 크루 보기"
+                    android:textColor="@color/main" />
+
+            </LinearLayout>
+        </ScrollView>
     </androidx.appcompat.widget.LinearLayoutCompat>
-    <!--    </ScrollView>-->
+
 </layout>
