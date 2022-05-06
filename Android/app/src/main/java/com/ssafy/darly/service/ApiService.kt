@@ -59,6 +59,9 @@ interface ApiService {
     @GET("friends")
     suspend fun getFriendList(): Response<FriendListGetRes>
 
+    @GET("friends/waiting")
+    suspend fun getFriendWaitingList(): Response<FriendListGetRes>
+
     @DELETE("friends/{friendId}")
     suspend fun deleteFriend(@Path("friendId") friendId: Long): Response<BaseRes>
 }

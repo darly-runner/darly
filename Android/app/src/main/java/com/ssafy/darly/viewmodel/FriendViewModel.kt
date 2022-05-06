@@ -6,12 +6,11 @@ import com.ssafy.darly.model.friend.Friend
 
 class FriendViewModel : ViewModel() {
     var friendList = MutableLiveData<List<Friend>>()
-    var friendApplyList = MutableLiveData<List<Friend>>()
+    var friendWaitingList = MutableLiveData<List<Friend>>()
     var friendApplyMessage = MutableLiveData<String>()
 
     init {
         friendList.value = listOf()
-        friendApplyList.value = listOf()
-        friendApplyMessage.value = "지영님"
+        friendWaitingList.value = listOf()
     }
 }

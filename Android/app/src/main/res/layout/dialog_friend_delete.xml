@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/dialog_bottom_round"
     android:orientation="vertical"
-    android:paddingVertical="30dp"
-    android:paddingHorizontal="30dp">
+    android:paddingHorizontal="30dp"
+    android:paddingVertical="30dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageView"
-        android:layout_width="58dp"
-        android:layout_height="58dp"
+        android:layout_width="59dp"
+        android:layout_height="59dp"
         app:civ_border_color="#F7F8FB"
         app:civ_border_width="2dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,6 +43,7 @@
         android:layout_width="70dp"
         android:layout_height="30dp"
         android:background="@drawable/button_red_fill"
+        android:stateListAnimator="@null"
         android:text="@string/delete"
         android:textColor="#F7F8FB"
         android:textSize="14sp"

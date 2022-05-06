@@ -45,19 +45,6 @@ class FriendListAdapter : RecyclerView.Adapter<FriendListAdapter.FriendListHolde
 
     class FriendListHolder private constructor(val binding: FriendListBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Friend) {
-            binding.viewModel = item;
-            binding.deleteBtn.setOnClickListener {
-                val dlg = FriendDeleteDialog(it.context as AppCompatActivity)
-                dlg.setOnClickedListener(object : FriendDeleteDialog.ButtonClickListener {
-                    override fun onClicked() {
-
-                    }
-                })
-                dlg.show(item)
-            }
-            binding.executePendingBindings()
-        }
 
         companion object {
             fun from(parent: ViewGroup): FriendListHolder {
