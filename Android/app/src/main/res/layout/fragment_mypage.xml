@@ -230,13 +230,15 @@
         <!--        </ScrollView>-->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
-            setItems="@{viewModel.userFeedList}"
+            setFeedItems="@{viewModel.userFeedList}"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginStart="3dp"
             android:layout_marginTop="50dp"
             android:layout_marginEnd="3dp"
             android:layout_marginBottom="50dp"
+            android:nestedScrollingEnabled="false"
+            android:overScrollMode="never"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
