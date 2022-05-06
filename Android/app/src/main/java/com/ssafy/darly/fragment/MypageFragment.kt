@@ -1,10 +1,11 @@
 package com.ssafy.darly.fragment
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -14,11 +15,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.kakao.sdk.user.UserApiClient
 import com.ssafy.darly.R
+import com.ssafy.darly.activity.FriendActivity
+import com.ssafy.darly.activity.LoginActivity
 import com.ssafy.darly.adapter.user.UserFeedListAdapter
 import com.ssafy.darly.databinding.FragmentMypageBinding
 import com.ssafy.darly.dialog.MyPageMenuDialog
 import com.ssafy.darly.service.DarlyService
+import com.ssafy.darly.util.GlobalApplication
 import com.ssafy.darly.viewmodel.MypageViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -53,11 +58,31 @@ class MypageFragment : Fragment() {
         binding.menuBtn.setOnClickListener {
             val myPageMenuDialog = MyPageMenuDialog(context as AppCompatActivity)
             myPageMenuDialog.show()
-//            targetDialog.setOnClickedListener(object : TargetDialog.ButtonClickListener{
-//            })
+            myPageMenuDialog.setOnClickedListener(object: MyPageMenuDialog.ButtonClickListener{
+                override fun onClicked() {
+                    UserApiClient.instance.logout { error ->
+                        if (error == null)
+                            Toast.makeText(context, "로그아웃 성공", Toast.LENGTH_SHORT).show()
+                    }
+
+                    FirebaseAuth.getInstance().signOut()
+                    googleSignInClient?.signOut()
+
+                    var logoutIntent = Intent(context, LoginActivity::class.java)
+                    logoutIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+
+                    GlobalApplication.prefs.setString("token", "noToken")
+                    startActivity(logoutIntent)
+                }
+            })
         }
 
-//        logout()
+        binding.linearLayout.setOnClickListener {
+            val intent = Intent(this.requireContext(), FriendActivity::class.java)
+            startActivity(intent)
+        }
+
+        logout()
 //        unlink()
         return binding.root
     }
@@ -88,8 +113,8 @@ class MypageFragment : Fragment() {
         CoroutineScope(Dispatchers.Main).launch {
             val response = DarlyService.getDarlyService().getUserFeedList(0)
             model.userFeedList.value = response.body()?.feeds ?: listOf()
-            Log.d("response", "${response}")
-            Log.d("response body", "${response.body()}")
+//            Log.d("response", "${response}")
+//            Log.d("response body", "${response.body()}")
             userFeedListAdapter.notifyDataSetChanged()
         }
     }
@@ -104,27 +129,10 @@ class MypageFragment : Fragment() {
 
         // firebaseauth를 사용하기 위한 인스턴스 get
         auth = FirebaseAuth.getInstance()
-
-        // 구글 로그아웃 버튼 클릭 시 이벤트
-//        binding.logoutBtn.setOnClickListener {
-//            UserApiClient.instance.logout { error ->
-//                if (error == null)
-//                    Toast.makeText(context, "로그아웃 성공", Toast.LENGTH_SHORT).show()
-//            }
-//
-//            FirebaseAuth.getInstance().signOut()
-//            googleSignInClient?.signOut()
-//
-//            var logoutIntent = Intent(this.context, LoginActivity::class.java)
-//            logoutIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-//
-//            GlobalApplication.prefs.setString("token", "noToken")
-//            startActivity(logoutIntent)
-//        }
     }
 
     // 카카오 회원 탈퇴
-    fun unlink() {
+//    fun unlink() {
 //        binding.kakaoUnlink.setOnClickListener {
 //            UserApiClient.instance.unlink { error ->
 //                if (error != null) {
@@ -137,5 +145,5 @@ class MypageFragment : Fragment() {
 //                }
 //            }
 //        }
-    }
+//    }
 }
