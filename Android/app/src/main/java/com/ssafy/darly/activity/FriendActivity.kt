@@ -4,10 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ssafy.darly.R
 import com.ssafy.darly.adapter.friend.FriendListAdapter
@@ -52,7 +54,7 @@ class FriendActivity : AppCompatActivity() {
                     Glide.with(binding.circleImageView1.context)
                         .load("https://darly-bucket.s3.ap-northeast-2.amazonaws.com/user/darly_logo.png")
                         .into(binding.circleImageView1)
-                    model.friendApplyMessage.value = "친구 요청이 없습니다"
+                    model.friendApplyMessage.value = "친구 신청이 없습니다"
                 } else {
                     Glide.with(binding.circleImageView1.context)
                         .load(
@@ -104,6 +106,11 @@ class FriendActivity : AppCompatActivity() {
 
         binding.linearLayout.setOnClickListener {
             val nextIntent = Intent(this, FriendWaitingActivity::class.java)
+            startActivity(nextIntent)
+        }
+
+        binding.plusBtn.setOnClickListener {
+            val nextIntent = Intent(this, FriendAddActivity::class.java)
             startActivity(nextIntent)
         }
 

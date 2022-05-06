@@ -1,9 +1,11 @@
 package com.ssafy.darly.adapter
 
+import android.util.Log
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.ssafy.darly.adapter.friend.FriendAddListAdapter
 import com.ssafy.darly.adapter.friend.FriendListAdapter
 import com.ssafy.darly.adapter.friend.FriendWaitingListAdapter
 import com.ssafy.darly.adapter.user.UserFeedListAdapter
@@ -60,6 +62,18 @@ object BindingConversion {
         items?.let {
             (recyclerView.adapter as FriendWaitingListAdapter).friendList = friendList
             (recyclerView.adapter as FriendWaitingListAdapter).filteredFriendList = filteredFriendList
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("setFriendAddItems")
+    fun setFriendAddItems(recyclerView: RecyclerView, items: List<Friend>) {
+        var friendList = mutableListOf<Friend>()
+        for (item in items) {
+            friendList.add(item)
+        }
+        items?.let {
+            (recyclerView.adapter as FriendAddListAdapter).friendList = friendList
         }
     }
 }

@@ -107,7 +107,8 @@ class MypageFragment : Fragment() {
             val dec = DecimalFormat("#,###");
             model.userFriendNum.value =
                 if (response.body()?.userFriendNum == null) "0" else dec.format(response.body()?.userFriendNum)
-            model.userImage.value = response.body()?.userImage ?: ""
+            model.userImage.value = response.body()?.userImage ?:
+                    "https://darly-bucket.s3.ap-northeast-2.amazonaws.com/user/darly_logo_white.png"
         }
 
         CoroutineScope(Dispatchers.Main).launch {

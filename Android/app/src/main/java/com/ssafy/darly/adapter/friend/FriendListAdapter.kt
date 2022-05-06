@@ -3,6 +3,7 @@ package com.ssafy.darly.adapter.friend
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
@@ -33,14 +34,14 @@ class FriendListAdapter(private val context: Context) :
         if (item.userImage == null)
             item.userImage =
                 "https://darly-bucket.s3.ap-northeast-2.amazonaws.com/user/darly_logo_white.png"
-        if (item.userMessage != null && item.userMessage.length > 10)
-            item.userMessage = item.userMessage.slice(IntRange(0, 10)) + "..."
-        holder.binding.viewModel = item;
+        if (item.userMessage != null && item.userMessage.length > 15)
+            item.userMessage = item.userMessage.slice(IntRange(0, 15)) + "..."
+        holder.binding.viewModel = item
         holder.binding.deleteBtn.setOnClickListener {
             val dlg = FriendDeleteDialog(it.context as AppCompatActivity)
             dlg.setOnClickedListener(object : FriendDeleteDialog.ButtonClickListener {
                 override fun onClicked() {
-                    deleteItem(position)
+                    deleteItem(holder)
                 }
             })
             dlg.show(item)
@@ -58,9 +59,11 @@ class FriendListAdapter(private val context: Context) :
     override fun getItemCount() = filteredFriendList.size
 
 
-    fun deleteItem(position: Int) {
-        this.filteredFriendList.removeAt(position)
-        notifyItemRemoved(position)
+    fun deleteItem(holder: FriendListHolder) {
+        val newPosition: Int = holder.getAdapterPosition()
+        filteredFriendList.removeAt(newPosition)
+        notifyItemRemoved(newPosition)
+        notifyItemRangeChanged(newPosition, filteredFriendList.size)
     }
 
     class FriendListHolder private constructor(val binding: FriendListBinding) :

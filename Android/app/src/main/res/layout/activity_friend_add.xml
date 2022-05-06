@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.ssafy.darly.viewmodel.FriendWaitingViewModel" />
+            type="com.ssafy.darly.viewmodel.FriendAddViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:text="@string/friend_apply"
+            android:text="@string/friend_add"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -90,7 +90,7 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_view"
-                    setFriendWaitingItems="@{viewModel.friendWaitingList}"
+                    setFriendAddItems="@{viewModel.friendList}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"

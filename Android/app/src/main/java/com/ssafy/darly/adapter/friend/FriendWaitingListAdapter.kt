@@ -23,41 +23,43 @@ class FriendWaitingListAdapter(private val context: Context) :
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): FriendWaitingListAdapter.FriendWaitingListHolder {
+    ): FriendWaitingListHolder {
         return FriendWaitingListHolder.from(parent)
     }
 
     override fun onBindViewHolder(
-        holder: FriendWaitingListAdapter.FriendWaitingListHolder,
+        holder: FriendWaitingListHolder,
         position: Int
     ) {
         var item = filteredFriendList[position]
         if (item.userImage == null)
             item.userImage =
                 "https://darly-bucket.s3.ap-northeast-2.amazonaws.com/user/darly_logo_white.png"
-        if (item.userMessage != null && item.userMessage.length > 10)
-            item.userMessage = item.userMessage.slice(IntRange(0, 10)) + "..."
+        if (item.userMessage != null && item.userMessage.length > 15)
+            item.userMessage = item.userMessage.slice(IntRange(0, 15)) + "..."
         holder.binding.viewModel = item;
         holder.binding.executePendingBindings()
         holder.binding.acceptBtn.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
                 DarlyService.getDarlyService().acceptFriend(item.userId)
-                deleteItem(position)
+                deleteItem(holder)
             }
         }
         holder.binding.denyBtn.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
                 DarlyService.getDarlyService().denyFriend(item.userId)
-                deleteItem(position)
+                deleteItem(holder)
             }
         }
     }
 
     override fun getItemCount() = filteredFriendList.size
 
-    fun deleteItem(position: Int) {
-        this.filteredFriendList.removeAt(position)
-        notifyItemRemoved(position)
+    fun deleteItem(holder: FriendWaitingListHolder) {
+        val newPosition: Int = holder.getAdapterPosition()
+        filteredFriendList.removeAt(newPosition)
+        notifyItemRemoved(newPosition)
+        notifyItemRangeChanged(newPosition, filteredFriendList.size)
     }
 
     override fun getFilter(): Filter {
