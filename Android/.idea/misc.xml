@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/activity_running.xml" value="0.25" />
+        <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/fragment_pause.xml" value="0.25" />
         <entry key="..\:/S06P31A301/android/app/src/main/res/drawable/ic_act.xml" value="0.1695" />
         <entry key="..\:/S06P31A301/android/app/src/main/res/drawable/ic_challenge.xml" value="0.1" />
         <entry key="..\:/S06P31A301/android/app/src/main/res/drawable/ic_icon_home.xml" value="0.1" />
@@ -23,6 +25,20 @@
         <entry key="..\:/S06P31A301/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.xml" value="0.122" />
         <entry key="..\:/S06P31A301/android/app/src/main/res/xml/network_security_config.xml" value="0.11851851851851852" />
         <entry key="..\:/S06P31A301/app/src/main/res/layout/activity_main.xml" value="0.1693840579710145" />
+        <entry key="app/src/main/res/drawable/button_background.xml" value="0.368" />
+        <entry key="app/src/main/res/drawable/button_background_lg.xml" value="0.1925" />
+        <entry key="app/src/main/res/drawable/crew_create_background.xml" value="0.294" />
+        <entry key="app/src/main/res/drawable/crew_img_upload_background.xml" value="0.1925" />
+        <entry key="app/src/main/res/drawable/crew_location_background.xml" value="0.2355" />
+        <entry key="app/src/main/res/drawable/crew_location_selected.xml" value="0.2305" />
+        <entry key="app/src/main/res/drawable/dialog_bottom_round.xml" value="0.2355" />
+        <entry key="app/src/main/res/drawable/dialog_fullscreen_round.xml" value="0.2355" />
+        <entry key="app/src/main/res/drawable/ic_camera.xml" value="0.1925" />
+        <entry key="app/src/main/res/drawable/ic_check.xml" value="0.2305" />
+        <entry key="app/src/main/res/drawable/ic_chevron_right.xml" value="0.2305" />
+        <entry key="app/src/main/res/drawable/ic_search.xml" value="0.2355" />
+        <entry key="app/src/main/res/drawable/location_list_background.xml" value="0.2355" />
+        <entry key="app/src/main/res/drawable/search_background.xml" value="0.2355" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/drawable-v24/ic_round_arrow_back_gray.xml" value="0.1165" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/drawable-v24/ic_round_arrow_forward_gray.xml" value="0.1165" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/drawable/button_background_lg.xml" value="0.239" />
@@ -74,14 +90,26 @@
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/mypage_feed_grid.xml" value="0.20389249304911955" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/menu/navi_menu.xml" value="0.3172295852928602" />
         <entry key="app/src/main/res/font/font.xml" value="0.5120370370370371" />
+        <entry key="app/src/main/res/layout/activity_create_crew.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.5158514492753623" />
+        <entry key="app/src/main/res/layout/activity_running.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/crew_location.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/crew_mycrew.xml" value="0.189209726443769" />
+        <entry key="app/src/main/res/layout/crew_recommendations.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_challenge.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/layout/fragment_crew.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_crew_image_upload.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_pause.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_running.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_search_location.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_search_location_fullscreen.xml" value="0.1" />
+        <entry key="app/src/main/res/menu/navi_menu.xml" value="0.1" />
       </map>
     </option>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

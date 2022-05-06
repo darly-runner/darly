@@ -1,6 +1,5 @@
-package com.ssafy.darly.adapter
+package com.ssafy.darly.adapter.crew
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,12 +38,12 @@ class MyCrewListAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): MyCrewListAdapter.ViewHolder {
+    ): ViewHolder {
         val view = inflater.inflate(R.layout.crew_mycrew, parent, false)
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: MyCrewListAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.myCrewName.text = myCrewItemList.get(position).crewName
         glide.load((myCrewItemList.get(position).crewImage)).circleCrop().into(holder.myCrewImg)
 //        myCrewItemList?.get(position)?.let { holder.bind(it) }

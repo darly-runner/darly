@@ -8,14 +8,18 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.KeyEvent
+import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.ssafy.darly.R
+import com.ssafy.darly.adapter.crew.LocationListAdapter
 import com.ssafy.darly.databinding.ActivityCreateCrewBinding
-import com.ssafy.darly.model.SearchLocationReq
+import com.ssafy.darly.fragment.SearchLocationFragment
+//import com.ssafy.darly.fragment.SearchLocationFragment
 import com.ssafy.darly.service.DarlyService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -43,12 +47,14 @@ class CreateCrewActivity : AppCompatActivity() {
         // FEAT: upload image
         val selectedImageView = findViewById<ImageView>(R.id.selectedCrewImg)
         val glide = Glide.with(this)
+        lateinit var dialog: SearchLocationFragment
 
-        val imgPickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            imageURI = it.data?.data!!
-            glide.load(imageURI).into(selectedImageView)
-            Log.d("select img", ""+imageURI)
-        }
+        val imgPickerLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                imageURI = it.data?.data!!
+                glide.load(imageURI).into(selectedImageView)
+                Log.d("select img", "" + imageURI)
+            }
 
         binding.uploadCrewImg.setOnClickListener {
             imgPickerLauncher.launch(
@@ -61,30 +67,36 @@ class CreateCrewActivity : AppCompatActivity() {
         binding.createCrewName.doAfterTextChanged {
             crewName = it.toString()
         }
+
         binding.createCrewDesc.doAfterTextChanged {
             crewDesc = it.toString()
         }
-        binding.createCrewLocation.doAfterTextChanged {
-            crewSearchAddress = it.toString()
-        }
-        binding.createCrewLocation.setOnKeyListener { _, keyCode, event ->
-            if ((event.action == KeyEvent.ACTION_DOWN)&&(keyCode == KeyEvent.KEYCODE_ENTER)) {
-                CoroutineScope(Dispatchers.IO).launch {
-                    val response = DarlyService.getDarlyService().searchAddress(address = crewSearchAddress)
-                    Log.d("Search Location", "${response}")
+
+        binding.createCrewLocation.setOnClickListener {
+            dialog = SearchLocationFragment()
+            dialog.show(supportFragmentManager, "SearchLocationFragment")
+
+            dialog.setOnClickedListener(object : SearchLocationFragment.ButtonClickListener {
+                override fun onClicked(addressName: String, addressId: Long) {
+                    crewAddress = addressId
+                    crewSearchAddress = addressName
+
+                    if (crewSearchAddress != "") {
+                        binding.selectedLocation.setText(crewSearchAddress)
+                    }
                 }
-                true
-            } else {
-                false
-            }
+            })
         }
 
         binding.createCrewButton.setOnClickListener {
             val file = getImgFile(imageURI)
-            val requestFile = RequestBody.create(MediaType.parse(contentResolver.getType(imageURI!!)), file)
-            val crewImgBody = MultipartBody.Part.createFormData("crewImage", file!!.name, requestFile)
+            val requestFile =
+                RequestBody.create(MediaType.parse(contentResolver.getType(imageURI!!)), file)
+            val crewImgBody =
+                MultipartBody.Part.createFormData("crewImage", file!!.name, requestFile)
             val crewNameBody = RequestBody.create(MediaType.parse("text/plain"), crewName)
-            val crewAddressBody = RequestBody.create(MediaType.parse("text/plain"), crewAddress.toString())
+            val crewAddressBody =
+                RequestBody.create(MediaType.parse("text/plain"), crewAddress.toString())
             val crewDescBody = RequestBody.create(MediaType.parse("text/plain"), crewDesc)
             val crewJoinBody = RequestBody.create(MediaType.parse("text/plain"), crewJoin)
 
@@ -96,13 +108,14 @@ class CreateCrewActivity : AppCompatActivity() {
             textHashMap["crewJoin"] = crewJoinBody
 
             CoroutineScope(Dispatchers.IO).launch {
-                val response = DarlyService.getDarlyService().createCrew(crewImage = crewImgBody, data = textHashMap)
+                val response = DarlyService.getDarlyService()
+                    .createCrew(crewImage = crewImgBody, data = textHashMap)
                 Log.d("Create Crew", "${response}")
             }
         }
 
         binding.crewJoin.setOnCheckedChangeListener { group, checkedId ->
-            when(checkedId) {
+            when (checkedId) {
                 R.id.crewJoinDirect -> crewJoin = "Free"
                 R.id.crewJoinApproval -> crewJoin = "Lock"
 
