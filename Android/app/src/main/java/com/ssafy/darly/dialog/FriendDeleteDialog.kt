@@ -2,7 +2,6 @@ package com.ssafy.darly.dialog
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.util.Log
 import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
@@ -47,9 +46,7 @@ class FriendDeleteDialog(private val context: AppCompatActivity) {
         nicknameTextView?.setText(content.userNickname)
         deleteBtn?.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
-                val response = DarlyService.getDarlyService().deleteFriend(content.userId)
-                Log.d("response", "${response}")
-                Log.d("response body", "${response.body()}")
+                DarlyService.getDarlyService().deleteFriend(content.userId)
                 onClickedListener.onClicked()
                 dlg.dismiss()
             }

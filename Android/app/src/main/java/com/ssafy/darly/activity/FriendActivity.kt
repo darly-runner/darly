@@ -1,7 +1,8 @@
 package com.ssafy.darly.activity
 
 import android.os.Bundle
-import android.util.Log
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -81,13 +82,22 @@ class FriendActivity : AppCompatActivity() {
                         model.friendWaitingList.value?.size?.minus(1) ?: 1
                     ) + "명"
             }
-//            Log.d("response", "${response}")
-//            Log.d("response body", "${response.body()}")
         }
 
         binding.backBtn.setOnClickListener {
             finish()
         }
+
+        binding.editText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                friendListAdapter.filter.filter(p0)
+            }
+
+            override fun afterTextChanged(p0: Editable?) {}
+
+        })
 
     }
 

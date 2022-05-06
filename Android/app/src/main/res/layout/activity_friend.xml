@@ -69,12 +69,17 @@
                 android:src="@drawable/ic_search_gray" />
 
             <EditText
+                android:id="@+id/editText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="10dp"
                 android:layout_marginRight="15dp"
                 android:background="@null"
                 android:hint="@string/search"
+                android:imeOptions="actionSearch"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:textSize="15sp" />
         </LinearLayout>
 
@@ -133,9 +138,9 @@
                     android:id="@+id/textView5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/friend_apply"
                     android:layout_marginStart="100dp"
                     android:layout_marginTop="10dp"
+                    android:text="@string/friend_apply"
                     android:textColor="@color/black"
                     android:textSize="13sp"
                     android:textStyle="bold"

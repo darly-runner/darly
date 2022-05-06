@@ -36,11 +36,14 @@ object BindingConversion {
     @BindingAdapter("setFriendItems")
     fun setFriendItems(recyclerView: RecyclerView, items: List<Friend>) {
         var friendList = mutableListOf<Friend>()
+        var filteredFriendList = mutableListOf<Friend>()
         for (item in items) {
             friendList.add(item)
         }
+        filteredFriendList.addAll(friendList)
         items?.let {
             (recyclerView.adapter as FriendListAdapter).friendList = friendList
+            (recyclerView.adapter as FriendListAdapter).filteredFriendList = filteredFriendList
         }
     }
 }
