@@ -28,6 +28,7 @@ class LocationListAdapter(
         val addressName: TextView
         val addressId: TextView
         val checkbox: ImageView
+
         init {
             addressName = itemView.findViewById(R.id.crewLocation)
             addressId = itemView.findViewById(R.id.crewLocationId)
@@ -45,7 +46,11 @@ class LocationListAdapter(
         val selectedId = locationList.get(position).addressId
 
         holder.itemView.setOnClickListener {
-            onClickedListener.onClicked(addressId = selectedId.toLong(), addressName = holder.addressName.text.toString(), checkbox = holder.checkbox)
+            onClickedListener.onClicked(
+                addressId = selectedId.toLong(),
+                addressName = holder.addressName.text.toString(),
+                checkbox = holder.checkbox
+            )
             holder.checkbox.visibility = View.VISIBLE
         }
     }

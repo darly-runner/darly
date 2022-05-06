@@ -42,24 +42,39 @@ class SearchLocationFragment : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search_location, container, false)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_search_location, container, false)
         activity?.let {
             binding.lifecycleOwner = this
         }
         return binding.root
     }
 
+    private lateinit var onClickedListener: ButtonClickListener
+
+    interface ButtonClickListener {
+        fun onClicked(addressName: String, addressId: Long)
+    }
+
+    fun setOnClickedListener(listener: ButtonClickListener) {
+        onClickedListener = listener
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        var addressNameData: String = ""
+        var addressIdData: Long = 0
 
         binding.searchCrewLocation.doAfterTextChanged {
             crewLocation = it.toString()
         }
 
         binding.searchCrewLocation.setOnKeyListener { _, keyCode, event ->
-            if ((event.action == KeyEvent.ACTION_DOWN)&&(keyCode == KeyEvent.KEYCODE_ENTER)) {
+            if ((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                 CoroutineScope(Dispatchers.Main).launch {
-                    val response = DarlyService.getDarlyService().searchAddress(address = crewLocation)
+                    val response =
+                        DarlyService.getDarlyService().searchAddress(address = crewLocation)
                     model.myAddress.value = response.body()?.addresses ?: listOf()
 
                     val adapter = LocationListAdapter(
@@ -67,11 +82,17 @@ class SearchLocationFragment : DialogFragment() {
                         LayoutInflater.from(context),
                     )
                     binding.locationList.adapter = adapter
-                    adapter.setOnClickedListener(object :LocationListAdapter.ButtonClickListener{
-                        override fun onClicked(addressName: String, addressId: Long, checkbox: ImageView) {
+                    adapter.setOnClickedListener(object : LocationListAdapter.ButtonClickListener {
+                        override fun onClicked(
+                            addressName: String,
+                            addressId: Long,
+                            checkbox: ImageView
+                        ) {
                             Log.d("nananana", addressName)
                             Log.d("idididid", addressId.toString())
 
+                            addressNameData = addressName
+                            addressIdData = addressId
                             prevCrewLocation?.visibility = View.INVISIBLE
                             prevCrewLocation = checkbox
                         }
@@ -84,6 +105,7 @@ class SearchLocationFragment : DialogFragment() {
         }
 
         binding.closeDialog.setOnClickListener {
+            onClickedListener.onClicked(addressId = addressIdData, addressName = addressNameData)
             dialog?.dismiss()
         }
     }
