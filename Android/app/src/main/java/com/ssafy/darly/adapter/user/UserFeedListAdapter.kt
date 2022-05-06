@@ -1,19 +1,12 @@
 package com.ssafy.darly.adapter.user
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.ssafy.darly.R
-import com.ssafy.darly.adapter.crew.main.CrewRecommendationAdapter
 import com.ssafy.darly.databinding.MypageFeedGridBinding
 import com.ssafy.darly.dialog.MyPageFeedDialog
-import com.ssafy.darly.model.MyCrewDetails
 import com.ssafy.darly.model.user.Feed
 
 class UserFeedListAdapter : RecyclerView.Adapter<UserFeedListAdapter.UserFeedListHolder>() {
@@ -36,7 +29,7 @@ class UserFeedListAdapter : RecyclerView.Adapter<UserFeedListAdapter.UserFeedLis
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Feed) {
             binding.viewModel = item;
-            binding.imageView.setOnClickListener{
+            binding.imageView.setOnClickListener {
                 val dlg = MyPageFeedDialog(it.context as AppCompatActivity)
                 dlg.show(item)
             }
