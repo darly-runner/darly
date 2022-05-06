@@ -30,6 +30,11 @@ class FriendListAdapter(private val context: Context) :
         @SuppressLint("RecyclerView") position: Int
     ) {
         val item = filteredFriendList[position]
+        if (item.userImage == null)
+            item.userImage =
+                "https://darly-bucket.s3.ap-northeast-2.amazonaws.com/user/darly_logo_white.png"
+        if (item.userMessage != null && item.userMessage.length > 10)
+            item.userMessage = item.userMessage.slice(IntRange(0, 10)) + "..."
         holder.binding.viewModel = item;
         holder.binding.deleteBtn.setOnClickListener {
             val dlg = FriendDeleteDialog(it.context as AppCompatActivity)

@@ -54,8 +54,8 @@
         <Button
             android:id="@+id/acceptBtn"
             android:layout_width="60dp"
-            android:layout_height="25dp"
-            android:layout_marginEnd="8dp"
+            android:layout_height="28dp"
+            android:layout_marginEnd="6dp"
             android:background="@drawable/button_red_fill"
             android:text="@string/accept"
             android:textColor="#F7F8FB"
@@ -68,7 +68,7 @@
         <Button
             android:id="@+id/denyBtn"
             android:layout_width="60dp"
-            android:layout_height="25dp"
+            android:layout_height="28dp"
             android:background="@drawable/button_stroke_gray"
             android:text="@string/deny"
             android:textColor="#9F9194"

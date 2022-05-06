@@ -8,6 +8,10 @@ import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.darly.databinding.FriendWaitingListBinding
 import com.ssafy.darly.model.friend.Friend
+import com.ssafy.darly.service.DarlyService
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class FriendWaitingListAdapter(private val context: Context) :
     RecyclerView.Adapter<FriendWaitingListAdapter.FriendWaitingListHolder>(), Filterable {
@@ -27,9 +31,26 @@ class FriendWaitingListAdapter(private val context: Context) :
         holder: FriendWaitingListAdapter.FriendWaitingListHolder,
         position: Int
     ) {
-        val item = filteredFriendList[position]
+        var item = filteredFriendList[position]
+        if (item.userImage == null)
+            item.userImage =
+                "https://darly-bucket.s3.ap-northeast-2.amazonaws.com/user/darly_logo_white.png"
+        if (item.userMessage != null && item.userMessage.length > 10)
+            item.userMessage = item.userMessage.slice(IntRange(0, 10)) + "..."
         holder.binding.viewModel = item;
         holder.binding.executePendingBindings()
+        holder.binding.acceptBtn.setOnClickListener {
+            CoroutineScope(Dispatchers.Main).launch {
+                DarlyService.getDarlyService().acceptFriend(item.userId)
+                deleteItem(position)
+            }
+        }
+        holder.binding.denyBtn.setOnClickListener {
+            CoroutineScope(Dispatchers.Main).launch {
+                DarlyService.getDarlyService().denyFriend(item.userId)
+                deleteItem(position)
+            }
+        }
     }
 
     override fun getItemCount() = filteredFriendList.size
@@ -40,7 +61,7 @@ class FriendWaitingListAdapter(private val context: Context) :
     }
 
     override fun getFilter(): Filter {
-        TODO("Not yet implemented")
+        return itemFilter
     }
 
     class FriendWaitingListHolder private constructor(val binding: FriendWaitingListBinding) :

@@ -71,4 +71,9 @@ interface ApiService {
     @GET("friends/{friendId}/feed")
     suspend fun getFriendFeedList(@Path("friendId") friendId: Long, @Query("page") page: Int): Response<UserFeedGetRes>
 
+    @POST("friends/{friendId}/accept")
+    suspend fun acceptFriend(@Path("friendId") friendId: Long) :Response<BaseRes>
+
+    @DELETE("friends/{friendId}/deny")
+    suspend fun denyFriend(@Path("friendId") friendId: Long) :Response<BaseRes>
 }
