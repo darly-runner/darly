@@ -104,8 +104,12 @@ class SearchLocationFragment : DialogFragment() {
             }
         }
 
-        binding.closeDialog.setOnClickListener {
+        binding.completeLocation.setOnClickListener {
             onClickedListener.onClicked(addressId = addressIdData, addressName = addressNameData)
+            dialog?.dismiss()
+        }
+        
+        binding.closeDialog.setOnClickListener {
             dialog?.dismiss()
         }
     }
