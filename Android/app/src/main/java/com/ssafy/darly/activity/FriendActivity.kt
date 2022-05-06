@@ -29,7 +29,7 @@ class FriendActivity : AppCompatActivity() {
 //        setContentView(R.layout.activity_friend)
         binding.lifecycleOwner = this
         binding.viewModel = model
-        friendListAdapter = FriendListAdapter()
+        friendListAdapter = FriendListAdapter(this)
         binding.recyclerView.adapter = friendListAdapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -44,6 +44,7 @@ class FriendActivity : AppCompatActivity() {
             val friendWaitingList = response.body()?.users ?: listOf()
             model.friendWaitingList.value = friendWaitingList
             if (friendWaitingList.size < 2) {
+                binding.circleImageView1.visibility = android.view.View.VISIBLE
                 binding.circleImageView2.visibility = android.view.View.GONE
                 binding.circleImageView3.visibility = android.view.View.GONE
                 if (friendWaitingList.isEmpty()) {
@@ -63,6 +64,8 @@ class FriendActivity : AppCompatActivity() {
                 }
             } else {
                 binding.circleImageView1.visibility = android.view.View.GONE
+                binding.circleImageView2.visibility = android.view.View.VISIBLE
+                binding.circleImageView3.visibility = android.view.View.VISIBLE
                 Glide.with(binding.circleImageView2.context)
                     .load(
                         model.friendWaitingList.value?.get(1)?.userImage
@@ -78,7 +81,7 @@ class FriendActivity : AppCompatActivity() {
 
                 val dec = DecimalFormat("#,###");
                 model.friendApplyMessage.value =
-                    model.friendWaitingList.value?.get(0)?.userNickname + "님 외" + dec.format(
+                    model.friendWaitingList.value?.get(0)?.userNickname + "님 외 " + dec.format(
                         model.friendWaitingList.value?.size?.minus(1) ?: 1
                     ) + "명"
             }
@@ -96,11 +99,9 @@ class FriendActivity : AppCompatActivity() {
             }
 
             override fun afterTextChanged(p0: Editable?) {}
-
         })
 
     }
 
 
 }
-//                    https://darly-bucket.s3.ap-northeast-2.amazonaws.com/user/darly_logo.png

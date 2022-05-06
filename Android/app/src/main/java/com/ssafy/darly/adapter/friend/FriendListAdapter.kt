@@ -2,18 +2,21 @@ package com.ssafy.darly.adapter.friend
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.ssafy.darly.activity.FriendProfileActivity
 import com.ssafy.darly.databinding.FriendListBinding
 import com.ssafy.darly.dialog.FriendDeleteDialog
 import com.ssafy.darly.model.friend.Friend
 
-class FriendListAdapter : RecyclerView.Adapter<FriendListAdapter.FriendListHolder>(), Filterable {
-    lateinit var context: Context
+class FriendListAdapter(private val context: Context) :
+    RecyclerView.Adapter<FriendListAdapter.FriendListHolder>(), Filterable {
+    //    lateinit var context: Context
     var friendList = mutableListOf<Friend>()
     var filteredFriendList = mutableListOf<Friend>()
     private var itemFilter = ItemFilter()
@@ -36,6 +39,13 @@ class FriendListAdapter : RecyclerView.Adapter<FriendListAdapter.FriendListHolde
                 }
             })
             dlg.show(item)
+        }
+        holder.binding.constraint.setOnClickListener {
+            context.startActivity(
+                Intent(context, FriendProfileActivity::class.java)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    .putExtra("friendId", item.userId)
+            )
         }
         holder.binding.executePendingBindings()
     }

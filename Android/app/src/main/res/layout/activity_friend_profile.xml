@@ -7,24 +7,48 @@
 
         <variable
             name="viewModel"
-            type="com.ssafy.darly.viewmodel.MypageViewModel" />
+            type="com.ssafy.darly.viewmodel.FriendProfileViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageView
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="32dp"
+            android:paddingTop="3dp"
+            android:src="@drawable/ic_chevron_left"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="@string/friend_profile"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/backBtn"
+            app:layout_constraintTop_toTopOf="@+id/backBtn" />
+
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/circleImageView"
             android:layout_width="101dp"
             android:layout_height="101dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="20dp"
             app:civ_border_color="#F7F8FB"
             app:civ_border_width="2dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.115"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView15"
             app:setImage="@{viewModel.userImage}" />
 
         <TextView
@@ -34,9 +58,9 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="12dp"
             android:text="@{viewModel.userNickname}"
+            android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/circleImageView"
@@ -48,8 +72,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@{viewModel.userMessage}"
-            android:textSize="11sp"
             android:textColor="@color/black"
+            android:textSize="11sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/textView"
@@ -76,16 +100,6 @@
             app:layout_constraintStart_toEndOf="@+id/imageView5"
             app:layout_constraintTop_toTopOf="@+id/imageView5"
             app:layout_constraintVertical_bias="1.0" />
-
-        <ImageView
-            android:id="@+id/menuBtn"
-            android:layout_width="23dp"
-            android:layout_height="23dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/ic_setting"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/imageView"
@@ -123,8 +137,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textColor="@color/black"
                     android:text="@string/run_distance"
+                    android:textColor="@color/black"
                     android:textSize="11sp" />
 
                 <LinearLayout
@@ -138,8 +152,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="3dp"
-                        android:textColor="@color/black"
                         android:text="@{viewModel.userTotalDistance.toString()}"
+                        android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
@@ -147,8 +161,8 @@
                         android:id="@+id/textView8"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/black"
                         android:text="@string/km"
+                        android:textColor="@color/black"
                         android:textSize="11sp" />
 
                 </LinearLayout>
@@ -181,8 +195,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="3dp"
-                        android:textColor="@color/black"
                         android:text="@{viewModel.userFriendNum.toString()}"
+                        android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
@@ -190,44 +204,16 @@
                         android:id="@+id/textView11"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/black"
                         android:text="@string/people"
+                        android:textColor="@color/black"
                         android:textSize="11sp" />
 
                 </LinearLayout>
-
 
             </LinearLayout>
 
         </LinearLayout>
 
-        <!--        <ScrollView-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="0dp"-->
-        <!--            android:layout_marginStart="3dp"-->
-        <!--            android:layout_marginTop="50dp"-->
-        <!--            android:layout_marginEnd="3dp"-->
-        <!--            android:scrollbars="none"-->
-        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintTop_toBottomOf="@+id/imageView"-->
-        <!--            app:layout_constraintVertical_bias="1.0">-->
-
-        <!--            <LinearLayout-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="match_parent">-->
-
-        <!--                <androidx.recyclerview.widget.RecyclerView-->
-        <!--                    android:id="@+id/recycler_view"-->
-        <!--                    setItems="@{viewModel.userFeedList}"-->
-        <!--                    android:layout_width="match_parent"-->
-        <!--                    android:layout_height="match_parent"-->
-        <!--                    android:nestedScrollingEnabled="false"-->
-        <!--                    android:overScrollMode="never" />-->
-        <!--            </LinearLayout>-->
-
-        <!--        </ScrollView>-->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             setFeedItems="@{viewModel.userFeedList}"
@@ -236,7 +222,6 @@
             android:layout_marginStart="3dp"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="3dp"
-            android:layout_marginBottom="50dp"
             android:nestedScrollingEnabled="false"
             android:overScrollMode="never"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -245,62 +230,5 @@
             app:layout_constraintTop_toBottomOf="@+id/imageView"
             app:layout_constraintVertical_bias="1.0" />
 
-        <!--        <ImageView-->
-        <!--            android:id="@+id/imageView3"-->
-        <!--            android:layout_width="0dp"-->
-        <!--            android:layout_height="100dp"-->
-        <!--            android:layout_marginTop="48dp"-->
-        <!--            android:src="@drawable/button_background_lg"-->
-        <!--            app:layout_constraintEnd_toStartOf="@+id/imageView2"-->
-        <!--            app:layout_constraintHorizontal_bias="0.5"-->
-        <!--            app:layout_constraintHorizontal_chainStyle="packed"-->
-        <!--            app:layout_constraintHorizontal_weight="1"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintTop_toBottomOf="@+id/imageView" />-->
-
-        <!--        <ImageView-->
-        <!--            android:id="@+id/imageView2"-->
-        <!--            android:layout_width="0dp"-->
-        <!--            android:layout_height="100dp"-->
-        <!--            android:src="@drawable/button_background_lg"-->
-        <!--            app:layout_constraintEnd_toStartOf="@+id/imageView4"-->
-        <!--            app:layout_constraintHorizontal_bias="0.5"-->
-        <!--            app:layout_constraintHorizontal_weight="1"-->
-        <!--            app:layout_constraintStart_toEndOf="@+id/imageView3"-->
-        <!--            app:layout_constraintTop_toTopOf="@+id/imageView3" />-->
-
-        <!--        <ImageView-->
-        <!--            android:id="@+id/imageView4"-->
-        <!--            android:layout_width="0dp"-->
-        <!--            android:layout_height="100dp"-->
-        <!--            android:src="@drawable/button_background_lg"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintHorizontal_bias="0.5"-->
-        <!--            app:layout_constraintHorizontal_weight="1"-->
-        <!--            app:layout_constraintStart_toEndOf="@+id/imageView2"-->
-        <!--            app:layout_constraintTop_toTopOf="@+id/imageView2" />-->
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <!--    <LinearLayout-->
-    <!--        android:orientation="vertical"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        tools:context=".fragment.ActFragment">-->
-    <!--        <TextView-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:text="마이페이지 프래그먼트" />-->
-    <!--        <Button-->
-    <!--            android:id="@+id/logoutBtn"-->
-    <!--            android:text="로그아웃"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"/>-->
-
-    <!--        <Button-->
-    <!--            android:id="@+id/kakaoUnlink"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:text="회원 탈퇴" />-->
-    <!--    </LinearLayout>-->
 </layout>

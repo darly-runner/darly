@@ -64,4 +64,11 @@ interface ApiService {
 
     @DELETE("friends/{friendId}")
     suspend fun deleteFriend(@Path("friendId") friendId: Long): Response<BaseRes>
+
+    @GET("friends/{friendId}/profile")
+    suspend fun getFriendProfile(@Path("friendId") friendId: Long): Response<UserProfileGetRes>
+
+    @GET("friends/{friendId}/feed")
+    suspend fun getFriendFeedList(@Path("friendId") friendId: Long, @Query("page") page: Int): Response<UserFeedGetRes>
+
 }
