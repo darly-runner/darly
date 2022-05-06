@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ssafy.darly.R
 import com.ssafy.darly.adapter.friend.FriendAddListAdapter
 import com.ssafy.darly.databinding.ActivityFriendAddBinding
+import com.ssafy.darly.model.friend.FriendSearchReq
 import com.ssafy.darly.service.DarlyService
 import com.ssafy.darly.viewmodel.FriendAddViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -45,7 +46,7 @@ class FriendAddActivity : AppCompatActivity() {
                 } else {
                     CoroutineScope(Dispatchers.Main).launch {
                         Log.d("add", p0.toString())
-                        val response = DarlyService.getDarlyService().getSearchFriend(p0.toString())
+                        val response = DarlyService.getDarlyService().getSearchFriend(FriendSearchReq(p0.toString()))
                         Log.d("add-response", "${response.body()}")
                         model.friendList.value = response.body()?.users ?: listOf()
                         friendAddListAdapter.notifyDataSetChanged()
