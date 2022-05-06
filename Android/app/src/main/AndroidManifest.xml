@@ -30,6 +30,9 @@
             android:name=".activity.FriendProfileActivity"
             android:exported="false" />
         <activity
+            android:name=".activity.AllCrewListActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.FriendActivity"
             android:exported="false" />
 

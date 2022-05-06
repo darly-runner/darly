@@ -79,7 +79,7 @@ interface ApiService {
     @DELETE("friends/{friendId}/deny")
     suspend fun denyFriend(@Path("friendId") friendId: Long) :Response<BaseRes>
 
-    @GET("friends/search")
+    @POST("friends/search")
     suspend fun getSearchFriend(@Body friendSearchReq: FriendSearchReq): Response<FriendListGetRes>
 
     @POST("friends")
