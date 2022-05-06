@@ -139,7 +139,13 @@ class SearchLocationFragment : DialogFragment() {
                         LayoutInflater.from(context),
                     )
                     binding.locationList.adapter = adapter
-
+                    adapter.setOnClickedListener(object :LocationListAdapter.ButtonClickListener{
+                        override fun onClicked(addressName: String, addressId: Long) {
+                            Log.d("nananana", addressName)
+                            Log.d("idididid", addressId.toString())
+                            dialog?.dismiss()
+                        }
+                    })
 
 //                    val locationList = model.MyAddress.value
                     Log.d("Search Location", "${response}")

@@ -73,7 +73,8 @@ class CreateCrewActivity : AppCompatActivity() {
             dialog.show(supportFragmentManager, "SearchLocationFragment")
         }
 
-        crewAddress = intent.getIntExtra("addressId", 0).toLong()
+//        crewAddress = intent.getIntExtra("addressId", 0).toLong()
+        Log.d("Id ID idididididid", crewAddress.toString())
         val addressName = intent.getStringExtra("addressName")
 
         if (addressName != null) {
@@ -88,6 +89,7 @@ class CreateCrewActivity : AppCompatActivity() {
             val crewAddressBody = RequestBody.create(MediaType.parse("text/plain"), crewAddress.toString())
             val crewDescBody = RequestBody.create(MediaType.parse("text/plain"), crewDesc)
             val crewJoinBody = RequestBody.create(MediaType.parse("text/plain"), crewJoin)
+            Log.d("ididididid", crewAddress.toString())
 
             val textHashMap = hashMapOf<String, RequestBody>()
 

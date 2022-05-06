@@ -16,13 +16,18 @@
             android:layout_height="wrap_content"
             android:paddingBottom="15dp">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_chevron_left"/>
+
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/pretendard_medium"
                 android:gravity="center"
-                android:paddingLeft="5dp"
+                android:paddingRight="24dp"
                 android:text="지역 선택"
                 android:textColor="@color/black"
                 android:textSize="18dp" />
@@ -61,15 +66,15 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-            <TextView
-                android:id="@+id/closeDialog"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingLeft="12dp"
-                android:text="취소"
-                android:textColor="@color/gray_700"
-                android:textSize="16dp" />
+<!--            <TextView-->
+<!--                android:id="@+id/closeDialog"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:paddingLeft="12dp"-->
+<!--                android:text="취소"-->
+<!--                android:textColor="@color/gray_700"-->
+<!--                android:textSize="16dp" />-->
 
         </LinearLayout>
 
