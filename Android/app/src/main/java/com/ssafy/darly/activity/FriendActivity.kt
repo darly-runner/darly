@@ -1,5 +1,6 @@
 package com.ssafy.darly.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -100,6 +101,11 @@ class FriendActivity : AppCompatActivity() {
 
             override fun afterTextChanged(p0: Editable?) {}
         })
+
+        binding.linearLayout.setOnClickListener {
+            val nextIntent = Intent(this, FriendWaitingActivity::class.java)
+            startActivity(nextIntent)
+        }
 
     }
 
