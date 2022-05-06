@@ -1,18 +1,12 @@
 package com.ssafy.darly.adapter.crew
 
-import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.RequestManager
 import com.ssafy.darly.R
-import com.ssafy.darly.activity.CreateCrewActivity
-import com.ssafy.darly.fragment.SearchLocationFragment
-import com.ssafy.darly.model.CreateCrew
 import com.ssafy.darly.model.MyAddress
 
 class LocationListAdapter(
@@ -23,7 +17,7 @@ class LocationListAdapter(
     private lateinit var onClickedListener: ButtonClickListener
 
     interface ButtonClickListener {
-        fun onClicked(addressName: String, addressId: Long)
+        fun onClicked(addressName: String, addressId: Long, checkbox: ImageView)
     }
 
     fun setOnClickedListener(listener: ButtonClickListener) {
@@ -33,11 +27,12 @@ class LocationListAdapter(
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val addressName: TextView
         val addressId: TextView
+        val checkbox: ImageView
         init {
             addressName = itemView.findViewById(R.id.crewLocation)
             addressId = itemView.findViewById(R.id.crewLocationId)
+            checkbox = itemView.findViewById(R.id.locationChecked)
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -50,18 +45,8 @@ class LocationListAdapter(
         val selectedId = locationList.get(position).addressId
 
         holder.itemView.setOnClickListener {
-            onClickedListener.onClicked(addressId = selectedId.toLong(), addressName = holder.addressName.text.toString())
-//            val intent = Intent(holder.itemView?.context, CreateCrewActivity::class.java)
-//            intent.putExtra("addressName", holder.addressName.text.toString())
-//            intent.putExtra("addressId", selectedId)
-//            Log.d("check Loooo", holder.addressName.text.toString())
-//            CreateCrewActivity().crewAddress = selectedId.toLong()
-//            SearchLocationFragment().dialog?.dismiss()
-//            CreateCrewActivity().
-
-//            ContextCompat.startActivity(holder.itemView.context, intent, null)
-//            CreateCrewActivity.dialog.dismiss()
-
+            onClickedListener.onClicked(addressId = selectedId.toLong(), addressName = holder.addressName.text.toString(), checkbox = holder.checkbox)
+            holder.checkbox.visibility = View.VISIBLE
         }
     }
 
