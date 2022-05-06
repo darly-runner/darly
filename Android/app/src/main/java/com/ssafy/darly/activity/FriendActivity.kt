@@ -1,12 +1,15 @@
 package com.ssafy.darly.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ssafy.darly.R
 import com.ssafy.darly.adapter.friend.FriendListAdapter
@@ -29,7 +32,7 @@ class FriendActivity : AppCompatActivity() {
 //        setContentView(R.layout.activity_friend)
         binding.lifecycleOwner = this
         binding.viewModel = model
-        friendListAdapter = FriendListAdapter()
+        friendListAdapter = FriendListAdapter(this)
         binding.recyclerView.adapter = friendListAdapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -44,13 +47,14 @@ class FriendActivity : AppCompatActivity() {
             val friendWaitingList = response.body()?.users ?: listOf()
             model.friendWaitingList.value = friendWaitingList
             if (friendWaitingList.size < 2) {
+                binding.circleImageView1.visibility = android.view.View.VISIBLE
                 binding.circleImageView2.visibility = android.view.View.GONE
                 binding.circleImageView3.visibility = android.view.View.GONE
                 if (friendWaitingList.isEmpty()) {
                     Glide.with(binding.circleImageView1.context)
                         .load("https://darly-bucket.s3.ap-northeast-2.amazonaws.com/user/darly_logo.png")
                         .into(binding.circleImageView1)
-                    model.friendApplyMessage.value = "친구 요청이 없습니다"
+                    model.friendApplyMessage.value = "친구 신청이 없습니다"
                 } else {
                     Glide.with(binding.circleImageView1.context)
                         .load(
@@ -63,6 +67,8 @@ class FriendActivity : AppCompatActivity() {
                 }
             } else {
                 binding.circleImageView1.visibility = android.view.View.GONE
+                binding.circleImageView2.visibility = android.view.View.VISIBLE
+                binding.circleImageView3.visibility = android.view.View.VISIBLE
                 Glide.with(binding.circleImageView2.context)
                     .load(
                         model.friendWaitingList.value?.get(1)?.userImage
@@ -78,7 +84,7 @@ class FriendActivity : AppCompatActivity() {
 
                 val dec = DecimalFormat("#,###");
                 model.friendApplyMessage.value =
-                    model.friendWaitingList.value?.get(0)?.userNickname + "님 외" + dec.format(
+                    model.friendWaitingList.value?.get(0)?.userNickname + "님 외 " + dec.format(
                         model.friendWaitingList.value?.size?.minus(1) ?: 1
                     ) + "명"
             }
@@ -96,11 +102,19 @@ class FriendActivity : AppCompatActivity() {
             }
 
             override fun afterTextChanged(p0: Editable?) {}
-
         })
+
+        binding.linearLayout.setOnClickListener {
+            val nextIntent = Intent(this, FriendWaitingActivity::class.java)
+            startActivity(nextIntent)
+        }
+
+        binding.plusBtn.setOnClickListener {
+            val nextIntent = Intent(this, FriendAddActivity::class.java)
+            startActivity(nextIntent)
+        }
 
     }
 
 
 }
-//                    https://darly-bucket.s3.ap-northeast-2.amazonaws.com/user/darly_logo.png

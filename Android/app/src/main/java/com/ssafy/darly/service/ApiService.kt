@@ -1,7 +1,9 @@
 package com.ssafy.darly.service
 
 import com.ssafy.darly.model.*
+import com.ssafy.darly.model.friend.FriendApplyReq
 import com.ssafy.darly.model.friend.FriendListGetRes
+import com.ssafy.darly.model.friend.FriendSearchReq
 import com.ssafy.darly.model.user.UserFeedGetRes
 import com.ssafy.darly.model.user.UserProfileGetRes
 import okhttp3.MultipartBody
@@ -64,4 +66,22 @@ interface ApiService {
 
     @DELETE("friends/{friendId}")
     suspend fun deleteFriend(@Path("friendId") friendId: Long): Response<BaseRes>
+
+    @GET("friends/{friendId}/profile")
+    suspend fun getFriendProfile(@Path("friendId") friendId: Long): Response<UserProfileGetRes>
+
+    @GET("friends/{friendId}/feed")
+    suspend fun getFriendFeedList(@Path("friendId") friendId: Long, @Query("page") page: Int): Response<UserFeedGetRes>
+
+    @POST("friends/{friendId}/accept")
+    suspend fun acceptFriend(@Path("friendId") friendId: Long) :Response<BaseRes>
+
+    @DELETE("friends/{friendId}/deny")
+    suspend fun denyFriend(@Path("friendId") friendId: Long) :Response<BaseRes>
+
+    @POST("friends/search")
+    suspend fun getSearchFriend(@Body friendSearchReq: FriendSearchReq): Response<FriendListGetRes>
+
+    @POST("friends")
+    suspend fun applyFriend(@Body friendApplyReq: FriendApplyReq): Response<BaseRes>
 }
