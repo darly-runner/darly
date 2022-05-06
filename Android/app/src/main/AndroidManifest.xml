@@ -21,7 +21,7 @@
         android:theme="@style/Theme.DarlyApplication"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".AllCrewListActivity"
+            android:name=".activity.AllCrewListActivity"
             android:exported="false" />
         <activity
             android:name=".activity.AllCrewListActivity"
