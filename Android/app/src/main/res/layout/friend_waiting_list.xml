@@ -52,11 +52,25 @@
             app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/delete_btn"
-            android:layout_width="65dp"
+            android:id="@+id/acceptBtn"
+            android:layout_width="60dp"
+            android:layout_height="28dp"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/button_red_fill"
+            android:text="@string/accept"
+            android:textColor="#F7F8FB"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView13"
+            app:layout_constraintEnd_toStartOf="@+id/denyBtn"
+            app:layout_constraintTop_toTopOf="@+id/textView5"
+            app:layout_constraintVertical_bias="0.461" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/denyBtn"
+            android:layout_width="60dp"
             android:layout_height="28dp"
             android:background="@drawable/button_stroke_gray"
-            android:text="@string/delete"
+            android:text="@string/deny"
             android:textColor="#9F9194"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@+id/textView13"

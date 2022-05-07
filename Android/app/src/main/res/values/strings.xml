@@ -10,8 +10,13 @@
     <string name="update_profile">내 정보 수정</string>
     <string name="logout">로그아웃</string>
     <string name="search">검색</string>
-    <string name="friend_apply">친구 요청</string>
+    <string name="friend_apply">친구 신청</string>
     <string name="all_friend">모든 친구</string>
     <string name="delete">삭제</string>
     <string name="delete_friend_answer">친구를 삭제하시겠습니까?</string>
+    <string name="friend_profile">친구 프로필</string>
+    <string name="accept">수락</string>
+    <string name="deny">거절</string>
+    <string name="friend_add">친구 추가</string>
+    <string name="complete_apply">신청 완료</string>
 </resources>
