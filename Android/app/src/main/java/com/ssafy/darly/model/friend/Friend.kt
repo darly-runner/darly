@@ -2,7 +2,7 @@ package com.ssafy.darly.model.friend
 
 data class Friend(
     val userId: Long,
-    val userNickname: String,
-    val userMessage: String,
-    val userImage: String,
+    var userNickname: String,
+    var userMessage: String,
+    var userImage: String,
 )

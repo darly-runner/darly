@@ -30,6 +30,7 @@ public class UserRepositorySupport {
                 .from(qUser)
                 .leftJoin(qFriend).on(qFriend.friendOne.userId.eq(userId), qUser.userId.eq(qFriend.friendTwo.userId))
                 .where(qFriend.friendTwo.isNull(), qUser.userNickname.contains(nickname), qUser.userId.ne(userId))
+                .limit(30)
                 .fetch();
     }
 
