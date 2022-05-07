@@ -21,12 +21,18 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingRight="8dp"
                 android:src="@drawable/ic_chevron_left" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="crew" />
+                android:layout_gravity="center"
+                android:fontFamily="@font/pretendard_semibold"
+                android:textSize="20dp"
+                android:textColor="@color/black"
+                android:text="모든 크루" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
