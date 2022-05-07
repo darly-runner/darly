@@ -9,4 +9,6 @@ public interface UserAddressService {
     List<AddressNameMapping> getAddressNameList(Long friendId);
 
     void putUserAddress(UserAddressPutReq userAddressPutReq, Long userId);
+
+    void putUserAddressByStringList(List<Long> userAddresses, Long userId);
 }

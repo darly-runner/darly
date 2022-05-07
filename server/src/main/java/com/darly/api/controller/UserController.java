@@ -72,6 +72,7 @@ public class UserController {
     public ResponseEntity<BaseResponseBody> patchUser(@ModelAttribute UserPatchReq userPatchReq, Authentication authentication) {
         Long userId = Long.parseLong((String) authentication.getPrincipal());
         userService.patchUser(userPatchReq, userId);
+        userAddressService.putUserAddressByStringList(userPatchReq.getUserAddresses(), userId);
         return ResponseEntity.ok(BaseResponseBody.of(200, "success"));
     }
 

@@ -9,6 +9,8 @@ import lombok.Setter;
 import org.springframework.lang.Nullable;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @Getter
 @Setter
 @ApiModel("UserPatchRequest")
@@ -20,6 +22,8 @@ public class UserPatchReq {
     private MultipartFile userImage;
     @ApiModelProperty(name = "userMessage", example = "userMessage")
     private String userMessage;
+    @ApiModelProperty(name = "userAddresses", example = "[1, 2]")
+    private List<Long> userAddresses;
 
     public static User ofPatch(User user, String userNickname, String userImage, String userMessage) {
         return User.builder()
@@ -43,9 +47,10 @@ public class UserPatchReq {
     }
 
     @Builder
-    public UserPatchReq(String userNickname, MultipartFile userImage, String userMessage) {
+    public UserPatchReq(String userNickname, MultipartFile userImage, String userMessage, List<Long> userAddresses) {
         this.userNickname = userNickname;
         this.userImage = userImage;
         this.userMessage = userMessage;
+        this.userAddresses = userAddresses;
     }
 }

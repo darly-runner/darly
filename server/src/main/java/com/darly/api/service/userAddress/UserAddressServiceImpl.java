@@ -45,4 +45,17 @@ public class UserAddressServiceImpl implements UserAddressService {
             userAddressRepository.save(useraddress);
         }
     }
+
+    @Override
+    public void putUserAddressByStringList(List<Long> userAddresses, Long userId) {
+        userAddressRepository.deleteByUserAddressId_User(User.builder().userId(userId).build());
+        for (Long addressId : userAddresses) {
+            userAddressRepository.save(UserAddress.builder()
+                    .userAddressId(UserAddressId.builder()
+                            .addressId(addressId)
+                            .userId(userId)
+                            .build())
+                    .build());
+        }
+    }
 }
