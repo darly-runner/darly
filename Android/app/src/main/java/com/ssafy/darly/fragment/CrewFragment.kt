@@ -43,24 +43,10 @@ class CrewFragment : Fragment() {
         return binding.root
     }
 
-//    fun subscribeObserversCrew() {
-//        model.crewRecommendationList.observe(viewLifecycleOwner, Observer { crewList ->
-//            recAdapter.submitList(crewList)
-//        })
-//    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        subscribeObserversCrew()
 
         val glide = Glide.with(this@CrewFragment)
-
-//        binding.crewRecommendation.addItemDecoration(CrewRecommendationAdapterDecoration())
-//        recAdapter = CrewRecommendationAdapter(
-//            LayoutInflater.from(context),
-//            glide
-//        )
-//        binding.crewRecommendation.adapter = recAdapter
 
         CoroutineScope(Dispatchers.Main).launch {
             val response = DarlyService.getDarlyService().myCrewList()
@@ -74,12 +60,6 @@ class CrewFragment : Fragment() {
             )
             binding.myCrew.adapter = adapter
             binding.crewRecommendation.layoutManager = GridLayoutManager(context, 2)
-
-            Log.d("Crew List check", "${model.myCrewList}")
-            Log.d("Crew List check", "${model.myCrewList.value}")
-
-            Log.d("Crew List", "${response}")
-            Log.d("Crew List 2", "${response.body()}")
         }
 
         CoroutineScope(Dispatchers.Main).launch {
@@ -93,9 +73,6 @@ class CrewFragment : Fragment() {
                 glide
             )
             binding.crewRecommendation.adapter = recAdapter
-
-            Log.d("Crew Recommendation", "${response}")
-            Log.d("Crew Recommendation", "${response.body()}")
         }
 
         // createCrew
