@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.viewModels
+import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
@@ -37,6 +38,9 @@ class AllCrewListActivity : AppCompatActivity() {
 //        )
 //        binding.crewList.adapter = adapter
 
+//        binding.searchCrew.doAfterTextChanged {
+//            crewName = it.toString()
+//        }
         CoroutineScope(Dispatchers.Main).launch {
             val response = DarlyService.getDarlyService().getCrewList(page=0, size = 20, address = 0, key = "" )
             model.crewRecommendationList.value = response.body()?.crew ?: listOf()
