@@ -1,11 +1,9 @@
 package com.ssafy.darly.activity
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import androidx.activity.viewModels
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
@@ -24,6 +22,7 @@ class AllCrewListActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAllCrewListBinding
     lateinit var adapter: CrewRecommendationAdapter
     private val model: CrewViewModel by viewModels()
+    var crewName: String =""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,17 +31,9 @@ class AllCrewListActivity : AppCompatActivity() {
         binding.viewModel = model
 
         val glide = Glide.with(this)
-//        adapter = CrewRecommendationAdapter(
-//            LayoutInflater.from(this),
-//            glide
-//        )
-//        binding.crewList.adapter = adapter
 
-//        binding.searchCrew.doAfterTextChanged {
-//            crewName = it.toString()
-//        }
         CoroutineScope(Dispatchers.Main).launch {
-            val response = DarlyService.getDarlyService().getCrewList(page=0, size = 20, address = 0, key = "" )
+            val response = DarlyService.getDarlyService().getCrewList(page=0, size = 50, address = 0, key = "" )
             model.crewRecommendationList.value = response.body()?.crew ?: listOf()
 
             val crewRecommendationList = model.crewRecommendationList.value
@@ -55,12 +46,26 @@ class AllCrewListActivity : AppCompatActivity() {
             binding.crewList.layoutManager = GridLayoutManager(this@AllCrewListActivity, 2)
         }
 
-//        binding.crewList.layoutManager = GridLayoutManager(this, 2)
-//        crewRecommendationAdapter = CrewRecommendationAdapter()
-//        binding.recyclerView.adapter =
-    }
+        binding.searchCrew.doAfterTextChanged {
+            crewName = it.toString()
+            Log.d("search name", crewName)
+            CoroutineScope(Dispatchers.Main).launch {
+                val response = DarlyService.getDarlyService().getCrewList(page=0, size = 50, address = 0, key = crewName )
+                model.crewRecommendationList.value = response.body()?.crew ?: listOf()
 
-//    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
-//        return super.onCreateView(name, context, attrs)
-//    }
+                val crewRecommendationList = model.crewRecommendationList.value
+                adapter = CrewRecommendationAdapter(
+                    crewRecommendationList!!,
+                    LayoutInflater.from(this@AllCrewListActivity),
+                    glide
+                )
+                binding.crewList.adapter = adapter
+                binding.crewList.layoutManager = GridLayoutManager(this@AllCrewListActivity, 2)
+            }
+        }
+
+        binding.backBtn.setOnClickListener {
+            finish()
+        }
+    }
 }
