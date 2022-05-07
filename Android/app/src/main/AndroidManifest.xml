@@ -21,6 +21,15 @@
         android:theme="@style/Theme.DarlyApplication"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activity.CrewDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.AllCrewListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.AllCrewListActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.FriendActivity"
             android:exported="false" />
 

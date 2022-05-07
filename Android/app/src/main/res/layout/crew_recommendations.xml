@@ -1,25 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:paddingHorizontal="3.5dp"
+    android:paddingVertical="6dp">
 
     <ImageView
         android:id="@+id/crewRecommendationImg"
-        android:layout_width="160dp"
-        android:layout_height="100dp" />
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toStartOf="@+id/linearLayoutCompat"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/crewRecommendationName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:textSize="15dp"/>
+        android:textSize="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/crewRecommendationImg" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearLayoutCompat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/crewRecommendationName">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -30,9 +43,12 @@
 
         <TextView
             android:id="@+id/crewRecommendationLocation"
-            android:paddingRight="10dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize="12dp"
+            android:textColor="@color/gray_700"
+            android:layout_gravity="center"
+            android:paddingRight="10dp" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -44,8 +60,10 @@
         <TextView
             android:id="@+id/crewRecommendationMembers"
             android:layout_width="wrap_content"
+            android:textSize="12dp"
+            android:layout_gravity="center"
             android:layout_height="wrap_content" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.constraintlayout.widget.ConstraintLayout>
