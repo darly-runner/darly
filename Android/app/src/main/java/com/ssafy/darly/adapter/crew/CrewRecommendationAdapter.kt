@@ -1,14 +1,18 @@
 package com.ssafy.darly.adapter.crew.main
 
+import android.content.Intent
 import android.graphics.Rect
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.ssafy.darly.R
+import com.ssafy.darly.activity.CrewDetailActivity
 import com.ssafy.darly.model.CrewRecommendations
 
 class CrewRecommendationAdapter(
@@ -55,6 +59,13 @@ class CrewRecommendationAdapter(
         holder.crewRecommendationLocation.text = myCrewRecommendationList.get(position).crewAddress
         holder.crewRecommendationMembers.text = myCrewRecommendationList.get(position).crewPeopleNum.toString()
         glide.load((myCrewRecommendationList.get(position).crewImage)).into(holder.crewRecommendationImg)
+
+        holder.itemView.setOnClickListener {
+            val intent = Intent(holder.itemView?.context, CrewDetailActivity::class.java)
+            intent.putExtra("crewId", myCrewRecommendationList.get(position).crewId)
+            Log.d("crewId", "${ myCrewRecommendationList }")
+            ContextCompat.startActivity(holder.itemView.context, intent, null)
+        }
 //        myCrewItemList?.get(position)?.let { holder.bind(it) }
     }
 

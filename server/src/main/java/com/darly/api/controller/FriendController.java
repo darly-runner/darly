@@ -1,6 +1,7 @@
 package com.darly.api.controller;
 
 import com.darly.api.request.friend.FriendRequestPostReq;
+import com.darly.api.request.friend.FriendSearchPostReq;
 import com.darly.api.response.friend.FriendFeedGetRes;
 import com.darly.api.response.friend.FriendListGetRes;
 import com.darly.api.response.friend.FriendProfileGetRes;
@@ -49,16 +50,16 @@ public class FriendController {
     }
 
     // F-002
-    @GetMapping("/{userNickname}")
+    @PostMapping("/search")
     @ApiOperation(value="사용자검색", notes="사용자 검색하기")
     @ApiResponses({
             @ApiResponse(code=200, message="테스트 성공"),
             @ApiResponse(code=404, message="잘못된 url 접근"),
             @ApiResponse(code=500, message="서버 에러")
     })
-    public ResponseEntity<? extends BaseResponseBody> searchFriendList(@PathVariable("userNickname") String nickname, Authentication authentication) {
+    public ResponseEntity<? extends BaseResponseBody> searchFriendList(@RequestBody FriendSearchPostReq friendSearchPostReq, Authentication authentication) {
         Long userId = Long.parseLong((String) authentication.getPrincipal());
-        return ResponseEntity.ok(FriendListGetRes.of(200, "Success get friend search list", userService.getUserSearchList(userId, nickname))); //friendService.getFriendSearchList(userId, nickname)
+        return ResponseEntity.ok(FriendListGetRes.of(200, "Success get friend search list", userService.getUserSearchList(userId, friendSearchPostReq.getUserNickname()))); //friendService.getFriendSearchList(userId, nickname)
     }
 
     // F-003

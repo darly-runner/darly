@@ -24,7 +24,13 @@
             android:name=".activity.CrewDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.AllCrewListActivity"
+            android:name=".activity.FriendAddActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.FriendWaitingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.FriendProfileActivity"
             android:exported="false" />
         <activity
             android:name=".activity.AllCrewListActivity"
