@@ -26,44 +26,30 @@ public class UserPatchReq {
     private List<Long> userAddresses;
 
     public static User ofPatch(User user, String userNickname, String userImage, String userMessage) {
-        if (userNickname.length() == 0)
-            return User.builder()
-                    .userId(user.getUserId())
-                    .userNickname(user.getUserNickname())
-                    .userEmail(user.getUserEmail())
-                    .userMessage(user.getUserMessage())
-                    .userTotalDistance(user.getUserTotalDistance())
-                    .userTotalTime(user.getUserTotalTime())
-                    .userTotalHeart(user.getUserTotalHeart())
-                    .userTotalCalories(user.getUserTotalCalories())
-                    .userTotalPace(user.getUserTotalPace())
-                    .userHeartNum(user.getUserHeartNum())
-                    .userMinPace(user.getUserMinPace())
-                    .userGoalDistance(user.getUserGoalDistance())
-                    .userGoalTime(user.getUserGoalTime())
-                    .userPoint(user.getUserPoint())
-                    .userImage(userImage)
-                    .userMessage(userMessage)
-                    .build();
-        else
-            return User.builder()
-                    .userId(user.getUserId())
-                    .userNickname(userNickname)
-                    .userEmail(user.getUserEmail())
-                    .userMessage(user.getUserMessage())
-                    .userTotalDistance(user.getUserTotalDistance())
-                    .userTotalTime(user.getUserTotalTime())
-                    .userTotalHeart(user.getUserTotalHeart())
-                    .userTotalCalories(user.getUserTotalCalories())
-                    .userTotalPace(user.getUserTotalPace())
-                    .userHeartNum(user.getUserHeartNum())
-                    .userMinPace(user.getUserMinPace())
-                    .userGoalDistance(user.getUserGoalDistance())
-                    .userGoalTime(user.getUserGoalTime())
-                    .userPoint(user.getUserPoint())
-                    .userImage(userImage)
-                    .userMessage(userMessage)
-                    .build();
+        String newUserNickname = userNickname.length() == 0 ? user.getUserNickname() : userNickname;
+        String newUserImage = userImage == null ? user.getUserImage() : userImage;
+        user.setUserNickname(newUserNickname);
+        user.setUserImage(newUserImage);
+        user.setUserMessage(userMessage);
+        return user;
+//        return User.builder()
+//                .userId(user.getUserId())
+//                .userNickname(userNickname)
+//                .userEmail(user.getUserEmail())
+//                .userMessage(user.getUserMessage())
+//                .userTotalDistance(user.getUserTotalDistance())
+//                .userTotalTime(user.getUserTotalTime())
+//                .userTotalHeart(user.getUserTotalHeart())
+//                .userTotalCalories(user.getUserTotalCalories())
+//                .userTotalPace(user.getUserTotalPace())
+//                .userHeartNum(user.getUserHeartNum())
+//                .userMinPace(user.getUserMinPace())
+//                .userGoalDistance(user.getUserGoalDistance())
+//                .userGoalTime(user.getUserGoalTime())
+//                .userPoint(user.getUserPoint())
+//                .userImage(userImage)
+//                .userMessage(userMessage)
+//                .build();
     }
 
     @Builder
