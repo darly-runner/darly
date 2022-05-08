@@ -6,11 +6,10 @@ import com.darly.api.request.user.UserPatchFeedReq;
 import com.darly.api.request.user.UserPatchReq;
 import com.darly.api.request.user.UserPostFeedReq;
 import com.darly.api.service.file.FileProcessService;
-import com.darly.db.entity.address.Address;
 import com.darly.db.entity.badge.Badge;
+import com.darly.db.entity.friend.FriendTitleMapping;
 import com.darly.db.entity.user.User;
 import com.darly.db.entity.user.UserBadge;
-import com.darly.db.entity.friend.FriendTitleMapping;
 import com.darly.db.entity.userFeed.UserFeed;
 import com.darly.db.repository.user.UserBadgeRepository;
 import com.darly.db.repository.user.UserRepository;
@@ -54,8 +53,12 @@ public class UserServiceImpl implements UserService {
                 fileProcessService.deleteImage(user.getUserImage());
             url = fileProcessService.uploadImage(userPatchReq.getUserImage(), "user");
         }
-        User patchUser = UserPatchReq.ofPatch(user, userPatchReq.getUserNickname(), url, userPatchReq.getUserMessage());
-        return userRepository.save(patchUser);
+        if(userPatchReq.getUserNickname().length() > 0)
+            user.setUserNickname(userPatchReq.getUserNickname());
+        if(userPatchReq.getUserImage() != null)
+            user.setUserImage(url);
+        user.setUserMessage(userPatchReq.getUserMessage());
+        return userRepository.save(user);
     }
 
     @Override
