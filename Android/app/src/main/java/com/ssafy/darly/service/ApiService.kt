@@ -2,6 +2,8 @@ package com.ssafy.darly.service
 
 import androidx.annotation.Nullable
 import com.ssafy.darly.model.*
+import com.ssafy.darly.model.address.Address
+import com.ssafy.darly.model.address.AddressSearchGetRes
 import com.ssafy.darly.model.friend.FriendApplyReq
 import com.ssafy.darly.model.friend.FriendListGetRes
 import com.ssafy.darly.model.friend.FriendSearchReq
@@ -52,6 +54,11 @@ interface ApiService {
     suspend fun searchAddress(
         @Query("address") address: String
     ): Response<SearchAddress>
+
+    @GET("addresses")
+    suspend fun searchAddresses(
+        @Query("address") address: String
+    ): Response<AddressSearchGetRes>
 
     @GET("users/profile")
     suspend fun getUserProfile(): Response<UserProfileGetRes>

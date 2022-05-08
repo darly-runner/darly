@@ -1,10 +1,10 @@
 package com.ssafy.darly.adapter
 
-import android.util.Log
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.ssafy.darly.adapter.address.AddressListAdapter
 import com.ssafy.darly.adapter.friend.FriendAddListAdapter
 import com.ssafy.darly.adapter.friend.FriendListAdapter
 import com.ssafy.darly.adapter.friend.FriendWaitingListAdapter
@@ -88,6 +88,18 @@ object BindingConversion {
         }
         items?.let {
             (recyclerView.adapter as MyPageListAdapter).addressList = addressList
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("setAddressSearchItems")
+    fun setAddressSearchItems(recyclerView: RecyclerView, items: List<Address>) {
+        var addressList = mutableListOf<Address>()
+        for (item in items) {
+            addressList.add(item)
+        }
+        items?.let {
+            (recyclerView.adapter as AddressListAdapter).addressList = addressList
         }
     }
 }

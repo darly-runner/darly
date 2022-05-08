@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide
 import com.ssafy.darly.R
 import com.ssafy.darly.adapter.mypage.MyPageListAdapter
 import com.ssafy.darly.databinding.ActivityMyPageUpdateBinding
+import com.ssafy.darly.dialog.SearchAddressDialog
 import com.ssafy.darly.model.address.Address
 import com.ssafy.darly.service.DarlyService
 import com.ssafy.darly.viewmodel.MypageUpdateViewModel
@@ -135,6 +136,21 @@ class MyPageUpdateActivity : AppCompatActivity() {
                     this.type = MediaStore.Images.Media.CONTENT_TYPE
                 }
             )
+        }
+
+        binding.editAddress.setOnClickListener {
+            val searchLocationDialog = SearchAddressDialog()
+            searchLocationDialog.setOnClickedListener(object : SearchAddressDialog.ButtonClickListener {
+                override fun onClicked(addressName: String, addressId: Long) {
+                    var addressList = mutableListOf<Address>()
+                    addressList.addAll(model.userAddress.value ?: listOf())
+                    addressList.add(Address(addressId = addressId, addressName = addressName))
+                    Log.d("log", "${addressList}")
+                    model.userAddress.value = addressList
+                    myPageListAdapter.notifyItemInserted(addressList.size - 1)
+                }
+            })
+            searchLocationDialog.show(supportFragmentManager, "SearchLocationDialog")
         }
     }
 
