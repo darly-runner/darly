@@ -1,6 +1,8 @@
 package com.darly.api.service.userAddress;
 
 import com.darly.api.request.user.UserAddressPutReq;
+import com.darly.db.entity.address.Address;
+import com.darly.db.entity.address.AddressIdAndNameMapping;
 import com.darly.db.entity.address.AddressNameMapping;
 import com.darly.db.entity.user.User;
 import com.darly.db.entity.userAddress.UserAddress;
@@ -57,5 +59,10 @@ public class UserAddressServiceImpl implements UserAddressService {
                             .build())
                     .build());
         }
+    }
+
+    @Override
+    public List<AddressIdAndNameMapping> getAddressList(Long userId) {
+        return userAddressRepositorySupport.findAddressIdAndNameList(userId);
     }
 }

@@ -228,7 +228,7 @@ public class UserController {
                 .statusCode(200)
                 .message("Success get user profile")
                 .user(userService.getUserByUserId(userId))
-                .addressNameMappingList(userAddressService.getAddressNameList(userId))
+                .addressList(userAddressService.getAddressList(userId))
                 .userFriendNum(friendService.getFriendNum(userId))
                 .build());
     }
