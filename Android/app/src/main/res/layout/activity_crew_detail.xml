@@ -2,6 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.ssafy.darly.viewmodel.CrewViewModel" />
+    </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -13,8 +19,11 @@
             android:layout_height="313dp">
 
             <ImageView
+                android:id="@+id/crewImage"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent" />
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -43,7 +52,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/pretendard_semibold"
                         android:paddingHorizontal="3dp"
-                        android:paddingVertical="4dp"
+                        android:paddingVertical="15dp"
                         android:text="러린이 모임"
                         android:textColor="@color/white"
                         android:textSize="25dp" />
@@ -89,6 +98,7 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/crewDesc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingHorizontal="3dp"
@@ -98,7 +108,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="18dp"
                         android:background="@drawable/button_crewjoin_active"
                         android:fontFamily="@font/pretendard_medium"
                         android:gravity="center"

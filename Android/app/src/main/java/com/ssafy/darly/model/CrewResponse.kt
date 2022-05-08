@@ -53,7 +53,7 @@ data class CrewDetail(
     var crewDesc : String,
     var crewNotice: String,
     var crewHost: String,
-    var crewPeopleNum: Long,
+    var crewPeople: Long,
     var crewFeedNum: Long,
     var crewLocation: String,
     var crewImage: String,
