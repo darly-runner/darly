@@ -2,6 +2,7 @@ package com.ssafy.darly.activity
 
 import android.content.Intent
 import android.database.Cursor
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -20,6 +21,7 @@ import com.ssafy.darly.adapter.mypage.MyPageListAdapter
 import com.ssafy.darly.databinding.ActivityMyPageUpdateBinding
 import com.ssafy.darly.dialog.SearchAddressDialog
 import com.ssafy.darly.model.address.Address
+import com.ssafy.darly.model.user.NicknameCheckPostReq
 import com.ssafy.darly.service.DarlyService
 import com.ssafy.darly.viewmodel.MypageUpdateViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -29,6 +31,7 @@ import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
+import java.util.regex.Pattern
 
 class MyPageUpdateActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMyPageUpdateBinding
@@ -39,6 +42,7 @@ class MyPageUpdateActivity : AppCompatActivity() {
     private var originNickname = ""
     private val defaultImage =
         "https://darly-bucket.s3.ap-northeast-2.amazonaws.com/user/darly_logo_white.png"
+    private val pattern = Pattern.compile("^[a-zA-Z0-9ㄱ-ㅎ가-힣]+\$")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -106,6 +110,38 @@ class MyPageUpdateActivity : AppCompatActivity() {
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 model.userNickname.value = p0.toString()
+                if (p0?.length ?: 0 > 0) {
+                    if(pattern.matcher(p0).matches()){
+                        CoroutineScope(Dispatchers.IO).launch {
+                            val response = DarlyService.getDarlyService().checkNickname(NicknameCheckPostReq(p0.toString()))
+                            if (p0.toString().equals(originNickname) || response.body()?.isOk == true) {
+                                isNicknameOk = true
+                                runOnUiThread {
+                                    binding.nicknameCheck.setText(R.string.nickname_ok)
+                                    binding.nicknameCheck.setTextColor(Color.parseColor("#99120C32"))
+                                }
+                            } else {
+                                isNicknameOk = false
+                                runOnUiThread {
+                                    binding.nicknameCheck.setText(R.string.nickname_no)
+                                    binding.nicknameCheck.setTextColor(Color.parseColor("#99FB5454"))
+                                }
+                            }
+                        }
+                    }else{
+                        isNicknameOk = false
+                        runOnUiThread {
+                            binding.nicknameCheck.setText(R.string.nickname_restriction)
+                            binding.nicknameCheck.setTextColor(Color.parseColor("#99FB5454"))
+                        }
+                    }
+                } else {
+                    isNicknameOk = false
+                    runOnUiThread {
+                        binding.nicknameCheck.setText(R.string.nickname_no)
+                        binding.nicknameCheck.setTextColor(Color.parseColor("#99FB5454"))
+                    }
+                }
             }
 
             override fun afterTextChanged(p0: Editable?) {}

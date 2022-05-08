@@ -1,12 +1,12 @@
 package com.ssafy.darly.service
 
-import androidx.annotation.Nullable
 import com.ssafy.darly.model.*
-import com.ssafy.darly.model.address.Address
 import com.ssafy.darly.model.address.AddressSearchGetRes
 import com.ssafy.darly.model.friend.FriendApplyReq
 import com.ssafy.darly.model.friend.FriendListGetRes
 import com.ssafy.darly.model.friend.FriendSearchReq
+import com.ssafy.darly.model.user.NicknameCheckPostReq
+import com.ssafy.darly.model.user.NicknameCheckPostRes
 import com.ssafy.darly.model.user.UserFeedGetRes
 import com.ssafy.darly.model.user.UserProfileGetRes
 import okhttp3.MultipartBody
@@ -112,4 +112,7 @@ interface ApiService {
         @PartMap data: HashMap<String, RequestBody>,
         @Part("userAddresses[]") userAddresses: List<RequestBody>
     ): Response<BaseRes>
+
+    @POST("users/nickname")
+    suspend fun checkNickname(@Body nicknameCheckPostReq: NicknameCheckPostReq): Response<NicknameCheckPostRes>
 }

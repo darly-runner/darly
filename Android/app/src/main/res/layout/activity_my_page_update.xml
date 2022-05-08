@@ -104,7 +104,7 @@
                 android:layout_marginVertical="8dp"
                 android:background="@null"
                 android:imeOptions="actionSearch"
-                android:maxLength="45"
+                android:maxLength="15"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:text="@{viewModel.userNickname}"
@@ -113,12 +113,37 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/nicknameCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="3dp"
+            android:text="@string/nickname_ok"
+            android:textColor="#99120C32"
+            android:textSize="13sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
+
+<!--        <TextView-->
+<!--            android:id="@+id/nicknameCheckNo"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="32dp"-->
+<!--            android:layout_marginTop="3dp"-->
+<!--            android:text="@string/nickname_no"-->
+<!--            android:textColor="#99FB5454"-->
+<!--            android:textSize="13sp"-->
+<!--            android:visibility="invisible"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />-->
+
+        <TextView
             android:id="@+id/textView19"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
             android:text="@string/user_message"
             android:textColor="@color/black"
+            android:layout_marginTop="48dp"
             android:textSize="13sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/textView18"
