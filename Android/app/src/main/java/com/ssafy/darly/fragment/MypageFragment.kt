@@ -58,7 +58,7 @@ class MypageFragment : Fragment() {
         binding.menuBtn.setOnClickListener {
             val myPageMenuDialog = MyPageMenuDialog(context as AppCompatActivity)
             myPageMenuDialog.show()
-            myPageMenuDialog.setOnClickedListener(object: MyPageMenuDialog.ButtonClickListener{
+            myPageMenuDialog.setOnClickedListener(object : MyPageMenuDialog.ButtonClickListener {
                 override fun onClicked() {
                     UserApiClient.instance.logout { error ->
                         if (error == null)
@@ -69,7 +69,8 @@ class MypageFragment : Fragment() {
                     googleSignInClient?.signOut()
 
                     var logoutIntent = Intent(context, LoginActivity::class.java)
-                    logoutIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                    logoutIntent.flags =
+                        Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
 
                     GlobalApplication.prefs.setString("token", "noToken")
                     startActivity(logoutIntent)
@@ -107,15 +108,13 @@ class MypageFragment : Fragment() {
             val dec = DecimalFormat("#,###");
             model.userFriendNum.value =
                 if (response.body()?.userFriendNum == null) "0" else dec.format(response.body()?.userFriendNum)
-            model.userImage.value = response.body()?.userImage ?:
-                    "https://darly-bucket.s3.ap-northeast-2.amazonaws.com/user/darly_logo_white.png"
+            model.userImage.value = response.body()?.userImage
+                ?: "https://darly-bucket.s3.ap-northeast-2.amazonaws.com/user/darly_logo_white.png"
         }
 
         CoroutineScope(Dispatchers.Main).launch {
             val response = DarlyService.getDarlyService().getUserFeedList(0)
             model.userFeedList.value = response.body()?.feeds ?: listOf()
-//            Log.d("response", "${response}")
-//            Log.d("response body", "${response.body()}")
             userFeedListAdapter.notifyDataSetChanged()
         }
     }

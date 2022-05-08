@@ -72,6 +72,7 @@ public class UserController {
     public ResponseEntity<BaseResponseBody> patchUser(@ModelAttribute UserPatchReq userPatchReq, Authentication authentication) {
         Long userId = Long.parseLong((String) authentication.getPrincipal());
         userService.patchUser(userPatchReq, userId);
+        userAddressService.putUserAddressByStringList(userPatchReq.getUserAddresses(), userId);
         return ResponseEntity.ok(BaseResponseBody.of(200, "success"));
     }
 
@@ -227,7 +228,7 @@ public class UserController {
                 .statusCode(200)
                 .message("Success get user profile")
                 .user(userService.getUserByUserId(userId))
-                .addressNameMappingList(userAddressService.getAddressNameList(userId))
+                .addressList(userAddressService.getAddressList(userId))
                 .userFriendNum(friendService.getFriendNum(userId))
                 .build());
     }
