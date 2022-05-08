@@ -45,9 +45,7 @@ class FriendAddActivity : AppCompatActivity() {
                     friendAddListAdapter.notifyDataSetChanged()
                 } else {
                     CoroutineScope(Dispatchers.Main).launch {
-                        Log.d("add", p0.toString())
                         val response = DarlyService.getDarlyService().getSearchFriend(FriendSearchReq(p0.toString()))
-                        Log.d("add-response", "${response.body()}")
                         model.friendList.value = response.body()?.users ?: listOf()
                         friendAddListAdapter.notifyDataSetChanged()
                     }

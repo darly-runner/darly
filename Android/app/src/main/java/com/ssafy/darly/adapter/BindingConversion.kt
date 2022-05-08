@@ -8,7 +8,9 @@ import com.bumptech.glide.Glide
 import com.ssafy.darly.adapter.friend.FriendAddListAdapter
 import com.ssafy.darly.adapter.friend.FriendListAdapter
 import com.ssafy.darly.adapter.friend.FriendWaitingListAdapter
+import com.ssafy.darly.adapter.mypage.MyPageListAdapter
 import com.ssafy.darly.adapter.user.UserFeedListAdapter
+import com.ssafy.darly.model.address.Address
 import com.ssafy.darly.model.friend.Friend
 import com.ssafy.darly.model.user.Feed
 
@@ -74,6 +76,18 @@ object BindingConversion {
         }
         items?.let {
             (recyclerView.adapter as FriendAddListAdapter).friendList = friendList
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("setMyPageUpdateItems")
+    fun setMyPageUpdateItems(recyclerView: RecyclerView, items: List<Address>) {
+        var addressList = mutableListOf<Address>()
+        for (item in items) {
+            addressList.add(item)
+        }
+        items?.let {
+            (recyclerView.adapter as MyPageListAdapter).addressList = addressList
         }
     }
 }

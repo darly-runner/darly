@@ -13,7 +13,8 @@ class MyPageMenuDialog(private val context: AppCompatActivity) {
     private val dlg = BottomSheetDialog(context)   //부모 액티비티의 context 가 들어감
 
     interface ButtonClickListener {
-        fun onClicked()
+        fun onClickedLogout()
+        fun onClickedUpdate()
     }
 
     fun setOnClickedListener(listener: ButtonClickListener) {
@@ -27,7 +28,14 @@ class MyPageMenuDialog(private val context: AppCompatActivity) {
 
         val logoutView = dlg.findViewById<TextView>(R.id.logoutText)
         logoutView?.setOnClickListener {
-            onClickedListener.onClicked()
+            onClickedListener.onClickedLogout()
+            dlg.dismiss()
+        }
+
+        val updateView = dlg.findViewById<TextView>(R.id.updateProfileText)
+        updateView?.setOnClickListener {
+            onClickedListener.onClickedUpdate()
+            dlg.dismiss()
         }
 
         dlg.show()

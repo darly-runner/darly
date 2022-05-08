@@ -73,6 +73,7 @@ public class UserController {
         Long userId = Long.parseLong((String) authentication.getPrincipal());
         userService.patchUser(userPatchReq, userId);
         userAddressService.putUserAddressByStringList(userPatchReq.getUserAddresses(), userId);
+        System.out.println(userPatchReq);
         return ResponseEntity.ok(BaseResponseBody.of(200, "success"));
     }
 
@@ -209,7 +210,6 @@ public class UserController {
     })
     public ResponseEntity<BaseResponseBody> patchUserFeed(UserPatchFeedReq userPatchFeedReq, @PathVariable("userFeedId") Long userFeedId) {
         userService.patchUserFeed(userPatchFeedReq, userFeedId);
-
 
         return ResponseEntity.ok(BaseResponseBody.of(200, "message"));
     }
