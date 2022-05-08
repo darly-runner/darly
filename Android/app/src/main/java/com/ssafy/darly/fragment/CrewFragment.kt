@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.ssafy.darly.R
+import com.ssafy.darly.activity.AllCrewListActivity
 import com.ssafy.darly.activity.CreateCrewActivity
 import com.ssafy.darly.adapter.crew.MyCrewListAdapter
 import com.ssafy.darly.adapter.crew.main.CrewRecommendationAdapter
@@ -42,24 +43,10 @@ class CrewFragment : Fragment() {
         return binding.root
     }
 
-    fun subscribeObserversCrew() {
-        model.crewRecommendationList.observe(viewLifecycleOwner, Observer { crewList ->
-            recAdapter.submitList(crewList)
-        })
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        subscribeObserversCrew()
 
         val glide = Glide.with(this@CrewFragment)
-
-        binding.crewRecommendation.addItemDecoration(CrewRecommendationAdapterDecoration())
-        recAdapter = CrewRecommendationAdapter(
-            LayoutInflater.from(context),
-            glide
-        )
-        binding.crewRecommendation.adapter = recAdapter
 
         CoroutineScope(Dispatchers.Main).launch {
             val response = DarlyService.getDarlyService().myCrewList()
@@ -73,20 +60,19 @@ class CrewFragment : Fragment() {
             )
             binding.myCrew.adapter = adapter
             binding.crewRecommendation.layoutManager = GridLayoutManager(context, 2)
-
-            Log.d("Crew List check", "${model.myCrewList}")
-            Log.d("Crew List check", "${model.myCrewList.value}")
-
-            Log.d("Crew List", "${response}")
-            Log.d("Crew List 2", "${response.body()}")
         }
 
         CoroutineScope(Dispatchers.Main).launch {
             val response = DarlyService.getDarlyService().getCrewList(page=0, size = 8, address = 0, key = "" )
             model.crewRecommendationList.value = response.body()?.crew ?: listOf()
 
-            Log.d("Crew Recommendation", "${response}")
-            Log.d("Crew Recommendation", "${response.body()}")
+            val crewRecommendationList = model.crewRecommendationList.value
+            recAdapter = CrewRecommendationAdapter(
+                crewRecommendationList!!,
+                LayoutInflater.from(context),
+                glide
+            )
+            binding.crewRecommendation.adapter = recAdapter
         }
 
         // createCrew
@@ -96,10 +82,10 @@ class CrewFragment : Fragment() {
         }
 
         // All crew lists
-//        binding.searchCrew.setOnClickListener {
-//            val intent = Intent(context, AllCrewListActivity::class.java)
-//            startActivity(intent)
-//        }
+        binding.searchCrew.setOnClickListener {
+            val intent = Intent(context, AllCrewListActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
 

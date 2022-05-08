@@ -24,6 +24,9 @@
             android:name=".activity.MyPageUpdateActivity"
             android:exported="false" />
         <activity
+            android:name=".activity.CrewDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.FriendAddActivity"
             android:exported="false" />
         <activity
