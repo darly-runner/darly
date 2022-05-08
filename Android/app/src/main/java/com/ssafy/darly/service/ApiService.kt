@@ -94,8 +94,8 @@ interface ApiService {
     @PATCH("users")
     suspend fun updateUserProfile(
         @PartMap data: HashMap<String, RequestBody>,
-        @Part userImage: MultipartBody.Part,
-        @Part("userAddresses[]") userAddresses: List<RequestBody>,
+        @Part userImage: MultipartBody.Part?,
+        @Part("userAddresses[]") userAddresses: List<RequestBody>
     ): Response<BaseRes>
 
     @Multipart
@@ -103,6 +103,6 @@ interface ApiService {
     @PATCH("users")
     suspend fun updateUserProfileWithoutImage(
         @PartMap data: HashMap<String, RequestBody>,
-        @Part("userAddresses[]") userAddresses: List<RequestBody>,
+        @Part("userAddresses[]") userAddresses: List<RequestBody>
     ): Response<BaseRes>
 }

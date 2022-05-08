@@ -67,40 +67,34 @@ class MyPageUpdateActivity : AppCompatActivity() {
             } else if (model.userAddress.value?.size == 0) {
                 Toast.makeText(this, "지역을 설정해야 합니다.", Toast.LENGTH_SHORT)
             } else {
-                val userImage =
-                    if (imageURI != Uri.EMPTY) {
-                        Log.d("response-url-check-no", "${imageURI}")
-                        val file = getImgFile(imageURI)
-                        val requestFile =
-                            RequestBody.create(MediaType.parse(contentResolver.getType(imageURI!!)), file)
-                        MultipartBody.Part.createFormData("crewImage", file!!.name, requestFile)
-                    } else {
-                        Log.d("response-url-check-em", "${imageURI}")
-                        null
-                    }
-                Log.d("response-imageURI", "${userImage}")
-                val userNickname = RequestBody.create(MediaType.parse("text/plain"), model.userNickname.value)
-                var userAddresses = mutableListOf<RequestBody>()
-                for (address in model.userAddress.value ?: listOf()) {
-                    userAddresses.add(RequestBody.create(MediaType.parse("text/plain"), address.addressId.toString()))
-                }
-                val userMessage = RequestBody.create(MediaType.parse("text/plain"), model.userMessage.value)
-
-                val textHashMap = hashMapOf<String, RequestBody>()
-
-                textHashMap["userNickname"] = userNickname
-                textHashMap["userMessage"] = userMessage
-
                 CoroutineScope(Dispatchers.IO).launch {
-                    if (userImage == null) {
-                        val response = DarlyService.getDarlyService()
-                            .updateUserProfileWithoutImage(data = textHashMap, userAddresses = userAddresses)
-                        Log.d("response-no", "${response}")
-                    } else {
-                        val response = DarlyService.getDarlyService()
-                            .updateUserProfile(userImage = userImage, data = textHashMap, userAddresses = userAddresses)
-                        Log.d("response-image", "${response}")
+                    val userImage =
+                        if (imageURI != Uri.EMPTY) {
+                            val file = getImgFile(imageURI)
+                            val requestFile =
+                                RequestBody.create(MediaType.parse(contentResolver.getType(imageURI!!)), file)
+                            MultipartBody.Part.createFormData("userImage", file!!.name, requestFile)
+                        } else {
+                            null
+                        }
+                    val userNickname = RequestBody.create(MediaType.parse("text/plain"), model.userNickname.value)
+                    var userAddresses = mutableListOf<RequestBody>()
+                    for (address in model.userAddress.value ?: listOf()) {
+                        userAddresses.add(RequestBody.create(MediaType.parse("text/plain"), address.addressId.toString()))
                     }
+                    val userMessage = RequestBody.create(MediaType.parse("text/plain"), model.userMessage.value)
+
+                    val textHashMap = hashMapOf<String, RequestBody>()
+
+                    textHashMap["userNickname"] = userNickname
+                    textHashMap["userMessage"] = userMessage
+
+                    if (userImage == null)
+                        DarlyService.getDarlyService()
+                            .updateUserProfileWithoutImage(data = textHashMap, userAddresses = userAddresses)
+                    else DarlyService.getDarlyService()
+                        .updateUserProfile(data = textHashMap, userImage = userImage, userAddresses = userAddresses)
+
                     finish()
                 }
             }
