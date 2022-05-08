@@ -25,39 +25,4 @@ public class UserPatchReq {
     private String userMessage;
     @ApiModelProperty(name = "userAddresses", example = "[1, 2]")
     private List<Long> userAddresses;
-
-//    public static User ofPatch(User user, String userNickname, String userImage, String userMessage) {
-//        String newUserNickname = userNickname.length() == 0 ? user.getUserNickname() : userNickname;
-//        String newUserImage = userImage == null ? user.getUserImage() : userImage;
-//        user.setUserNickname(newUserNickname);
-//        user.setUserImage(newUserImage);
-//        user.setUserMessage(userMessage);
-//        return user;
-////        return User.builder()
-////                .userId(user.getUserId())
-////                .userNickname(userNickname)
-////                .userEmail(user.getUserEmail())
-////                .userMessage(user.getUserMessage())
-////                .userTotalDistance(user.getUserTotalDistance())
-////                .userTotalTime(user.getUserTotalTime())
-////                .userTotalHeart(user.getUserTotalHeart())
-////                .userTotalCalories(user.getUserTotalCalories())
-////                .userTotalPace(user.getUserTotalPace())
-////                .userHeartNum(user.getUserHeartNum())
-////                .userMinPace(user.getUserMinPace())
-////                .userGoalDistance(user.getUserGoalDistance())
-////                .userGoalTime(user.getUserGoalTime())
-////                .userPoint(user.getUserPoint())
-////                .userImage(userImage)
-////                .userMessage(userMessage)
-////                .build();
-//    }
-
-//    @Builder
-//    public UserPatchReq(String userNickname, MultipartFile userImage, String userMessage, List<Long> userAddresses) {
-//        this.userNickname = userNickname;
-//        this.userImage = userImage;
-//        this.userMessage = userMessage;
-//        this.userAddresses = userAddresses;
-//    }
 }
