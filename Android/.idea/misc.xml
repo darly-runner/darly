@@ -60,6 +60,8 @@
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/activity_friend_waiting.xml" value="0.33" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/activity_login.xml" value="0.3111111111111111" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/activity_main.xml" value="0.3175925925925926" />
+        <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/activity_my_page_edit.xml" value="0.33" />
+        <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/activity_my_page_update.xml" value="0.3483754512635379" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/activity_running.xml" value="0.3172295852928602" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/crew_mycrew.xml" value="0.3111111111111111" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/crew_recommendations.xml" value="0.3111111111111111" />
@@ -72,16 +74,13 @@
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/fragment_crew.xml" value="0.22" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/fragment_mypage.xml" value="0.33" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/fragment_running.xml" value="0.3172295852928602" />
-        <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/friend_add_list.xml" value="0.6446961894953656" />
+        <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/friend_add_list.xml" value="0.3649425287356322" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/friend_list.xml" value="0.5" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/friend_waiting_list.xml" value="0.67" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/mypage_feed_dialog.xml" value="0.1" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/mypage_feed_grid.xml" value="0.20389249304911955" />
+        <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/mypage_update_list.xml" value="0.22" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/menu/navi_menu.xml" value="0.3172295852928602" />
-        <entry key="app/src/main/res/font/font.xml" value="0.5120370370370371" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.5158514492753623" />
-        <entry key="app/src/main/res/layout/fragment_challenge.xml" value="0.21666666666666667" />
-        <entry key="app/src/main/res/layout/fragment_crew.xml" value="0.335" />
         <entry key="app/src/main/res/drawable/button_background.xml" value="0.368" />
         <entry key="app/src/main/res/drawable/button_background_lg.xml" value="0.1925" />
         <entry key="app/src/main/res/drawable/crew_create_background.xml" value="0.294" />

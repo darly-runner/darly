@@ -1,5 +1,6 @@
 package com.ssafy.darly.service
 
+import androidx.annotation.Nullable
 import com.ssafy.darly.model.*
 import com.ssafy.darly.model.friend.FriendApplyReq
 import com.ssafy.darly.model.friend.FriendListGetRes
@@ -71,17 +72,37 @@ interface ApiService {
     suspend fun getFriendProfile(@Path("friendId") friendId: Long): Response<UserProfileGetRes>
 
     @GET("friends/{friendId}/feed")
-    suspend fun getFriendFeedList(@Path("friendId") friendId: Long, @Query("page") page: Int): Response<UserFeedGetRes>
+    suspend fun getFriendFeedList(
+        @Path("friendId") friendId: Long,
+        @Query("page") page: Int
+    ): Response<UserFeedGetRes>
 
     @POST("friends/{friendId}/accept")
-    suspend fun acceptFriend(@Path("friendId") friendId: Long) :Response<BaseRes>
+    suspend fun acceptFriend(@Path("friendId") friendId: Long): Response<BaseRes>
 
     @DELETE("friends/{friendId}/deny")
-    suspend fun denyFriend(@Path("friendId") friendId: Long) :Response<BaseRes>
+    suspend fun denyFriend(@Path("friendId") friendId: Long): Response<BaseRes>
 
     @POST("friends/search")
     suspend fun getSearchFriend(@Body friendSearchReq: FriendSearchReq): Response<FriendListGetRes>
 
     @POST("friends")
     suspend fun applyFriend(@Body friendApplyReq: FriendApplyReq): Response<BaseRes>
+
+    @Multipart
+    @JvmSuppressWildcards
+    @PATCH("users")
+    suspend fun updateUserProfile(
+        @PartMap data: HashMap<String, RequestBody>,
+        @Part userImage: MultipartBody.Part,
+        @Part("userAddresses[]") userAddresses: List<RequestBody>,
+    ): Response<BaseRes>
+
+    @Multipart
+    @JvmSuppressWildcards
+    @PATCH("users")
+    suspend fun updateUserProfileWithoutImage(
+        @PartMap data: HashMap<String, RequestBody>,
+        @Part("userAddresses[]") userAddresses: List<RequestBody>,
+    ): Response<BaseRes>
 }
