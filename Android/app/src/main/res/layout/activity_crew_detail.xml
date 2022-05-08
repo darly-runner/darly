@@ -12,6 +12,7 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         tools:context=".activity.CrewDetailActivity">
 
         <FrameLayout
@@ -118,6 +119,25 @@
                 </LinearLayout>
             </FrameLayout>
         </FrameLayout>
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/crewDetailTab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="요약" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="피드" />
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="경쟁" />
+        </com.google.android.material.tabs.TabLayout>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 </layout>

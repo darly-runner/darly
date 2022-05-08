@@ -31,11 +31,8 @@ class CrewDetailActivity : AppCompatActivity() {
         val crewId = intent.getIntExtra("crewId", 0).toLong()
         Log.d("activiey crewId", crewId.toString())
         CoroutineScope(Dispatchers.Main).launch {
-//            val crewId = intent.getLongExtra("crewId", -1)
-//            Log.d("activiey crewId", crewId.toString())
+
             val response = DarlyService.getDarlyService().getCrewDetail(crewId = crewId)
-            Log.d("check", "${response.body()}")
-//            crewName = response.body()?.crewName ?:
 
             binding.crewName.text = response.body()?.crewName ?: "crewName"
             binding.crewLocation.text = response.body()?.crewLocation ?: "crewLocation"
