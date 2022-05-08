@@ -2,7 +2,6 @@ package com.ssafy.darly.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,10 +35,10 @@ import java.text.DecimalFormat
 class MypageFragment : Fragment() {
     private lateinit var binding: FragmentMypageBinding
     private lateinit var userFeedListAdapter: UserFeedListAdapter
+    private lateinit var userAddresses: ArrayList<Address>
     private val model: MypageViewModel by viewModels()
     private val defaultImage =
         "https://darly-bucket.s3.ap-northeast-2.amazonaws.com/user/darly_logo_white.png"
-    private var userAddresses = ArrayList<Address>()
 
     var auth: FirebaseAuth? = null
     var googleSignInClient: GoogleSignInClient? = null
@@ -115,6 +114,7 @@ class MypageFragment : Fragment() {
             model.userMessage.value = response.body()?.userMessage ?: "message"
             var list = response.body()?.userAddresses ?: listOf()
             model.userAddress.value = if (list.isEmpty()) "address" else list.get(0).addressName
+            userAddresses = arrayListOf()
             for (address in list)
                 userAddresses.add(address)
             model.userTotalDistance.value = response.body()?.userTotalDistance ?: 0.0F
@@ -128,6 +128,26 @@ class MypageFragment : Fragment() {
             val response = DarlyService.getDarlyService().getUserFeedList(0)
             model.userFeedList.value = response.body()?.feeds ?: listOf()
             userFeedListAdapter.notifyDataSetChanged()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        CoroutineScope(Dispatchers.Main).launch {
+            val response = DarlyService.getDarlyService().getUserProfile()
+            model.userNickname.value = response.body()?.userNickname ?: "nickname"
+            model.userMessage.value = response.body()?.userMessage ?: "message"
+            var list = response.body()?.userAddresses ?: listOf()
+            model.userAddress.value = if (list.isEmpty()) "address" else list.get(0).addressName
+            userAddresses = arrayListOf()
+            for (address in list)
+                userAddresses.add(address)
+            model.userTotalDistance.value = response.body()?.userTotalDistance ?: 0.0F
+            val dec = DecimalFormat("#,###");
+            model.userFriendNum.value =
+                if (response.body()?.userFriendNum == null) "0" else dec.format(response.body()?.userFriendNum)
+            model.userImage.value = response.body()?.userImage ?: defaultImage
         }
     }
 

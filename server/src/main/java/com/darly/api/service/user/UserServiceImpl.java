@@ -53,9 +53,9 @@ public class UserServiceImpl implements UserService {
                 fileProcessService.deleteImage(user.getUserImage());
             url = fileProcessService.uploadImage(userPatchReq.getUserImage(), "user");
         }
-        if(userPatchReq.getUserNickname().length() > 0)
+        if (userPatchReq.getUserNickname().length() > 0)
             user.setUserNickname(userPatchReq.getUserNickname());
-        if(userPatchReq.getUserImage() != null)
+        if (userPatchReq.getUserImage() != null)
             user.setUserImage(url);
         user.setUserMessage(userPatchReq.getUserMessage());
         return userRepository.save(user);
@@ -134,5 +134,10 @@ public class UserServiceImpl implements UserService {
         user.setUserTotalCalories(user.getUserTotalCalories() + recordCreatePostReq.getRecordCalories());
         user.setUserTotalPace(user.getUserTotalPace() + recordCreatePostReq.getRecordPace());
         userRepository.save(user);
+    }
+
+    @Override
+    public boolean existUserNickname(String userNickname) {
+        return userRepository.existsByUserNickname(userNickname);
     }
 }

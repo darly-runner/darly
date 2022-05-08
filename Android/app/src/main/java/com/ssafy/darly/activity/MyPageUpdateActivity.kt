@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide
 import com.ssafy.darly.R
 import com.ssafy.darly.adapter.mypage.MyPageListAdapter
 import com.ssafy.darly.databinding.ActivityMyPageUpdateBinding
+import com.ssafy.darly.dialog.SearchAddressDialog
 import com.ssafy.darly.model.address.Address
 import com.ssafy.darly.service.DarlyService
 import com.ssafy.darly.viewmodel.MypageUpdateViewModel
@@ -67,40 +68,34 @@ class MyPageUpdateActivity : AppCompatActivity() {
             } else if (model.userAddress.value?.size == 0) {
                 Toast.makeText(this, "지역을 설정해야 합니다.", Toast.LENGTH_SHORT)
             } else {
-                val userImage =
-                    if (imageURI != Uri.EMPTY) {
-                        Log.d("response-url-check-no", "${imageURI}")
-                        val file = getImgFile(imageURI)
-                        val requestFile =
-                            RequestBody.create(MediaType.parse(contentResolver.getType(imageURI!!)), file)
-                        MultipartBody.Part.createFormData("crewImage", file!!.name, requestFile)
-                    } else {
-                        Log.d("response-url-check-em", "${imageURI}")
-                        null
-                    }
-                Log.d("response-imageURI", "${userImage}")
-                val userNickname = RequestBody.create(MediaType.parse("text/plain"), model.userNickname.value)
-                var userAddresses = mutableListOf<RequestBody>()
-                for (address in model.userAddress.value ?: listOf()) {
-                    userAddresses.add(RequestBody.create(MediaType.parse("text/plain"), address.addressId.toString()))
-                }
-                val userMessage = RequestBody.create(MediaType.parse("text/plain"), model.userMessage.value)
-
-                val textHashMap = hashMapOf<String, RequestBody>()
-
-                textHashMap["userNickname"] = userNickname
-                textHashMap["userMessage"] = userMessage
-
                 CoroutineScope(Dispatchers.IO).launch {
-                    if (userImage == null) {
-                        val response = DarlyService.getDarlyService()
-                            .updateUserProfileWithoutImage(data = textHashMap, userAddresses = userAddresses)
-                        Log.d("response-no", "${response}")
-                    } else {
-                        val response = DarlyService.getDarlyService()
-                            .updateUserProfile(userImage = userImage, data = textHashMap, userAddresses = userAddresses)
-                        Log.d("response-image", "${response}")
+                    val userImage =
+                        if (imageURI != Uri.EMPTY) {
+                            val file = getImgFile(imageURI)
+                            val requestFile =
+                                RequestBody.create(MediaType.parse(contentResolver.getType(imageURI!!)), file)
+                            MultipartBody.Part.createFormData("userImage", file!!.name, requestFile)
+                        } else {
+                            null
+                        }
+                    val userNickname = RequestBody.create(MediaType.parse("text/plain"), model.userNickname.value)
+                    var userAddresses = mutableListOf<RequestBody>()
+                    for (address in model.userAddress.value ?: listOf()) {
+                        userAddresses.add(RequestBody.create(MediaType.parse("text/plain"), address.addressId.toString()))
                     }
+                    val userMessage = RequestBody.create(MediaType.parse("text/plain"), model.userMessage.value)
+
+                    val textHashMap = hashMapOf<String, RequestBody>()
+
+                    textHashMap["userNickname"] = userNickname
+                    textHashMap["userMessage"] = userMessage
+
+                    if (userImage == null)
+                        DarlyService.getDarlyService()
+                            .updateUserProfileWithoutImage(data = textHashMap, userAddresses = userAddresses)
+                    else DarlyService.getDarlyService()
+                        .updateUserProfile(data = textHashMap, userImage = userImage, userAddresses = userAddresses)
+
                     finish()
                 }
             }
@@ -141,6 +136,21 @@ class MyPageUpdateActivity : AppCompatActivity() {
                     this.type = MediaStore.Images.Media.CONTENT_TYPE
                 }
             )
+        }
+
+        binding.editAddress.setOnClickListener {
+            val searchLocationDialog = SearchAddressDialog()
+            searchLocationDialog.setOnClickedListener(object : SearchAddressDialog.ButtonClickListener {
+                override fun onClicked(addressName: String, addressId: Long) {
+                    var addressList = mutableListOf<Address>()
+                    addressList.addAll(model.userAddress.value ?: listOf())
+                    addressList.add(Address(addressId = addressId, addressName = addressName))
+                    Log.d("log", "${addressList}")
+                    model.userAddress.value = addressList
+                    myPageListAdapter.notifyItemInserted(addressList.size - 1)
+                }
+            })
+            searchLocationDialog.show(supportFragmentManager, "SearchLocationDialog")
         }
     }
 

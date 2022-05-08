@@ -2,6 +2,8 @@ package com.ssafy.darly.service
 
 import androidx.annotation.Nullable
 import com.ssafy.darly.model.*
+import com.ssafy.darly.model.address.Address
+import com.ssafy.darly.model.address.AddressSearchGetRes
 import com.ssafy.darly.model.friend.FriendApplyReq
 import com.ssafy.darly.model.friend.FriendListGetRes
 import com.ssafy.darly.model.friend.FriendSearchReq
@@ -53,6 +55,11 @@ interface ApiService {
         @Query("address") address: String
     ): Response<SearchAddress>
 
+    @GET("addresses")
+    suspend fun searchAddresses(
+        @Query("address") address: String
+    ): Response<AddressSearchGetRes>
+
     @GET("users/profile")
     suspend fun getUserProfile(): Response<UserProfileGetRes>
 
@@ -94,8 +101,8 @@ interface ApiService {
     @PATCH("users")
     suspend fun updateUserProfile(
         @PartMap data: HashMap<String, RequestBody>,
-        @Part userImage: MultipartBody.Part,
-        @Part("userAddresses[]") userAddresses: List<RequestBody>,
+        @Part userImage: MultipartBody.Part?,
+        @Part("userAddresses[]") userAddresses: List<RequestBody>
     ): Response<BaseRes>
 
     @Multipart
@@ -103,6 +110,6 @@ interface ApiService {
     @PATCH("users")
     suspend fun updateUserProfileWithoutImage(
         @PartMap data: HashMap<String, RequestBody>,
-        @Part("userAddresses[]") userAddresses: List<RequestBody>,
+        @Part("userAddresses[]") userAddresses: List<RequestBody>
     ): Response<BaseRes>
 }
