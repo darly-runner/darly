@@ -70,7 +70,7 @@ class MyPageUpdateActivity : AppCompatActivity() {
             if (!isNicknameOk) {
                 model.userNickname.value = originNickname
             } else if (model.userAddress.value?.size == 0) {
-                Toast.makeText(this, "지역을 설정해야 합니다.", Toast.LENGTH_SHORT)
+                Toast.makeText(this, "지역을 설정해야 합니다", Toast.LENGTH_SHORT).show()
             } else {
                 CoroutineScope(Dispatchers.IO).launch {
                     val userImage =
@@ -111,7 +111,7 @@ class MyPageUpdateActivity : AppCompatActivity() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 model.userNickname.value = p0.toString()
                 if (p0?.length ?: 0 > 0) {
-                    if(pattern.matcher(p0).matches()){
+                    if (pattern.matcher(p0).matches()) {
                         CoroutineScope(Dispatchers.IO).launch {
                             val response = DarlyService.getDarlyService().checkNickname(NicknameCheckPostReq(p0.toString()))
                             if (p0.toString().equals(originNickname) || response.body()?.isOk == true) {
@@ -128,7 +128,7 @@ class MyPageUpdateActivity : AppCompatActivity() {
                                 }
                             }
                         }
-                    }else{
+                    } else {
                         isNicknameOk = false
                         runOnUiThread {
                             binding.nicknameCheck.setText(R.string.nickname_restriction)
@@ -175,15 +175,20 @@ class MyPageUpdateActivity : AppCompatActivity() {
         }
 
         binding.editAddress.setOnClickListener {
+            val context = this
             val searchLocationDialog = SearchAddressDialog()
             searchLocationDialog.setOnClickedListener(object : SearchAddressDialog.ButtonClickListener {
                 override fun onClicked(addressName: String, addressId: Long) {
-                    var addressList = mutableListOf<Address>()
-                    addressList.addAll(model.userAddress.value ?: listOf())
-                    addressList.add(Address(addressId = addressId, addressName = addressName))
-                    Log.d("log", "${addressList}")
-                    model.userAddress.value = addressList
-                    myPageListAdapter.notifyItemInserted(addressList.size - 1)
+                    if (model.userAddress.value?.size ?: 0 >= 4) {
+                        Toast.makeText(context, "지역은 4개까지 저장 가능합니다", Toast.LENGTH_SHORT).show()
+                    } else {
+                        val addressList = mutableListOf<Address>()
+                        addressList.addAll(model.userAddress.value ?: listOf())
+                        addressList.add(Address(addressId = addressId, addressName = addressName))
+                        Log.d("log", "${addressList}")
+                        model.userAddress.value = addressList
+                        myPageListAdapter.notifyItemInserted(addressList.size - 1)
+                    }
                 }
             })
             searchLocationDialog.show(supportFragmentManager, "SearchLocationDialog")
