@@ -29,7 +29,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingHorizontal="30dp"
+                    android:paddingHorizontal="25dp"
                     android:paddingVertical="25dp">
 
                     <View
@@ -38,13 +38,15 @@
                         android:layout_weight="1" />
 
                     <TextView
+                        android:id="@+id/crewName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/pretendard_semibold"
+                        android:paddingHorizontal="3dp"
                         android:paddingVertical="4dp"
                         android:text="러린이 모임"
                         android:textColor="@color/white"
-                        android:textSize="30dp" />
+                        android:textSize="25dp" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -54,34 +56,49 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/ic_location" />
+                            android:layout_gravity="center"
+                            android:paddingHorizontal="2dp"
+                            android:src="@drawable/ic_location"
+                            app:tint="@color/white_custom" />
 
                         <TextView
+                            android:id="@+id/crewLocation"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="location" />
+                            android:paddingRight="10dp"
+                            android:text="location"
+                            android:textColor="@color/white_custom"
+                            android:textSize="12dp" />
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/ic_users" />
+                            android:layout_gravity="center"
+                            android:paddingRight="2dp"
+                            android:src="@drawable/ic_users"
+                            app:tint="@color/white_custom" />
 
                         <TextView
+                            android:id="@+id/crewMembers"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="members" />
+                            android:layout_gravity="center"
+                            android:text="members"
+                            android:textColor="@color/white_custom"
+                            android:textSize="12dp" />
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:paddingHorizontal="3dp"
                         android:text="Auctor phasellus egestas in pulvinar rhoncus lobortis laoreet. "
                         android:textColor="@color/white" />
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:layout_marginTop="15dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="20dp"
                         android:background="@drawable/button_crewjoin_active"
                         android:fontFamily="@font/pretendard_medium"
                         android:gravity="center"
