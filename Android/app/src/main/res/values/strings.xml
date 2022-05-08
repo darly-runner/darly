@@ -24,6 +24,6 @@
     <string name="edit_profile_image">프로필 사진 변경</string>
     <string name="setting_nickname">닉네임 설정</string>
     <string name="user_message">상태 메세지</string>
-    <string name="setting_address">위치 설정</string>
+    <string name="setting_address">지역 설정</string>
     <string name="address_example">시, 군, 구로 검색 (ex. 서울시 종로구)</string>
 </resources>

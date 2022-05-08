@@ -29,6 +29,10 @@ class AddressListAdapter(
         holder.binding.locationName.setOnClickListener {
             onClickListener.onClicked(addressId = item.addressId, addressName = item.addressName)
         }
+        if (position == addressList.size - 1)
+            holder.binding.line.visibility = android.view.View.GONE
+        else
+            holder.binding.line.visibility = android.view.View.VISIBLE
         holder.binding.executePendingBindings()
     }
 

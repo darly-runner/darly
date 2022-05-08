@@ -94,38 +94,6 @@ class SearchAddressDialog : DialogFragment() {
             override fun afterTextChanged(p0: Editable?) {}
         })
 
-
-//        binding.searchCrewLocation.setOnKeyListener { _, keyCode, event ->
-//            if ((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-//                CoroutineScope(Dispatchers.Main).launch {
-//                    val response =
-//                        DarlyService.getDarlyService().searchAddress(address = crewLocation)
-//                    model.Address.value = response.body()?.addresses ?: listOf()
-//
-//                    val adapter = LocationListFinishAdapter(
-//                        model.myAddress.value!!,
-//                        LayoutInflater.from(context),
-//                    )
-//                    binding.locationList.adapter = adapter
-//                    adapter.setOnClickedListener(object : LocationListAdapter.ButtonClickListener {
-//                        override fun onClicked(
-//                            addressName: String,
-//                            addressId: Long,
-//                            checkbox: ImageView
-//                        ) {
-//                            addressNameData = addressName
-//                            addressIdData = addressId
-//                            prevCrewLocation?.visibility = View.INVISIBLE
-//                            prevCrewLocation = checkbox
-//                        }
-//                    })
-//                }
-//                true
-//            } else {
-//                false
-//            }
-//        }
-
         binding.closeDialog.setOnClickListener {
             dismiss()
         }
