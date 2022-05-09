@@ -1,11 +1,14 @@
 package com.ssafy.darly.fragment
 
+import android.animation.ObjectAnimator
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.TranslateAnimation
+import android.widget.Button
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -31,6 +34,7 @@ import java.time.LocalDate
 
 class StatFragment : Fragment() {
     private lateinit var binding: FragmentStatBinding
+    private lateinit var currentBtn: Button
     private val model: StatViewModel by viewModels()
 
     override fun onCreateView(
@@ -42,6 +46,57 @@ class StatFragment : Fragment() {
             binding.lifecycleOwner = this
             binding.viewModel = model
         }
+
+        currentBtn = binding.weekBtn
+        binding.weekBtn.setOnClickListener {
+            if (currentBtn != binding.weekBtn) {
+                currentBtn.setTextColor(ContextCompat.getColor(requireActivity().applicationContext, R.color.gray_700))
+            }
+            binding.weekBtn.setTextColor(Color.WHITE)
+            currentBtn = binding.weekBtn
+
+            ObjectAnimator.ofFloat(it, "translationX", 100f).apply {
+                duration = 2000
+                start()
+            }
+        }
+        binding.monthBtn.setOnClickListener {
+            if (currentBtn != binding.monthBtn) {
+                currentBtn.setTextColor(ContextCompat.getColor(requireActivity().applicationContext, R.color.gray_700))
+                val anim = TranslateAnimation(0f, 800f, 0f, 1000f) // toYDelta
+                anim.duration = 2000
+                currentBtn.animation = anim
+                currentBtn.setBackgroundResource(R.drawable.button_transparent_round)
+            }
+            binding.monthBtn.setTextColor(Color.WHITE)
+            binding.monthBtn.setBackgroundResource(R.drawable.button_red_round)
+            currentBtn = binding.monthBtn
+        }
+        binding.yearBtn.setOnClickListener {
+            if (currentBtn != binding.yearBtn) {
+                currentBtn.setTextColor(ContextCompat.getColor(requireActivity().applicationContext, R.color.gray_700))
+                val anim = TranslateAnimation(0f, 800f, 0f, 1000f) // toYDelta
+                anim.duration = 2000
+                currentBtn.animation = anim
+                currentBtn.setBackgroundResource(R.drawable.button_transparent_round)
+            }
+            binding.yearBtn.setTextColor(Color.WHITE)
+            binding.yearBtn.setBackgroundResource(R.drawable.button_red_round)
+            currentBtn = binding.yearBtn
+        }
+        binding.allBtn.setOnClickListener {
+            if (currentBtn != binding.allBtn) {
+                currentBtn.setTextColor(ContextCompat.getColor(requireActivity().applicationContext, R.color.gray_700))
+                val anim = TranslateAnimation(0f, 800f, 0f, 1000f) // toYDelta
+                anim.duration = 2000
+                currentBtn.animation = anim
+                currentBtn.setBackgroundResource(R.drawable.button_transparent_round)
+            }
+            binding.allBtn.setTextColor(Color.WHITE)
+            binding.allBtn.setBackgroundResource(R.drawable.button_red_round)
+            currentBtn = binding.allBtn
+        }
+
         return binding.root
     }
 
@@ -77,39 +132,8 @@ class StatFragment : Fragment() {
             barData.add(BarEntry((index + 1).toFloat(), distance))
             if (distance > maxValue) maxValue = distance
         }
-        var max = 0f
-        var gran = 0f
-        if(maxValue <= 5){
-            max = 5f
-            gran = 1f
-        } else if(maxValue <= 10){
-            max = 10f
-            gran = 2f
-        } else if(maxValue <= 15){
-            max = 15f
-            gran = 5f
-        } else if(maxValue <= 20){
-            max = 20f
-            gran = 5f
-        } else if(maxValue <= 30){
-            max = 30f
-            gran = 10f
-        } else if(maxValue <= 40){
-            max = 40f
-            gran = 10f
-        } else if(maxValue <= 50){
-            max = 50f
-            gran = 10f
-        } else if(maxValue <= 100){
-            max = 100f
-            gran = 25f
-        } else if(maxValue<=1000){
-            max = 1000f
-            gran = 200f
-        } else if(maxValue <= 10000){
-            max = 10000f
-            gran = 2000f
-        }
+        var gran = Math.ceil((maxValue / 3).toDouble()).toFloat()
+        var max = gran * 3
 
         var barDataSet = BarDataSet(barData, "")
         barDataSet.color = Color.parseColor("#fb5454")
@@ -178,7 +202,7 @@ class StatFragment : Fragment() {
                 setDrawAxisLine(false)
                 setDrawGridLines(false)
                 textColor = ContextCompat.getColor(requireActivity().applicationContext, R.color.gray_800)
-                valueFormatter = MyXAxisValueFormatter()
+                valueFormatter = WeekValueFormatter()
                 textSize = 12f
                 yOffset = 10f
             }
@@ -196,7 +220,7 @@ class StatFragment : Fragment() {
         }
     }
 
-    inner class MyXAxisValueFormatter : ValueFormatter() {
+    inner class WeekValueFormatter : ValueFormatter() {
         private val days = arrayOf("월", "화", "수", "목", "금", "토", "일")
         override fun getAxisLabel(value: Float, axis: AxisBase?): String {
             return days.getOrNull(value.toInt() - 1) ?: value.toString()
