@@ -153,14 +153,17 @@
             app:tabSelectedTextColor="@color/black"
             app:tabTextAppearance="@style/tabTextSizeBold"
             app:tabTextColor="@color/gray_700"/>
-        <androidx.viewpager.widget.ViewPager
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#EDEDED"/>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/crewDetailViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 </layout>
