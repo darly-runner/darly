@@ -1,6 +1,7 @@
 package com.ssafy.darly.adapter.crew
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import com.ssafy.darly.R
 import com.ssafy.darly.activity.CrewFeedsDetailActivity
 import com.ssafy.darly.model.CrewFeeds
 import com.ssafy.darly.model.FeedsList
+import kotlin.reflect.typeOf
 
 class CrewDetailFeedsAdapter(
     val feedsList: List<FeedsList>,
@@ -42,6 +44,7 @@ class CrewDetailFeedsAdapter(
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, CrewFeedsDetailActivity::class.java)
             intent.putExtra("feedId", feedId)
+//            Log.d("feedId", feedId.javaClass)
             ContextCompat.startActivity(holder.itemView.context, intent, null)
         }
 
