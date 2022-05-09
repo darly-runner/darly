@@ -115,4 +115,11 @@ interface ApiService {
 
     @POST("users/nickname")
     suspend fun checkNickname(@Body nicknameCheckPostReq: NicknameCheckPostReq): Response<NicknameCheckPostRes>
+
+    //지영
+    @GET("addresses")
+    suspend fun searchAddresses(
+        @Query("address") address: String
+    ): Response<AddressSearchGetRes>
+
 }
