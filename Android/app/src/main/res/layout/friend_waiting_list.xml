@@ -69,7 +69,7 @@
             android:id="@+id/denyBtn"
             android:layout_width="60dp"
             android:layout_height="28dp"
-            android:background="@drawable/button_stroke_gray"
+            android:background="@drawable/button_stroke_brown"
             android:text="@string/deny"
             android:textColor="#9F9194"
             android:textSize="12sp"

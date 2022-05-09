@@ -30,4 +30,21 @@
     <string name="nickname_no">사용 불가능한 닉네임입니다</string>
     <string name="nickname_restriction">영어, 한글, 숫자만 사용 가능합니다</string>
     <string name="activity">Activity</string>
+    <string name="week">Week</string>
+    <string name="month">Month</string>
+    <string name="year">Year</string>
+    <string name="all">All</string>
+    <string name="this_week">이번주</string>
+    <string name="running_num">달린 횟수</string>
+    <string name="pace_avg">평균 페이스</string>
+    <string name="time_total">총 시간</string>
+    <string name="heart_avg">평균 심박수</string>
+    <string name="num">회</string>
+    <string name="mon">월</string>
+    <string name="tue">화</string>
+    <string name="wed">수</string>
+    <string name="thu">목</string>
+    <string name="fri">금</string>
+    <string name="sat">토</string>
+    <string name="sun">일</string>
 </resources>
