@@ -54,11 +54,7 @@ interface ApiService {
     suspend fun searchAddress(
         @Query("address") address: String
     ): Response<SearchAddress>
-<<<<<<< HEAD
 
-=======
-  
->>>>>>> 4ec31a23ddb3ce856293a998f8d68723831f9650
     @GET("crew/{crewId}")
     suspend fun getCrewDetail(
         @Path("crewId") crewId: Long
