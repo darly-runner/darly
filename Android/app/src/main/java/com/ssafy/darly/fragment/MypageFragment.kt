@@ -19,9 +19,11 @@ import com.kakao.sdk.user.UserApiClient
 import com.ssafy.darly.R
 import com.ssafy.darly.activity.FriendActivity
 import com.ssafy.darly.activity.LoginActivity
+import com.ssafy.darly.activity.MyPageUpdateActivity
 import com.ssafy.darly.adapter.user.UserFeedListAdapter
 import com.ssafy.darly.databinding.FragmentMypageBinding
 import com.ssafy.darly.dialog.MyPageMenuDialog
+import com.ssafy.darly.model.address.Address
 import com.ssafy.darly.service.DarlyService
 import com.ssafy.darly.util.GlobalApplication
 import com.ssafy.darly.viewmodel.MypageViewModel
@@ -33,7 +35,10 @@ import java.text.DecimalFormat
 class MypageFragment : Fragment() {
     private lateinit var binding: FragmentMypageBinding
     private lateinit var userFeedListAdapter: UserFeedListAdapter
+    private lateinit var userAddresses: ArrayList<Address>
     private val model: MypageViewModel by viewModels()
+    private val defaultImage =
+        "https://darly-bucket.s3.ap-northeast-2.amazonaws.com/user/darly_logo_white.png"
 
     var auth: FirebaseAuth? = null
     var googleSignInClient: GoogleSignInClient? = null
@@ -51,15 +56,11 @@ class MypageFragment : Fragment() {
         binding.recyclerView.adapter = userFeedListAdapter
         binding.recyclerView.layoutManager = GridLayoutManager(context, 3)
 
-//        var layout_manager = GridLayoutManager{}
-//        private RecyclerView.LayoutManager layout_manager;
-//        layout_manager = new LinearLayoutManager(getContext().getApplicationContext()){ @Override public boolean canScrollVertically() { return false; } };
-
         binding.menuBtn.setOnClickListener {
             val myPageMenuDialog = MyPageMenuDialog(context as AppCompatActivity)
             myPageMenuDialog.show()
-            myPageMenuDialog.setOnClickedListener(object: MyPageMenuDialog.ButtonClickListener{
-                override fun onClicked() {
+            myPageMenuDialog.setOnClickedListener(object : MyPageMenuDialog.ButtonClickListener {
+                override fun onClickedLogout() {
                     UserApiClient.instance.logout { error ->
                         if (error == null)
                             Toast.makeText(context, "로그아웃 성공", Toast.LENGTH_SHORT).show()
@@ -69,10 +70,20 @@ class MypageFragment : Fragment() {
                     googleSignInClient?.signOut()
 
                     var logoutIntent = Intent(context, LoginActivity::class.java)
-                    logoutIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                    logoutIntent.flags =
+                        Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
 
                     GlobalApplication.prefs.setString("token", "noToken")
                     startActivity(logoutIntent)
+                }
+
+                override fun onClickedUpdate() {
+                    var updateIntent = Intent(context, MyPageUpdateActivity::class.java)
+                    updateIntent.putExtra("userNickname", model.userNickname.value)
+                    updateIntent.putExtra("userMessage", model.userMessage.value)
+                    updateIntent.putExtra("userAddresses", userAddresses)
+                    updateIntent.putExtra("userImage", model.userImage.value ?: defaultImage)
+                    startActivity(updateIntent)
                 }
             })
         }
@@ -101,22 +112,42 @@ class MypageFragment : Fragment() {
             val response = DarlyService.getDarlyService().getUserProfile()
             model.userNickname.value = response.body()?.userNickname ?: "nickname"
             model.userMessage.value = response.body()?.userMessage ?: "message"
-            var list = response.body()?.userAddress ?: listOf()
-            model.userAddress.value = if (list.isEmpty()) "address" else list.get(0)
+            var list = response.body()?.userAddresses ?: listOf()
+            model.userAddress.value = if (list.isEmpty()) "address" else list.get(0).addressName
+            userAddresses = arrayListOf()
+            for (address in list)
+                userAddresses.add(address)
             model.userTotalDistance.value = response.body()?.userTotalDistance ?: 0.0F
             val dec = DecimalFormat("#,###");
             model.userFriendNum.value =
                 if (response.body()?.userFriendNum == null) "0" else dec.format(response.body()?.userFriendNum)
-            model.userImage.value = response.body()?.userImage ?:
-                    "https://darly-bucket.s3.ap-northeast-2.amazonaws.com/user/darly_logo_white.png"
+            model.userImage.value = response.body()?.userImage ?: defaultImage
         }
 
         CoroutineScope(Dispatchers.Main).launch {
             val response = DarlyService.getDarlyService().getUserFeedList(0)
             model.userFeedList.value = response.body()?.feeds ?: listOf()
-//            Log.d("response", "${response}")
-//            Log.d("response body", "${response.body()}")
             userFeedListAdapter.notifyDataSetChanged()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        CoroutineScope(Dispatchers.Main).launch {
+            val response = DarlyService.getDarlyService().getUserProfile()
+            model.userNickname.value = response.body()?.userNickname ?: "nickname"
+            model.userMessage.value = response.body()?.userMessage ?: "message"
+            var list = response.body()?.userAddresses ?: listOf()
+            model.userAddress.value = if (list.isEmpty()) "address" else list.get(0).addressName
+            userAddresses = arrayListOf()
+            for (address in list)
+                userAddresses.add(address)
+            model.userTotalDistance.value = response.body()?.userTotalDistance ?: 0.0F
+            val dec = DecimalFormat("#,###");
+            model.userFriendNum.value =
+                if (response.body()?.userFriendNum == null) "0" else dec.format(response.body()?.userFriendNum)
+            model.userImage.value = response.body()?.userImage ?: defaultImage
         }
     }
 

@@ -37,8 +37,8 @@ class FriendProfileActivity : AppCompatActivity() {
                 DarlyService.getDarlyService().getFriendProfile(friendId)
             model.userNickname.value = response.body()?.userNickname ?: "nickname"
             model.userMessage.value = response.body()?.userMessage ?: "message"
-            var list = response.body()?.userAddress ?: listOf()
-            model.userAddress.value = if (list.isEmpty()) "address" else list.get(0)
+            var list = response.body()?.userAddresses ?: listOf()
+            model.userAddress.value = if (list.isEmpty()) "address" else list.get(0).addressName
             model.userTotalDistance.value = response.body()?.userTotalDistance ?: 0.0F
             val dec = DecimalFormat("#,###");
             model.userFriendNum.value =
