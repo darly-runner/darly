@@ -67,7 +67,7 @@
             android:id="@+id/completeBtn"
             android:layout_width="80dp"
             android:layout_height="28dp"
-            android:background="@drawable/button_stroke_gray"
+            android:background="@drawable/button_stroke_brown"
             android:text="@string/complete_apply"
             android:textColor="#9F9194"
             android:textSize="12sp"
