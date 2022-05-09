@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">DarlyWatch</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Darly</string>
+    <string name="title_activity_running">RunningActivity</string>
+</resources>

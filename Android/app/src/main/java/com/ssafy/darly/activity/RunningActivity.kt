@@ -14,13 +14,17 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import com.google.android.gms.tasks.Tasks
+import com.google.android.gms.wearable.CapabilityClient
+import com.google.android.gms.wearable.CapabilityInfo
+import com.google.android.gms.wearable.Node
+import com.google.android.gms.wearable.Wearable
 import com.ssafy.darly.BuildConfig
 import com.ssafy.darly.R
 import com.ssafy.darly.background.MyService
 import com.ssafy.darly.databinding.ActivityRunningBinding
 import com.ssafy.darly.fragment.PauseFragment
 import com.ssafy.darly.viewmodel.RunningViewModel
-
 
 class RunningActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRunningBinding
@@ -29,6 +33,7 @@ class RunningActivity : AppCompatActivity() {
     private lateinit var service : MyService
     private var bound: Boolean = false
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -36,13 +41,47 @@ class RunningActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = model
 
-        serviceStart()
-
         supportFragmentManager.beginTransaction()
             .replace(R.id.pauseFragment, PauseFragment())
             .commit()
         binding.pauseFragment.visibility = View.INVISIBLE
 
+        serviceStart()
+        initBtn()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        serviceStop()
+    }
+
+    private val VOICE_TRANSCRIPTION_CAPABILITY_NAME = "voice_transcription"
+
+    private fun setupVoiceTranscription() {
+        val capabilityInfo: CapabilityInfo = Tasks.await(
+            Wearable.getCapabilityClient(this)
+                .getCapability(
+                    VOICE_TRANSCRIPTION_CAPABILITY_NAME,
+                    CapabilityClient.FILTER_REACHABLE
+                )
+        )
+        // capabilityInfo has the reachable nodes with the transcription capability
+        updateTranscriptionCapability(capabilityInfo)
+    }
+
+    private var transcriptionNodeId: String? = null
+
+    private fun updateTranscriptionCapability(capabilityInfo: CapabilityInfo) {
+        transcriptionNodeId = pickBestNodeId(capabilityInfo.nodes)
+    }
+
+    private fun pickBestNodeId(nodes: Set<Node>): String? {
+        // Find a nearby node or pick one arbitrarily
+        return nodes.firstOrNull { it.isNearby }?.id ?: nodes.firstOrNull()?.id
+    }
+
+
+    private fun initBtn(){
         // 일시정지
         binding.pauseButton.setOnClickListener {
             model.isPause.value = true
@@ -55,14 +94,12 @@ class RunningActivity : AppCompatActivity() {
 
         // 종료
         binding.endButton.setOnClickListener {
+            model.setPaceBySection(0f)
+
             val intent = Intent(this, ResultActivity::class.java)
+            intent.putExtra("record", model.record())
             startActivity(intent)
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        serviceStop()
     }
 
     fun subscribeObserver(){
@@ -72,14 +109,15 @@ class RunningActivity : AppCompatActivity() {
         })
 
         // 이동거리
-        service.dist.observe(this, Observer { dist->
+        service.totalDist.observe(this, Observer { dist->
             model.setDist(dist)
             model.setSpeed()
             model.setPace()
-            model.setKalory()
+            model.setCalorie()
+            model.setPaceBySection(1f)
 
             model.locationList.value = service.locationList.value
-            Toast.makeText(this,"${service.locationList.value?.size} , 좌표크기",Toast.LENGTH_LONG).show()
+            Toast.makeText(this,"${model.paceSection.value?.size} , 섹션크기",Toast.LENGTH_LONG).show()
         })
 
         // 일시정지를 누르면 일시정지화면을 보여준다.
@@ -128,7 +166,7 @@ class RunningActivity : AppCompatActivity() {
         }
     }
 
-    fun serviceStart() {
+    private fun serviceStart() {
         val intent = Intent(this, MyService::class.java)
         startService(intent)
         Intent(this, MyService::class.java).also { intent ->
@@ -136,7 +174,7 @@ class RunningActivity : AppCompatActivity() {
         }
     }
 
-    fun serviceStop() {
+    private fun serviceStop() {
         val intentStop = Intent(this,MyService::class.java)
         intentStop.action = ACTION_STOP
         startService(intentStop)

@@ -11,6 +11,7 @@ import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.MutableLiveData
 import com.ssafy.darly.R
 import com.ssafy.darly.activity.RunningActivity
@@ -25,13 +26,13 @@ class MyService : Service() {
 
     // 위경도, 이전 위경도
     var befLoc : Location? = null
-    var dist = MutableLiveData<Float>()
+    var totalDist = MutableLiveData<Float>()
 
     // 이동경로,시간,속력등 정보
     var locationList = MutableLiveData<ArrayList<Location>>()
 
     init {
-        dist.value = 0f
+        totalDist.value = 0.0f
         time.value = 0
         locationList.value = ArrayList()
     }
@@ -61,11 +62,11 @@ class MyService : Service() {
             LocationHelper().startListeningUserLocation(this, object : LocationHelper.MyLocationListener {
                 override fun onLocationChanged(location: Location) {
                     if(started){
-                        Log.d("Location","" + location.latitude + "," + location.longitude)
                         locationList.value?.add(location)
                         // 이전기록이 없다면
                         if(befLoc != null){
-                            dist.value = dist.value?.plus(location.distanceTo(befLoc))
+                            totalDist.value = totalDist.value?.plus(location.distanceTo(befLoc))
+                            //totalDist.value = totalDist.value?.plus(location.distanceTo(befLoc) * 10)
                         }
                         befLoc = location
                     }
@@ -127,7 +128,10 @@ class MyService : Service() {
                 builder.setLargeIcon(Bitmap.createScaledBitmap(iconNotification!!, 128, 128, false))
             }
             notification = builder.build()
-            startForeground(mNotificationId, notification)
+            //startForeground(mNotificationId, notification)
+            NotificationManagerCompat.from(this).apply {
+                notify(mNotificationId, notification!!)
+            }
         }
     }
 }

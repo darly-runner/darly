@@ -76,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal">
                     <TextView
-                        android:text="@{viewModel.pace.toString()}"
+                        android:text="@{viewModel.pace}"
                         android:textSize="24dp"
                         android:textColor="@color/white"
                         android:layout_width="wrap_content"

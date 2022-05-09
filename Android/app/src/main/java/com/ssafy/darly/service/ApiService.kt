@@ -34,4 +34,9 @@ interface ApiService{
         @Query("address") address: Int,
         @Query("key") key: String,
     ): Response<CrewRecommendationResponse>
+
+    @POST("records")
+    suspend fun postRecord(
+        @Body recordReq : RecordRequest
+    )
 }

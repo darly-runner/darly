@@ -15,7 +15,6 @@ import androidx.fragment.app.viewModels
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.*
 import com.ssafy.darly.R
 import com.ssafy.darly.activity.RunningActivity
 import com.ssafy.darly.databinding.FragmentRunningBinding
@@ -40,8 +39,8 @@ class RunningFragment : Fragment() ,
             binding.viewModel = model
         }
 
-//        val mapFragment: SupportMapFragment = childFragmentManager.findFragmentById(R.id.mapview) as SupportMapFragment
-//        mapFragment.getMapAsync(this)
+        val mapFragment: SupportMapFragment = childFragmentManager.findFragmentById(R.id.mapview) as SupportMapFragment
+        mapFragment.getMapAsync(this)
 
         // 목표 설정 버튼
         binding.targetButton.setOnClickListener {
