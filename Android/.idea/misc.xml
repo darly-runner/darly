@@ -51,6 +51,7 @@
         <entry key="app/src/main/res/layout/activity_all_crew_list.xml" value="0.294478527607362" />
         <entry key="app/src/main/res/layout/activity_create_crew.xml" value="0.2659279778393352" />
         <entry key="app/src/main/res/layout/activity_crew_detail.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_crew_feeds_detail.xml" value="0.338768115942029" />
         <entry key="app/src/main/res/layout/activity_crew_list.xml" value="0.375" />
         <entry key="app/src/main/res/layout/activity_friend.xml" value="0.3111111111111111" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.1" />
