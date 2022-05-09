@@ -19,6 +19,7 @@ import kotlinx.coroutines.launch
 class CrewDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCrewDetailBinding
     private val model: CrewViewModel by viewModels()
+    var crewId:Long=0
     private val tabTitleArray = arrayOf(
         "요약",
         "피드",
@@ -32,8 +33,9 @@ class CrewDetailActivity : AppCompatActivity() {
         binding.viewModel = model
 
         val glide = Glide.with(this)
-        val crewId = intent.getIntExtra("crewId", 0).toLong()
-        Log.d("activiey crewId", crewId.toString())
+        crewId = intent.getIntExtra("crewId", 0).toLong()
+        model.crewId.value = crewId
+        Log.d("activieyyy crewId", model.crewId.value.toString())
         CoroutineScope(Dispatchers.Main).launch {
 
             val response = DarlyService.getDarlyService().getCrewDetail(crewId = crewId)
@@ -53,5 +55,10 @@ class CrewDetailActivity : AppCompatActivity() {
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = tabTitleArray[position]
         }.attach()
+    }
+
+    @JvmName("getCrewId1")
+    fun getCrewId(): Long {
+        return crewId
     }
 }
