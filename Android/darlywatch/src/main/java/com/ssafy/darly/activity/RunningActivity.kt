@@ -1,8 +1,8 @@
-package com.ssafy.darlywatch.activity
+package com.ssafy.darly.activity
 
 import android.app.Activity
 import android.os.Bundle
-import com.ssafy.darlywatch.databinding.ActivityRunningBinding
+import com.ssafy.darly.databinding.ActivityRunningBinding
 
 class RunningActivity : Activity() {
 

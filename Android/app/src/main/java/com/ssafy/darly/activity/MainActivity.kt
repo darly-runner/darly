@@ -1,12 +1,9 @@
 package com.ssafy.darly.activity
 
 import android.Manifest
-import android.app.Activity
 import android.content.pm.PackageManager
-import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat

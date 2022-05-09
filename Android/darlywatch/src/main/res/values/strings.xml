@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">DarlyWatch</string>
     <!--
     This string is used for square devices and overridden by hello_world in
@@ -6,4 +6,5 @@
     -->
     <string name="hello_world">Darly</string>
     <string name="title_activity_running">RunningActivity</string>
+    <string name="title_activity_login">LoginActivity</string>
 </resources>

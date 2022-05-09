@@ -18,8 +18,8 @@ import com.kakao.sdk.auth.LoginClient
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.AuthErrorCause
 import com.kakao.sdk.user.UserApiClient
-import com.ssafy.darly.R
 import com.ssafy.darly.databinding.ActivityLoginBinding
+import com.ssafy.darly.R
 import com.ssafy.darly.model.AccountLoginReq
 import com.ssafy.darly.service.DarlyService
 import com.ssafy.darly.util.GlobalApplication

@@ -1,11 +1,11 @@
-package com.ssafy.darlywatch.activity
+package com.ssafy.darly.activity
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import com.ssafy.darly.util.GlobalApplication
-import com.ssafy.darlywatch.databinding.ActivityMainBinding
+import com.ssafy.darly.databinding.ActivityMainBinding
 
 class MainActivity : Activity() {
     private lateinit var binding: ActivityMainBinding
