@@ -57,6 +57,7 @@ data class CrewDetail(
     var crewFeedNum: Long,
     var crewLocation: String,
     var crewImage: String,
+    var crewStatus: String,
 )
 
 data class CrewSummary(
