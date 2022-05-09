@@ -73,6 +73,11 @@ interface ApiService {
         @Query("size") size: Int
     ): Response<CrewFeeds>
 
+    @GET("feeds/{feedId}")
+    suspend fun getFeedsDetail(
+        @Path("feedId") feedId: Long,
+    ): Response<FeedsDetail>
+
 
     @GET("users/profile")
     suspend fun getUserProfile(): Response<UserProfileGetRes>

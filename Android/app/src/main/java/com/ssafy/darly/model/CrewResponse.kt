@@ -91,3 +91,23 @@ data class FeedsList(
     var feedId: Long,
     var feedImage: String,
 )
+
+data class FeedsDetail(
+    var statusCode: Int,
+    var message: String,
+    var hostNickname: String,
+    var hostImage: String,
+    var feedTitle: String,
+    var feedContent: String,
+    var feedDate: String,
+    var feedImages: String,
+    var comments: List<FeedsComments>
+)
+
+data class FeedsComments(
+    var commentId: Long,
+    var userNickname: String,
+    var userImage: String,
+    var commentContent: String,
+    var commentDate: String,
+)
