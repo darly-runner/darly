@@ -24,9 +24,6 @@ class CrewDetailActivity : AppCompatActivity() {
         "피드",
         "경쟁"
     )
-    var crewName: String = ""
-    var crewLocation: String = ""
-    var crewPeopleNum: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
