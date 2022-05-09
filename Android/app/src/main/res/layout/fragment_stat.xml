@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -12,27 +13,35 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingHorizontal="20dp"
+        android:paddingHorizontal="23dp"
         android:paddingVertical="20dp">
 
         <View
             android:id="@+id/view3"
             android:layout_width="match_parent"
-            android:layout_height="34dp"
+            android:layout_height="31dp"
             android:background="@drawable/button_stroke_gray"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/backgroundBtn"
+            android:layout_width="0dp"
+            android:layout_height="31dp"
+            android:background="@drawable/button_red_round"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/view3"
+            app:layout_constraintWidth_percent="0.25" />
+
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/weekBtn"
             android:layout_width="0dp"
-            android:layout_height="34dp"
+            android:layout_height="31dp"
             android:background="@drawable/button_transparent_round"
-            android:backgroundTint="@color/main"
             android:text="@string/week"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="15sp"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/view3"
             app:layout_constraintWidth_percent="0.25" />
@@ -40,12 +49,12 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/monthBtn"
             android:layout_width="0dp"
-            android:layout_height="34dp"
+            android:layout_height="31dp"
             android:background="@drawable/button_transparent_round"
             android:text="@string/month"
             android:textAllCaps="false"
             android:textColor="@color/gray_700"
-            android:textSize="15sp"
+            android:textSize="14sp"
             app:layout_constraintStart_toEndOf="@+id/weekBtn"
             app:layout_constraintTop_toTopOf="@+id/view3"
             app:layout_constraintWidth_percent="0.25" />
@@ -53,12 +62,12 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/yearBtn"
             android:layout_width="0dp"
-            android:layout_height="34dp"
+            android:layout_height="31dp"
             android:background="@drawable/button_transparent_round"
             android:text="@string/year"
             android:textAllCaps="false"
             android:textColor="@color/gray_700"
-            android:textSize="15sp"
+            android:textSize="14sp"
             app:layout_constraintStart_toEndOf="@+id/monthBtn"
             app:layout_constraintTop_toTopOf="@+id/view3"
             app:layout_constraintWidth_percent="0.25" />
@@ -66,12 +75,12 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/allBtn"
             android:layout_width="0dp"
-            android:layout_height="34dp"
+            android:layout_height="31dp"
             android:background="@drawable/button_transparent_round"
             android:text="@string/all"
             android:textAllCaps="false"
             android:textColor="@color/gray_700"
-            android:textSize="15sp"
+            android:textSize="14sp"
             app:layout_constraintStart_toEndOf="@+id/yearBtn"
             app:layout_constraintTop_toTopOf="@+id/view3"
             app:layout_constraintWidth_percent="0.25" />
@@ -91,7 +100,8 @@
             android:layout_marginTop="16dp"
             android:paddingVertical="5dp"
             android:paddingEnd="25dp"
-            android:text="@string/this_week"
+            android:fontFamily="@font/pretendard_semibold"
+            android:text="@{viewModel.date}"
             android:textColor="@color/black"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -102,9 +112,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/pretendard_bold"
-            android:text="25.84"
+            android:text="@{viewModel.totalDistance}"
             android:textColor="@color/black"
-            android:textSize="58sp"
+            android:textSize="55sp"
             app:layout_constraintStart_toStartOf="@+id/textView22"
             app:layout_constraintTop_toBottomOf="@+id/textView22" />
 
@@ -121,16 +131,15 @@
             app:layout_constraintBottom_toBottomOf="@+id/textView23"
             app:layout_constraintStart_toEndOf="@+id/textView23" />
 
-
-        <!--        app:layout_constraintHorizontal_chainStyle="spread_inside"-->
-
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            app:layout_constraintStart_toStartOf="@+id/textView23"
+            app:layout_constraintEnd_toStartOf="@+id/constraintLayout2"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView23">
 
             <TextView
@@ -139,7 +148,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/running_num"
                 android:textColor="@color/gray_600"
-                android:textSize="13sp"
+                android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -148,7 +157,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/pretendard_semibold"
-                android:text="5"
+                android:text="@{viewModel.totalNum}"
                 android:textColor="@color/black"
                 android:textSize="23sp"
                 app:layout_constraintStart_toStartOf="@+id/textView24"
@@ -172,6 +181,8 @@
             android:id="@+id/constraintLayout2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@+id/constraintLayout3"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/constraintLayout"
             app:layout_constraintTop_toTopOf="@+id/constraintLayout">
 
@@ -181,7 +192,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/pace_avg"
                 android:textColor="@color/gray_600"
-                android:textSize="13sp"
+                android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -190,7 +201,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/pretendard_semibold"
-                android:text="6'45''"
+                android:text="@{viewModel.paceAvg}"
                 android:textColor="@color/black"
                 android:textSize="23sp"
                 app:layout_constraintStart_toStartOf="@+id/textView26"
@@ -203,6 +214,8 @@
             android:id="@+id/constraintLayout3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@+id/constraintLayout4"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/constraintLayout2"
             app:layout_constraintTop_toTopOf="@+id/constraintLayout2">
 
@@ -212,7 +225,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/time_total"
                 android:textColor="@color/gray_600"
-                android:textSize="13sp"
+                android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -220,7 +233,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/pretendard_semibold"
-                android:text="1:01:22"
+                android:text="@{viewModel.totalTime}"
                 android:textColor="@color/black"
                 android:textSize="23sp"
                 app:layout_constraintStart_toStartOf="@+id/textView27"
@@ -228,40 +241,57 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/constraintLayout3"
             app:layout_constraintTop_toTopOf="@+id/constraintLayout3">
 
-<!--            <TextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="@string/heart_avg"-->
-<!--                android:textColor="@color/gray_600"-->
-<!--                android:textSize="13sp"-->
-<!--                app:layout_constraintEnd_toEndOf="parent" />-->
+            <TextView
+                android:id="@+id/textView25"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/heart_avg"
+                android:textColor="@color/gray_600"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
+            <TextView
+                android:id="@+id/textView30"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_semibold"
+                android:text="@{viewModel.heartAvg}"
+                android:textColor="@color/black"
+                android:textSize="23sp"
+                app:layout_constraintStart_toStartOf="@+id/textView25"
+                app:layout_constraintTop_toBottomOf="@+id/textView25" />
 
-<!--            <TextView-->
-<!--                android:id="@+id/textView30"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:fontFamily="@font/pretendard_semibold"-->
-<!--                android:text="86"-->
-<!--                android:textColor="@color/black"-->
-<!--                android:textSize="23sp" />-->
-
-<!--            <ImageView-->
-<!--                android:layout_width="20dp"-->
-<!--                android:layout_height="20dp"-->
-<!--                android:layout_marginStart="5dp"-->
-<!--                android:src="@drawable/ic_heart"-->
-<!--                app:layout_constraintBottom_toBottomOf="@+id/textView30"-->
-<!--                app:layout_constraintStart_toEndOf="@+id/textView30"-->
-<!--                app:layout_constraintTop_toTopOf="@+id/textView30" />-->
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="5dp"
+                android:src="@drawable/ic_heart"
+                app:layout_constraintBottom_toBottomOf="@+id/textView30"
+                app:layout_constraintStart_toEndOf="@+id/textView30"
+                app:layout_constraintTop_toTopOf="@+id/textView30" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/barChart"
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
+            android:layout_marginTop="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+            app:layout_constraintVertical_bias="0.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
