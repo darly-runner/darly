@@ -1,6 +1,8 @@
 package com.darly.api.response.user;
 
 import com.darly.common.model.response.BaseResponseBody;
+import com.darly.db.entity.address.Address;
+import com.darly.db.entity.address.AddressIdAndNameMapping;
 import com.darly.db.entity.address.AddressNameMapping;
 import com.darly.db.entity.user.User;
 import io.swagger.annotations.ApiModel;
@@ -24,24 +26,22 @@ public class UserGetProfileRes extends BaseResponseBody {
     private Integer userPoint;
     @ApiModelProperty(name = "userImage", example = "userImageURL")
     private String userImage;
-    @ApiModelProperty(name = "userAddress", example = "[name, name2, name3]")
-    private List<String> userAddress;
+    @ApiModelProperty(name = "userAddresses", example = "[name, name2, name3]")
+    private List<AddressIdAndNameMapping> userAddresses;
     @ApiModelProperty(name = "userTotalDistance", example = "0.0")
     private Float userTotalDistance;
     @ApiModelProperty(name = "userFriendNum", example = "0")
     private Long userFriendNum;
 
     @Builder
-    public UserGetProfileRes(Integer statusCode, String message, User user, List<AddressNameMapping> addressNameMappingList, Long userFriendNum) {
+    public UserGetProfileRes(Integer statusCode, String message, User user, List<AddressIdAndNameMapping> addressList, Long userFriendNum) {
         super(statusCode, message);
         this.userNickname = user.getUserNickname();
         this.userMessage = user.getUserMessage();
         this.userEmail = user.getUserEmail();
         this.userPoint = user.getUserPoint();
         this.userImage = user.getUserImage();
-        this.userAddress = new ArrayList<>();
-        for (AddressNameMapping address : addressNameMappingList)
-            this.userAddress.add(address.getAddressName());
+        this.userAddresses = addressList;
         this.userTotalDistance = user.getUserTotalDistance();
         this.userFriendNum = userFriendNum;
     }

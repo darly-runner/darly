@@ -18,7 +18,6 @@ class UserFeedListAdapter : RecyclerView.Adapter<UserFeedListAdapter.UserFeedLis
     }
 
     override fun onBindViewHolder(holder: UserFeedListHolder, position: Int) {
-//        Log.d("response-binding item", userFeedList[position])
         holder.bind(userFeedList[position])
     }
 
