@@ -11,38 +11,39 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="20dp">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:src="@drawable/ic_chevron_left" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="FEEDS" />
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:fontFamily="@font/pretendard_medium"
+                android:paddingHorizontal="3dp"
+                android:text="피드"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:src="@drawable/ic_plus" />
         </LinearLayout>
 
-        <LinearLayout
+
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_notice" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Notice" />
-        </LinearLayout>
+            android:layout_height="3dp"
+            android:background="#EDEDED" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/feedDetails"
