@@ -45,3 +45,16 @@ data class MyAddress(
     var addressId: Int,
     var addressName: String
 )
+
+data class CrewDetail(
+    var statusCode: Int,
+    var message: String,
+    var crewName: String,
+    var crewDesc : String,
+    var crewNotice: String,
+    var crewHost: String,
+    var crewPeople: Long,
+    var crewFeedNum: Long,
+    var crewLocation: String,
+    var crewImage: String,
+)

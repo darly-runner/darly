@@ -26,8 +26,8 @@
 
     <style name="Text.TitleStyle" parent="android:TextAppearance">
         <item name="android:textStyle">bold</item>
-<!--        <item name="android:textSize">@dimen/text_size_16</item>-->
-<!--        <item name="android:textColor">@color/colorBlack</item>-->
+        <!--        <item name="android:textSize">@dimen/text_size_16</item>-->
+        <!--        <item name="android:textColor">@color/colorBlack</item>-->
         <item name="android:fontFamily">@font/font</item>
         <item name="android:includeFontPadding">false</item>
     </style>
@@ -53,6 +53,20 @@
     <style name="CustomFullDialog">
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowIsFloating">true</item>
+    </style>
+
+    <style name="TabTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">#fb5454</item>                                <!-- 배경 -->
+
+        <item name="android:textColorPrimary">@android:color/black</item>       <!-- 탭바 선택된 텍스트 -->
+        <item name="android:textColorSecondary">#868E96</item>     <!-- 탭바 텍스트 -->
+
+        <item name="colorAccent">#fb5454</item>                    <!-- 하단 움직이는 바 색-->
+    </style>
+
+    <style name="tabTextSizeBold" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14dp</item>
+        <item name="android:fontFamily">@font/pretendard_medium</item>
     </style>
 
     <style name="AnimationPopupStyle">

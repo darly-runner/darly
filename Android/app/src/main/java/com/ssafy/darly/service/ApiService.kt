@@ -55,10 +55,10 @@ interface ApiService {
         @Query("address") address: String
     ): Response<SearchAddress>
 
-    @GET("addresses")
-    suspend fun searchAddresses(
-        @Query("address") address: String
-    ): Response<AddressSearchGetRes>
+    @GET("crew/{crewId}")
+    suspend fun getCrewDetail(
+        @Path("crewId") crewId: Long
+    ): Response<CrewDetail>
 
     @GET("users/profile")
     suspend fun getUserProfile(): Response<UserProfileGetRes>
