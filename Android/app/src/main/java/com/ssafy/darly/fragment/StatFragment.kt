@@ -1,13 +1,14 @@
 package com.ssafy.darly.fragment
 
+import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.TranslateAnimation
 import android.widget.Button
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
@@ -49,51 +50,51 @@ class StatFragment : Fragment() {
 
         currentBtn = binding.weekBtn
         binding.weekBtn.setOnClickListener {
-            if (currentBtn != binding.weekBtn) {
-                currentBtn.setTextColor(ContextCompat.getColor(requireActivity().applicationContext, R.color.gray_700))
-            }
-            binding.weekBtn.setTextColor(Color.WHITE)
-            currentBtn = binding.weekBtn
+            if (currentBtn != binding.weekBtn)
+                changeColorAnimation(Color.WHITE, ContextCompat.getColor(requireActivity().applicationContext, R.color.gray_700), currentBtn)
+            changeColorAnimation(ContextCompat.getColor(requireActivity().applicationContext, R.color.gray_700), Color.WHITE, binding.weekBtn)
 
-            ObjectAnimator.ofFloat(it, "translationX", 100f).apply {
-                duration = 2000
+            binding.weekBtn.setTextColor(Color.WHITE)
+            ObjectAnimator.ofFloat(binding.backgroundBtn, "translationX", it.x - (it.width / 4)).apply {
+                duration = 500
                 start()
             }
+
+
+            currentBtn = binding.weekBtn
         }
         binding.monthBtn.setOnClickListener {
-            if (currentBtn != binding.monthBtn) {
-                currentBtn.setTextColor(ContextCompat.getColor(requireActivity().applicationContext, R.color.gray_700))
-                val anim = TranslateAnimation(0f, 800f, 0f, 1000f) // toYDelta
-                anim.duration = 2000
-                currentBtn.animation = anim
-                currentBtn.setBackgroundResource(R.drawable.button_transparent_round)
+            if (currentBtn != binding.monthBtn)
+                changeColorAnimation(Color.WHITE, ContextCompat.getColor(requireActivity().applicationContext, R.color.gray_700), currentBtn)
+            changeColorAnimation(ContextCompat.getColor(requireActivity().applicationContext, R.color.gray_700), Color.WHITE, binding.monthBtn)
+            ObjectAnimator.ofFloat(binding.backgroundBtn, "translationX", it.x - (it.width / 4)).apply {
+                duration = 500
+                start()
             }
-            binding.monthBtn.setTextColor(Color.WHITE)
-            binding.monthBtn.setBackgroundResource(R.drawable.button_red_round)
+
             currentBtn = binding.monthBtn
         }
         binding.yearBtn.setOnClickListener {
-            if (currentBtn != binding.yearBtn) {
-                currentBtn.setTextColor(ContextCompat.getColor(requireActivity().applicationContext, R.color.gray_700))
-                val anim = TranslateAnimation(0f, 800f, 0f, 1000f) // toYDelta
-                anim.duration = 2000
-                currentBtn.animation = anim
-                currentBtn.setBackgroundResource(R.drawable.button_transparent_round)
+            if (currentBtn != binding.yearBtn)
+                changeColorAnimation(Color.WHITE, ContextCompat.getColor(requireActivity().applicationContext, R.color.gray_700), currentBtn)
+            changeColorAnimation(ContextCompat.getColor(requireActivity().applicationContext, R.color.gray_700), Color.WHITE, binding.yearBtn)
+            ObjectAnimator.ofFloat(binding.backgroundBtn, "translationX", it.x - (it.width / 4)).apply {
+                duration = 500
+                start()
             }
-            binding.yearBtn.setTextColor(Color.WHITE)
-            binding.yearBtn.setBackgroundResource(R.drawable.button_red_round)
+
             currentBtn = binding.yearBtn
         }
         binding.allBtn.setOnClickListener {
-            if (currentBtn != binding.allBtn) {
-                currentBtn.setTextColor(ContextCompat.getColor(requireActivity().applicationContext, R.color.gray_700))
-                val anim = TranslateAnimation(0f, 800f, 0f, 1000f) // toYDelta
-                anim.duration = 2000
-                currentBtn.animation = anim
-                currentBtn.setBackgroundResource(R.drawable.button_transparent_round)
+            if (currentBtn != binding.allBtn)
+                changeColorAnimation(Color.WHITE, ContextCompat.getColor(requireActivity().applicationContext, R.color.gray_700), currentBtn)
+            changeColorAnimation(ContextCompat.getColor(requireActivity().applicationContext, R.color.gray_700), Color.WHITE, binding.allBtn)
+            ObjectAnimator.ofFloat(binding.backgroundBtn, "translationX", it.x - (it.width / 4)).apply {
+                duration = 500
+                start()
             }
-            binding.allBtn.setTextColor(Color.WHITE)
-            binding.allBtn.setBackgroundResource(R.drawable.button_red_round)
+
+
             currentBtn = binding.allBtn
         }
 
@@ -225,5 +226,12 @@ class StatFragment : Fragment() {
         override fun getAxisLabel(value: Float, axis: AxisBase?): String {
             return days.getOrNull(value.toInt() - 1) ?: value.toString()
         }
+    }
+
+    private fun changeColorAnimation(fromColor: Int, toColor: Int, view: Button) {
+        val valueAnimator = ValueAnimator.ofObject(ArgbEvaluator(), fromColor, toColor)
+        valueAnimator.duration = 500
+        valueAnimator.addUpdateListener { animator: ValueAnimator -> view.setTextColor(animator.animatedValue as Int) }
+        valueAnimator.start()
     }
 }
