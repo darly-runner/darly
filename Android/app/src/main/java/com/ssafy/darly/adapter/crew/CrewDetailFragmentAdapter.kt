@@ -2,7 +2,6 @@ package com.ssafy.darly.adapter.crew
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.ssafy.darly.fragment.CrewDataFragment
@@ -21,10 +20,4 @@ class CrewDetailFragmentAdapter(fragmentManager: FragmentManager, lifecycle: Lif
         }
         return CrewDataFragment()
     }
-//        val fragment = when(position) {
-//            0 -> CrewDataFragment().newInstant()
-//            1 -> CrewFeedFragment().newInstant()
-//            2 -> CrewMatchFragment().newInstant()
-//        }
-//        return fragment
 }

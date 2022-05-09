@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 class CrewDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCrewDetailBinding
     private val model: CrewViewModel by viewModels()
-    var crewId:Long=0
+    var crewId: Long = 0
     private val tabTitleArray = arrayOf(
         "요약",
         "피드",
