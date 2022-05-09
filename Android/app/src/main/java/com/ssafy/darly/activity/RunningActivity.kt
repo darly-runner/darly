@@ -14,11 +14,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import com.google.android.gms.tasks.Tasks
-import com.google.android.gms.wearable.CapabilityClient
-import com.google.android.gms.wearable.CapabilityInfo
-import com.google.android.gms.wearable.Node
-import com.google.android.gms.wearable.Wearable
 import com.ssafy.darly.BuildConfig
 import com.ssafy.darly.R
 import com.ssafy.darly.background.MyService
@@ -54,32 +49,6 @@ class RunningActivity : AppCompatActivity() {
         super.onDestroy()
         serviceStop()
     }
-
-    private val VOICE_TRANSCRIPTION_CAPABILITY_NAME = "voice_transcription"
-
-    private fun setupVoiceTranscription() {
-        val capabilityInfo: CapabilityInfo = Tasks.await(
-            Wearable.getCapabilityClient(this)
-                .getCapability(
-                    VOICE_TRANSCRIPTION_CAPABILITY_NAME,
-                    CapabilityClient.FILTER_REACHABLE
-                )
-        )
-        // capabilityInfo has the reachable nodes with the transcription capability
-        updateTranscriptionCapability(capabilityInfo)
-    }
-
-    private var transcriptionNodeId: String? = null
-
-    private fun updateTranscriptionCapability(capabilityInfo: CapabilityInfo) {
-        transcriptionNodeId = pickBestNodeId(capabilityInfo.nodes)
-    }
-
-    private fun pickBestNodeId(nodes: Set<Node>): String? {
-        // Find a nearby node or pick one arbitrarily
-        return nodes.firstOrNull { it.isNearby }?.id ?: nodes.firstOrNull()?.id
-    }
-
 
     private fun initBtn(){
         // 일시정지

@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -15,6 +16,7 @@ import com.ssafy.darly.R
 import com.ssafy.darly.viewmodel.MainViewModel
 import com.ssafy.darly.databinding.ActivityMainBinding
 import com.ssafy.darly.fragment.*
+import com.ssafy.darly.util.GlobalApplication
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

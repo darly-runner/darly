@@ -12,8 +12,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.kakao.sdk.auth.LoginClient
+import com.kakao.sdk.auth.model.OAuthToken
+import com.kakao.sdk.common.model.AuthErrorCause
+import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
-import com.ssafy.darly.R
 import com.ssafy.darly.databinding.ActivityLoginBinding
 import com.ssafy.darly.model.AccountLoginReq
 import com.ssafy.darly.service.DarlyService
@@ -36,7 +39,9 @@ class LoginActivity : Activity() {
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         googleLogin()
+        kakaoLogin()
     }
 
     override fun onStart() {
@@ -49,13 +54,13 @@ class LoginActivity : Activity() {
             toMainActivity()
         }
 
-//        // 카카오 로그인 정보 확인
-//        UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
-//            if (tokenInfo != null) {
-//                Log.d("LoginActivity","카카오로그인 되어있으므로 자동로그인 됩니다. ${tokenInfo}")
-//                toMainActivity()
-//            }
-//        }
+        // 카카오 로그인 정보 확인
+        UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
+            if (tokenInfo != null) {
+                Log.d("LoginActivity","카카오로그인 되어있으므로 자동로그인 됩니다. ${tokenInfo}")
+                toMainActivity()
+            }
+        }
     }
 
     fun googleLogin(){
@@ -71,6 +76,59 @@ class LoginActivity : Activity() {
             GlobalApplication.prefs.setString("token","noToken")
             val signInIntent = googleSignInClient.signInIntent
             startActivityForResult(signInIntent,RC_SIGN_IN)
+        }
+    }
+
+    fun kakaoLogin(){
+        val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
+            if (error != null) {
+                when {
+                    error.toString() == AuthErrorCause.AccessDenied.toString() -> {
+                        Toast.makeText(this, "접근이 거부 됨(동의 취소)", Toast.LENGTH_SHORT).show()
+                    }
+                    error.toString() == AuthErrorCause.InvalidClient.toString() -> {
+                        Toast.makeText(this, "유효하지 않은 앱", Toast.LENGTH_SHORT).show()
+                    }
+                    error.toString() == AuthErrorCause.InvalidGrant.toString() -> {
+                        Toast.makeText(this, "인증 수단이 유효하지 않아 인증할 수 없는 상태", Toast.LENGTH_SHORT).show()
+                    }
+                    error.toString() == AuthErrorCause.InvalidRequest.toString() -> {
+                        Toast.makeText(this, "요청 파라미터 오류", Toast.LENGTH_SHORT).show()
+                    }
+                    error.toString() == AuthErrorCause.InvalidScope.toString() -> {
+                        Toast.makeText(this, "유효하지 않은 scope ID", Toast.LENGTH_SHORT).show()
+                    }
+                    error.toString() == AuthErrorCause.Misconfigured.toString() -> {
+                        Toast.makeText(this, "설정이 올바르지 않음(android key hash)", Toast.LENGTH_SHORT).show()
+                    }
+                    error.toString() == AuthErrorCause.ServerError.toString() -> {
+                        Toast.makeText(this, "서버 내부 에러", Toast.LENGTH_SHORT).show()
+                    }
+                    error.toString() == AuthErrorCause.Unauthorized.toString() -> {
+                        Toast.makeText(this, "앱이 요청 권한이 없음", Toast.LENGTH_SHORT).show()
+                    }
+                    else -> { // Unknown
+                        Log.d("LoginActivity", "$error , ${error.cause}")
+                        Toast.makeText(this, "기타 에러", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+            else if (token != null) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    GlobalApplication.prefs.setString("token","noToken")
+                    val response = darlyService.accountKakao(AccountLoginReq(token.accessToken))
+                    response?.body()?.accessToken?.let {GlobalApplication.prefs.setString("token",it)}
+                    toMainActivity()
+                }
+            }
+        }
+        binding.kakaoLogin.setOnClickListener {
+            Log.d("LoginActivity Click", "Click KaKao Button")
+            if(LoginClient.instance.isKakaoTalkLoginAvailable(this)){
+                LoginClient.instance.loginWithKakaoTalk(this, callback = callback)
+            }else{
+                LoginClient.instance.loginWithKakaoAccount(this, callback = callback)
+            }
         }
     }
 
@@ -117,6 +175,7 @@ class LoginActivity : Activity() {
 
     // 메인 액티비티로 이동
     private fun toMainActivity() {
+        Toast.makeText(this,"로그인에 성공하였습니다.",Toast.LENGTH_SHORT)
         startActivity(Intent(this, MainActivity::class.java))
         finish()
     }

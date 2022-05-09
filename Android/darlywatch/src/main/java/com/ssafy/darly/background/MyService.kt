@@ -38,7 +38,6 @@ class MyService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int) : Int {
-        Log.d("MyService","서비스 시작!!")
         // 서비스 중지
         if (intent?.action != null && intent.action.equals(ACTION_STOP, ignoreCase = true)) {
             stopForeground(true)

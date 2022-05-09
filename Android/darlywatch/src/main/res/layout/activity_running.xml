@@ -1,89 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.wear.widget.BoxInsetLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="@dimen/box_inset_layout_padding"
-    tools:context=".activity.RunningActivity"
-    tools:deviceIds="wear">
-
-    <LinearLayout
-        android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!-- DataBinding 을 위한 선언-->
+    <data>
+        <variable
+            name="viewModel"
+            type="com.ssafy.darly.viewmodel.RunningViewModel" />
+    </data>
+    <androidx.wear.widget.BoxInsetLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/inner_frame_layout_padding"
-        android:gravity="center"
-        app:layout_boxedEdges="all">
-        <TextClock
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/distText"
-            android:text="0.00"
-            android:textSize="30dp"
-            android:textColor="@color/main"
-            android:fontFamily="@font/pretendard_bold"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:text="Kilometers"
-            android:textColor="@color/white"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-
+        android:padding="@dimen/box_inset_layout_padding"
+        tools:context=".activity.RunningActivity"
+        tools:deviceIds="wear">
         <LinearLayout
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <LinearLayout
-                android:layout_weight="1"
-                android:orientation="vertical"
+            android:layout_height="match_parent"
+            android:padding="@dimen/inner_frame_layout_padding"
+            android:gravity="center"
+            app:layout_boxedEdges="all">
+            <TextClock
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/bpmText"
-                    android:text="--"
-                    android:textSize="20dp"
-                    android:textColor="@color/main"
-                    android:fontFamily="@font/pretendard_bold"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    android:text="BPM"
-                    android:textSize="10dp"
-                    android:fontFamily="@font/pretendard_bold"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_weight="1"
-                android:orientation="vertical"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/distText"
+                android:text="@{viewModel.dist.toString()}"
+                android:textSize="30dp"
+                android:textColor="@color/main"
+                android:fontFamily="@font/pretendard_bold"
+                android:layout_gravity="center"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:text="Kilometers"
+                android:textColor="@color/white"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/paceText"
-                    android:text="--"
-                    android:textSize="20dp"
-                    android:textColor="@color/main"
-                    android:fontFamily="@font/pretendard_bold"
-                    android:layout_gravity="center"
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:orientation="vertical"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    android:text="Pace"
-                    android:textSize="10dp"
-                    android:fontFamily="@font/pretendard_bold"
-                    android:layout_gravity="center"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/bpmText"
+                        android:text="--"
+                        android:textSize="20dp"
+                        android:textColor="@color/main"
+                        android:fontFamily="@font/pretendard_bold"
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:text="BPM"
+                        android:textSize="10dp"
+                        android:fontFamily="@font/pretendard_bold"
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:orientation="vertical"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/paceText"
+                        android:text="--"
+                        android:textSize="20dp"
+                        android:textColor="@color/main"
+                        android:fontFamily="@font/pretendard_bold"
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:text="Pace"
+                        android:textSize="10dp"
+                        android:fontFamily="@font/pretendard_bold"
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-</androidx.wear.widget.BoxInsetLayout>
+    </androidx.wear.widget.BoxInsetLayout>
+</layout>

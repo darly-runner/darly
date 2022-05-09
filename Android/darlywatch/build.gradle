@@ -25,6 +25,12 @@ android {
     buildFeatures {
         viewBinding true
     }
+    viewBinding{
+        enabled = true
+    }
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -46,10 +52,11 @@ dependencies {
     def lifecycle_version = "2.4.1"
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-
     // LiveData
-    implementation 'androidx.activity:activity-ktx:1.1.0'
-    implementation 'androidx.fragment:fragment-ktx:1.2.5'
+    implementation 'androidx.activity:activity-ktx:1.4.0'
+    implementation 'androidx.fragment:fragment-ktx:1.4.1'
+
+    implementation "android.arch.lifecycle:extensions:1.1.1"
 
     // google Login
     implementation 'com.google.firebase:firebase-analytics-ktx'
