@@ -25,11 +25,13 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import com.ssafy.darly.R
 import com.ssafy.darly.databinding.FragmentStatBinding
 import com.ssafy.darly.model.stat.CustomBarChartRender
+import com.ssafy.darly.model.stat.StatWeekGetRes
 import com.ssafy.darly.service.DarlyService
 import com.ssafy.darly.viewmodel.StatViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import retrofit2.Response
 import java.time.LocalDate
 
 
@@ -37,7 +39,10 @@ class StatFragment : Fragment() {
     private lateinit var binding: FragmentStatBinding
     private lateinit var currentBtn: Button
     private val model: StatViewModel by viewModels()
+    private lateinit var today: LocalDate
+    private lateinit var day: String
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,52 +55,70 @@ class StatFragment : Fragment() {
 
         currentBtn = binding.weekBtn
         binding.weekBtn.setOnClickListener {
-            if (currentBtn != binding.weekBtn)
+            if (currentBtn != binding.weekBtn) {
                 changeColorAnimation(Color.WHITE, ContextCompat.getColor(requireActivity().applicationContext, R.color.gray_700), currentBtn)
-            changeColorAnimation(ContextCompat.getColor(requireActivity().applicationContext, R.color.gray_700), Color.WHITE, binding.weekBtn)
+                changeColorAnimation(ContextCompat.getColor(requireActivity().applicationContext, R.color.gray_700), Color.WHITE, binding.weekBtn)
 
-            binding.weekBtn.setTextColor(Color.WHITE)
-            ObjectAnimator.ofFloat(binding.backgroundBtn, "translationX", it.x - (it.width / 4)).apply {
-                duration = 500
-                start()
+                binding.weekBtn.setTextColor(Color.WHITE)
+                ObjectAnimator.ofFloat(binding.backgroundBtn, "translationX", it.x - (it.width / 4)).apply {
+                    duration = 500
+                    start()
+                }
+                CoroutineScope(Dispatchers.Main).launch {
+                    day = today.minusDays((today.dayOfWeek.value - 1).toLong()).toString()
+                    val response = DarlyService.getDarlyService().getWeekStat(day)
+                    setModelData(response)
+                    setWeek(binding.barChart, response.body()?.distances ?: listOf(), WeekValueFormatter())
+                }
+
+                currentBtn = binding.weekBtn
             }
-
-
-            currentBtn = binding.weekBtn
         }
         binding.monthBtn.setOnClickListener {
-            if (currentBtn != binding.monthBtn)
+            if (currentBtn != binding.monthBtn) {
                 changeColorAnimation(Color.WHITE, ContextCompat.getColor(requireActivity().applicationContext, R.color.gray_700), currentBtn)
-            changeColorAnimation(ContextCompat.getColor(requireActivity().applicationContext, R.color.gray_700), Color.WHITE, binding.monthBtn)
-            ObjectAnimator.ofFloat(binding.backgroundBtn, "translationX", it.x - (it.width / 4)).apply {
-                duration = 500
-                start()
-            }
+                changeColorAnimation(ContextCompat.getColor(requireActivity().applicationContext, R.color.gray_700), Color.WHITE, binding.monthBtn)
+                ObjectAnimator.ofFloat(binding.backgroundBtn, "translationX", it.x - (it.width / 4)).apply {
+                    duration = 500
+                    start()
+                }
+                CoroutineScope(Dispatchers.Main).launch {
+                    val response = DarlyService.getDarlyService().getMonthStat(today.toString())
+                    setModelData(response)
+                    setWeek(binding.barChart, response.body()?.distances ?: listOf(), MonthValueFormatter())
+                }
 
-            currentBtn = binding.monthBtn
+                currentBtn = binding.monthBtn
+            }
         }
         binding.yearBtn.setOnClickListener {
-            if (currentBtn != binding.yearBtn)
+            if (currentBtn != binding.yearBtn) {
                 changeColorAnimation(Color.WHITE, ContextCompat.getColor(requireActivity().applicationContext, R.color.gray_700), currentBtn)
-            changeColorAnimation(ContextCompat.getColor(requireActivity().applicationContext, R.color.gray_700), Color.WHITE, binding.yearBtn)
-            ObjectAnimator.ofFloat(binding.backgroundBtn, "translationX", it.x - (it.width / 4)).apply {
-                duration = 500
-                start()
-            }
+                changeColorAnimation(ContextCompat.getColor(requireActivity().applicationContext, R.color.gray_700), Color.WHITE, binding.yearBtn)
+                ObjectAnimator.ofFloat(binding.backgroundBtn, "translationX", it.x - (it.width / 4)).apply {
+                    duration = 500
+                    start()
+                }
+                CoroutineScope(Dispatchers.Main).launch {
+                    val response = DarlyService.getDarlyService().getYearStat(today.toString())
+                    setModelData(response)
+                    setWeek(binding.barChart, response.body()?.distances ?: listOf(), YearValueFormatter())
+                }
 
-            currentBtn = binding.yearBtn
+                currentBtn = binding.yearBtn
+            }
         }
         binding.allBtn.setOnClickListener {
-            if (currentBtn != binding.allBtn)
+            if (currentBtn != binding.allBtn) {
                 changeColorAnimation(Color.WHITE, ContextCompat.getColor(requireActivity().applicationContext, R.color.gray_700), currentBtn)
-            changeColorAnimation(ContextCompat.getColor(requireActivity().applicationContext, R.color.gray_700), Color.WHITE, binding.allBtn)
-            ObjectAnimator.ofFloat(binding.backgroundBtn, "translationX", it.x - (it.width / 4)).apply {
-                duration = 500
-                start()
+                changeColorAnimation(ContextCompat.getColor(requireActivity().applicationContext, R.color.gray_700), Color.WHITE, binding.allBtn)
+                ObjectAnimator.ofFloat(binding.backgroundBtn, "translationX", it.x - (it.width / 4)).apply {
+                    duration = 500
+                    start()
+                }
+
+                currentBtn = binding.allBtn
             }
-
-
-            currentBtn = binding.allBtn
         }
 
         return binding.root
@@ -105,26 +128,30 @@ class StatFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val today: LocalDate = LocalDate.now()
-        val mondayDate = today.minusDays((today.dayOfWeek.value - 1).toLong()).toString()
+        today = LocalDate.now()
+        day = today.minusDays((today.dayOfWeek.value - 1).toLong()).toString()
 
         model.date.value = "이번주"
 
         CoroutineScope(Dispatchers.Main).launch {
-            val response = DarlyService.getDarlyService().getWeekStat(mondayDate)
-            model.totalDistance.value = response.body()?.totalDistance?.toString() ?: "0"
-            model.totalNum.value = response.body()?.totalNum?.toString() ?: "0"
-            model.totalTime.value = response.body()?.totalTime?.toString() ?: "00:00:00"
-            model.paceAvg.value = response.body()?.paceAvg?.toString() ?: "0'0''"
-            model.heartAvg.value = response.body()?.heartAvg?.toString()
-            if (model.heartAvg.value == null)
-                model.heartAvg.value = "--"
-            model.distances.value = response.body()?.distances ?: listOf()
-            setWeek(binding.barChart, response.body()?.distances ?: listOf())
+            val response = DarlyService.getDarlyService().getWeekStat(day)
+            setModelData(response)
+            setWeek(binding.barChart, response.body()?.distances ?: listOf(), WeekValueFormatter())
         }
     }
 
-    private fun setWeek(barChart: BarChart, distances: List<Float>) {
+    private fun setModelData(response: Response<StatWeekGetRes>) {
+        model.totalDistance.value = response.body()?.totalDistance?.toString() ?: "0"
+        model.totalNum.value = response.body()?.totalNum?.toString() ?: "0"
+        model.totalTime.value = response.body()?.totalTime?.toString() ?: "00:00:00"
+        model.paceAvg.value = response.body()?.paceAvg?.toString() ?: "0'0''"
+        model.heartAvg.value = response.body()?.heartAvg?.toString()
+        if (model.heartAvg.value == null)
+            model.heartAvg.value = "--"
+        model.distances.value = response.body()?.distances ?: listOf()
+    }
+
+    private fun setWeek(barChart: BarChart, distances: List<Float>, format: ValueFormatter) {
         initBarChart(barChart)
 
         var barData = ArrayList<BarEntry>()
@@ -144,15 +171,9 @@ class StatFragment : Fragment() {
         val data = BarData(barDataSet)
         data.barWidth = 0.46f
 
-        val roundedBarChartRenderer =
-            CustomBarChartRender(barChart, barChart.animator, barChart.viewPortHandler)
-        roundedBarChartRenderer.setRadius(15) //context.resources.getDimension(R.dimen.barCornerRadius)
-        barChart.renderer = roundedBarChartRenderer
-
         barChart.run {
             this.data = data
             setFitBars(true)
-            invalidate()
 
             axisRight.run {
                 axisMaximum = max
@@ -163,6 +184,12 @@ class StatFragment : Fragment() {
                 axisMaximum = max
                 granularity = gran //선긋는단위
             }
+
+            xAxis.run {
+                valueFormatter = format
+            }
+
+            invalidate()
         }
     }
 
@@ -173,7 +200,7 @@ class StatFragment : Fragment() {
             setDrawValueAboveBar(true)
             setPinchZoom(false) //확대 비활성화
             setDrawGridBackground(false) //격자구조 비활성화
-            setMaxVisibleValueCount(31) //최대 개수
+//            setMaxVisibleValueCount(13) //최대 개수
 
             axisRight.run {
                 axisMaximum = 15f
@@ -203,7 +230,7 @@ class StatFragment : Fragment() {
                 setDrawAxisLine(false)
                 setDrawGridLines(false)
                 textColor = ContextCompat.getColor(requireActivity().applicationContext, R.color.gray_800)
-                valueFormatter = WeekValueFormatter()
+//                valueFormatter = WeekValueFormatter()
                 textSize = 12f
                 yOffset = 10f
             }
@@ -218,6 +245,11 @@ class StatFragment : Fragment() {
             setTouchEnabled(false)
             setScaleEnabled(false)
             animateY(500)
+
+            val roundedBarChartRenderer =
+                CustomBarChartRender(barChart, barChart.animator, barChart.viewPortHandler)
+            roundedBarChartRenderer.setRadius(15)
+            barChart.renderer = roundedBarChartRenderer
         }
     }
 
@@ -227,6 +259,27 @@ class StatFragment : Fragment() {
             return days.getOrNull(value.toInt() - 1) ?: value.toString()
         }
     }
+    inner class MonthValueFormatter : ValueFormatter() {
+        override fun getAxisLabel(value: Float, axis: AxisBase?): String {
+            return value.toInt().toString()
+        }
+    }
+    inner class YearValueFormatter : ValueFormatter() {
+        private var days = ArrayList<String>()
+
+        override fun getAxisLabel(value: Float, axis: AxisBase?): String {
+            for(i in 1..12)
+                days.add(i.toString())
+            return days.getOrNull(value.toInt() - 1) ?: value.toString()
+        }
+    }
+    inner class AllValueFormatter : ValueFormatter() {
+        private val days = arrayOf("월", "화", "수", "목", "금", "토", "일")
+        override fun getAxisLabel(value: Float, axis: AxisBase?): String {
+            return days.getOrNull(value.toInt() - 1) ?: value.toString()
+        }
+    }
+
 
     private fun changeColorAnimation(fromColor: Int, toColor: Int, view: Button) {
         val valueAnimator = ValueAnimator.ofObject(ArgbEvaluator(), fromColor, toColor)

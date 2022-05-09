@@ -135,4 +135,16 @@ interface ApiService {
         @Query("date") date: String
     ): Response<StatWeekGetRes>
 
+    @GET("stats/month")
+    suspend fun getMonthStat(
+        @Query("date") date: String
+    ): Response<StatWeekGetRes>
+
+    @GET("stats/year")
+    suspend fun getYearStat(
+        @Query("date") date: String
+    ): Response<StatWeekGetRes>
+
+    @GET("stats")
+    suspend fun getAllStat(): Response<StatWeekGetRes>
 }
