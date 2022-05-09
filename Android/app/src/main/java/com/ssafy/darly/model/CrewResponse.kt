@@ -58,3 +58,20 @@ data class CrewDetail(
     var crewLocation: String,
     var crewImage: String,
 )
+
+data class CrewSummary(
+    var statusCode: Int,
+    var message: String,
+    var crewPeopleNum: Int,
+    var crewDistance: Float,
+    var crewTime: Long,
+    var crewPace: Float,
+    var ranks: List<CrewSummaryRankings>
+)
+
+data class CrewSummaryRankings(
+    var userNickname: String,
+    var userImage: String,
+    var userDistance: String,
+    var userPace: Float
+)
