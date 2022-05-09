@@ -54,4 +54,9 @@
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowIsFloating">true</item>
     </style>
+
+    <style name="AnimationPopupStyle">
+        <item name="android:windowEnterAnimation">@anim/dialog_open_bottom</item>
+        <item name="android:windowExitAnimation">@anim/dialog_close_bottom</item>
+    </style>
 </resources>
