@@ -35,7 +35,8 @@ public class CrewSummaryGetRes extends BaseResponseBody {
             crewPace += summary.getDayPace();
             ranks.add(RankEntity.builder().crewSummaryMapping(summary).build());
         }
-        crewPace = crewPace / summaryList.size();
+        if (summaryList.size() > 0)
+            crewPace = crewPace / summaryList.size();
         Collections.sort(ranks);
     }
 }
