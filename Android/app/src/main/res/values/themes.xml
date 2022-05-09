@@ -54,4 +54,12 @@
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowIsFloating">true</item>
     </style>
+    <style name="TabTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">#fb5454</item>                                <!-- 배경 -->
+
+        <item name="android:textColorPrimary">@android:color/black</item>       <!-- 탭바 선택된 텍스트 -->
+        <item name="android:textColorSecondary">#868E96</item>     <!-- 탭바 텍스트 -->
+
+        <item name="colorAccent">#fb5454</item>                    <!-- 하단 움직이는 바 색-->
+    </style>
 </resources>

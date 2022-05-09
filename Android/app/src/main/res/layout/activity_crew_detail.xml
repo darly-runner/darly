@@ -121,6 +121,8 @@
         </FrameLayout>
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/crewDetailTab"
+            app:tabTextColor="@color/gray_700"
+            app:tabSelectedTextColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
