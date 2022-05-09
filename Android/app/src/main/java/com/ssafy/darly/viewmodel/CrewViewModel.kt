@@ -2,10 +2,7 @@ package com.ssafy.darly.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ssafy.darly.model.CrewRecommendations
-import com.ssafy.darly.model.CrewSummaryRankings
-import com.ssafy.darly.model.MyAddress
-import com.ssafy.darly.model.MyCrewDetails
+import com.ssafy.darly.model.*
 
 class CrewViewModel : ViewModel(){
     var myCrewList = MutableLiveData<List<MyCrewDetails>>()
@@ -22,4 +19,6 @@ class CrewViewModel : ViewModel(){
     var crewImage = MutableLiveData<String>()
 
     var crewDetailRankings = MutableLiveData<List<CrewSummaryRankings>>()
+
+    var crewDetailFeeds = MutableLiveData<List<FeedsList>>()
 }
