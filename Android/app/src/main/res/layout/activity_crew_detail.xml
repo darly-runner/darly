@@ -145,6 +145,10 @@
 <!--                android:layout_height="wrap_content"-->
 <!--                android:text="경쟁" />-->
 <!--        </com.google.android.material.tabs.TabLayout>-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="#ededed"/>
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/crewDetailTab"
             android:layout_width="match_parent"
@@ -152,14 +156,10 @@
             app:tabIndicatorHeight="2.5dp"
             app:tabSelectedTextColor="@color/black"
             app:tabTextAppearance="@style/tabTextSizeBold"
+            android:background="@drawable/crew_detail_tab_background"
             app:tabTextColor="@color/gray_700"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#EDEDED"/>
-
-        <androidx.viewpager.widget.ViewPager
+        <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/crewDetailViewPager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
