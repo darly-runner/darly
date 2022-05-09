@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.ssafy.darly.R
 import com.ssafy.darly.activity.CrewDetailActivity
@@ -65,6 +66,7 @@ class CrewDataFragment : Fragment() {
                 glide
             )
             binding.crewRankingList.adapter = adapter
+            binding.crewRankingList.layoutManager = GridLayoutManager(context, 1)
         }
     }
 }

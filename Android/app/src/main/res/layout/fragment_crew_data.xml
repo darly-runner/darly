@@ -66,7 +66,8 @@
             android:rowCount="3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="3dp">
+            android:paddingHorizontal="3dp"
+            android:paddingBottom="30dp">
 
             <LinearLayout
                 android:layout_width="0dp"
