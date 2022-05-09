@@ -5,9 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.ssafy.darly.R
+import com.ssafy.darly.activity.CrewFeedsDetailActivity
 import com.ssafy.darly.model.CrewFeeds
 import com.ssafy.darly.model.FeedsList
 
@@ -35,9 +37,12 @@ class CrewDetailFeedsAdapter(
 
     override fun onBindViewHolder(holder: CrewDetailFeedsAdapter.ViewHolder, position: Int) {
         glide.load(feedsList.get(position).feedImage).into(holder.crewFeedImg)
+        val feedId = feedsList.get(position).feedId
 
         holder.itemView.setOnClickListener {
-//            val intent = Intent(holder.itemView?.contetxt, )
+            val intent = Intent(holder.itemView.context, CrewFeedsDetailActivity::class.java)
+            intent.putExtra("feedId", feedId)
+            ContextCompat.startActivity(holder.itemView.context, intent, null)
         }
 
     }
