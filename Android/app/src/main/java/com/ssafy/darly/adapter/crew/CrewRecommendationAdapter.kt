@@ -59,11 +59,14 @@ class CrewRecommendationAdapter(
         holder.crewRecommendationLocation.text = myCrewRecommendationList.get(position).crewAddress
         holder.crewRecommendationMembers.text = myCrewRecommendationList.get(position).crewPeopleNum.toString()
         glide.load((myCrewRecommendationList.get(position).crewImage)).into(holder.crewRecommendationImg)
+        val crewId = myCrewRecommendationList.get(position).crewId
 
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView?.context, CrewDetailActivity::class.java)
-            intent.putExtra("crewId", myCrewRecommendationList.get(position).crewId)
-            Log.d("crewId", "${ myCrewRecommendationList }")
+
+            intent.putExtra("crewId", crewId)
+            Log.d("crewId", crewId.javaClass.name)
+            Log.d("crewId", "${ myCrewRecommendationList.get(position).crewId }")
             ContextCompat.startActivity(holder.itemView.context, intent, null)
         }
 //        myCrewItemList?.get(position)?.let { holder.bind(it) }

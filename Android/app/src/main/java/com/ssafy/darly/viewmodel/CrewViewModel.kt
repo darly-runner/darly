@@ -10,4 +10,12 @@ class CrewViewModel : ViewModel(){
     var myCrewList = MutableLiveData<List<MyCrewDetails>>()
     var crewRecommendationList = MutableLiveData<List<CrewRecommendations>>()
     var myAddress = MutableLiveData<List<MyAddress>>()
+
+    var crewName = MutableLiveData<String>()
+    var crewDesc = MutableLiveData<String>()
+    var crewNotice = MutableLiveData<String>()
+    var crewHost = MutableLiveData<String>()
+    var crewPeopleNum = MutableLiveData<Long>()
+    var crewLocation = MutableLiveData<String>()
+    var crewImage = MutableLiveData<String>()
 }
