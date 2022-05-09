@@ -41,6 +41,7 @@ class CrewDataFragment : Fragment() {
         super.onAttach(context)
         crewId = (activity as CrewDetailActivity).getCrewId()
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
