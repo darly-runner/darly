@@ -13,47 +13,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/linearLayout3"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:adjustViewBounds="true"
+            android:background="@drawable/image_view_round"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:background="@drawable/image_view_round"
-                app:setImage="@{viewModel.feedImage}" />
-        </LinearLayout>
-
-        <!--        <ImageButton-->
-        <!--            android:id="@+id/left_button"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginEnd="5dp"-->
-        <!--            android:background="@android:color/transparent"-->
-        <!--            android:src="@drawable/ic_round_arrow_back_ios_24"-->
-        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--            app:layout_constraintEnd_toStartOf="@+id/linearLayout3"-->
-        <!--            app:layout_constraintTop_toTopOf="parent" />-->
-
-        <!--        <ImageButton-->
-        <!--            android:id="@+id/right_button"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginStart="13dp"-->
-        <!--            android:background="@android:color/transparent"-->
-        <!--            android:src="@drawable/ic_round_arrow_forward_ios_24"-->
-        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--            app:layout_constraintStart_toEndOf="@+id/linearLayout3"-->
-        <!--            app:layout_constraintTop_toTopOf="parent" />-->
-
+            app:layout_constraintTop_toTopOf="parent"
+            app:setImage="@{viewModel.feedImage}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

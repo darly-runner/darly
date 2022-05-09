@@ -5,7 +5,9 @@ import com.darly.api.request.feed.FeedCreatePostReq;
 import com.darly.api.request.match.MatchCreatePostReq;
 import com.darly.api.response.crew.*;
 import com.darly.api.response.match.MatchListGetRes;
-import com.darly.api.service.crew.*;
+import com.darly.api.service.crew.CrewService;
+import com.darly.api.service.crew.CrewWaitingService;
+import com.darly.api.service.crew.UserCrewService;
 import com.darly.api.service.feed.FeedImageService;
 import com.darly.api.service.feed.FeedService;
 import com.darly.api.service.match.MatchService;
@@ -123,13 +125,20 @@ public class CrewController {
             @ApiResponse(code = 500, message = "서버 에러")
     })
     public ResponseEntity<? extends BaseResponseBody> getCrewDetail(@PathVariable("crewId") Long crewId, Authentication authentication) {
+        Long userId = getUserId(authentication);
         List<CrewDetailMapping> crewDetailList = crewService.getCrewDetailByCrewId(crewId);
         if (crewDetailList.size() == 0)
             return ResponseEntity.ok(BaseResponseBody.of(405, "Fail get crew detail: Not valid crewId"));
+        Character crewStatus = 'N';
+        if (userCrewService.isUserCrewExists(userId, crewId))
+            crewStatus = 'J';
+        else if (crewWaitingService.isCrewWaitingExists(userId, crewId))
+            crewStatus = 'A';
         return ResponseEntity.ok(CrewDetailGetRes.builder()
                 .statusCode(200)
                 .message("Success get crew detail")
                 .crewDetailMapping(crewDetailList.get(0))
+                .crewStatus(crewStatus)
                 .build());
     }
 
@@ -227,7 +236,7 @@ public class CrewController {
     // C-009
     @PostMapping("/{crewId}/join")
     @ApiOperation(value = "크루 가입신청", notes = "크루 가입신청하기")
-    @ApiResponses({           
+    @ApiResponses({
             @ApiResponse(code = 200, message = "테스트 성공, 대기중(crew Lock)"),
             @ApiResponse(code = 201, message = "테스트 성공, 바로가입(crew Free)"),
             @ApiResponse(code = 404, message = "잘못된 url 접근"),
