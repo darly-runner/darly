@@ -53,4 +53,9 @@ public class CrewWaitingServiceImpl implements CrewWaitingService {
     public List<UserTitleMapping> getCrewWaitingList(Long crewId) {
         return crewWaitingRepositorySupport.findTitleMappingByCrewId(crewId);
     }
+
+    @Override
+    public boolean isCrewWaitingExists(Long userId, Long crewId) {
+        return crewWaitingRepository.existsByCrewWaitingId(CrewWaitingId.builder().userId(userId).crewId(crewId).build());
+    }
 }

@@ -68,4 +68,9 @@
         <item name="android:textSize">14dp</item>
         <item name="android:fontFamily">@font/pretendard_medium</item>
     </style>
+
+    <style name="AnimationPopupStyle">
+        <item name="android:windowEnterAnimation">@anim/dialog_open_bottom</item>
+        <item name="android:windowExitAnimation">@anim/dialog_close_bottom</item>
+    </style>
 </resources>

@@ -13,4 +13,5 @@ public interface CrewWaitingService {
     Optional<CrewWaiting> getCrewWaiting(Long userId, Long crewId);
     void deleteByCrewWaiting(CrewWaiting crewWaiting);
     List<UserTitleMapping> getCrewWaitingList(Long crewId);
+    boolean isCrewWaitingExists(Long userId, Long crewId);
 }

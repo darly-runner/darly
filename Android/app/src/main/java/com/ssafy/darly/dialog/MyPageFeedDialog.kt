@@ -15,6 +15,7 @@ class MyPageFeedDialog(private val context: AppCompatActivity) {
 
     fun show(content: Feed) {
         dlg.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//        dlg.window?.attributes?.windowAnimations = R.style.AnimationPopupStyle
         dlg.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dlg.setContentView(R.layout.dialog_mypage_feed)     //다이얼로그에 사용할 xml 파일을 불러옴
 

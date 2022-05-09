@@ -58,7 +58,6 @@ class FriendListAdapter(private val context: Context) :
 
     override fun getItemCount() = filteredFriendList.size
 
-
     fun deleteItem(holder: FriendListHolder) {
         val newPosition: Int = holder.getAdapterPosition()
         filteredFriendList.removeAt(newPosition)

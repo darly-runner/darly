@@ -23,4 +23,5 @@ public interface UserService {
     void deleteUserFeed(Long userFeedId);
     UserFeed patchUserFeed(UserPatchFeedReq userPatchFeedReq, Long userFeedId);
     void updateUserRecord(Long userId, RecordCreatePostReq recordCreatePostReq);
+    boolean existUserNickname(String userNickname);
 }
