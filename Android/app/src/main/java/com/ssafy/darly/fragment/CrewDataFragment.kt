@@ -11,8 +11,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.ssafy.darly.R
 import com.ssafy.darly.activity.CrewDetailActivity
+import com.ssafy.darly.adapter.crew.CrewDetailRankAdapter
 import com.ssafy.darly.databinding.FragmentCrewDataBinding
 import com.ssafy.darly.service.DarlyService
 import com.ssafy.darly.viewmodel.CrewViewModel
@@ -24,6 +26,7 @@ class CrewDataFragment : Fragment() {
     private lateinit var binding: FragmentCrewDataBinding
     private val model: CrewViewModel by viewModels()
     var crewId: Long = 0
+    lateinit var adapter: CrewDetailRankAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,14 +47,24 @@ class CrewDataFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val glide = Glide.with(this@CrewDataFragment)
 
         CoroutineScope(Dispatchers.Main).launch {
             val response = DarlyService.getDarlyService().getCrewSummary(crewId = crewId, type = "week")
+            model.crewDetailRankings.value = response.body()?.ranks
             Log.d("weekly check", "${response.body()}")
             binding.crewDistance.text = response.body()?.crewDistance.toString()
             binding.crewDetailPace.text = response.body()?.crewPace.toString()
             binding.crewDetailPplNum.text = response.body()?.crewPeopleNum.toString()
             binding.crewDetailTime.text = response.body()?.crewTime.toString()
+
+            val crewRankingsList = model.crewDetailRankings.value
+            adapter = CrewDetailRankAdapter(
+                crewRankingsList!!,
+                LayoutInflater.from(context),
+                glide
+            )
+            binding.crewRankingList.adapter = adapter
         }
     }
 }
