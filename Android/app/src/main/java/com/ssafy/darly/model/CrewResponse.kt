@@ -76,3 +76,18 @@ data class CrewSummaryRankings(
     var userDistance: String,
     var userPace: Float
 )
+
+data class CrewFeeds(
+    var statusCode: Int,
+    var message: String,
+    var size: Int,
+    var totalFeeds: Long,
+    var currentPage: Int,
+    var numberOfFeed: Int,
+    var feeds: List<FeedsList>
+)
+
+data class FeedsList(
+    var feedId: Long,
+    var feedImage: String,
+)

@@ -66,6 +66,13 @@ interface ApiService {
         @Query("type") type: String
     ): Response<CrewSummary>
 
+    @GET("crew/{crewId}/feed")
+    suspend fun getCrewFeeds(
+        @Path("crewId") crewId: Long,
+        @Query("page") page: Int,
+        @Query("size") size: Int
+    ): Response<CrewFeeds>
+
 
     @GET("users/profile")
     suspend fun getUserProfile(): Response<UserProfileGetRes>
