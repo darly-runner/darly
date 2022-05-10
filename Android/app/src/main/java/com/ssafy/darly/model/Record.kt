@@ -12,9 +12,9 @@ data class RecordRequest(
     val recordTime : Int,   //sec
     val recordRank : Int?,   //경쟁아니면 null로 보내주세요
     var recordTitle : String?,  // 기록 제목(null로 보내면 현재 시간으로 제목을 지어준다.)
-    val coordinateLatitudes : ArrayList<String>, //float말고 string으로 줄수있나요?
-    val coordinateLongitudes : ArrayList<String>,
-    val sections : ArrayList<Section>
+    var coordinateLatitudes : ArrayList<String>, //float말고 string으로 줄수있나요?
+    var coordinateLongitudes : ArrayList<String>,
+    var sections : ArrayList<Section>
 ) : Serializable
 
 data class Section(

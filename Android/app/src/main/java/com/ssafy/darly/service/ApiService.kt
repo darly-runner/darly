@@ -29,6 +29,7 @@ interface ApiService {
 
     // Record
     @Multipart
+    @JvmSuppressWildcards
     @POST("records")
     suspend fun postRecord(
         @PartMap data: HashMap<String, RequestBody>,
@@ -36,7 +37,6 @@ interface ApiService {
         @Part("coordinateLatitudes[]") coordinateLatitudes: List<RequestBody>,
         @Part("coordinateLongitudes[]") coordinateLongitudes: List<RequestBody>,
         @Part sections: List<MultipartBody.Part>
-//        @Body recordReq : RecordRequest
     ): Response<BaseRes>
 
     @GET("users")

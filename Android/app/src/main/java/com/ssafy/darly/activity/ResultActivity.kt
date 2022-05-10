@@ -1,16 +1,11 @@
 package com.ssafy.darly.activity
 
 import android.annotation.SuppressLint
-import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.os.Environment
-import android.provider.MediaStore
+import android.util.Log
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -30,7 +25,6 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
 import java.io.FileOutputStream
-import java.io.OutputStream
 
 
 class ResultActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -77,107 +71,69 @@ class ResultActivity : AppCompatActivity(), OnMapReadyCallback {
             var mapBitmap: Bitmap? = null
             map.snapshot {
                 mapBitmap = it
-                val bitmap = it
-                val filename = "${System.currentTimeMillis()}.jpg"
+                CoroutineScope(Dispatchers.Main).launch {
+                    val recordImage = if (mapBitmap != null) {
+                        var file = convertBitmapToFile(mapBitmap!!)
+                        val requestBody = RequestBody.create(MediaType.parse("image/jpeg"), file)
+                        MultipartBody.Part.createFormData("recordImage", file.getName(), requestBody)
+                    } else null
 
-                // Output stream
-                var fos: OutputStream? = null
-
-                // For devices running android >= Q
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    // getting the contentResolver
-                    this.contentResolver?.also { resolver ->
-
-                        // Content resolver will process the contentvalues
-                        val contentValues = ContentValues().apply {
-
-                            // putting file information in content values
-                            put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
-                            put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg")
-                            put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
+                    val coordinateLatitudes = mutableListOf<RequestBody>()
+                    for (cl in record.coordinateLatitudes)
+                        coordinateLatitudes.add(RequestBody.create(MediaType.parse("text/plain"), cl))
+                    val coordinateLongitudes = mutableListOf<RequestBody>()
+                    for (cl in record.coordinateLongitudes)
+                        coordinateLongitudes.add(RequestBody.create(MediaType.parse("text/plain"), cl))
+                    val sections = mutableListOf<MultipartBody.Part>()
+                    for (i in record.sections.indices) {
+                        record.sections[i].let {
+                            sections.add(MultipartBody.Part.createFormData("sections[$i].km", it.km.toString()))
+                            sections.add(MultipartBody.Part.createFormData("sections[$i].pace", it.pace.toString()))
+                            sections.add(MultipartBody.Part.createFormData("sections[$i].calories", it.calories.toString()))
                         }
-
-                        // Inserting the contentValues to
-                        // contentResolver and getting the Uri
-                        val imageUri: Uri? = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
-                        // Opening an outputstream with the Uri that we got
-                        fos = imageUri?.let { resolver.openOutputStream(it) }
                     }
-                } else {
-                    // These for devices running on android < Q
-                    val imagesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-                    val image = File(imagesDir, filename)
-                    fos = FileOutputStream(image)
-                }
+                    val matchId = RequestBody.create(MediaType.parse("text/plain"), record.matchId?.toString() ?: "")
+                    val recordDistance = RequestBody.create(MediaType.parse("text/plain"), record.recordDistance.toString())
+                    val recordPace = RequestBody.create(MediaType.parse("text/plain"), record.recordPace.toString())
+                    val recordCalories = RequestBody.create(MediaType.parse("text/plain"), record.recordCalories.toString())
+                    val recordHeart = RequestBody.create(MediaType.parse("text/plain"), record.recordHeart.toString())
+                    val recordSpeed = RequestBody.create(MediaType.parse("text/plain"), record.recordSpeed.toString())
+                    val recordTime = RequestBody.create(MediaType.parse("text/plain"), record.recordTime.toString())
+                    val recordRank = RequestBody.create(MediaType.parse("text/plain"), record.recordRank?.toString() ?: "")
+                    val recordTitle = RequestBody.create(MediaType.parse("text/plain"), record.recordTitle ?: "")
 
-                fos?.use {
-                    // Finally writing the bitmap to the output stream that we opened
-                    bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, it)
-                    Toast.makeText(this, "Captured View and saved to Gallery", Toast.LENGTH_SHORT).show()
+                    val textHashMap = hashMapOf<String, RequestBody>()
+                    if (record.matchId != null) textHashMap["matchId"] = matchId
+                    textHashMap["recordDistance"] = recordDistance
+                    textHashMap["recordPace"] = recordPace
+                    textHashMap["recordCalories"] = recordCalories
+                    textHashMap["recordHeart"] = recordHeart
+                    textHashMap["recordSpeed"] = recordSpeed
+                    textHashMap["recordTime"] = recordTime
+                    if (record.recordRank != null) textHashMap["recordRank"] = recordRank
+                    if (record.recordTitle != null) textHashMap["recordTitle"] = recordTitle
+
+                    Log.d("response", "${recordImage}")
+                    var response = DarlyService.getDarlyService().postRecord(
+                        data = textHashMap,
+                        recordImage = recordImage,
+                        coordinateLatitudes = coordinateLatitudes,
+                        coordinateLongitudes = coordinateLongitudes,
+                        sections = sections
+                    )
+                    Log.d("response", "${response.body()}")
+                    Log.d("response", "${recordImage}")
+
+                    val intent = Intent(applicationContext, MainActivity::class.java)
+                    startActivity(intent)
                 }
             }
-
-            CoroutineScope(Dispatchers.Main).launch {
-                val recordImage = if (mapBitmap != null) {
-                    var file = convertBitmapToFile(mapBitmap!!)
-                    val requestBody = RequestBody.create(MediaType.parse("image/jpeg"), file)
-                    MultipartBody.Part.createFormData("profile", file.getName(), requestBody)
-                } else null
-
-                val coordinateLatitudes = mutableListOf<RequestBody>()
-                for (cl in record.coordinateLatitudes)
-                    coordinateLatitudes.add(RequestBody.create(MediaType.parse("text/plain"), cl))
-                val coordinateLongitudes = mutableListOf<RequestBody>()
-                for (cl in record.coordinateLongitudes)
-                    coordinateLongitudes.add(RequestBody.create(MediaType.parse("text/plain"), cl))
-                val sections = mutableListOf<MultipartBody.Part>()
-                for (i in record.sections.indices) {
-                    record.sections[i].let {
-                        sections.add(MultipartBody.Part.createFormData("sections[$i][km]", it.km.toString()))
-                        sections.add(MultipartBody.Part.createFormData("sections[$i][pace]", it.pace.toString()))
-                        sections.add(MultipartBody.Part.createFormData("sections[$i][calories]", it.calories.toString()))
-                    }
-                }
-                val matchId = RequestBody.create(MediaType.parse("text/plain"), record.matchId?.toString() ?: "")
-                val recordDistance = RequestBody.create(MediaType.parse("text/plain"), record.recordDistance.toString())
-                val recordPace = RequestBody.create(MediaType.parse("text/plain"), record.recordPace.toString())
-                val recordCalories = RequestBody.create(MediaType.parse("text/plain"), record.recordCalories.toString())
-                val recordHeart = RequestBody.create(MediaType.parse("text/plain"), record.recordHeart.toString())
-                val recordSpeed = RequestBody.create(MediaType.parse("text/plain"), record.recordSpeed.toString())
-                val recordTime = RequestBody.create(MediaType.parse("text/plain"), record.recordTime.toString())
-                val recordRank = RequestBody.create(MediaType.parse("text/plain"), record.recordRank?.toString() ?: "")
-                val recordTitle = RequestBody.create(MediaType.parse("text/plain"), record.recordTitle ?: "")
-
-                val textHashMap = hashMapOf<String, RequestBody>()
-                if (record.matchId != null) textHashMap["matchId"] = matchId
-                textHashMap["recordDistance"] = recordDistance
-                textHashMap["recordPace"] = recordPace
-                textHashMap["recordCalories"] = recordCalories
-                textHashMap["recordHeart"] = recordHeart
-                textHashMap["recordSpeed"] = recordSpeed
-                textHashMap["recordTime"] = recordTime
-                if (record.recordRank != null) textHashMap["recordRank"] = recordRank
-                if (record.recordTitle != null) textHashMap["recordTitle"] = recordTitle
-
-                DarlyService.getDarlyService().postRecord(
-                    data = textHashMap,
-                    recordImage = recordImage,
-                    coordinateLatitudes = coordinateLatitudes,
-                    coordinateLongitudes = coordinateLongitudes,
-                    sections = sections
-                )
-                val intent = Intent(applicationContext, MainActivity::class.java)
-                startActivity(intent)
-            }
-
-
         }
-
-
     }
 
     fun convertBitmapToFile(bitmap: Bitmap): File {
-        val newFile = File(applicationContext.filesDir, "picture")
+        val filename = "${System.currentTimeMillis()}.jpg"
+        val newFile = File(applicationContext.filesDir, filename)
         val out = FileOutputStream(newFile)
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
         return newFile
