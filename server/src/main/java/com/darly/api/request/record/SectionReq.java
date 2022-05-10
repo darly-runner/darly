@@ -3,8 +3,10 @@ package com.darly.api.request.record;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 @ApiModel("SectionRequest")
 public class SectionReq {
     @ApiModelProperty(name="km", example="4.2")
