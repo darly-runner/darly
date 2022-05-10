@@ -26,3 +26,4 @@ public class UserPatchReq {
     @ApiModelProperty(name = "userAddresses", example = "[1, 2]")
     private List<Long> userAddresses;
 }
+

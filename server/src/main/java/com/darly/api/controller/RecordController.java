@@ -42,7 +42,7 @@ public class RecordController {
             @ApiResponse(code=404, message="잘못된 url 접근"),
             @ApiResponse(code=500, message="서버 에러")
     })
-    public ResponseEntity<? extends BaseResponseBody> createRecord(@RequestBody RecordCreatePostReq recordCreatePostReq, Authentication authentication) {
+    public ResponseEntity<? extends BaseResponseBody> createRecord(@ModelAttribute RecordCreatePostReq recordCreatePostReq, Authentication authentication) {
         Long userId = Long.parseLong((String) authentication.getPrincipal());
         Record record = recordService.createRecord(userId, dayService.saveToday(userId, recordCreatePostReq).getDayId(), recordCreatePostReq);
         sectionService.createSection(record.getRecordId(), recordCreatePostReq.getSections());

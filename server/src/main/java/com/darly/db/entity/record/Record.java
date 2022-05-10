@@ -33,10 +33,7 @@ public class Record {
     private Integer recordPace;
     private Float recordSpeed;
     private Integer recordHeart;
-    private Float recordStartLatitude;
-    private Float recordStartLongitude;
-    private Float recordEndLatitude;
-    private Float recordEndLongitude;
     private Integer recordCalories;
     private Integer recordRank;
+    private String recordImage;
 }

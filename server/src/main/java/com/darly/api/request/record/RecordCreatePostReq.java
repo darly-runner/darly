@@ -3,11 +3,14 @@ package com.darly.api.request.record;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.lang.Nullable;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @Getter
+@Setter
 @ApiModel("RecordCreatePostRequest")
 public class RecordCreatePostReq {
     @ApiModelProperty(name = "matchId", example = "1")
@@ -29,6 +32,8 @@ public class RecordCreatePostReq {
     private String recordTitle;
     @ApiModelProperty(name = "recordRank", example = "1")
     private Integer recordRank;
+    @Nullable
+    private MultipartFile recordImage;
     @ApiModelProperty(name = "coordinateLatitudes", example = "[0.0, 1.1, 2.2]")
     private List<String> coordinateLatitudes;
     @ApiModelProperty(name = "coordinateLongitudes", example = "[0.0, 1.1, 2.2]")

@@ -232,6 +232,7 @@ public class UserController {
                 .build());
     }
 
+
     // U-013
     @PostMapping("/nickname")
     @ApiOperation(value = "닉네임 중복 검사", notes = "닉네임 중복 검사하기")

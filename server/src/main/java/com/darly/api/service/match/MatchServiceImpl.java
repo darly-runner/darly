@@ -1,11 +1,16 @@
 package com.darly.api.service.match;
 
 import com.darly.api.request.match.MatchCreatePostReq;
+import com.darly.api.response.match.MatchInRes;
 import com.darly.db.entity.crew.Crew;
 import com.darly.db.entity.match.Match;
 import com.darly.db.entity.match.MatchTitleMapping;
+import com.darly.db.entity.match.UserMatch;
 import com.darly.db.entity.user.User;
+import com.darly.db.entity.user.UserMatchMapping;
 import com.darly.db.repository.match.MatchRepository;
+import com.darly.db.repository.match.UserMatchRepository;
+import com.darly.db.repository.record.RecordRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,11 +18,15 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service("matchService")
 @RequiredArgsConstructor
 public class MatchServiceImpl implements MatchService {
     private final MatchRepository matchRepository;
+    private final UserMatchRepository userMatchRepository;
+    private final RecordRepository recordRepository;
 //    private final MatchRepositorySupport matchRepositorySupport;
 
     @Override
@@ -41,6 +50,50 @@ public class MatchServiceImpl implements MatchService {
                 .matchDate(getTimestamp())
                 .matchStatus('W')
                 .build());
+    }
+
+    @Override
+    public MatchInRes getMatchInfo(Long matchId) {
+        Match match = matchRepository.findByMatchId(matchId);
+        List<UserMatch> userMatch = userMatchRepository.findAllByUserMatchId_Match_MatchId(matchId);
+        List<UserMatchMapping> userMatches = new ArrayList();
+
+        for(UserMatch user : userMatch) {
+            Integer isHost;
+
+            if(match.getHost().getUserNickname()
+                    .equals(user.getUserMatchId().getUser().getUserNickname())){
+                isHost = 0;
+            }
+            else {
+                isHost = 1;
+            }
+
+            Float userTotalPace = user.getUserMatchId().getUser().getUserTotalPace();
+            Long recordNum = recordRepository.countAllByUser_UserId(user.getUserMatchId().getUser().getUserId());
+            Float userPaceAvg;
+            if(recordNum == 0){
+                userPaceAvg = 0f;
+            }
+            else {
+                userPaceAvg = userTotalPace / recordNum;
+            }
+
+            userMatches.add(UserMatchMapping.builder()
+                    .userNickname(user.getUserMatchId().getUser().getUserNickname())
+                    .userPaceAvg(userPaceAvg)
+                    .userStatus(user.getUserMatchStatus())
+                    .isHost(isHost)
+                    .build());
+        }
+
+
+        return MatchInRes.builder()
+                .statusCode(200)
+                .message("success")
+                .match(match)
+                .userMatches(userMatches)
+                .build();
     }
 
     private Long getTimestamp() {
