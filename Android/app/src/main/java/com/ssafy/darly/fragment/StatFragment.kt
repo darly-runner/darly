@@ -42,8 +42,9 @@ class StatFragment : Fragment() {
     private lateinit var binding: FragmentStatBinding
     private lateinit var currentBtn: Button
     private val model: StatViewModel by viewModels()
-    private lateinit var today: LocalDate
-    private lateinit var day: String
+    private lateinit var monday: LocalDate
+    private lateinit var selectedDate: LocalDate
+    private lateinit var dayString: String
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -61,15 +62,15 @@ class StatFragment : Fragment() {
             if (currentBtn != binding.weekBtn) {
                 changeColorAnimation(Color.WHITE, ContextCompat.getColor(requireActivity().applicationContext, R.color.gray_700), currentBtn)
                 changeColorAnimation(ContextCompat.getColor(requireActivity().applicationContext, R.color.gray_700), Color.WHITE, binding.weekBtn)
-
                 binding.weekBtn.setTextColor(Color.WHITE)
                 ObjectAnimator.ofFloat(binding.backgroundBtn, "translationX", it.x - (it.width / 4)).apply {
                     duration = 500
                     start()
                 }
+                binding.dateView.text = "이번주"
                 CoroutineScope(Dispatchers.Main).launch {
-                    day = today.minusDays((today.dayOfWeek.value - 1).toLong()).toString()
-                    val response = DarlyService.getDarlyService().getWeekStat(day)
+                    dayString = monday.toString()
+                    val response = DarlyService.getDarlyService().getWeekStat(dayString)
                     setModelData(response)
                     setChart(binding.barChart, response.body()?.distances ?: listOf(), WeekValueFormatter())
                 }
@@ -85,8 +86,9 @@ class StatFragment : Fragment() {
                     duration = 500
                     start()
                 }
+                binding.dateView.text = String.format("%d년 %d월", selectedDate.year, selectedDate.month.value)
                 CoroutineScope(Dispatchers.Main).launch {
-                    val response = DarlyService.getDarlyService().getMonthStat(today.toString())
+                    val response = DarlyService.getDarlyService().getMonthStat(monday.toString())
                     setModelData(response)
                     setChart(binding.barChart, response.body()?.distances ?: listOf(), MonthValueFormatter())
                 }
@@ -102,8 +104,9 @@ class StatFragment : Fragment() {
                     duration = 500
                     start()
                 }
+                binding.dateView.text = String.format("%d년", selectedDate.year)
                 CoroutineScope(Dispatchers.Main).launch {
-                    val response = DarlyService.getDarlyService().getYearStat(today.toString())
+                    val response = DarlyService.getDarlyService().getYearStat(monday.toString())
                     setModelData(response)
                     setChart(binding.barChart, response.body()?.distances ?: listOf(), YearValueFormatter())
                 }
@@ -119,6 +122,7 @@ class StatFragment : Fragment() {
                     duration = 500
                     start()
                 }
+                binding.dateView.text = String.format("전체")
                 CoroutineScope(Dispatchers.Main).launch {
                     val response = DarlyService.getDarlyService().getAllStat()
                     Log.d("stat", "${response.body()}")
@@ -141,13 +145,15 @@ class StatFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        today = LocalDate.now()
-        day = today.minusDays((today.dayOfWeek.value - 1).toLong()).toString()
+        monday = LocalDate.now()
+        selectedDate = LocalDate.now()
+        monday = monday.minusDays((monday.dayOfWeek.value - 1).toLong())
+        dayString = monday.toString()
 
         model.date.value = "이번주"
 
         CoroutineScope(Dispatchers.Main).launch {
-            val response = DarlyService.getDarlyService().getWeekStat(day)
+            val response = DarlyService.getDarlyService().getWeekStat(dayString)
             setModelData(response)
             setChart(binding.barChart, response.body()?.distances ?: listOf(), WeekValueFormatter())
         }
