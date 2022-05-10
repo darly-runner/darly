@@ -88,9 +88,6 @@ class SearchLocationFragment : DialogFragment() {
                             addressId: Long,
                             checkbox: ImageView
                         ) {
-                            Log.d("nananana", addressName)
-                            Log.d("idididid", addressId.toString())
-
                             addressNameData = addressName
                             addressIdData = addressId
                             prevCrewLocation?.visibility = View.INVISIBLE

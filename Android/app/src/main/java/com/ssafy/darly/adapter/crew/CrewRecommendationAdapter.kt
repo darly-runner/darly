@@ -1,7 +1,6 @@
 package com.ssafy.darly.adapter.crew.main
 
 import android.content.Intent
-import android.graphics.Rect
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +19,6 @@ class CrewRecommendationAdapter(
     val inflater: LayoutInflater,
     val glide: RequestManager
 ): RecyclerView.Adapter<CrewRecommendationAdapter.ViewHolder>(){
-//    var myCrewItemList: List<CrewRecommendations>? = null
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val crewRecommendationName: TextView
@@ -34,18 +32,8 @@ class CrewRecommendationAdapter(
             crewRecommendationLocation = itemView.findViewById(R.id.crewRecommendationLocation)
             crewRecommendationMembers = itemView.findViewById(R.id.crewRecommendationMembers)
         }
-
-//        fun bind(crew: CrewRecommendations) {
-//            crewRecommendationName.text = crew.crewName
-//            crewRecommendationLocation.text = crew.crewAddress
-//            crewRecommendationMembers.text = crew.crewPeopleNum.toString()
-//            glide.load((crew.crewImage)).into(crewRecommendationImg)
-//        }
     }
-//    fun submitList(crewList: List<CrewRecommendations>) {
-//        myCrewItemList = crewList
-//        notifyDataSetChanged()
-//    }
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -69,23 +57,7 @@ class CrewRecommendationAdapter(
             Log.d("crewId", "${ myCrewRecommendationList.get(position).crewId }")
             ContextCompat.startActivity(holder.itemView.context, intent, null)
         }
-//        myCrewItemList?.get(position)?.let { holder.bind(it) }
     }
 
     override fun getItemCount(): Int = myCrewRecommendationList.size
-}
-
-class CrewRecommendationAdapterDecoration() : RecyclerView.ItemDecoration() {
-    override fun getItemOffsets(
-        outRect: Rect,
-        view: View,
-        parent: RecyclerView,
-        state: RecyclerView.State
-    ) {
-        super.getItemOffsets(outRect, view, parent, state)
-
-        val position = parent.getChildAdapterPosition(view)
-        val count = state.itemCount
-//        val offset = 5
-    }
 }

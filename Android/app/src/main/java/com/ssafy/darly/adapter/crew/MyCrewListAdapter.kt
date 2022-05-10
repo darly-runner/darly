@@ -15,7 +15,6 @@ class MyCrewListAdapter(
     val inflater: LayoutInflater,
     val glide: RequestManager
 ): RecyclerView.Adapter<MyCrewListAdapter.ViewHolder>(){
-//    var myCrewItemList: List<MyCrewDetails>?= null
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val myCrewName: TextView
@@ -25,16 +24,8 @@ class MyCrewListAdapter(
             myCrewName = itemView.findViewById(R.id.myCrewName)
             myCrewImg = itemView.findViewById(R.id.myCrewImg)
         }
-
-//        fun bind(crew: MyCrewDetails) {
-//            myCrewName.text = crew.crewName
-//            glide.load((crew.crewImage)).circleCrop().into(myCrewImg)
-//        }
     }
-//    fun submitList(crewList: List<MyCrewDetails>) {
-//        myCrewItemList = crewList
-//        notifyDataSetChanged()
-//    }
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -46,7 +37,6 @@ class MyCrewListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.myCrewName.text = myCrewItemList.get(position).crewName
         glide.load((myCrewItemList.get(position).crewImage)).circleCrop().into(holder.myCrewImg)
-//        myCrewItemList?.get(position)?.let { holder.bind(it) }
     }
 
     override fun getItemCount(): Int = myCrewItemList.size

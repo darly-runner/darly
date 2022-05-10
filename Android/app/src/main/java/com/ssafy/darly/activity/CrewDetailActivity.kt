@@ -1,8 +1,10 @@
 package com.ssafy.darly.activity
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
@@ -19,7 +21,8 @@ import kotlinx.coroutines.launch
 class CrewDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCrewDetailBinding
     private val model: CrewViewModel by viewModels()
-    var crewId:Long=0
+    var crewId: Long = 0
+    var crewJoin: String=""
     private val tabTitleArray = arrayOf(
         "요약",
         "피드",
@@ -35,9 +38,8 @@ class CrewDetailActivity : AppCompatActivity() {
         val glide = Glide.with(this)
         crewId = intent.getIntExtra("crewId", 0).toLong()
         model.crewId.value = crewId
-        Log.d("activieyyy crewId", model.crewId.value.toString())
-        CoroutineScope(Dispatchers.Main).launch {
 
+        CoroutineScope(Dispatchers.Main).launch {
             val response = DarlyService.getDarlyService().getCrewDetail(crewId = crewId)
 
             binding.crewName.text = response.body()?.crewName ?: "crewName"
@@ -45,6 +47,17 @@ class CrewDetailActivity : AppCompatActivity() {
             binding.crewMembers.text = response.body()?.crewPeople.toString()
             binding.crewDesc.text = response.body()?.crewDesc
             glide.load(response.body()?.crewImage).into(binding.crewImage)
+
+            crewJoin = response.body()?.crewStatus ?: "N"
+
+            when(crewJoin) {
+                "A" -> {binding.crewJoinButton.setBackgroundResource(R.drawable.button_crewjoin_disable)
+                    binding.crewJoinButton.setTextColor(Color.rgb(114,87,93))}
+                "J" -> binding.crewJoinButton.visibility = View.INVISIBLE
+            }
+//            binding.crewJoinButton.setBackgroundResource(R.drawable.button_crewjoin_disable)
+//            binding.crewJoinButton.setTextColor(Color.rgb(114,87,93))
+
         }
 
         val viewPager = binding.crewDetailViewPager
@@ -60,5 +73,9 @@ class CrewDetailActivity : AppCompatActivity() {
     @JvmName("getCrewId1")
     fun getCrewId(): Long {
         return crewId
+    }
+
+    fun getCrewStatus(): String {
+        return crewJoin
     }
 }

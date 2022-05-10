@@ -23,13 +23,4 @@ class CrewMatchFragment : Fragment() {
         }
         return binding.root
     }
-
-//    fun newInstant() : CrewMatchFragment
-//    {
-//        val args = Bundle()
-//        val frag = CrewMatchFragment()
-//        frag.arguments = args
-//        return frag
-//    }
-
 }
