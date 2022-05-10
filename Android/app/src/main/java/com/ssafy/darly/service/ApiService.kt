@@ -16,6 +16,7 @@ import retrofit2.Response
 import retrofit2.http.*
 
 interface ApiService {
+    // Account
     @POST("accounts/google")
     suspend fun accountGoogle(
         @Body tokenId: AccountLoginReq,
@@ -26,11 +27,16 @@ interface ApiService {
         @Body tokenId: AccountLoginReq,
     ): Response<AccountLoginRes>
 
+    // Record
+    @POST("records")
+    suspend fun postRecord(
+        @Body recordReq : RecordRequest
+    )
+
     @GET("users")
     suspend fun getUsers(
         @Query("userId") userId: Int,
     ): Response<UserGetRes>
-
 
     // CREW
     @GET("crew/my")

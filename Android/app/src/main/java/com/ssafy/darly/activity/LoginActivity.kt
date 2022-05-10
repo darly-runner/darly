@@ -18,8 +18,8 @@ import com.kakao.sdk.auth.LoginClient
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.AuthErrorCause
 import com.kakao.sdk.user.UserApiClient
-import com.ssafy.darly.R
 import com.ssafy.darly.databinding.ActivityLoginBinding
+import com.ssafy.darly.R
 import com.ssafy.darly.model.AccountLoginReq
 import com.ssafy.darly.service.DarlyService
 import com.ssafy.darly.util.GlobalApplication
@@ -111,22 +111,22 @@ class LoginActivity : AppCompatActivity() {
                         Toast.makeText(this, "앱이 요청 권한이 없음", Toast.LENGTH_SHORT).show()
                     }
                     else -> { // Unknown
+                        Log.d("LoginActivity", "$error , ${error.cause}")
                         Toast.makeText(this, "기타 에러", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
             else if (token != null) {
-
                 CoroutineScope(Dispatchers.IO).launch {
+                    GlobalApplication.prefs.setString("token","noToken")
                     val response = darlyService.accountKakao(AccountLoginReq(token.accessToken))
+                    response?.body()?.accessToken?.let {GlobalApplication.prefs.setString("token",it)}
                     Log.d("LoginActivity","kakao access token : ${response.body()}")
+                    toMainActivity()
                 }
-                Toast.makeText(this, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
-                toMainActivity()
             }
         }
         binding.kakaoLogin.setOnClickListener {
-            GlobalApplication.prefs.setString("token","noToken")
             if(LoginClient.instance.isKakaoTalkLoginAvailable(this)){
                 LoginClient.instance.loginWithKakaoTalk(this, callback = callback)
             }else{
@@ -178,6 +178,7 @@ class LoginActivity : AppCompatActivity() {
 
     // 메인 액티비티로 이동
     private fun toMainActivity() {
+        //Toast.makeText(this,"로그인에 성공하였습니다.",Toast.LENGTH_SHORT)
         startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
