@@ -34,7 +34,7 @@ class RecordFragment : Fragment() {
             binding.lifecycleOwner = this
             binding.viewModel = model
         }
-        recordListAdapter = RecordListAdapter()
+        recordListAdapter = RecordListAdapter(requireActivity())
         binding.recyclerView.adapter = recordListAdapter
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
 

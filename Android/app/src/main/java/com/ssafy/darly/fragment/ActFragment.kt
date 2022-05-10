@@ -1,5 +1,6 @@
 package com.ssafy.darly.fragment
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,7 +12,7 @@ import com.ssafy.darly.R
 import com.ssafy.darly.databinding.FragmentActBinding
 import com.ssafy.darly.viewmodel.ActViewModel
 
-class ActFragment : Fragment() {
+class ActFragment() : Fragment() {
     private lateinit var binding: FragmentActBinding
     private val model: ActViewModel by viewModels()
 

@@ -24,7 +24,7 @@ class RecordAllActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_record_all)
         binding.lifecycleOwner = this
         binding.viewModel = model
-        recordListAdapter = RecordListAdapter()
+        recordListAdapter = RecordListAdapter(this)
 
         binding.recyclerView.adapter = recordListAdapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this)

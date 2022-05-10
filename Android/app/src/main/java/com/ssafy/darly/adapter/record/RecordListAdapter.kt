@@ -1,12 +1,16 @@
 package com.ssafy.darly.adapter.record
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.ssafy.darly.activity.FriendProfileActivity
+import com.ssafy.darly.activity.RecordDetailActivity
 import com.ssafy.darly.databinding.RecordListBinding
 import com.ssafy.darly.model.record.Record
 
-class RecordListAdapter() : RecyclerView.Adapter<RecordListAdapter.RecordListHolder>() {
+class RecordListAdapter(private val context: Context) : RecyclerView.Adapter<RecordListAdapter.RecordListHolder>() {
     var recordList = mutableListOf<Record>()
     private val defaultImage =
         "https://darly-bucket.s3.ap-northeast-2.amazonaws.com/user/darly_logo_white.png"
@@ -27,7 +31,11 @@ class RecordListAdapter() : RecyclerView.Adapter<RecordListAdapter.RecordListHol
         recordList[position].recordPaceString = String.format("%01d'%02d''", paceAvg / 60, paceAvg % 60)
 
         holder.binding.constraint.setOnClickListener {
-
+            context.startActivity(
+                Intent(context, RecordDetailActivity::class.java)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    .putExtra("recordId", recordList[position].recordId)
+            )
         }
         holder.binding.viewModel = recordList[position]
 
