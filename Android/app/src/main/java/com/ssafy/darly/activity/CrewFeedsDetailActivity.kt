@@ -33,7 +33,7 @@ class CrewFeedsDetailActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.Main).launch {
             val response = DarlyService.getDarlyService().getFeedsDetail(feedId = feedId)
-            
+
             Log.d("feeed", "${response}")
         }
 
