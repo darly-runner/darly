@@ -2,14 +2,12 @@ package com.ssafy.darly.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.ssafy.darly.R
@@ -17,7 +15,6 @@ import com.ssafy.darly.activity.AllCrewListActivity
 import com.ssafy.darly.activity.CreateCrewActivity
 import com.ssafy.darly.adapter.crew.MyCrewListAdapter
 import com.ssafy.darly.adapter.crew.main.CrewRecommendationAdapter
-import com.ssafy.darly.adapter.crew.main.CrewRecommendationAdapterDecoration
 import com.ssafy.darly.databinding.FragmentCrewBinding
 import com.ssafy.darly.service.DarlyService
 import com.ssafy.darly.viewmodel.CrewViewModel

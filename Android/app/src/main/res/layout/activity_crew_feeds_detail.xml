@@ -2,8 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".fragment.CrewFeedFragment">
-
+    tools:context=".activity.CrewFeedsDetailActivity">
     <data>
 
         <variable
@@ -13,35 +12,39 @@
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:background="#EDEDED" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:paddingHorizontal="18dp">
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="20dp">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="1dp"
-                android:src="@drawable/ic_notice" />
+                android:src="@drawable/ic_chevron_left" />
 
             <TextView
-                android:id="@+id/crewNotice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:paddingHorizontal="4dp"
-                android:text="매일 평일 저녁 7시마다 방 만들어요"
-                android:textColor="@color/black" />
+                android:layout_weight="1"
+                android:fontFamily="@font/pretendard_medium"
+                android:paddingHorizontal="3dp"
+                android:text="피드"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_plus" />
         </LinearLayout>
+
 
         <TextView
             android:layout_width="match_parent"
@@ -49,10 +52,9 @@
             android:background="#EDEDED" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/crewDetailFeeds"
+            android:id="@+id/feedDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </androidx.appcompat.widget.LinearLayoutCompat>
-
 
 </layout>

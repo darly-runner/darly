@@ -21,6 +21,9 @@
         android:theme="@style/Theme.DarlyApplication"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activity.CrewFeedsDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.MyPageUpdateActivity"
             android:exported="false" />
         <activity

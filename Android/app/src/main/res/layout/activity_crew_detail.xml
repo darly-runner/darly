@@ -108,6 +108,7 @@
                         android:textColor="@color/white" />
 
                     <TextView
+                        android:id="@+id/crewJoinButton"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginTop="18dp"
@@ -121,48 +122,25 @@
             </FrameLayout>
         </FrameLayout>
 
-<!--        <com.google.android.material.tabs.TabLayout-->
-<!--            android:id="@+id/crewDetailTab"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:tabIndicatorHeight="2.5dp"-->
-<!--            app:tabSelectedTextColor="@color/black"-->
-<!--            app:tabTextAppearance="@style/tabTextSizeBold"-->
-<!--            app:tabTextColor="@color/gray_700">-->
-
-<!--            <com.google.android.material.tabs.TabItem-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="요약" />-->
-
-<!--            <com.google.android.material.tabs.TabItem-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="피드" />-->
-
-<!--            <com.google.android.material.tabs.TabItem-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="경쟁" />-->
-<!--        </com.google.android.material.tabs.TabLayout>-->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="5dp"
-            android:background="#ededed"/>
+            android:background="#ededed" />
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/crewDetailTab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/crew_detail_tab_background"
             app:tabIndicatorHeight="2.5dp"
             app:tabSelectedTextColor="@color/black"
             app:tabTextAppearance="@style/tabTextSizeBold"
-            android:background="@drawable/crew_detail_tab_background"
-            app:tabTextColor="@color/gray_700"/>
+            app:tabTextColor="@color/gray_700" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/crewDetailViewPager"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
