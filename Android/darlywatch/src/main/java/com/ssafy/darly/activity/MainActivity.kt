@@ -1,8 +1,6 @@
 package com.ssafy.darly.activity
 
 import android.Manifest
-import android.app.Activity
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -11,14 +9,14 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
 import com.ssafy.darly.R
-import com.ssafy.darly.adapter.ViewPagerAdapter
+import com.ssafy.darly.adapter.MainViewPagerAdapter
 import com.ssafy.darly.util.GlobalApplication
 import com.ssafy.darly.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
-    private val adapter by lazy { ViewPagerAdapter(supportFragmentManager) }
+    private val adapter by lazy { MainViewPagerAdapter(supportFragmentManager) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -5,14 +5,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.ssafy.darly.fragment.MultiFragment
+import com.ssafy.darly.fragment.PauseFragment
+import com.ssafy.darly.fragment.RunningFragment
 import com.ssafy.darly.fragment.SoloFragment
 
-class ViewPagerAdapter(fm: FragmentManager,ac : String) : FragmentStatePagerAdapter(fm) {
+class RunningViewPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
 
     override fun getItem(position: Int): Fragment {
         return when(position) {
-            0       ->  SoloFragment()
-            else    ->  MultiFragment()
+            0       ->  RunningFragment()
+            else    ->  PauseFragment()
         }
 
     }

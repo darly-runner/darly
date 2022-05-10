@@ -37,6 +37,8 @@ public class RecordDetailGetRes extends BaseResponseBody {
     private Integer recordHeart;
     @ApiModelProperty(name="recordCalories", example="100")
     private Integer recordCalories;
+    @ApiModelProperty(name="recordImage", example="image.png")
+    private String recordImage;
     @ApiModelProperty(name="coordinateLatitudes", example="[string1,string2,string3]")
     private String[] coordinateLatitudes;
     @ApiModelProperty(name="coordinateLongitudes", example="[string1,string2,string3]")
@@ -59,6 +61,7 @@ public class RecordDetailGetRes extends BaseResponseBody {
         this.recordPace = record.getRecordPace();
         this.recordHeart = record.getRecordHeart();
         this.recordCalories = record.getRecordCalories();
+        this.recordImage = record.getRecordImage();
         this.sections = sections;
         this.coordinateLatitudes = coordinate == null ? null : coordinate.getCoordinateLatitude().split(",");
         this.coordinateLongitudes = coordinate == null ? null : coordinate.getCoordinateLongitude().split(",");
