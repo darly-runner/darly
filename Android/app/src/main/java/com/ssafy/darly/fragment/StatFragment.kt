@@ -6,6 +6,7 @@ import android.animation.ValueAnimator
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,16 +23,18 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.utils.ViewPortHandler
 import com.ssafy.darly.R
 import com.ssafy.darly.databinding.FragmentStatBinding
 import com.ssafy.darly.model.stat.CustomBarChartRender
-import com.ssafy.darly.model.stat.StatWeekGetRes
+import com.ssafy.darly.model.stat.StatGetRes
 import com.ssafy.darly.service.DarlyService
 import com.ssafy.darly.viewmodel.StatViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import java.text.DecimalFormat
 import java.time.LocalDate
 
 
@@ -68,7 +71,7 @@ class StatFragment : Fragment() {
                     day = today.minusDays((today.dayOfWeek.value - 1).toLong()).toString()
                     val response = DarlyService.getDarlyService().getWeekStat(day)
                     setModelData(response)
-                    setWeek(binding.barChart, response.body()?.distances ?: listOf(), WeekValueFormatter())
+                    setChart(binding.barChart, response.body()?.distances ?: listOf(), WeekValueFormatter())
                 }
 
                 currentBtn = binding.weekBtn
@@ -85,7 +88,7 @@ class StatFragment : Fragment() {
                 CoroutineScope(Dispatchers.Main).launch {
                     val response = DarlyService.getDarlyService().getMonthStat(today.toString())
                     setModelData(response)
-                    setWeek(binding.barChart, response.body()?.distances ?: listOf(), MonthValueFormatter())
+                    setChart(binding.barChart, response.body()?.distances ?: listOf(), MonthValueFormatter())
                 }
 
                 currentBtn = binding.monthBtn
@@ -102,7 +105,7 @@ class StatFragment : Fragment() {
                 CoroutineScope(Dispatchers.Main).launch {
                     val response = DarlyService.getDarlyService().getYearStat(today.toString())
                     setModelData(response)
-                    setWeek(binding.barChart, response.body()?.distances ?: listOf(), YearValueFormatter())
+                    setChart(binding.barChart, response.body()?.distances ?: listOf(), YearValueFormatter())
                 }
 
                 currentBtn = binding.yearBtn
@@ -115,6 +118,16 @@ class StatFragment : Fragment() {
                 ObjectAnimator.ofFloat(binding.backgroundBtn, "translationX", it.x - (it.width / 4)).apply {
                     duration = 500
                     start()
+                }
+                CoroutineScope(Dispatchers.Main).launch {
+                    val response = DarlyService.getDarlyService().getAllStat()
+                    Log.d("stat", "${response.body()}")
+                    setModelData(response)
+                    setChart(
+                        binding.barChart,
+                        response.body()?.distances ?: listOf(),
+                        AllValueFormatter(response.body()?.startYear ?: 2022, response.body()?.distances?.size ?: 1)
+                    )
                 }
 
                 currentBtn = binding.allBtn
@@ -136,30 +149,33 @@ class StatFragment : Fragment() {
         CoroutineScope(Dispatchers.Main).launch {
             val response = DarlyService.getDarlyService().getWeekStat(day)
             setModelData(response)
-            setWeek(binding.barChart, response.body()?.distances ?: listOf(), WeekValueFormatter())
+            setChart(binding.barChart, response.body()?.distances ?: listOf(), WeekValueFormatter())
         }
     }
 
-    private fun setModelData(response: Response<StatWeekGetRes>) {
+    private fun setModelData(response: Response<StatGetRes>) {
         model.totalDistance.value = response.body()?.totalDistance?.toString() ?: "0"
         model.totalNum.value = response.body()?.totalNum?.toString() ?: "0"
-        model.totalTime.value = response.body()?.totalTime?.toString() ?: "00:00:00"
-        model.paceAvg.value = response.body()?.paceAvg?.toString() ?: "0'0''"
+        val totalSecs = response.body()?.totalTime ?: 0
+        model.totalTime.value = String.format("%02d:%02d:%02d", totalSecs / 3600, (totalSecs % 3600) / 60, totalSecs % 60)
+        val paceAvg: Int = response.body()?.paceAvg?.toInt() ?: 0
+        model.paceAvg.value = String.format("%01d'%02d''", paceAvg / 60, paceAvg % 60)
         model.heartAvg.value = response.body()?.heartAvg?.toString()
         if (model.heartAvg.value == null)
             model.heartAvg.value = "--"
         model.distances.value = response.body()?.distances ?: listOf()
     }
 
-    private fun setWeek(barChart: BarChart, distances: List<Float>, format: ValueFormatter) {
+    private fun setChart(barChart: BarChart, distances: List<Float>, format: ValueFormatter) {
         initBarChart(barChart)
 
         var barData = ArrayList<BarEntry>()
         var maxValue = 0f;
         for ((index, distance) in distances.withIndex()) {
-            barData.add(BarEntry((index + 1).toFloat(), distance))
+            barData.add(BarEntry((index + 1).toFloat(), if (distance > 0) distance else -3f))
             if (distance > maxValue) maxValue = distance
         }
+        barData.add(BarEntry(7f, -3f))
         var gran = Math.ceil((maxValue / 3).toDouble()).toFloat()
         var max = gran * 3
 
@@ -167,6 +183,7 @@ class StatFragment : Fragment() {
         barDataSet.color = Color.parseColor("#fb5454")
         barDataSet.valueTextSize = 10f
         barDataSet.valueTextColor = ContextCompat.getColor(requireActivity().applicationContext, R.color.gray_600)
+        barDataSet.valueFormatter = FloatFormatter()
 
         val data = BarData(barDataSet)
         data.barWidth = 0.46f
@@ -187,6 +204,7 @@ class StatFragment : Fragment() {
 
             xAxis.run {
                 valueFormatter = format
+                setLabelCount(12, false)
             }
 
             invalidate()
@@ -233,18 +251,17 @@ class StatFragment : Fragment() {
 //                valueFormatter = WeekValueFormatter()
                 textSize = 12f
                 yOffset = 10f
+                extraBottomOffset = 10f
             }
 
-//            글씨가 잘림
-//            legend.isEnabled = false
-            legend.formSize = 0f
+            legend.isEnabled = false
 
             description.isEnabled = false //description 비활성화
 
             axisLeft.isEnabled = false
             setTouchEnabled(false)
             setScaleEnabled(false)
-            animateY(500)
+//            animateY(500)
 
             val roundedBarChartRenderer =
                 CustomBarChartRender(barChart, barChart.animator, barChart.viewPortHandler)
@@ -259,27 +276,45 @@ class StatFragment : Fragment() {
             return days.getOrNull(value.toInt() - 1) ?: value.toString()
         }
     }
+
     inner class MonthValueFormatter : ValueFormatter() {
         override fun getAxisLabel(value: Float, axis: AxisBase?): String {
             return value.toInt().toString()
         }
     }
+
     inner class YearValueFormatter : ValueFormatter() {
         private var days = ArrayList<String>()
 
         override fun getAxisLabel(value: Float, axis: AxisBase?): String {
-            for(i in 1..12)
+            for (i in 1..12)
                 days.add(i.toString())
             return days.getOrNull(value.toInt() - 1) ?: value.toString()
         }
     }
-    inner class AllValueFormatter : ValueFormatter() {
-        private val days = arrayOf("월", "화", "수", "목", "금", "토", "일")
+
+    inner class AllValueFormatter(private val startYear: Int, private val size: Int) : ValueFormatter() {
+        private val days = ArrayList<String>()
         override fun getAxisLabel(value: Float, axis: AxisBase?): String {
+            for (i in 0 until size)
+                days.add((startYear + i).toString())
+            while (days.size < 7)
+                days.add("")
             return days.getOrNull(value.toInt() - 1) ?: value.toString()
         }
     }
 
+    inner class FloatFormatter : ValueFormatter() {
+        private val mFormat: DecimalFormat
+        fun getFormattedValue(value: Float, entry: Map.Entry<*, *>?, dataSetIndex: Int, viewPortHandler: ViewPortHandler?): String {
+            // write your logic here
+            return mFormat.format(value).toString() + " $" // e.g. append a dollar-sign
+        }
+
+        init {
+            mFormat = DecimalFormat("###,###,##0.0") // use one decimal
+        }
+    }
 
     private fun changeColorAnimation(fromColor: Int, toColor: Int, view: Button) {
         val valueAnimator = ValueAnimator.ofObject(ArgbEvaluator(), fromColor, toColor)
