@@ -23,6 +23,7 @@
         <activity
             android:name=".activity.MatchLobbyActivity"
         android:exported="false" />
+
         <activity
             android:name=".activity.ResultActivity"
             android:exported="false" />
