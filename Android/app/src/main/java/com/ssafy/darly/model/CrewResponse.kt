@@ -111,3 +111,26 @@ data class FeedsComments(
     var commentContent: String,
     var commentDate: String,
 )
+
+data class RoomsList(
+    var statusCode: Int,
+    var message: String,
+    var size: Int,
+    var totalMatches: Long,
+    var currentPage: Int,
+    var numberOfMatch: Int,
+    var matches: List<MatchDetails>
+)
+
+data class MatchDetails(
+    var hostNickname: String,
+    var hostImg: String,
+    var matchId: Long,
+    var matchTitle: String,
+    var matchMaxPerson: Short,
+    var matchCurPerson: Short,
+    var matchGoalDistance: Short,
+    var matchDate: String,
+    var matchStartTime: String,
+    var matchStatus: Char
+)

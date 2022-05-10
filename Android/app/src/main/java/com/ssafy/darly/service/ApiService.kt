@@ -78,6 +78,14 @@ interface ApiService {
         @Path("feedId") feedId: Long,
     ): Response<FeedsDetail>
 
+    @GET("crew/{crewId}/match")
+    suspend fun getRoomsList(
+        @Path("crewId") crewId: Long,
+        @Query("page") page: Int,
+        @Query("size") size: Int
+    ): Response<RoomsList>
+
+    
 
     @GET("users/profile")
     suspend fun getUserProfile(): Response<UserProfileGetRes>

@@ -41,6 +41,7 @@
         <entry key="app/src/main/res/drawable/ic_check.xml" value="0.2305" />
         <entry key="app/src/main/res/drawable/ic_chevron_right.xml" value="0.2305" />
         <entry key="app/src/main/res/drawable/ic_location.xml" value="0.2755" />
+        <entry key="app/src/main/res/drawable/ic_logo.xml" value="0.112" />
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.2355" />
         <entry key="app/src/main/res/drawable/location_list_background.xml" value="0.2355" />
         <entry key="app/src/main/res/drawable/ranking_background.xml" value="0.1895" />
@@ -81,6 +82,7 @@
         <entry key="app/src/main/res/layout/friend_waiting_list.xml" value="0.33242753623188404" />
         <entry key="app/src/main/res/layout/mypage_feed_grid.xml" value="0.32971014492753625" />
         <entry key="app/src/main/res/layout/ranking_items_list.xml" value="0.33242753623188404" />
+        <entry key="app/src/main/res/layout/rooms_item.xml" value="0.335" />
         <entry key="app/src/main/res/menu/navi_menu.xml" value="0.1" />
       </map>
     </option>
