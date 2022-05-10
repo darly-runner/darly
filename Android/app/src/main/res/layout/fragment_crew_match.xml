@@ -47,9 +47,11 @@
             android:background="#EDEDED" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/crewRooms"
+            android:id="@+id/crewRoomsList"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:paddingVertical="12dp"
+            android:paddingHorizontal="12dp"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 </layout>
