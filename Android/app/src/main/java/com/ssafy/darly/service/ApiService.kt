@@ -28,10 +28,16 @@ interface ApiService {
     ): Response<AccountLoginRes>
 
     // Record
+    @Multipart
     @POST("records")
     suspend fun postRecord(
-        @Body recordReq : RecordRequest
-    )
+        @PartMap data: HashMap<String, RequestBody>,
+        @Part recordImage: MultipartBody.Part?,
+        @Part("coordinateLatitudes[]") coordinateLatitudes: List<RequestBody>,
+        @Part("coordinateLongitudes[]") coordinateLongitudes: List<RequestBody>,
+        @Part sections: List<MultipartBody.Part>
+//        @Body recordReq : RecordRequest
+    ): Response<BaseRes>
 
     @GET("users")
     suspend fun getUsers(
