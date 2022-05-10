@@ -23,8 +23,8 @@
         <ImageView
             android:id="@+id/imageView4"
             setImage="@{viewModel.recordImage}"
-            android:layout_width="57dp"
-            android:layout_height="57dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:scaleType="centerCrop"
@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="5dp"
             android:fontFamily="@font/pretendard_medium"
             android:text="@{viewModel.recordDate}"
             android:textColor="@color/gray_600"
@@ -50,7 +50,7 @@
             android:fontFamily="@font/pretendard_medium"
             android:text="@{viewModel.recordTitle}"
             android:textColor="@color/black"
-            android:textSize="17sp"
+            android:textSize="15sp"
             app:layout_constraintStart_toStartOf="@+id/textView22"
             app:layout_constraintTop_toBottomOf="@+id/textView22" />
 
@@ -58,7 +58,7 @@
             android:id="@+id/view4"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="15dp"
             android:background="@color/gray_200"
             app:layout_constraintStart_toStartOf="@+id/imageView4"
             app:layout_constraintTop_toBottomOf="@+id/imageView4" />
@@ -92,7 +92,7 @@
                 android:fontFamily="@font/pretendard_medium"
                 android:text="@{viewModel.recordDistanceString}"
                 android:textColor="@color/black"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/textView24"
                 app:layout_constraintTop_toBottomOf="@+id/textView24" />
 
@@ -136,7 +136,7 @@
                 android:fontFamily="@font/pretendard_medium"
                 android:text="@{viewModel.recordPaceString}"
                 android:textColor="@color/black"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/textView26"
                 app:layout_constraintTop_toBottomOf="@+id/textView26" />
 
@@ -168,7 +168,7 @@
                 android:fontFamily="@font/pretendard_medium"
                 android:text="@{viewModel.recordTimeString}"
                 android:textColor="@color/black"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/textView27"
                 app:layout_constraintTop_toBottomOf="@+id/textView27" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -200,7 +200,7 @@
                 android:fontFamily="@font/pretendard_medium"
                 android:text="@{viewModel.recordHeartString}"
                 android:textColor="@color/black"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/textView25"
                 app:layout_constraintTop_toBottomOf="@+id/textView25" />
 

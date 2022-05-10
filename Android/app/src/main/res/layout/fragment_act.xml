@@ -53,6 +53,19 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@+id/statFragment" />
 
+                <fragment
+                    android:id="@+id/achieveFragment"
+                    android:name="com.ssafy.darly.fragment.AchieveFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/recodFragment" />
+
+                <fragment
+                    android:id="@+id/myChallengeFragment"
+                    android:name="com.ssafy.darly.fragment.MyChallengeFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/achieveFragment" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

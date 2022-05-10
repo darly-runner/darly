@@ -43,4 +43,8 @@
     <string name="recent_records">최근 기록</string>
     <string name="more_records">최근 기록 더보기</string>
     <string name="all_records">전체 기록</string>
+    <string name="get_achievements">달성한 도전</string>
+    <string name="more_achievements">달성한 도전 더보기</string>
+    <string name="participate_challenges">참여한 챌린지</string>
+    <string name="more_challenges">참여한 챌린지 더보기</string>
 </resources>
