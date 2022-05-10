@@ -116,9 +116,9 @@ class MyService : Service() {
             }
             val builder = NotificationCompat.Builder(this, "service_channel")
 
-            builder.setContentTitle(StringBuilder(resources.getString(R.string.app_name)).append(" is running").toString())
-                .setTicker(StringBuilder(resources.getString(R.string.app_name)).append("service is running").toString())
-                .setContentText("Touch to open") //                    , swipe down for more options.
+            builder.setContentTitle(StringBuilder(resources.getString(R.string.app_name)).append(" 가 동작중이에요").toString())
+                .setTicker(StringBuilder(resources.getString(R.string.app_name)).append("기록중입니다.").toString())
+                .setContentText("앱 열기") //                    , swipe down for more options.
                 .setSmallIcon(R.drawable.ic_logo)
                 .setPriority(NotificationCompat.PRIORITY_LOW)
                 .setWhen(0)
