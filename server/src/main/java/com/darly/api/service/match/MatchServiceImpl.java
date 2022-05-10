@@ -63,10 +63,10 @@ public class MatchServiceImpl implements MatchService {
 
             if(match.getHost().getUserNickname()
                     .equals(user.getUserMatchId().getUser().getUserNickname())){
-                isHost = 0;
+                isHost = 1;
             }
             else {
-                isHost = 1;
+                isHost = 0;
             }
 
             Float userTotalPace = user.getUserMatchId().getUser().getUserTotalPace();
@@ -81,6 +81,8 @@ public class MatchServiceImpl implements MatchService {
 
             userMatches.add(UserMatchMapping.builder()
                     .userNickname(user.getUserMatchId().getUser().getUserNickname())
+                    .userImage(user.getUserMatchId().getUser().getUserImage())
+                    .userTotalDistance(user.getUserMatchId().getUser().getUserTotalDistance())
                     .userPaceAvg(userPaceAvg)
                     .userStatus(user.getUserMatchStatus())
                     .isHost(isHost)

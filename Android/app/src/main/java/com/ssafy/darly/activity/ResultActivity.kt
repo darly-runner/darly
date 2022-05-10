@@ -99,7 +99,7 @@ class ResultActivity : AppCompatActivity(), OnMapReadyCallback {
 
                         // Inserting the contentValues to
                         // contentResolver and getting the Uri
-                        val imageUri: Uri? = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)\
+                        val imageUri: Uri? = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
                         // Opening an outputstream with the Uri that we got
                         fos = imageUri?.let { resolver.openOutputStream(it) }
                     }
