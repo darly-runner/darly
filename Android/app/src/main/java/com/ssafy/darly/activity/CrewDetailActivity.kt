@@ -53,7 +53,7 @@ class CrewDetailActivity : AppCompatActivity() {
             when(crewJoin) {
                 "A" -> {binding.crewJoinButton.setBackgroundResource(R.drawable.button_crewjoin_disable)
                     binding.crewJoinButton.setTextColor(Color.rgb(114,87,93))}
-                "J" -> binding.crewJoinButton.visibility = View.INVISIBLE
+                "J" -> binding.crewJoinButton.visibility = View.GONE
             }
 //            binding.crewJoinButton.setBackgroundResource(R.drawable.button_crewjoin_disable)
 //            binding.crewJoinButton.setTextColor(Color.rgb(114,87,93))
