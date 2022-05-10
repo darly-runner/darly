@@ -163,3 +163,7 @@ data class MatchUsers(
 data class GetOutMatch(
     var statusCode: Int
 )
+
+data class CreateMatch(
+    var statusCode: Int
+)

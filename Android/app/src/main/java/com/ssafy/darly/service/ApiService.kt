@@ -113,6 +113,12 @@ interface ApiService {
         @Path("matchId") matchId: Long,
     ): Response<GetOutMatch>
 
+    @POST("crew/{crewId}/match")
+    suspend fun createMatch(
+        @Path("crewId") crewId: Long,
+        @Body createMatchReq: CreateMatchReq,
+    ):Response<CreateMatch>
+
 
     @GET("users/profile")
     suspend fun getUserProfile(): Response<UserProfileGetRes>
