@@ -86,7 +86,7 @@ interface ApiService {
         @Query("size") size: Int
     ): Response<RoomsList>
 
-    
+
 
     @GET("users/profile")
     suspend fun getUserProfile(): Response<UserProfileGetRes>

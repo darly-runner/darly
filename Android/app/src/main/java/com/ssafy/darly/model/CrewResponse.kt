@@ -124,7 +124,7 @@ data class RoomsList(
 
 data class MatchDetails(
     var hostNickname: String,
-    var hostImg: String,
+    var hostImage: String,
     var matchId: Long,
     var matchTitle: String,
     var matchMaxPerson: Short,
