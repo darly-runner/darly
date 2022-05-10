@@ -1,14 +1,11 @@
 package com.ssafy.darly.activity
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.ActivityManager
 import android.content.ComponentName
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
@@ -20,7 +17,7 @@ import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
 import com.ssafy.darly.BuildConfig
 import com.ssafy.darly.R
-import com.ssafy.darly.adapter.ViewPagerAdapter
+import com.ssafy.darly.adapter.RunningViewPagerAdapter
 import com.ssafy.darly.background.MyService
 import com.ssafy.darly.databinding.ActivityRunningBinding
 import com.ssafy.darly.viewmodel.RunningViewModel
@@ -32,7 +29,7 @@ class RunningActivity : AppCompatActivity() {
     private lateinit var service : MyService
     private var bound: Boolean = false
 
-    private val adapter by lazy { ViewPagerAdapter(supportFragmentManager) }
+    private val adapter by lazy { RunningViewPagerAdapter(supportFragmentManager) }
 
     @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +38,9 @@ class RunningActivity : AppCompatActivity() {
         binding = ActivityRunningBinding.inflate(layoutInflater)
         binding.lifecycleOwner = this
         binding.viewModel = model
+        setContentView(binding.root)
 
+        binding.viewPager.adapter = RunningActivity@adapter
         binding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
             override fun onPageScrollStateChanged(p0: Int) {
             }
@@ -59,15 +58,19 @@ class RunningActivity : AppCompatActivity() {
                 }
             }
         })
-
-        setContentView(binding.root)
+        //if(!isMyServiceRunning(MyService::class.java))
         serviceStart()
     }
 
-    override fun onStop() {
-        super.onStop()
+    override fun onDestroy() {
+        super.onDestroy()
         serviceStop()
     }
+
+//    override fun onStop() {
+//        super.onStop()
+//        serviceStop()
+//    }
 
     fun subscribeObserver(){
         // 시간초
@@ -85,6 +88,19 @@ class RunningActivity : AppCompatActivity() {
 
             model.locationList.value = service.locationList.value
             Toast.makeText(this,"${model.paceSection.value?.size} , 섹션크기", Toast.LENGTH_LONG).show()
+        })
+
+        // 일시정지를 누르면 일시정지화면을 보여준다.
+        model.isPause.observe(this, Observer { isPause ->
+            if(isPause){
+                serviceStop()
+                Log.d("MainActivity", "일시정지 입니다.")
+                Toast.makeText(this,"일시정지 합니다.",Toast.LENGTH_SHORT).show()
+            }else{
+                serviceStart()
+                Log.d("MainActivity", "운동을 시작합니다.")
+                Toast.makeText(this,"운동을 시작합니다.",Toast.LENGTH_SHORT).show()
+            }
         })
     }
 
