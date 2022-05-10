@@ -1,7 +1,6 @@
 package com.darly.db.repository.userAddress;
 
 import com.darly.db.entity.address.*;
-import com.darly.db.entity.user.User;
 import com.darly.db.entity.userAddress.QUserAddress;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
