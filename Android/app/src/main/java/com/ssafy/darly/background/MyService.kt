@@ -9,18 +9,14 @@ import android.location.Location
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
-import android.telephony.CarrierConfigManager
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.MutableLiveData
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.model.LatLng
 import com.ssafy.darly.R
 import com.ssafy.darly.activity.RunningActivity
 import com.ssafy.darly.activity.RunningActivity.Companion.ACTION_STOP
-import com.ssafy.darly.util.DistanceHelper
 import com.ssafy.darly.util.LocationHelper
-import java.text.SimpleDateFormat
 import kotlin.concurrent.thread
 
 class MyService : Service() {
@@ -29,10 +25,20 @@ class MyService : Service() {
     val time = MutableLiveData<Int>()
 
     // 위경도, 이전 위경도
-    var bef_loc : Location? = null
-    var dist = MutableLiveData<Float>()
+    var befLoc : Location? = null
+    var totalDist = MutableLiveData<Float>()
+
+    // 이동경로,시간,속력등 정보
+    var locationList = MutableLiveData<ArrayList<Location>>()
+
+    init {
+        totalDist.value = 0.0f
+        time.value = 0
+        locationList.value = ArrayList()
+    }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int) : Int {
+        Log.d("MyService","서비스 시작!!")
         // 서비스 중지
         if (intent?.action != null && intent.action.equals(ACTION_STOP, ignoreCase = true)) {
             stopForeground(true)
@@ -42,8 +48,6 @@ class MyService : Service() {
         else{
             // Started Service에서 서비스 시작시 호출
             generateForegroundNotification()
-            time.value = 0
-            dist.value = 0f
 
             thread (start = true){
                 if(!started){
@@ -58,13 +62,15 @@ class MyService : Service() {
 
             LocationHelper().startListeningUserLocation(this, object : LocationHelper.MyLocationListener {
                 override fun onLocationChanged(location: Location) {
-                    Log.d("Location","" + location.latitude + "," + location.longitude)
-
-                    // 이전기록이 없다면
-                    if(bef_loc != null){
-                        dist.value = dist.value?.plus(location.distanceTo(bef_loc))
+                    if(started){
+                        locationList.value?.add(location)
+                        // 이전기록이 없다면
+                        if(befLoc != null){
+                            totalDist.value = totalDist.value?.plus(location.distanceTo(befLoc))
+                            //totalDist.value = totalDist.value?.plus(location.distanceTo(befLoc) * 10)
+                        }
+                        befLoc = location
                     }
-                    bef_loc = location
                 }
             })
         }
@@ -110,7 +116,7 @@ class MyService : Service() {
             }
             val builder = NotificationCompat.Builder(this, "service_channel")
 
-            builder.setContentTitle(StringBuilder(resources.getString(R.string.app_name)).append(" service is running").toString())
+            builder.setContentTitle(StringBuilder(resources.getString(R.string.app_name)).append(" is running").toString())
                 .setTicker(StringBuilder(resources.getString(R.string.app_name)).append("service is running").toString())
                 .setContentText("Touch to open") //                    , swipe down for more options.
                 .setSmallIcon(R.drawable.ic_logo)
@@ -123,7 +129,10 @@ class MyService : Service() {
                 builder.setLargeIcon(Bitmap.createScaledBitmap(iconNotification!!, 128, 128, false))
             }
             notification = builder.build()
-            startForeground(mNotificationId, notification)
+            //startForeground(mNotificationId, notification)
+            NotificationManagerCompat.from(this).apply {
+                notify(mNotificationId, notification!!)
+            }
         }
     }
 }
