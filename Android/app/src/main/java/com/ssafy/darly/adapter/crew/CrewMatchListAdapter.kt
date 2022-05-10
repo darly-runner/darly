@@ -1,6 +1,7 @@
 package com.ssafy.darly.adapter.crew
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,9 +47,12 @@ class CrewMatchListAdapter(
         holder.matchTitle.text = roomsList.get(position).matchTitle
         holder.hostNickname.text = roomsList.get(position).hostNickname
         holder.currentNum.text = roomsList.get(position).matchCurPerson.toString()
+        val matchId = roomsList.get(position).matchId
 
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView?.context, MatchLobbyActivity::class.java)
+            intent.putExtra("matchId", matchId)
+            Log.d("chchchch", matchId.javaClass.toString())
             ContextCompat.startActivity(holder.itemView.context, intent, null)
         }
     }
