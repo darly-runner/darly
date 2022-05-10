@@ -1,5 +1,6 @@
 package com.ssafy.darly.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,12 +12,12 @@ import com.ssafy.darly.R
 import com.ssafy.darly.model.MatchUsers
 
 class CrewMatchLobbyAdapter(
-//    val users: List<MatchUsers>,
+    val users: List<MatchUsers>,
     val inflater: LayoutInflater,
     val glide: RequestManager
 ) : RecyclerView.Adapter<CrewMatchLobbyAdapter.ViewHolder>() {
 
-    var users = mutableListOf<MatchUsers>()
+//    var users = mutableListOf<MatchUsers>()
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val userImg: ImageView

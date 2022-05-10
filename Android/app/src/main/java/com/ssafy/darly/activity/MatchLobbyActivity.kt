@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.ssafy.darly.R
 import com.ssafy.darly.adapter.CrewMatchLobbyAdapter
@@ -32,32 +33,41 @@ class MatchLobbyActivity : AppCompatActivity() {
 
         val glide = Glide.with(this)
         matchId = intent.getLongExtra("matchId", 0)
-        subscribeObserver()
 
-        adapter = CrewMatchLobbyAdapter(
-//            model.matchUsers.value!!,
-            LayoutInflater.from(this),
-            glide
-        )
-        binding.matchUsersList.adapter = adapter
+
+//        adapter = CrewMatchLobbyAdapter(
+////            model.matchUsers.value!!,
+//            LayoutInflater.from(this),
+//            glide
+//        )
+//        binding.matchUsersList.adapter = adapter
+//        binding.matchUsersList.layoutManager = GridLayoutManager(this, 1)
+//        subscribeObserver()
 
         CoroutineScope(Dispatchers.Main).launch {
             val response = DarlyService.getDarlyService().getMatchDetails(matchId)
             model.matchUsers.value = response.body()?.users ?: listOf()
-            Log.d("matchId", "${response.body()}")
 
-//            adapter = CrewMatchLobbyAdapter(
-//                model.matchUsers.value!!,
-//                LayoutInflater.from(this@MatchLobbyActivity),
-//                glide
-//            )
-//            binding.matchUsersList.adapter = adapter
+            binding.matchTitle.text = response.body()?.matchTitle ?: ""
+//            binding.hostNickname.text = response.body()?.
+            binding.goalDistance.text = response.body()?.matchGoalDistance.toString()
+            binding.currentNum.text = response.body()?.matchCurPerson.toString()
+            Log.d("matchId", "${response.body()}")
+            Log.d("qiqiqiqi", "${model.matchUsers.value}")
+
+            adapter = CrewMatchLobbyAdapter(
+                model.matchUsers.value!!,
+                LayoutInflater.from(this@MatchLobbyActivity),
+                glide
+            )
+            binding.matchUsersList.adapter = adapter
+            binding.matchUsersList.layoutManager = GridLayoutManager(this@MatchLobbyActivity, 1)
         }
     }
 
-    fun subscribeObserver() {
-        model.matchUsers.observe(this, Observer {
-            adapter.users = model.matchUsers.value as MutableList<MatchUsers>
-        })
-    }
+//    fun subscribeObserver() {
+//        model.matchUsers.observe(this, Observer {
+//            adapter.users = model.matchUsers.value as MutableList<MatchUsers>
+//        })
+//    }
 }
