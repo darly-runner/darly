@@ -19,18 +19,9 @@ public class MatchController {
     private final MatchRepository matchRepository;
     private final UserMatchRepository userMatchRepository;
 
-//    @GetMapping
-//    public String rooms(Model model){
-//        model.addAttribute("rooms",chatRoomRepository.findAllRoom());
-//        return "rooms";
-//    }
 
     @GetMapping("/rooms/{id}")
     public String room(@PathVariable Long id, Model model){
-//        ChatRoom room = chatRoomRepository.findRoomById(id);
-//        model.addAttribute("room",room);
-
-
         Match match = matchRepository.findByMatchId(id);
         model.addAttribute("room", match);
         UserMatch userMatch = userMatchRepository.findAllByUserMatchId_Match_MatchId(id);
@@ -41,9 +32,6 @@ public class MatchController {
 
     @GetMapping("/new/{crewId}")
     public String make(Model model,@PathVariable String crewId){
-//        ChatRoomForm form = new ChatRoomForm();
-//        model.addAttribute("form",form);
-
         Long id = Long.parseLong(crewId);
         model.addAttribute("matchCreatePostReq",new MatchCreatePostReq());
         model.addAttribute("crewId", id);
