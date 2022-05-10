@@ -40,11 +40,5 @@
     <string name="time_total">총 시간</string>
     <string name="heart_avg">평균 심박수</string>
     <string name="num">회</string>
-    <string name="mon">월</string>
-    <string name="tue">화</string>
-    <string name="wed">수</string>
-    <string name="thu">목</string>
-    <string name="fri">금</string>
-    <string name="sat">토</string>
-    <string name="sun">일</string>
+    <string name="recent_records">최근 기록</string>
 </resources>

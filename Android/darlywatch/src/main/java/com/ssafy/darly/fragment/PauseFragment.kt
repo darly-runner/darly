@@ -1,60 +1,70 @@
 package com.ssafy.darly.fragment
 
+import android.app.AlertDialog
+import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import com.ssafy.darly.R
+import com.ssafy.darly.activity.MainActivity
+import com.ssafy.darly.databinding.FragmentPauseBinding
+import com.ssafy.darly.service.DarlyService
+import com.ssafy.darly.viewmodel.RunningViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [PauseFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class PauseFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var binding: FragmentPauseBinding
+    private lateinit var model: RunningViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_pause, container, false)
-    }
+        binding = FragmentPauseBinding.inflate(inflater, container, false)
+        activity.let {
+            model = ViewModelProvider(it!!, ViewModelProvider.NewInstanceFactory()).get(RunningViewModel::class.java)
+        }
+        binding.viewModel = model
+        binding.lifecycleOwner = this
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment PauseFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            PauseFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+        binding.pauseButton.setOnClickListener {
+            if(model.isPause.value == true) {
+                // 다시 시작
+                model.isPause.value = false
+                binding.pauseButton.setImageResource(R.drawable.ic_pause)
+            }else{
+                // 일시 정지
+                model.isPause.value = true
+                binding.pauseButton.setImageResource(R.drawable.ic_play)
+            }
+        }
+
+        binding.stopButton.setOnClickListener {
+            var builder = AlertDialog.Builder(context)
+            builder.setTitle("기록을 저장하시겠습니까?")
+            builder.setIcon(R.mipmap.ic_launcher)
+
+            var listener = object : DialogInterface.OnClickListener {
+                override fun onClick(p0: DialogInterface?, p1: Int) {
+                    CoroutineScope(Dispatchers.Main).launch {
+                        DarlyService.getDarlyService().postRecord(model.record())
+
+                        val intent = Intent(context, MainActivity::class.java)
+                        startActivity(intent)
+                    }
                 }
             }
+            builder.setPositiveButton("기록 저장", listener)
+            builder.setNegativeButton("취소", null)
+            builder.show()
+        }
+        return binding.root
     }
 }

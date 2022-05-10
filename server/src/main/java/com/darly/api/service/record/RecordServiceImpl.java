@@ -1,6 +1,7 @@
 package com.darly.api.service.record;
 
 import com.darly.api.request.record.RecordCreatePostReq;
+import com.darly.api.service.file.FileProcessService;
 import com.darly.db.entity.record.Record;
 import com.darly.db.entity.record.RecordMapping;
 import com.darly.db.entity.user.User;
@@ -21,11 +22,16 @@ public class RecordServiceImpl implements RecordService {
 
     private final RecordRepository recordRepository;
     private final RecordRepositorySupport recordRepositorySupport;
+    private final FileProcessService fileProcessService;
 
     @Override
     public Record createRecord(Long userId, Long dayId, RecordCreatePostReq recordCreatePostReq) {
         LocalDateTime today = LocalDateTime.now();
         String title = recordCreatePostReq.getRecordTitle() == null ? getTitle(today) : recordCreatePostReq.getRecordTitle();
+
+        String url = null;
+        if (recordCreatePostReq.getRecordImage() != null && !recordCreatePostReq.getRecordImage().isEmpty())
+            url = fileProcessService.uploadImage(recordCreatePostReq.getRecordImage(), "record");
         return recordRepository.save(Record.builder()
                 .user(User.builder().userId(userId).build())
                 .dayId(dayId)
@@ -39,6 +45,7 @@ public class RecordServiceImpl implements RecordService {
                 .recordHeart(recordCreatePostReq.getRecordHeart())
                 .recordCalories(recordCreatePostReq.getRecordCalories())
                 .recordRank(recordCreatePostReq.getRecordRank())
+                .recordImage(url)
                 .build());
     }
 

@@ -1,28 +1,29 @@
 package com.ssafy.darly.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.ssafy.darly.R
-import com.ssafy.darly.activity.RunningActivity
-import com.ssafy.darly.databinding.FragmentMultiBinding
-import com.ssafy.darly.databinding.FragmentSoloBinding
+import androidx.lifecycle.ViewModelProvider
+import com.ssafy.darly.databinding.FragmentRunningBinding
+import com.ssafy.darly.viewmodel.RunningViewModel
 
 class RunningFragment : Fragment() {
-    private lateinit var binding: FragmentMultiBinding
+    private lateinit var binding: FragmentRunningBinding
+    private lateinit var model: RunningViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentMultiBinding.inflate(inflater, container, false)
-        binding.startText.setOnClickListener {
-            val intent = Intent(context, RunningActivity::class.java)
-            startActivity(intent)
+        binding = FragmentRunningBinding.inflate(inflater, container, false)
+        activity.let {
+            model = ViewModelProvider(it!!, ViewModelProvider.NewInstanceFactory()).get(RunningViewModel::class.java)
         }
+        binding.viewModel = model
+        binding.lifecycleOwner = this
+
         return binding.root
     }
 }
