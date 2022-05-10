@@ -6,13 +6,19 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.viewpager.widget.ViewPager
+import com.ssafy.darly.R
+import com.ssafy.darly.adapter.ViewPagerAdapter
 import com.ssafy.darly.util.GlobalApplication
 import com.ssafy.darly.databinding.ActivityMainBinding
 
-class MainActivity : Activity() {
+class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+
+    private val adapter by lazy { ViewPagerAdapter(supportFragmentManager) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,11 +29,25 @@ class MainActivity : Activity() {
         Log.d("MainActivity", "$token")
 
         checkPermission()
+        binding.viewPager.adapter = MainActivity@adapter
 
-        binding.startText.setOnClickListener {
-            val intent = Intent(this, RunningActivity::class.java)
-            startActivity(intent)
-        }
+        binding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
+            override fun onPageScrollStateChanged(p0: Int) {
+            }
+
+            override fun onPageScrolled(p0: Int, p1: Float, p2: Int) {
+            }
+
+            override fun onPageSelected(p0: Int) {
+                binding.indicator0IvMain.setImageDrawable(getDrawable(R.drawable.shape_circle_white))
+                binding.indicator1IvMain.setImageDrawable(getDrawable(R.drawable.shape_circle_white))
+
+                when(p0){
+                    0 -> binding.indicator0IvMain.setImageDrawable(getDrawable(R.drawable.shape_circle_color))
+                    1 -> binding.indicator1IvMain.setImageDrawable(getDrawable(R.drawable.shape_circle_color))
+                }
+            }
+        })
     }
 
     fun checkPermission(){

@@ -7,4 +7,6 @@
     <string name="hello_world">Darly</string>
     <string name="title_activity_running">RunningActivity</string>
     <string name="title_activity_login">LoginActivity</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment1111</string>
 </resources>

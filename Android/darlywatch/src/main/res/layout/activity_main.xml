@@ -6,31 +6,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/box_inset_layout_padding"
+    android:background="@color/black"
     tools:context=".activity.MainActivity"
     tools:deviceIds="wear">
-
-    <FrameLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="@dimen/inner_frame_layout_padding"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         app:layout_boxedEdges="all">
-
-        <TextView
-            android:id="@+id/startText"
-            android:text="START"
-            android:textSize="30dp"
-            android:textColor="@color/main"
-            android:fontFamily="@font/pretendard_bold"
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_weight="20"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
-        <TextView
-            android:id="@+id/soloText"
-            android:text="혼자 달리기"
-            android:fontFamily="@font/pretendard_bold"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-    </FrameLayout>
+            android:layout_gravity="center"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/indicator0_iv_main"
+                android:layout_width="7dp"
+                android:layout_height="7dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/shape_circle_color" />
+            <ImageView
+                android:id="@+id/indicator1_iv_main"
+                android:layout_width="7dp"
+                android:layout_height="7dp"
+                android:layout_marginStart="5dp"
+                app:layout_constraintBottom_toBottomOf="@+id/indicator0_iv_main"
+                app:layout_constraintStart_toEndOf="@+id/indicator0_iv_main"
+                app:layout_constraintTop_toTopOf="@+id/indicator0_iv_main"
+                app:srcCompat="@drawable/shape_circle_white" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </androidx.wear.widget.BoxInsetLayout>

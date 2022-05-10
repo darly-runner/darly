@@ -4,9 +4,11 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityManager
 import android.content.ComponentName
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
@@ -15,7 +17,10 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.viewpager.widget.ViewPager
 import com.ssafy.darly.BuildConfig
+import com.ssafy.darly.R
+import com.ssafy.darly.adapter.ViewPagerAdapter
 import com.ssafy.darly.background.MyService
 import com.ssafy.darly.databinding.ActivityRunningBinding
 import com.ssafy.darly.viewmodel.RunningViewModel
@@ -27,6 +32,8 @@ class RunningActivity : AppCompatActivity() {
     private lateinit var service : MyService
     private var bound: Boolean = false
 
+    private val adapter by lazy { ViewPagerAdapter(supportFragmentManager) }
+
     @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,8 +42,31 @@ class RunningActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = model
 
+        binding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
+            override fun onPageScrollStateChanged(p0: Int) {
+            }
+
+            override fun onPageScrolled(p0: Int, p1: Float, p2: Int) {
+            }
+
+            override fun onPageSelected(p0: Int) {
+                binding.indicator0IvMain.setImageDrawable(getDrawable(R.drawable.shape_circle_white))
+                binding.indicator1IvMain.setImageDrawable(getDrawable(R.drawable.shape_circle_white))
+
+                when(p0){
+                    0 -> binding.indicator0IvMain.setImageDrawable(getDrawable(R.drawable.shape_circle_color))
+                    1 -> binding.indicator1IvMain.setImageDrawable(getDrawable(R.drawable.shape_circle_color))
+                }
+            }
+        })
+
         setContentView(binding.root)
         serviceStart()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        serviceStop()
     }
 
     fun subscribeObserver(){

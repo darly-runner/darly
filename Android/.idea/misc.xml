@@ -12,10 +12,16 @@
         <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/fragment_pause.xml" value="0.25" />
         <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/fragment_running.xml" value="0.22" />
         <entry key="..\:/S06P31A301/Android/app/src/main/res/menu/navi_menu.xml" value="0.2786458333333333" />
+        <entry key="..\:/S06P31A301/Android/darlywatch/src/main/res/drawable/shape_circle_color.xml" value="0.1285" />
+        <entry key="..\:/S06P31A301/Android/darlywatch/src/main/res/drawable/shape_circle_white.xml" value="0.1285" />
         <entry key="..\:/S06P31A301/Android/darlywatch/src/main/res/font/font.xml" value="1.0607142857142857" />
         <entry key="..\:/S06P31A301/Android/darlywatch/src/main/res/layout/activity_login.xml" value="0.6147859922178989" />
         <entry key="..\:/S06P31A301/Android/darlywatch/src/main/res/layout/activity_main.xml" value="0.5464285714285714" />
         <entry key="..\:/S06P31A301/Android/darlywatch/src/main/res/layout/activity_running.xml" value="0.4411764705882353" />
+        <entry key="..\:/S06P31A301/Android/darlywatch/src/main/res/layout/fragment_multi.xml" value="0.7902621722846442" />
+        <entry key="..\:/S06P31A301/Android/darlywatch/src/main/res/layout/fragment_pause.xml" value="0.6200657894736842" />
+        <entry key="..\:/S06P31A301/Android/darlywatch/src/main/res/layout/fragment_running.xml" value="0.5411184210526315" />
+        <entry key="..\:/S06P31A301/Android/darlywatch/src/main/res/layout/fragment_solo.xml" value="0.7902621722846442" />
         <entry key="..\:/S06P31A301/Android/darlywatch/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.148" />
         <entry key="..\:/S06P31A301/android/app/src/main/res/drawable/ic_act.xml" value="0.1695" />
         <entry key="..\:/S06P31A301/android/app/src/main/res/drawable/ic_challenge.xml" value="0.1" />
