@@ -159,3 +159,7 @@ data class MatchUsers(
     var userStatus: String,
     var isHost: Int
 )
+
+data class GetOutMatch(
+    var statusCode: Int
+)

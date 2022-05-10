@@ -108,6 +108,11 @@ interface ApiService {
         @Path("matchId") matchId: Long,
     ): Response<MatchLobbyDetails>
 
+    @DELETE("matches/{matchId}/out")
+    suspend fun getOutMatch(
+        @Path("matchId") matchId: Long,
+    ): Response<GetOutMatch>
+
 
     @GET("users/profile")
     suspend fun getUserProfile(): Response<UserProfileGetRes>

@@ -25,6 +25,7 @@ class CrewMatchLobbyAdapter(
         val userDistance: TextView
         val userPace: TextView
         val userIsReady: ImageView
+        val isHost: ImageView
 
         init {
             userImg = itemView.findViewById(R.id.userImg)
@@ -32,6 +33,7 @@ class CrewMatchLobbyAdapter(
             userDistance = itemView.findViewById(R.id.userDistance)
             userPace = itemView.findViewById(R.id.userPace)
             userIsReady = itemView.findViewById(R.id.userIsReady)
+            isHost = itemView.findViewById(R.id.isHost)
         }
     }
 
@@ -52,6 +54,11 @@ class CrewMatchLobbyAdapter(
         when (isReady) {
             "R" -> holder.userIsReady.setBackgroundResource(R.drawable.ic_ready)
             "N" -> holder.userIsReady.setBackgroundResource(R.drawable.ic_unready)
+        }
+        val isUserHost = users.get(position).isHost
+        when(isUserHost == 1) {
+            true -> holder.isHost.visibility = View.VISIBLE
+            false -> holder.isHost.visibility = View.GONE
         }
     }
 

@@ -65,6 +65,11 @@ class MatchLobbyActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+
+    }
+
 //    fun subscribeObserver() {
 //        model.matchUsers.observe(this, Observer {
 //            adapter.users = model.matchUsers.value as MutableList<MatchUsers>
