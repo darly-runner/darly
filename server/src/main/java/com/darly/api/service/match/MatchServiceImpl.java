@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service("matchService")
@@ -55,6 +56,7 @@ public class MatchServiceImpl implements MatchService {
 
     @Override
     public MatchInRes getMatchInfo(Long matchId, Long userId) {
+        // 1. 지금 들어오는 인원 usermatch 테이블에 저장, 준비상태는 N
         UserMatchId userMatchId = UserMatchId.builder()
                 .matchId(matchId)
                 .userId(userId)
@@ -67,8 +69,15 @@ public class MatchServiceImpl implements MatchService {
 
         userMatchRepository.save(enter_userMatch);
 
+        // 2. 현재 방의 정보 보내주기
         Match match = matchRepository.findByMatchId(matchId);
+
+        Short curPerson = match.getMatchCurPerson();
+        curPerson++;
+        match.setMatchCurPerson(curPerson);
+
         List<UserMatch> userMatch = userMatchRepository.findAllByUserMatchId_Match_MatchId(matchId);
+        Collections.reverse(userMatch);
         List<UserMatchMapping> userMatches = new ArrayList();
 
         for(UserMatch user : userMatch) {

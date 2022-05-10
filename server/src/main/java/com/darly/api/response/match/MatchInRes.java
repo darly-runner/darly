@@ -2,16 +2,12 @@ package com.darly.api.response.match;
 
 import com.darly.common.model.response.BaseResponseBody;
 import com.darly.db.entity.match.Match;
-import com.darly.db.entity.match.UserMatch;
 import com.darly.db.entity.user.UserMatchMapping;
-import com.darly.db.repository.record.RecordRepository;
 import io.swagger.annotations.ApiModel;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
