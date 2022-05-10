@@ -13,4 +13,6 @@ public interface CrewWaitingRepository extends JpaRepository<CrewWaiting, CrewWa
 
     @Transactional
     void deleteByCrewWaitingId(CrewWaitingId crewWaitingId);
+
+    boolean existsByCrewWaitingId(CrewWaitingId crewWaitingId);
 }

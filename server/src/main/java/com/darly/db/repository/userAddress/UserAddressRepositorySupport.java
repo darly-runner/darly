@@ -1,8 +1,6 @@
 package com.darly.db.repository.userAddress;
 
-import com.darly.db.entity.address.AddressNameMapping;
-import com.darly.db.entity.address.QAddress;
-import com.darly.db.entity.address.QAddressNameMapping;
+import com.darly.db.entity.address.*;
 import com.darly.db.entity.userAddress.QUserAddress;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +25,14 @@ public class UserAddressRepositorySupport {
                 .from(qAddress).innerJoin(qUserAddress)
                 .on(qAddress.addressId.eq(qUserAddress.userAddressId.address.addressId))
                 .where(qUserAddress.userAddressId.user.userId.eq(friendId))
+                .fetch();
+    }
+
+    public List<AddressIdAndNameMapping> findAddressIdAndNameList(Long userId) {
+        return jpaQueryFactory.select(new QAddressIdAndNameMapping(qAddress.addressName, qAddress.addressId))
+                .from(qAddress).innerJoin(qUserAddress)
+                .on(qAddress.addressId.eq(qUserAddress.userAddressId.address.addressId))
+                .where(qUserAddress.userAddressId.user.userId.eq(userId))
                 .fetch();
     }
 }

@@ -22,7 +22,7 @@ public class FeedDetailGetRes extends BaseResponseBody {
     private String feedTitle;
     private String feedContent;
     private String feedDate;
-    private List<String> feedImages;
+    private String feedImages;
     private List<CommentEntity> commentList;
 
     @Builder
@@ -33,7 +33,9 @@ public class FeedDetailGetRes extends BaseResponseBody {
         this.feedTitle = feed.getFeedTitle();
         this.feedContent = feed.getFeedContent();
         this.feedDate = new SimpleDateFormat("yyyy년 MM월 dd일").format(new Date(feed.getFeedDate() * 1000));
-        this.feedImages = feedImages;
+        this.feedImages = null;
+        if (feedImages.size() > 0)
+            this.feedImages = feedImages.get(0);
         this.commentList = new ArrayList<>();
         for (Comment comment : commentList) {
             this.commentList.add(CommentEntity.builder()

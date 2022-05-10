@@ -51,23 +51,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/runningTab"
             app:layout_constraintBottom_toBottomOf="parent">
-
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/mapview"
                 android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:layout="@layout/abc_search_view" />
-            <TextView
+            <EditText
                 android:text="@{viewModel.target}"
-                android:textSize="50dp"
+                android:textSize="40dp"
                 android:textColor="@color/black"
                 android:gravity="center"
+                android:background="@android:color/transparent"
                 android:fontFamily="@font/pretendard_bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/mapview"
-                android:layout_margin="30dp"/>
+                android:layout_margin="50dp"/>
             <Button
                 android:id="@+id/startButton"
                 android:gravity="center"

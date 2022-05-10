@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="15dp">
+
+            <ImageView
+                android:id="@+id/feedHostImg"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@color/black" />
+
+            <TextView
+                android:id="@+id/feedHostName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingHorizontal="7dp"
+                android:text="userName" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/feedImage"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:background="@color/white_custom" />
+
+        <TextView
+            android:id="@+id/feedDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="12dp"
+            android:text="April 22nd, 2020"
+            android:textColor="@color/gray_600" />
+
+        <TextView
+            android:id="@+id/feedContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="20dp"
+            android:textColor="@color/black"
+            android:text="Natoque orci, enim adipiscing quam habitasse. In arcu molestie elementum. Feugiat viverra aliq urna, et mauris. In rhoncus viverra massa aliquam magna urna, eu. Mattis urna nunc."
+            />
+        <TextView
+            android:id="@+id/feedComments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="15dp"
+            android:textColor="@color/gray_700"
+            android:text="댓글 5개 전체보기"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</layout>

@@ -24,12 +24,12 @@ class TargetDialog(context: Context) : BottomSheetDialog(context){
         val time = view.findViewById<TextView>(R.id.dialogTime)
 
         distance.setOnClickListener {
-            onClickedListener.onClicked("거리")
+            onClickedListener.onClicked("5.00")
             dismiss()
         }
 
         time.setOnClickListener {
-            onClickedListener.onClicked("시간")
+            onClickedListener.onClicked("00:30")
             dismiss()
         }
     }
