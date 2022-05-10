@@ -42,4 +42,5 @@
     <string name="num">회</string>
     <string name="recent_records">최근 기록</string>
     <string name="more_records">최근 기록 더보기</string>
+    <string name="all_records">전체 기록</string>
 </resources>
