@@ -7,6 +7,7 @@ data class MyCrewResponse(
 )
 
 data class MyCrewDetails(
+    var crewId: Long,
     var crewName : String,
     var crewImage : String,
 )
@@ -22,7 +23,7 @@ data class CrewRecommendationResponse(
 )
 
 data class CrewRecommendations(
-    var crewId: Int,
+    var crewId: Long,
     var crewName: String,
     var crewDesc: String,
     var crewImage: String,
@@ -129,8 +130,30 @@ data class MatchDetails(
     var matchTitle: String,
     var matchMaxPerson: Short,
     var matchCurPerson: Short,
-    var matchGoalDistance: Short,
+    var matchGoalDistance: Float,
     var matchDate: String,
     var matchStartTime: String,
     var matchStatus: Char
+)
+
+data class CrewJoin(
+    var statusCode: Int,
+    var message: String
+)
+
+data class MatchLobbyDetails(
+    var statusCode: Int,
+    var message: String,
+    var matchTitle: String,
+    var matchMaxPerson: Short,
+    var matchCurPerson: Short,
+    var matchGoalDistance: Float,
+    var users: List<MatchUsers>
+)
+
+data class MatchUsers(
+    var userNickname: String,
+    var userPaceAvg: Float,
+    var userStatus: String,
+    var isHost: Int
 )

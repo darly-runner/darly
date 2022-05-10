@@ -36,7 +36,7 @@ class CrewDetailActivity : AppCompatActivity() {
         binding.viewModel = model
 
         val glide = Glide.with(this)
-        crewId = intent.getIntExtra("crewId", 0).toLong()
+        crewId = intent.getLongExtra("crewId", 0)
         model.crewId.value = crewId
 
         CoroutineScope(Dispatchers.Main).launch {
@@ -53,11 +53,8 @@ class CrewDetailActivity : AppCompatActivity() {
             when(crewJoin) {
                 "A" -> {binding.crewJoinButton.setBackgroundResource(R.drawable.button_crewjoin_disable)
                     binding.crewJoinButton.setTextColor(Color.rgb(114,87,93))}
-                "J" -> binding.crewJoinButton.visibility = View.INVISIBLE
+                "J" -> binding.crewJoinButton.visibility = View.GONE
             }
-//            binding.crewJoinButton.setBackgroundResource(R.drawable.button_crewjoin_disable)
-//            binding.crewJoinButton.setTextColor(Color.rgb(114,87,93))
-
         }
 
         val viewPager = binding.crewDetailViewPager
@@ -68,6 +65,13 @@ class CrewDetailActivity : AppCompatActivity() {
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = tabTitleArray[position]
         }.attach()
+
+        binding.crewJoinButton.setOnClickListener {
+            CoroutineScope(Dispatchers.Main).launch {
+                val response = DarlyService.getDarlyService().crewJoin(crewId)
+                Log.d("Join", "${response}")
+            }
+        }
     }
 
     @JvmName("getCrewId1")

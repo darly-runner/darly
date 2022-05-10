@@ -48,11 +48,13 @@ public class UserServiceImpl implements UserService {
     public User patchUser(UserPatchReq userPatchReq, Long userId) {
         User user = userRepository.findById(userId).get();
         String url = null;
+
         if (userPatchReq.getUserImage() != null) {
             if (user.getUserImage() != null)
                 fileProcessService.deleteImage(user.getUserImage());
             url = fileProcessService.uploadImage(userPatchReq.getUserImage(), "user");
         }
+
         if (userPatchReq.getUserNickname().length() > 0)
             user.setUserNickname(userPatchReq.getUserNickname());
         if (userPatchReq.getUserImage() != null)
@@ -105,14 +107,27 @@ public class UserServiceImpl implements UserService {
     public void deleteUserFeed(Long userFeedId) {
         UserFeed userFeed = userFeedRepository.findById(userFeedId).get();
 
+        if(userFeed.getUserFeedImage() != null) {
+            fileProcessService.deleteImage(userFeed.getUserFeedImage());
+        }
         userFeedRepository.delete(userFeed);
     }
 
     @Override
     public UserFeed patchUserFeed(UserPatchFeedReq userPatchFeedReq, Long userFeedId) {
         UserFeed userFeed = userFeedRepository.findById(userFeedId).get();
+        String url = null;
 
-        UserFeed patchUserFeed = UserPatchFeedReq.ofPatch(userFeed, userPatchFeedReq.getUserFeedImage());
+        // 기존의 이미지 삭제
+        if(userFeed.getUserFeedImage() != null) {
+            fileProcessService.deleteImage(userFeed.getUserFeedImage());
+        }
+
+        if(userPatchFeedReq.getUserFeedImage() != null) {
+            url = fileProcessService.uploadImage(userPatchFeedReq.getUserFeedImage(),"feed");
+        }
+
+        UserFeed patchUserFeed = UserPatchFeedReq.ofPatch(userFeed, url);
 
         return userFeedRepository.save(patchUserFeed);
     }
