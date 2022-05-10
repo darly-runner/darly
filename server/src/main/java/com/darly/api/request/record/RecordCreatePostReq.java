@@ -35,11 +35,15 @@ public class RecordCreatePostReq {
     @ApiModelProperty(name = "recordRank", example = "1")
     private Integer recordRank;
     @Nullable
+    @ApiModelProperty(name = "recordImage", example = "image.png")
     private MultipartFile recordImage;
+    @Nullable
     @ApiModelProperty(name = "coordinateLatitudes", example = "[0.0, 1.1, 2.2]")
     private List<String> coordinateLatitudes;
+    @Nullable
     @ApiModelProperty(name = "coordinateLongitudes", example = "[0.0, 1.1, 2.2]")
     private List<String> coordinateLongitudes;
+    @Nullable
     @ApiModelProperty(name = "sections", example = "[1,2,3]")
     private List<SectionReq> sections;
 }
