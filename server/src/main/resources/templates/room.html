@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>채팅 서비스</title>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
   <!-- Bootstrap core CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 
@@ -12,62 +14,193 @@
   <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
+  <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
 </head>
 <body>
-<input type="text" id="nickname" class="form-inline" placeholder="닉네임을 입력해주세요" required autofocus>
-<button class = "btn btn-primary" id = "name">확인</button>
+<!--<input type="text" id="nickname" class="form-inline" placeholder="닉네임을 입력해주세요" required autofocus>-->
+<!--<button class = "btn btn-primary" id = "name">확인</button>-->
+<label for="userNickname" class="label label-default">방장</label>
+<label th:text="*{room.getHost().getUserNickname()}" id="userNickname" class="form-inline"></label>
 <label for="roomId" class="label label-default">방 번호</label>
 <label th:text="*{room.getMatchId()}" id="roomId" class="form-inline"></label>
 <br>
 <label for="roomName" class="label label-default">방 이름</label>
 <label th:text="*{room.getMatchTitle()}" id="roomName" class="form-inline"></label>
-<div id = "chatroom" style = "width:400px; height: 600px; border:1px solid; background-color : gray"></div>
-<input type = "text" id = "message" style = "height : 30px; width : 340px" placeholder="내용을 입력하세요" autofocus>
-<button class = "btn btn-primary" id = "send">전송</button>
-<script>
+<label for="goalDistance" class="label label-default">목표 거리</label>
+<label th:text="*{room.getMatchGoalDistance()}" id="goalDistance" class="form-inline"></label>
+<label for="curPerson" class="label label-default">인원</label>
+<label th:text="*{room.getMatchCurPerson()}" id="curPerson" class="form-inline"></label>
+ /
+<label th:text="*{room.getMatchMaxPerson()}" id="maxPerson" class="form-inline"></label>
 
-</script>
+<div class="container">
+<table class = "table table-striped">
+  <thead>
+  <tr>
+    <th>유저이미지</th>
+    <th>유저이름</th>
+    <th>준비상태</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="user : ${userMatch.getUserMatchId().getUser()}">
+    <td th:text="${user.getUserImage()}"></td>
+    <td th:text="${user.getUserNickname()}"></td>
+    <td>
+      <button id="not_ready">준비하기</button>
+      <button hidden="hidden" id="ready">준비완료</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</div>
+<div>
+  <div id="msgArea" class="col"></div>
+  <div class="col-6">
+    <div class="input-group mb-3">
+      <input type="text" id="msg" class="form-control">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button" id="button-send">전송</button>
+      </div>
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button" id="button-leave"
+          th:onclick="|location.href='@{/crew/{crewId}/match (crewId = ${room.getCrew().getCrewId()})}'|">퇴장</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--<div id = "chatroom" style = "width:400px; height: 600px; border:1px solid; background-color : gray"></div>-->
+<!--<input type = "text" id = "message" style = "height : 30px; width : 340px" placeholder="내용을 입력하세요" autofocus>-->
+<!--<button class = "btn btn-primary" id = "send">전송</button>-->
 </body>
 <script th:inline = "javascript">
-  var webSocket;
-  var nickname;
 
-  document.getElementById("name").addEventListener("click",function(){
-    nickname = document.getElementById("nickname").value;
-    document.getElementById("nickname").style.display = "none";
-    document.getElementById("name").style.display = "none";
-    connect();
+
+  $(document).ready(function(){
+    var roomName = [[${room.getMatchTitle()}]];
+    var roomId = [[${room.getMatchId()}]];
+    var username = [[${userMatch.getUserMatchId().getUser().getUserNickname()}]]
+
+    console.log(roomName + ", " + roomId + ", " + username);
+
+    var sockJs = new SockJS("/ws");
+    var stomp = Stomp.over(sockJs);
+
+    stomp.connect({}, function() {
+      console.log("STOMP Connection");
+
+      stomp.subscribe("/sub/chat/room/" + roomId, function (chat) {
+        var content = JSON.parse(chat.body);
+
+        var writer = content.writer;
+        var message = content.message;
+        var str = '';
+
+        if(writer === username){
+          str = "<div class='col-6'>";
+          str += "<div class='alert alert-secondary'>";
+          str += "<b>" + writer + " : " + message + "</b>";
+          str += "</div></div>";
+          $("#msgArea").append(str);
+        }
+        else{
+          str = "<div class='col-6'>";
+          str += "<div class='alert alert-warning'>";
+          str += "<b>" + writer + " : " + message + "</b>";
+          str += "</div></div>";
+          $("#msgArea").append(str);
+        }
+
+        $("#msgArea").append(str);
+      });
+      stomp.send('/pub/chat/enter', {}, JSON.stringify({roomId: roomId, writer: username}))
+
+      $("#not_ready").on("click", function(e){
+        console.log("clicked");
+        let notReadyBtn = document.getElementById("not_ready");
+        let readyBtn = document.getElementById("ready")
+        notReadyBtn.setAttribute("hidden","hidden");
+        readyBtn.removeAttribute("hidden");
+      })
+
+      $("#ready").on("click", function(e){
+        let notReadyBtn = document.getElementById("not_ready");
+        let readyBtn = document.getElementById("ready")
+        notReadyBtn.removeAttribute("hidden");
+        readyBtn.setAttribute("hidden","hidden");
+      })
+
+    });
+
+
+    $("#button-send").on("click", function(e){
+      var msg = document.getElementById("msg");
+
+      console.log(username + ":" + msg.value);
+      stomp.send('/pub/chat/message', {}, JSON.stringify({roomId: roomId, message: msg.value, writer: username}));
+      msg.value = '';
+    });
+
+    $("#button-leave").on("click", function(e){
+      console.log("user leave");
+      stomp.send('/pub/chat/leave', {}, JSON.stringify({roomId:roomId, writer: username}))
+    });
   })
-  document.getElementById("send").addEventListener("click",function(){
-    send();
-  })
-  function connect(){
-    webSocket = new WebSocket("ws://localhost:8080/ws");
-    webSocket.onopen = onOpen;
-    webSocket.onclose = onClose;
-    webSocket.onmessage = onMessage;
-  }
-  function disconnect(){
-    webSocket.send(JSON.stringify({chatRoomId : roomId,type:'LEAVE',writer:nickname}));
-    webSocket.close();
-  }
-  function send(){
-    msg = document.getElementById("message").value;
-    webSocket.send(JSON.stringify({chatRoomId : roomId,type:'CHAT',writer:nickname,message : msg}));
-    document.getElementById("message").value = "";
-  }
-  function onOpen(){
-    webSocket.send(JSON.stringify({chatRoomId : roomId,type:'ENTER',writer:nickname}));
-  }
-  function onMessage(e){
-    data = e.data;
-    chatroom = document.getElementById("chatroom");
-    chatroom.innerHTML = chatroom.innerHTML + "<br>" + data;
-  }
-  function onClose(){
-    disconnect();
-  }
+
+  // var webSocket;
+  // var nickname;
+  // /* <![CDATA[*/
+  // var roomId = /*[[${room.getMatchId()}]]*/;
+  // /* ]]> */
+  // const webSocketUrl = `ws://localhost:8080/ws`;
+  //
+  // document.getElementById("name").addEventListener("click",function(){
+  //   nickname = document.getElementById("nickname").value;
+  //   document.getElementById("nickname").style.display = "none";
+  //   document.getElementById("name").style.display = "none";
+  //   connect();
+  // })
+  // document.getElementById("send").addEventListener("click",function(){
+  //   send();
+  // })
+  // function connect(){
+  //   var socket = new SockJS('/ws');
+  //   stompClient = Stomp.over(socket);
+  //   stompClient.connect({}, function () {
+  //     stompClient.subscribe('/topic/' + nickname, function (e) {
+  //       showMessage(JSON.parse(e.body));
+  //       alertClosing('comeMessage',2000);
+  //     });
+  //   });
+  // }
+  // function disconnect(){
+  //   webSocket.send(JSON.stringify({chatRoomId : roomId,type:'LEAVE',writer:nickname}));
+  //   webSocket.close();
+  // }
+  // function send(){
+  //   data = {'chatRoomId': chatRoomId, 'sender' :nickname, 'receiver': receiver,'message': $("#message").val()};
+  //   stompClient.send("/app/chat/send", {}, JSON.stringify(data));
+  //   showMessage(data);
+  //   $("#message").val('');
+  //   alertClosing('successMessage',2000);
+  // }
+  // function onOpen(){
+  //   console.log("connected to " + webSocketUrl);
+  //   webSocket.send(JSON.stringify({chatRoomId : roomId,type:'ENTER',writer:nickname}));
+  // }
+  // function onMessage(e){
+  //   data = e.data;
+  //   chatroom = document.getElementById("chatroom");
+  //   chatroom.innerHTML = chatroom.innerHTML + "<br>" + data;
+  // }
+  // function onClose(){
+  //   console.log("disconnect from " + webSocketUrl);
+  //   disconnect();
+  // }
 
 </script>
 </html>

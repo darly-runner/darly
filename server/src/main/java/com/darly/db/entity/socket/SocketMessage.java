@@ -22,6 +22,7 @@ public class SocketMessage {
         // [지정큐]대기방
         ENTER, LEAVE,		// 대기방 입장, 떠남
         GAMESTART,			// 겨루기 시작
+        CHAT,
 
         // [랜덤큐]
         RandomMatched

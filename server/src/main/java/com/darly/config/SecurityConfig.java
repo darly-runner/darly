@@ -39,6 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/swagger-resources/**").permitAll()
                 .antMatchers("/chat/**").permitAll()
                 .antMatchers("/ws").permitAll()
+                .antMatchers("/ws/**").permitAll()
                 .antMatchers("/crew/**").permitAll() // 테스트용 나중에 지우기
                 .antMatchers("/match/**").permitAll() // 테스트용 나중에 지우기
                 .anyRequest().authenticated()

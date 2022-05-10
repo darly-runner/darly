@@ -424,27 +424,27 @@ public class CrewController {
             @ApiResponse(code = 405, message = "잘못된 crewId"),
             @ApiResponse(code = 500, message = "서버 에러")
     })
-//    public ResponseEntity<? extends BaseResponseBody> getCrewMatchList(@PathVariable("crewId") Long crewId, Pageable page, Authentication authentication) {
-      public ModelAndView getCrewMatchList(@PathVariable("crewId") Long crewId, Pageable page) {
-//        if (!crewService.isCrewExists(crewId))
-//            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail get crew match list: Not valid crewId"));
-//        return ResponseEntity.ok(MatchListGetRes.builder()
-//                .statusCode(200)
-//                .message("Success get crew match list")
-//                .page(matchService.getCrewMatchList(crewId, page))
-//                .currentPage(page.getPageNumber())
-//                .build());
-
-        // 프론트 연동 테스트
-       ModelAndView modelAndView = new ModelAndView("rooms");
-        modelAndView.addObject("result", MatchListGetRes.builder()
+    public ResponseEntity<? extends BaseResponseBody> getCrewMatchList(@PathVariable("crewId") Long crewId, Pageable page, Authentication authentication) {
+//      public ModelAndView getCrewMatchList(@PathVariable("crewId") Long crewId, Pageable page) {
+        if (!crewService.isCrewExists(crewId))
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail get crew match list: Not valid crewId"));
+        return ResponseEntity.ok(MatchListGetRes.builder()
                 .statusCode(200)
                 .message("Success get crew match list")
                 .page(matchService.getCrewMatchList(crewId, page))
                 .currentPage(page.getPageNumber())
                 .build());
 
-        return modelAndView;
+        // 프론트 연동 테스트
+//       ModelAndView modelAndView = new ModelAndView("rooms");
+//        modelAndView.addObject("result", MatchListGetRes.builder()
+//                .statusCode(200)
+//                .message("Success get crew match list")
+//                .page(matchService.getCrewMatchList(crewId, page))
+//                .currentPage(page.getPageNumber())
+//                .build());
+//
+//        return modelAndView;
     }
 
     // C-018
@@ -457,22 +457,22 @@ public class CrewController {
             @ApiResponse(code = 406, message = "권한 없음(유저가 크루원이 아님)"),
             @ApiResponse(code = 500, message = "서버 에러")
     })
-    //public ResponseEntity<? extends BaseResponseBody> createCrewMatch(@PathVariable("crewId") Long crewId, @RequestBody MatchCreatePostReq matchCreatePostReq, Authentication authentication) {
-    public ModelAndView createCrewMatch(@PathVariable("crewId") Long crewId, MatchCreatePostReq matchCreatePostReq) {
-//        Long userId = getUserId(authorization);
-//        if (!crewService.isCrewExists(crewId))
-//            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail create crew match: Not valid crewId"));
-//        if (!userCrewService.isUserCrewExists(userId, crewId))
-//            return ResponseEntity.ok(BaseResponseBody.of(406, "Fail create crew match: User is not member"));
-//        Match match = matchService.createCrewMatch(crewId, userId, matchCreatePostReq);
-//        userMatchService.createUserMatch(userId, match.getMatchId());
-//        return ResponseEntity.ok(BaseResponseBody.of(200, "Success create crew match"));
-
-        // 테스트용
-        Long userId = Long.parseLong(matchCreatePostReq.getAuthorization());
+    public ResponseEntity<? extends BaseResponseBody> createCrewMatch(@PathVariable("crewId") Long crewId, @RequestBody MatchCreatePostReq matchCreatePostReq, Authentication authentication) {
+//    public ModelAndView createCrewMatch(@PathVariable("crewId") Long crewId, MatchCreatePostReq matchCreatePostReq) {
+        Long userId = getUserId(authentication);
+        if (!crewService.isCrewExists(crewId))
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail create crew match: Not valid crewId"));
+        if (!userCrewService.isUserCrewExists(userId, crewId))
+            return ResponseEntity.ok(BaseResponseBody.of(406, "Fail create crew match: User is not member"));
         Match match = matchService.createCrewMatch(crewId, userId, matchCreatePostReq);
         userMatchService.createUserMatch(userId, match.getMatchId());
+        return ResponseEntity.ok(BaseResponseBody.of(200, "Success create crew match"));
 
-        return new ModelAndView("redirect:/crew/"+crewId+"/match");
+        // 테스트용
+//        Long userId = Long.parseLong(matchCreatePostReq.getAuthorization());
+//        Match match = matchService.createCrewMatch(crewId, userId, matchCreatePostReq);
+//        userMatchService.createUserMatch(userId, match.getMatchId());
+//
+//        return new ModelAndView("redirect:/match/rooms/"+match.getMatchId());
     }
 }

@@ -2,16 +2,14 @@ package com.darly.api.controller;
 
 import com.darly.api.request.match.MatchCreatePostReq;
 import com.darly.db.entity.match.Match;
-import com.darly.db.entity.socket.ChatRoom;
-import com.darly.db.entity.socket.ChatRoomForm;
+import com.darly.db.entity.match.UserMatch;
 import com.darly.db.repository.match.MatchRepository;
-import com.darly.db.repository.socket.ChatRoomRepository;
+import com.darly.db.repository.match.UserMatchRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -19,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/match")
 public class MatchController {
     private final MatchRepository matchRepository;
+    private final UserMatchRepository userMatchRepository;
 
 //    @GetMapping
 //    public String rooms(Model model){
@@ -31,8 +30,11 @@ public class MatchController {
 //        ChatRoom room = chatRoomRepository.findRoomById(id);
 //        model.addAttribute("room",room);
 
+
         Match match = matchRepository.findByMatchId(id);
         model.addAttribute("room", match);
+        UserMatch userMatch = userMatchRepository.findAllByUserMatchId_Match_MatchId(id);
+        model.addAttribute("userMatch", userMatch);
 
         return "room";
     }
