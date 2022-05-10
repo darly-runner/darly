@@ -37,7 +37,7 @@ class CrewMatchListAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CrewMatchListAdapter.ViewHolder {
-        val view = inflater.inflate(R.layout.rooms_item, parent, false)
+        val view = inflater.inflate(R.layout.crew_rooms_item, parent, false)
         return ViewHolder(view)
     }
 
