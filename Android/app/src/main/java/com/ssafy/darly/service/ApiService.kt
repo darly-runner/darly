@@ -1,33 +1,48 @@
 package com.ssafy.darly.service
 
-import com.ssafy.darly.model.AccountLoginReq
-import com.ssafy.darly.model.AccountLoginRes
-import com.ssafy.darly.model.MyCrewResponse
-import com.ssafy.darly.model.UserGetRes
 import com.ssafy.darly.model.*
+import com.ssafy.darly.model.address.AddressSearchGetRes
+import com.ssafy.darly.model.friend.FriendApplyReq
+import com.ssafy.darly.model.friend.FriendListGetRes
+import com.ssafy.darly.model.friend.FriendSearchReq
+import com.ssafy.darly.model.stat.StatGetRes
+import com.ssafy.darly.model.user.NicknameCheckPostReq
+import com.ssafy.darly.model.user.NicknameCheckPostRes
+import com.ssafy.darly.model.user.UserFeedGetRes
+import com.ssafy.darly.model.user.UserProfileGetRes
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 
-interface ApiService{
+interface ApiService {
+    // Account
     @POST("accounts/google")
     suspend fun accountGoogle(
-        @Body tokenId : AccountLoginReq,
+        @Body tokenId: AccountLoginReq,
     ): Response<AccountLoginRes>
 
     @POST("accounts/kakao")
     suspend fun accountKakao(
-        @Body tokenId : AccountLoginReq,
+        @Body tokenId: AccountLoginReq,
     ): Response<AccountLoginRes>
+
+    // Record
+    @POST("records")
+    suspend fun postRecord(
+        @Body recordReq : RecordRequest
+    )
 
     @GET("users")
     suspend fun getUsers(
-        @Query("userId") userId : Int,
+        @Query("userId") userId: Int,
     ): Response<UserGetRes>
-  
-    @GET("crew/my")
-      suspend fun myCrewList(): Response<MyCrewResponse>
 
-    @GET( "crew")
+    // CREW
+    @GET("crew/my")
+    suspend fun myCrewList(): Response<MyCrewResponse>
+
+    @GET("crew")
     suspend fun getCrewList(
         @Query("page") page: Int,
         @Query("size") size: Int,
@@ -35,8 +50,127 @@ interface ApiService{
         @Query("key") key: String,
     ): Response<CrewRecommendationResponse>
 
-    @POST("records")
-    suspend fun postRecord(
-        @Body recordReq : RecordRequest
-    )
+    @Multipart
+    @POST("crew")
+    suspend fun createCrew(
+        @PartMap data: HashMap<String, RequestBody>,
+        @Part crewImage: MultipartBody.Part?,
+    ): Response<CreateCrew>
+
+    @GET("addresses")
+    suspend fun searchAddress(
+        @Query("address") address: String
+    ): Response<SearchAddress>
+
+    @GET("crew/{crewId}")
+    suspend fun getCrewDetail(
+        @Path("crewId") crewId: Long
+    ): Response<CrewDetail>
+
+    @GET("crew/{crewId}/summary")
+    suspend fun getCrewSummary(
+        @Path("crewId") crewId: Long,
+        @Query("type") type: String
+    ): Response<CrewSummary>
+
+    @GET("crew/{crewId}/feed")
+    suspend fun getCrewFeeds(
+        @Path("crewId") crewId: Long,
+        @Query("page") page: Int,
+        @Query("size") size: Int
+    ): Response<CrewFeeds>
+
+    @GET("feeds/{feedId}")
+    suspend fun getFeedsDetail(
+        @Path("feedId") feedId: Long,
+    ): Response<FeedsDetail>
+
+    @GET("crew/{crewId}/match")
+    suspend fun getRoomsList(
+        @Path("crewId") crewId: Long,
+        @Query("page") page: Int,
+        @Query("size") size: Int
+    ): Response<RoomsList>
+
+
+
+    @GET("users/profile")
+    suspend fun getUserProfile(): Response<UserProfileGetRes>
+
+    @GET("users/feed")
+    suspend fun getUserFeedList(@Query("page") page: Int): Response<UserFeedGetRes>
+
+    @GET("friends")
+    suspend fun getFriendList(): Response<FriendListGetRes>
+
+    @GET("friends/waiting")
+    suspend fun getFriendWaitingList(): Response<FriendListGetRes>
+
+    @DELETE("friends/{friendId}")
+    suspend fun deleteFriend(@Path("friendId") friendId: Long): Response<BaseRes>
+
+    @GET("friends/{friendId}/profile")
+    suspend fun getFriendProfile(@Path("friendId") friendId: Long): Response<UserProfileGetRes>
+
+    @GET("friends/{friendId}/feed")
+    suspend fun getFriendFeedList(
+        @Path("friendId") friendId: Long,
+        @Query("page") page: Int
+    ): Response<UserFeedGetRes>
+
+    @POST("friends/{friendId}/accept")
+    suspend fun acceptFriend(@Path("friendId") friendId: Long): Response<BaseRes>
+
+    @DELETE("friends/{friendId}/deny")
+    suspend fun denyFriend(@Path("friendId") friendId: Long): Response<BaseRes>
+
+    @POST("friends/search")
+    suspend fun getSearchFriend(@Body friendSearchReq: FriendSearchReq): Response<FriendListGetRes>
+
+    @POST("friends")
+    suspend fun applyFriend(@Body friendApplyReq: FriendApplyReq): Response<BaseRes>
+
+    @Multipart
+    @JvmSuppressWildcards
+    @PATCH("users")
+    suspend fun updateUserProfile(
+        @PartMap data: HashMap<String, RequestBody>,
+        @Part userImage: MultipartBody.Part?,
+        @Part("userAddresses[]") userAddresses: List<RequestBody>
+    ): Response<BaseRes>
+
+    @Multipart
+    @JvmSuppressWildcards
+    @PATCH("users")
+    suspend fun updateUserProfileWithoutImage(
+        @PartMap data: HashMap<String, RequestBody>,
+        @Part("userAddresses[]") userAddresses: List<RequestBody>
+    ): Response<BaseRes>
+
+    @POST("users/nickname")
+    suspend fun checkNickname(@Body nicknameCheckPostReq: NicknameCheckPostReq): Response<NicknameCheckPostRes>
+
+    //지영
+    @GET("addresses")
+    suspend fun searchAddresses(
+        @Query("address") address: String
+    ): Response<AddressSearchGetRes>
+
+    @GET("stats/week")
+    suspend fun getWeekStat(
+        @Query("date") date: String
+    ): Response<StatGetRes>
+
+    @GET("stats/month")
+    suspend fun getMonthStat(
+        @Query("date") date: String
+    ): Response<StatGetRes>
+
+    @GET("stats/year")
+    suspend fun getYearStat(
+        @Query("date") date: String
+    ): Response<StatGetRes>
+
+    @GET("stats")
+    suspend fun getAllStat(): Response<StatGetRes>
 }

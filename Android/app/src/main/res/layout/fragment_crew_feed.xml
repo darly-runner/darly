@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".fragment.CrewFeedFragment">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.ssafy.darly.viewmodel.CrewViewModel" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="#EDEDED" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:paddingHorizontal="18dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="1dp"
+                android:src="@drawable/ic_notice" />
+
+            <TextView
+                android:id="@+id/crewNotice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingHorizontal="4dp"
+                android:text="매일 평일 저녁 7시마다 방 만들어요"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="#EDEDED" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/crewDetailFeeds"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+</layout>

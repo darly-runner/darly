@@ -11,7 +11,7 @@ public class RankEntity implements Comparable<RankEntity>{
     private String userNickname;
     private String userImage;
     private Float userDistance;
-    private Float userPace;
+    private Integer userPace;
 
     @Builder
     public RankEntity(CrewSummaryMapping crewSummaryMapping) {

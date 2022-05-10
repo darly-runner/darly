@@ -72,6 +72,7 @@ public class UserController {
     public ResponseEntity<BaseResponseBody> patchUser(@ModelAttribute UserPatchReq userPatchReq, Authentication authentication) {
         Long userId = Long.parseLong((String) authentication.getPrincipal());
         userService.patchUser(userPatchReq, userId);
+        userAddressService.putUserAddressByStringList(userPatchReq.getUserAddresses(), userId);
         return ResponseEntity.ok(BaseResponseBody.of(200, "success"));
     }
 
@@ -209,7 +210,6 @@ public class UserController {
     public ResponseEntity<BaseResponseBody> patchUserFeed(UserPatchFeedReq userPatchFeedReq, @PathVariable("userFeedId") Long userFeedId) {
         userService.patchUserFeed(userPatchFeedReq, userFeedId);
 
-
         return ResponseEntity.ok(BaseResponseBody.of(200, "message"));
     }
 
@@ -227,9 +227,24 @@ public class UserController {
                 .statusCode(200)
                 .message("Success get user profile")
                 .user(userService.getUserByUserId(userId))
-                .addressNameMappingList(userAddressService.getAddressNameList(userId))
+                .addressList(userAddressService.getAddressList(userId))
                 .userFriendNum(friendService.getFriendNum(userId))
                 .build());
     }
 
+    // U-013
+    @PostMapping("/nickname")
+    @ApiOperation(value = "닉네임 중복 검사", notes = "닉네임 중복 검사하기")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "테스트 성공"),
+            @ApiResponse(code = 404, message = "잘못된 url 접근"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
+    public ResponseEntity<? extends BaseResponseBody> isNicknameOk(@RequestBody UserNicknamePostReq userNicknamePostReq, Authentication authentication) {
+        return ResponseEntity.ok(UserNicknamePostRes.builder()
+                .statusCode(200)
+                .message("Success check nickname duplicated")
+                .isOk(!userService.existUserNickname(userNicknamePostReq.getUserNickname()))
+                .build());
+    }
 }

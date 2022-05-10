@@ -25,21 +25,18 @@ public class RecordServiceImpl implements RecordService {
     @Override
     public Record createRecord(Long userId, Long dayId, RecordCreatePostReq recordCreatePostReq) {
         LocalDateTime today = LocalDateTime.now();
+        String title = recordCreatePostReq.getRecordTitle() == null ? getTitle(today) : recordCreatePostReq.getRecordTitle();
         return recordRepository.save(Record.builder()
                 .user(User.builder().userId(userId).build())
                 .dayId(dayId)
                 .matchId(recordCreatePostReq.getMatchId())
-                .recordTitle(getTitle(today))
+                .recordTitle(title)
                 .recordDate(getTimestamp(today))
                 .recordDistance(recordCreatePostReq.getRecordDistance())
                 .recordTime(recordCreatePostReq.getRecordTime())
                 .recordPace(recordCreatePostReq.getRecordPace())
                 .recordSpeed(recordCreatePostReq.getRecordSpeed())
                 .recordHeart(recordCreatePostReq.getRecordHeart())
-                .recordStartLatitude(recordCreatePostReq.getRecordStartLatitude())
-                .recordStartLongitude(recordCreatePostReq.getRecordStartLongitude())
-                .recordEndLatitude(recordCreatePostReq.getRecordEndLatitude())
-                .recordEndLongitude(recordCreatePostReq.getRecordEndLongitude())
                 .recordCalories(recordCreatePostReq.getRecordCalories())
                 .recordRank(recordCreatePostReq.getRecordRank())
                 .build());
