@@ -47,4 +47,13 @@ class RecordFragment : Fragment() {
             recordListAdapter.notifyDataSetChanged()
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        CoroutineScope(Dispatchers.Main).launch {
+            val response = DarlyService.getDarlyService().getRecordList("top")
+            model.records.value = response.body()?.records ?: listOf()
+            recordListAdapter.notifyDataSetChanged()
+        }
+    }
 }
