@@ -36,6 +36,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView21" />
 
+        <fragment
+            android:id="@+id/recodFragment"
+            android:name="com.ssafy.darly.fragment.RecordFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/statFragment" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
