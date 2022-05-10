@@ -13,6 +13,7 @@ import java.util.List;
 @Setter
 @ApiModel("RecordCreatePostRequest")
 public class RecordCreatePostReq {
+    @Nullable
     @ApiModelProperty(name = "matchId", example = "1")
     private Long matchId;
     @ApiModelProperty(name = "recordDistance", example = "10.0")
@@ -27,9 +28,10 @@ public class RecordCreatePostReq {
     private Float recordSpeed;
     @ApiModelProperty(name = "recordTime", example = "10")
     private Long recordTime;
-    @ApiModelProperty(name = "recordTitle", example = "recordTitle")
     @Nullable
+    @ApiModelProperty(name = "recordTitle", example = "recordTitle")
     private String recordTitle;
+    @Nullable
     @ApiModelProperty(name = "recordRank", example = "1")
     private Integer recordRank;
     @Nullable
