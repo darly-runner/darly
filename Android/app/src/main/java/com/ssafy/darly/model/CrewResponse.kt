@@ -7,6 +7,7 @@ data class MyCrewResponse(
 )
 
 data class MyCrewDetails(
+    var crewId: Long,
     var crewName : String,
     var crewImage : String,
 )
@@ -22,7 +23,7 @@ data class CrewRecommendationResponse(
 )
 
 data class CrewRecommendations(
-    var crewId: Int,
+    var crewId: Long,
     var crewName: String,
     var crewDesc: String,
     var crewImage: String,

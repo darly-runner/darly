@@ -36,7 +36,7 @@ class CrewDetailActivity : AppCompatActivity() {
         binding.viewModel = model
 
         val glide = Glide.with(this)
-        crewId = intent.getIntExtra("crewId", 0).toLong()
+        crewId = intent.getLongExtra("crewId", 0)
         model.crewId.value = crewId
 
         CoroutineScope(Dispatchers.Main).launch {

@@ -50,6 +50,7 @@ class CrewDataFragment : Fragment() {
 
         CoroutineScope(Dispatchers.Main).launch {
             val response = DarlyService.getDarlyService().getCrewSummary(crewId = crewId, type = "week")
+            Log.d("resss", "${response.body()}")
             model.crewDetailRankings.value = response.body()?.ranks
 
             binding.crewDistance.text = response.body()?.crewDistance.toString()
