@@ -148,6 +148,7 @@ data class MatchLobbyDetails(
     var matchMaxPerson: Short,
     var matchCurPerson: Short,
     var matchGoalDistance: Float,
+    var hostNickname: String,
     var users: List<MatchUsers>
 )
 
