@@ -1,13 +1,16 @@
 package com.ssafy.darly.adapter.crew
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.ssafy.darly.R
+import com.ssafy.darly.activity.MatchLobbyActivity
 import com.ssafy.darly.model.MatchDetails
 
 class CrewMatchListAdapter(
@@ -43,6 +46,11 @@ class CrewMatchListAdapter(
         holder.matchTitle.text = roomsList.get(position).matchTitle
         holder.hostNickname.text = roomsList.get(position).hostNickname
         holder.currentNum.text = roomsList.get(position).matchCurPerson.toString()
+
+        holder.itemView.setOnClickListener {
+            val intent = Intent(holder.itemView?.context, MatchLobbyActivity::class.java)
+            ContextCompat.startActivity(holder.itemView.context, intent, null)
+        }
     }
 
     override fun getItemCount(): Int {

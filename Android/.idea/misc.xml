@@ -3,31 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/S06P31A301/Android/app/src/main/res/drawable/button_background_lg.xml" value="0.1" />
-        <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/activity_login.xml" value="0.11322188449848024" />
         <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/activity_main.xml" value="0.22" />
-<<<<<<< HEAD
         <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/activity_running.xml" value="0.25" />
         <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/fragment_pause.xml" value="0.25" />
-=======
-        <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/activity_result.xml" value="0.2375886524822695" />
-        <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/activity_running.xml" value="0.1" />
-        <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/dialog_target_detail.xml" value="0.2328125" />
-        <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/fragment_pause.xml" value="0.25" />
-        <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/fragment_running.xml" value="0.22" />
-        <entry key="..\:/S06P31A301/Android/app/src/main/res/menu/navi_menu.xml" value="0.2786458333333333" />
-        <entry key="..\:/S06P31A301/Android/darlywatch/src/main/res/drawable/shape_circle_color.xml" value="0.1285" />
-        <entry key="..\:/S06P31A301/Android/darlywatch/src/main/res/drawable/shape_circle_white.xml" value="0.1285" />
-        <entry key="..\:/S06P31A301/Android/darlywatch/src/main/res/font/font.xml" value="1.0607142857142857" />
-        <entry key="..\:/S06P31A301/Android/darlywatch/src/main/res/layout/activity_login.xml" value="0.6147859922178989" />
-        <entry key="..\:/S06P31A301/Android/darlywatch/src/main/res/layout/activity_main.xml" value="0.5464285714285714" />
-        <entry key="..\:/S06P31A301/Android/darlywatch/src/main/res/layout/activity_running.xml" value="0.4411764705882353" />
-        <entry key="..\:/S06P31A301/Android/darlywatch/src/main/res/layout/fragment_multi.xml" value="0.7902621722846442" />
-        <entry key="..\:/S06P31A301/Android/darlywatch/src/main/res/layout/fragment_pause.xml" value="0.6200657894736842" />
-        <entry key="..\:/S06P31A301/Android/darlywatch/src/main/res/layout/fragment_running.xml" value="0.5411184210526315" />
-        <entry key="..\:/S06P31A301/Android/darlywatch/src/main/res/layout/fragment_solo.xml" value="0.7902621722846442" />
-        <entry key="..\:/S06P31A301/Android/darlywatch/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.148" />
->>>>>>> 4a48430886ed3e0e7c1ef5f7974c6289a4539f37
         <entry key="..\:/S06P31A301/android/app/src/main/res/drawable/ic_act.xml" value="0.1695" />
         <entry key="..\:/S06P31A301/android/app/src/main/res/drawable/ic_challenge.xml" value="0.1" />
         <entry key="..\:/S06P31A301/android/app/src/main/res/drawable/ic_icon_home.xml" value="0.1" />
@@ -64,11 +42,13 @@
         <entry key="app/src/main/res/drawable/ic_chevron_right.xml" value="0.2305" />
         <entry key="app/src/main/res/drawable/ic_location.xml" value="0.2755" />
         <entry key="app/src/main/res/drawable/ic_logo.xml" value="0.112" />
+        <entry key="app/src/main/res/drawable/ic_rectangle.xml" value="0.2765" />
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.2355" />
         <entry key="app/src/main/res/drawable/ic_unready.xml" value="0.112" />
         <entry key="app/src/main/res/drawable/location_list_background.xml" value="0.2355" />
         <entry key="app/src/main/res/drawable/ranking_background.xml" value="0.1895" />
         <entry key="app/src/main/res/drawable/ranking_rank_background.xml" value="0.1895" />
+        <entry key="app/src/main/res/drawable/rectangle.xml" value="0.2765" />
         <entry key="app/src/main/res/drawable/rectangle_seacrh_bar.xml" value="0.1895" />
         <entry key="app/src/main/res/drawable/search_background.xml" value="0.2355" />
         <entry key="app/src/main/res/font/font.xml" value="0.5120370370370371" />
@@ -80,7 +60,7 @@
         <entry key="app/src/main/res/layout/activity_friend.xml" value="0.3111111111111111" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.5158514492753623" />
-        <entry key="app/src/main/res/layout/activity_match_lobby.xml" value="0.2315096251266464" />
+        <entry key="app/src/main/res/layout/activity_match_lobby.xml" value="0.375" />
         <entry key="app/src/main/res/layout/activity_running.xml" value="0.1" />
         <entry key="app/src/main/res/layout/crew_feeds_grid.xml" value="0.338768115942029" />
         <entry key="app/src/main/res/layout/crew_location.xml" value="0.335" />
@@ -94,7 +74,7 @@
         <entry key="app/src/main/res/layout/fragment_crew_feed.xml" value="0.2315096251266464" />
         <entry key="app/src/main/res/layout/fragment_crew_image_upload.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_crew_list.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_crew_match.xml" value="0.3242753623188406" />
+        <entry key="app/src/main/res/layout/fragment_crew_match.xml" value="0.19142857142857142" />
         <entry key="app/src/main/res/layout/fragment_mypage.xml" value="0.32971014492753625" />
         <entry key="app/src/main/res/layout/fragment_pause.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_running.xml" value="0.1" />
