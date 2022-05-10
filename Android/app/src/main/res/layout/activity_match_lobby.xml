@@ -130,6 +130,7 @@
             android:background="#E9ECEF" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/matchUsersList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="12dp" />

@@ -152,6 +152,8 @@ data class MatchLobbyDetails(
 )
 
 data class MatchUsers(
+    var userImage: String,
+    var userTotalDistance: Float,
     var userNickname: String,
     var userPaceAvg: Float,
     var userStatus: String,
