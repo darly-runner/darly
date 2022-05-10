@@ -39,6 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:paddingHorizontal="8dp"
+                android:tint="@color/black"
                 android:src="@drawable/ic_search" />
 
             <ImageView
