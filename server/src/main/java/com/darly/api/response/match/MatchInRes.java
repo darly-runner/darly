@@ -23,12 +23,14 @@ public class MatchInRes extends BaseResponseBody {
     private Float matchGoalDistance;
     private Short matchCurPerson;
     private Short matchMaxPerson;
+    private String hostNickname;
     private List<UserMatchMapping> users;
 
     @Builder
     public MatchInRes(Integer statusCode, String message, List<UserMatchMapping> userMatches, Match match){
         super(statusCode, message);
         this.matchTitle = match.getMatchTitle();
+        this.hostNickname = match.getHost().getUserNickname();
         this.matchGoalDistance = match.getMatchGoalDistance();
         this.matchCurPerson = match.getMatchCurPerson();
         this.matchMaxPerson = match.getMatchMaxPerson();
