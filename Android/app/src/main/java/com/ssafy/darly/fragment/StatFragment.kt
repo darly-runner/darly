@@ -255,7 +255,7 @@ class StatFragment : Fragment() {
                 setDrawGridLines(false)
                 textColor = ContextCompat.getColor(requireActivity().applicationContext, R.color.gray_800)
 //                valueFormatter = WeekValueFormatter()
-                textSize = 12f
+                textSize = 11f
                 yOffset = 10f
                 extraBottomOffset = 10f
             }
