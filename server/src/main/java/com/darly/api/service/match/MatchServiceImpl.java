@@ -81,6 +81,8 @@ public class MatchServiceImpl implements MatchService {
 
             userMatches.add(UserMatchMapping.builder()
                     .userNickname(user.getUserMatchId().getUser().getUserNickname())
+                    .userImage(user.getUserMatchId().getUser().getUserImage())
+                    .userTotalDistance(user.getUserMatchId().getUser().getUserTotalDistance())
                     .userPaceAvg(userPaceAvg)
                     .userStatus(user.getUserMatchStatus())
                     .isHost(isHost)
