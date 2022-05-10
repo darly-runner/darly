@@ -83,6 +83,11 @@ class CrewFragment : Fragment() {
             val intent = Intent(context, AllCrewListActivity::class.java)
             startActivity(intent)
         }
+
+        binding.allCrewList.setOnClickListener {
+            val intent = Intent(context, AllCrewListActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
 
