@@ -4,6 +4,8 @@ import com.darly.db.entity.match.UserMatch;
 import com.darly.db.entity.match.UserMatchId;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface UserMatchRepository extends JpaRepository<UserMatch, UserMatchId> {
-    UserMatch findAllByUserMatchId_Match_MatchId(Long id);
+    List<UserMatch> findAllByUserMatchId_Match_MatchId(Long id);
 }
