@@ -21,7 +21,11 @@
         android:theme="@style/Theme.DarlyApplication"
         android:usesCleartextTraffic="true">
         <activity
+<<<<<<< HEAD
             android:name=".activity.MatchLobbyActivity"
+=======
+            android:name=".activity.ResultActivity"
+>>>>>>> 4a48430886ed3e0e7c1ef5f7974c6289a4539f37
             android:exported="false" />
         <activity
             android:name=".activity.CrewFeedsDetailActivity"
@@ -89,5 +93,4 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyDYNSJFwtbcT6glxx9vpqqXpM6FLD8Q9Lw" />
     </application>
-
 </manifest>
