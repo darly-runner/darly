@@ -7,12 +7,19 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.ssafy.darly.R
+import com.ssafy.darly.adapter.record.RecordListAdapter
 import com.ssafy.darly.databinding.FragmentRecordBinding
+import com.ssafy.darly.service.DarlyService
 import com.ssafy.darly.viewmodel.RecordViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class RecordFragment : Fragment() {
     private lateinit var binding: FragmentRecordBinding
+    private lateinit var recordListAdapter: RecordListAdapter
     private val model: RecordViewModel by viewModels()
 
     override fun onCreateView(
@@ -24,6 +31,9 @@ class RecordFragment : Fragment() {
             binding.lifecycleOwner = this
             binding.viewModel = model
         }
+        recordListAdapter = RecordListAdapter()
+        binding.recyclerView.adapter = recordListAdapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(context)
 
         return binding.root
     }
@@ -31,6 +41,10 @@ class RecordFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //coroutine
+        CoroutineScope(Dispatchers.Main).launch {
+            val response = DarlyService.getDarlyService().getRecordList("top")
+            model.records.value = response.body()?.records ?: listOf()
+            recordListAdapter.notifyDataSetChanged()
+        }
     }
 }

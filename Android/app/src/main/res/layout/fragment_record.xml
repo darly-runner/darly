@@ -20,17 +20,21 @@
             android:id="@+id/textView17"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard_bold"
             android:text="@string/recent_records"
             android:textColor="@color/black"
             android:textSize="17sp"
-            android:fontFamily="@font/pretendard_bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            setRecordItems="@{viewModel.records}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:overScrollMode="never"
+            android:nestedScrollingEnabled="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
