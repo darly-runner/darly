@@ -24,6 +24,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:src="@drawable/ic_chevron_left" />
 
             <TextView
@@ -31,6 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="@font/pretendard_medium"
+                android:paddingHorizontal="5dp"
                 android:text="LOBBY"
                 android:textColor="@color/black"
                 android:textSize="18dp" />
@@ -43,7 +45,7 @@
             android:layout_gravity="center"
             android:fontFamily="@font/pretendard_semibold"
             android:gravity="center"
-            android:paddingBottom="8dp"
+            android:paddingVertical="8dp"
             android:text="Lorem ipsum dolor sit amet"
             android:textColor="@color/black"
             android:textSize="20dp" />
@@ -59,7 +61,8 @@
                 android:fontFamily="@font/pretendard_medium"
                 android:paddingHorizontal="5dp"
                 android:text="리더"
-                android:textColor="@color/gray_700" />
+                android:textColor="@color/gray_700"
+                android:textSize="13dp" />
 
             <TextView
                 android:id="@+id/hostNickname"
@@ -67,7 +70,8 @@
                 android:layout_height="wrap_content"
                 android:paddingRight="12dp"
                 android:text="hostNickname"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="13dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -75,21 +79,24 @@
                 android:fontFamily="@font/pretendard_medium"
                 android:paddingHorizontal="5dp"
                 android:text="목표 거리"
-                android:textColor="@color/gray_700" />
+                android:textColor="@color/gray_700"
+                android:textSize="13dp" />
 
             <TextView
                 android:id="@+id/goalDistance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="10"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="13dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingRight="12dp"
                 android:text="km"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="13dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -97,20 +104,23 @@
                 android:fontFamily="@font/pretendard_medium"
                 android:paddingHorizontal="5dp"
                 android:text="참여 인원"
-                android:textColor="@color/gray_700" />
+                android:textColor="@color/gray_700"
+                android:textSize="13dp" />
 
             <TextView
                 android:id="@+id/currentNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="4"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="13dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="/6"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="13dp" />
         </LinearLayout>
 
         <TextView

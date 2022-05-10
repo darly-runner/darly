@@ -55,9 +55,6 @@ class CrewDetailActivity : AppCompatActivity() {
                     binding.crewJoinButton.setTextColor(Color.rgb(114,87,93))}
                 "J" -> binding.crewJoinButton.visibility = View.GONE
             }
-//            binding.crewJoinButton.setBackgroundResource(R.drawable.button_crewjoin_disable)
-//            binding.crewJoinButton.setTextColor(Color.rgb(114,87,93))
-
         }
 
         val viewPager = binding.crewDetailViewPager
@@ -68,6 +65,13 @@ class CrewDetailActivity : AppCompatActivity() {
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = tabTitleArray[position]
         }.attach()
+
+        binding.crewJoinButton.setOnClickListener {
+            CoroutineScope(Dispatchers.Main).launch {
+                val response = DarlyService.getDarlyService().crewJoin(crewId)
+                Log.d("Join", "${response}")
+            }
+        }
     }
 
     @JvmName("getCrewId1")

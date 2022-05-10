@@ -92,6 +92,15 @@ interface ApiService {
         @Query("size") size: Int
     ): Response<RoomsList>
 
+    @POST("crew/{crewId}/join")
+    suspend fun crewJoin(
+        @Path("crewId") crewId: Long,
+    ): Response<CrewJoin>
+
+    @GET("matches/{matchId}/in")
+    suspend fun getMatchDetails(
+        @Path("matchId") matchId: Long,
+    ): Response<MatchLobbyDetails>
 
 
     @GET("users/profile")
