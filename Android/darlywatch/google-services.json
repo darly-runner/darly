@@ -1,0 +1,124 @@
+{
+  "project_info": {
+    "project_number": "233937818335",
+    "project_id": "darly-b9053",
+    "storage_bucket": "darly-b9053.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:233937818335:android:a8ec5c36a10692e9ea0f6a",
+        "android_client_info": {
+          "package_name": "com.ssafy.darly"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "233937818335-8k0lmuou88g7rtlpkshejd27i4io842b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ssafy.darly",
+            "certificate_hash": "9bf5dabea31eb9be25d610f329b99ec7ea6a0beb"
+          }
+        },
+        {
+          "client_id": "233937818335-b48vi4hf950r5tgaeh0kn4japv15v0nc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ssafy.darly",
+            "certificate_hash": "64d2b83490706ad3cddfcf920f1f026d0256d880"
+          }
+        },
+        {
+          "client_id": "233937818335-bcku9ssl04qun5i8oua7p32vfl7395i2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ssafy.darly",
+            "certificate_hash": "73a8227b35ddc0142c6a1d0b0b132f3f7d664e2c"
+          }
+        },
+        {
+          "client_id": "233937818335-cral40jli0olrim6labsa0maj310klfm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ssafy.darly",
+            "certificate_hash": "83cc7d30403ec0abe38cd19d02d320de782d9171"
+          }
+        },
+        {
+          "client_id": "233937818335-s9hj7c7vu3548297kpuelqa1rk958k0m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ssafy.darly",
+            "certificate_hash": "06af788df71c852747bd0e5e897682a69ed981f9"
+          }
+        },
+        {
+          "client_id": "233937818335-soj5igqdb02d8h2g68pn0esrvmsjhkd8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ssafy.darly",
+            "certificate_hash": "3f5b3d648c48416196cee35155a855da6512cf85"
+          }
+        },
+        {
+          "client_id": "233937818335-7mrg3j77q7ojjb5b0nlbptgrbrt2cnme.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDORbYwbCfDdK9Ct4QweMWpwBEx-eDo37s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "233937818335-7mrg3j77q7ojjb5b0nlbptgrbrt2cnme.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:233937818335:android:6f66ed7285b4837fea0f6a",
+        "android_client_info": {
+          "package_name": "com.ssafy.darlywatch"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "233937818335-75c8hbgr30l36u1mtjmvcrkqa35buc53.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ssafy.darlywatch",
+            "certificate_hash": "06af788df71c852747bd0e5e897682a69ed981f9"
+          }
+        },
+        {
+          "client_id": "233937818335-7mrg3j77q7ojjb5b0nlbptgrbrt2cnme.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDORbYwbCfDdK9Ct4QweMWpwBEx-eDo37s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "233937818335-7mrg3j77q7ojjb5b0nlbptgrbrt2cnme.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

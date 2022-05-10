@@ -76,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal">
                     <TextView
-                        android:text="@{viewModel.pace.toString()}"
+                        android:text="@{viewModel.pace}"
                         android:textSize="24dp"
                         android:textColor="@color/white"
                         android:layout_width="wrap_content"
@@ -151,7 +151,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="50dp"
-                android:layout_marginBottom="50dp"/>
+                android:layout_marginBottom="40dp"/>
             <Button
                 android:id="@+id/resumeButton"
                 android:text="계속 하기"
