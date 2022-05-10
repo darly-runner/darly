@@ -63,10 +63,10 @@ public class MatchServiceImpl implements MatchService {
 
             if(match.getHost().getUserNickname()
                     .equals(user.getUserMatchId().getUser().getUserNickname())){
-                isHost = 0;
+                isHost = 1;
             }
             else {
-                isHost = 1;
+                isHost = 0;
             }
 
             Float userTotalPace = user.getUserMatchId().getUser().getUserTotalPace();
