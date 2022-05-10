@@ -5,6 +5,7 @@ import com.ssafy.darly.model.address.AddressSearchGetRes
 import com.ssafy.darly.model.friend.FriendApplyReq
 import com.ssafy.darly.model.friend.FriendListGetRes
 import com.ssafy.darly.model.friend.FriendSearchReq
+import com.ssafy.darly.model.stat.StatGetRes
 import com.ssafy.darly.model.user.NicknameCheckPostReq
 import com.ssafy.darly.model.user.NicknameCheckPostRes
 import com.ssafy.darly.model.user.UserFeedGetRes
@@ -129,4 +130,21 @@ interface ApiService {
         @Query("address") address: String
     ): Response<AddressSearchGetRes>
 
+    @GET("stats/week")
+    suspend fun getWeekStat(
+        @Query("date") date: String
+    ): Response<StatGetRes>
+
+    @GET("stats/month")
+    suspend fun getMonthStat(
+        @Query("date") date: String
+    ): Response<StatGetRes>
+
+    @GET("stats/year")
+    suspend fun getYearStat(
+        @Query("date") date: String
+    ): Response<StatGetRes>
+
+    @GET("stats")
+    suspend fun getAllStat(): Response<StatGetRes>
 }

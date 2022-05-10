@@ -18,6 +18,7 @@ public class CrewSummaryGetRes extends BaseResponseBody {
     private Integer crewPeopleNum;
     private Float crewDistance;
     private Long crewTime;
+    private Float crewPace;
     private List<RankEntity> ranks;
 
     @Builder
@@ -26,12 +27,16 @@ public class CrewSummaryGetRes extends BaseResponseBody {
         crewDistance = 0F;
         crewTime = 0L;
         ranks = new ArrayList<>();
+        crewPace = 0F;
         this.crewPeopleNum = summaryList.size();
         for (CrewSummaryMapping summary : summaryList) {
             crewDistance += summary.getDayDistance();
             crewTime += summary.getDatTime();
+            crewPace += summary.getDayPace();
             ranks.add(RankEntity.builder().crewSummaryMapping(summary).build());
         }
+        if (summaryList.size() > 0)
+            crewPace = crewPace / summaryList.size();
         Collections.sort(ranks);
     }
 }
