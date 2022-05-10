@@ -6,6 +6,7 @@ import com.darly.db.entity.crew.Crew;
 import com.darly.db.entity.match.Match;
 import com.darly.db.entity.match.MatchTitleMapping;
 import com.darly.db.entity.match.UserMatch;
+import com.darly.db.entity.match.UserMatchId;
 import com.darly.db.entity.user.User;
 import com.darly.db.entity.user.UserMatchMapping;
 import com.darly.db.repository.match.MatchRepository;
@@ -53,7 +54,19 @@ public class MatchServiceImpl implements MatchService {
     }
 
     @Override
-    public MatchInRes getMatchInfo(Long matchId) {
+    public MatchInRes getMatchInfo(Long matchId, Long userId) {
+        UserMatchId userMatchId = UserMatchId.builder()
+                .matchId(matchId)
+                .userId(userId)
+                .build();
+
+        UserMatch enter_userMatch = UserMatch.builder()
+                .userMatchId(userMatchId)
+                .userMatchStatus('N')
+                .build();
+
+        userMatchRepository.save(enter_userMatch);
+
         Match match = matchRepository.findByMatchId(matchId);
         List<UserMatch> userMatch = userMatchRepository.findAllByUserMatchId_Match_MatchId(matchId);
         List<UserMatchMapping> userMatches = new ArrayList();
