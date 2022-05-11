@@ -17,13 +17,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 
-import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service("matchService")
@@ -58,10 +55,10 @@ public class MatchServiceImpl implements MatchService {
                 .build());
     }
 
+    // 방 참가. UserMatch 테이블에 유저 정보 추가, curperson++, 방정보 보내주기
     @Override
     public MatchInRes getMatchInfo(Long matchId, Long userId) {
 
-        // 2. 현재 방의 정보 보내주기
         Match match = matchRepository.findByMatchId(matchId);
         User enterUser = userRepository.findById(userId).get();
 
@@ -81,6 +78,7 @@ public class MatchServiceImpl implements MatchService {
         Short curPerson = match.getMatchCurPerson();
         curPerson++;
         match.setMatchCurPerson(curPerson);
+        matchRepository.save(match);
 
         List<UserMatch> userMatch = userMatchRepository.findAllByUserMatchId_Match_MatchId(matchId);
 //        Collections.reverse(userMatch);
@@ -123,6 +121,21 @@ public class MatchServiceImpl implements MatchService {
                 .match(match)
                 .userMatches(userMatches)
                 .build();
+    }
+
+    // 방 퇴장, usermatch에서 해당 user 삭제, curperson--
+    @Override
+    public void matchOut(Long matchId, Long userId) {
+        UserMatch userMatch = userMatchRepository.findByUserMatchId_Match_MatchIdAndUserMatchId_User_UserId(matchId, userId);
+        Match match = matchRepository.findByMatchId(matchId);
+
+        // 1명 퇴장
+        Short curPerson = match.getMatchCurPerson();
+        curPerson--;
+        match.setMatchCurPerson(curPerson);
+        matchRepository.save(match);
+
+        userMatchRepository.delete(userMatch);
     }
 
     private Long getTimestamp() {
