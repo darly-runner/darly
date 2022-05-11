@@ -96,21 +96,21 @@
       stomp.subscribe("/sub/chat/room/" + roomId, function (chat) {
         var content = JSON.parse(chat.body);
 
-        var writer = content.writer;
+        var userNickname = content.userNickname;
         var message = content.message;
         var str = '';
 
         if(writer === username){
           str = "<div class='col-6'>";
           str += "<div class='alert alert-secondary'>";
-          str += "<b>" + writer + " : " + message + "</b>";
+          str += "<b>" + userNickname + " : " + message + "</b>";
           str += "</div></div>";
           $("#msgArea").append(str);
         }
         else{
           str = "<div class='col-6'>";
           str += "<div class='alert alert-warning'>";
-          str += "<b>" + writer + " : " + message + "</b>";
+          str += "<b>" + userNickname + " : " + message + "</b>";
           str += "</div></div>";
           $("#msgArea").append(str);
         }
