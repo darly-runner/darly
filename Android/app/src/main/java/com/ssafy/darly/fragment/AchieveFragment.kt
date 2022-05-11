@@ -1,6 +1,5 @@
 package com.ssafy.darly.fragment
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,23 +8,29 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import com.ssafy.darly.R
-import com.ssafy.darly.databinding.FragmentActBinding
-import com.ssafy.darly.viewmodel.ActViewModel
+import com.ssafy.darly.databinding.FragmentAchieveBinding
+import com.ssafy.darly.viewmodel.AchieveViewModel
 
-class ActFragment() : Fragment() {
-    private lateinit var binding: FragmentActBinding
-    private val model: ActViewModel by viewModels()
+class AchieveFragment : Fragment() {
+    private lateinit var binding: FragmentAchieveBinding
+    private val model: AchieveViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_act,container,false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_achieve, container, false)
         activity?.let {
             binding.lifecycleOwner = this
             binding.viewModel = model
         }
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        //Coroutine
     }
 }

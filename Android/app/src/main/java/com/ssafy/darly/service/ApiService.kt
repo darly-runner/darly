@@ -5,6 +5,7 @@ import com.ssafy.darly.model.address.AddressSearchGetRes
 import com.ssafy.darly.model.friend.FriendApplyReq
 import com.ssafy.darly.model.friend.FriendListGetRes
 import com.ssafy.darly.model.friend.FriendSearchReq
+import com.ssafy.darly.model.record.RecordListGetRes
 import com.ssafy.darly.model.stat.StatGetRes
 import com.ssafy.darly.model.user.NicknameCheckPostReq
 import com.ssafy.darly.model.user.NicknameCheckPostRes
@@ -28,10 +29,16 @@ interface ApiService {
     ): Response<AccountLoginRes>
 
     // Record
+    @Multipart
+    @JvmSuppressWildcards
     @POST("records")
     suspend fun postRecord(
-        @Body recordReq : RecordRequest
-    )
+        @PartMap data: HashMap<String, RequestBody>,
+        @Part recordImage: MultipartBody.Part?,
+        @Part("coordinateLatitudes[]") coordinateLatitudes: List<RequestBody>,
+        @Part("coordinateLongitudes[]") coordinateLongitudes: List<RequestBody>,
+        @Part sections: List<MultipartBody.Part>
+    ): Response<BaseRes>
 
     @GET("users")
     suspend fun getUsers(
@@ -101,6 +108,17 @@ interface ApiService {
     suspend fun getMatchDetails(
         @Path("matchId") matchId: Long,
     ): Response<MatchLobbyDetails>
+
+    @DELETE("matches/{matchId}/out")
+    suspend fun getOutMatch(
+        @Path("matchId") matchId: Long,
+    ): Response<GetOutMatch>
+
+    @POST("crew/{crewId}/match")
+    suspend fun createMatch(
+        @Path("crewId") crewId: Long,
+        @Body createMatchReq: CreateMatchReq,
+    ):Response<CreateMatch>
 
 
     @GET("users/profile")
@@ -182,4 +200,9 @@ interface ApiService {
 
     @GET("stats")
     suspend fun getAllStat(): Response<StatGetRes>
+
+    @GET("records")
+    suspend fun getRecordList(
+        @Query("type") type: String
+    ): Response<RecordListGetRes>
 }

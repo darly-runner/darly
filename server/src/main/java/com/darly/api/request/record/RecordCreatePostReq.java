@@ -13,6 +13,7 @@ import java.util.List;
 @Setter
 @ApiModel("RecordCreatePostRequest")
 public class RecordCreatePostReq {
+    @Nullable
     @ApiModelProperty(name = "matchId", example = "1")
     private Long matchId;
     @ApiModelProperty(name = "recordDistance", example = "10.0")
@@ -27,17 +28,22 @@ public class RecordCreatePostReq {
     private Float recordSpeed;
     @ApiModelProperty(name = "recordTime", example = "10")
     private Long recordTime;
-    @ApiModelProperty(name = "recordTitle", example = "recordTitle")
     @Nullable
+    @ApiModelProperty(name = "recordTitle", example = "recordTitle")
     private String recordTitle;
+    @Nullable
     @ApiModelProperty(name = "recordRank", example = "1")
     private Integer recordRank;
     @Nullable
+    @ApiModelProperty(name = "recordImage", example = "image.png")
     private MultipartFile recordImage;
+    @Nullable
     @ApiModelProperty(name = "coordinateLatitudes", example = "[0.0, 1.1, 2.2]")
     private List<String> coordinateLatitudes;
+    @Nullable
     @ApiModelProperty(name = "coordinateLongitudes", example = "[0.0, 1.1, 2.2]")
     private List<String> coordinateLongitudes;
+    @Nullable
     @ApiModelProperty(name = "sections", example = "[1,2,3]")
     private List<SectionReq> sections;
 }

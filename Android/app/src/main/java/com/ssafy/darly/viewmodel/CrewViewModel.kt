@@ -24,4 +24,6 @@ class CrewViewModel : ViewModel(){
     var crewDetailFeeds = MutableLiveData<List<FeedsList>>()
 
     var crewRoomsList = MutableLiveData<List<MatchDetails>>()
+
+    var matchUsers = MutableLiveData<List<MatchUsers>>()
 }

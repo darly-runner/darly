@@ -19,7 +19,7 @@
         <View
             android:id="@+id/view3"
             android:layout_width="match_parent"
-            android:layout_height="31dp"
+            android:layout_height="32dp"
             android:background="@drawable/button_stroke_gray"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -27,7 +27,7 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/backgroundBtn"
             android:layout_width="0dp"
-            android:layout_height="31dp"
+            android:layout_height="32dp"
             android:background="@drawable/button_red_round"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/view3"
@@ -36,7 +36,7 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/weekBtn"
             android:layout_width="0dp"
-            android:layout_height="31dp"
+            android:layout_height="32dp"
             android:background="@drawable/button_transparent_round"
             android:text="@string/week"
             android:textAllCaps="false"
@@ -62,7 +62,7 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/yearBtn"
             android:layout_width="0dp"
-            android:layout_height="31dp"
+            android:layout_height="32dp"
             android:background="@drawable/button_transparent_round"
             android:text="@string/year"
             android:textAllCaps="false"
@@ -75,7 +75,7 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/allBtn"
             android:layout_width="0dp"
-            android:layout_height="31dp"
+            android:layout_height="32dp"
             android:background="@drawable/button_transparent_round"
             android:text="@string/all"
             android:textAllCaps="false"
@@ -284,7 +284,7 @@
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/barChart"
             android:layout_width="match_parent"
-            android:layout_height="240dp"
+            android:layout_height="220dp"
             android:layout_marginStart="-6dp"
             android:layout_marginTop="15dp"
             android:layout_marginEnd="-6dp"

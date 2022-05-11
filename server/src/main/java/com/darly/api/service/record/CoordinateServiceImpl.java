@@ -15,15 +15,12 @@ public class CoordinateServiceImpl implements CoordinateService {
 
     @Override
     public void createCoordinate(Long recordId, List<String> coordinateLatitudes, List<String> coordinateLongitudes) {
-        StringBuilder latitude = new StringBuilder();
-        StringBuilder longitude = new StringBuilder();
-        System.out.println(coordinateLatitudes.toString());
-        System.out.println(coordinateLongitudes.toString());
-        coordinateRepository.save(Coordinate.builder()
-                .record(Record.builder().recordId(recordId).build())
-                .coordinateLatitude(String.join(",", coordinateLatitudes))
-                .coordinateLongitude(String.join(",", coordinateLongitudes))
-                .build());
+        if (coordinateLatitudes != null && coordinateLongitudes != null)
+            coordinateRepository.save(Coordinate.builder()
+                    .record(Record.builder().recordId(recordId).build())
+                    .coordinateLatitude(String.join(",", coordinateLatitudes))
+                    .coordinateLongitude(String.join(",", coordinateLongitudes))
+                    .build());
     }
 
     @Override
