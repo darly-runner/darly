@@ -37,7 +37,7 @@ class MatchLobbyActivity : AppCompatActivity() {
 //    lateinit var stompConnection: Disposable
 //    lateinit var topic: Disposable
 
-    val url = "ws://3.36.61.107:8000/ws"
+    val url = "http://3.36.61.107:8000/ws/websocket"
 //    val intervalMills = 1000L
 //    val client = OkHttpClient()
 //    lateinit var stomp: StompClient
@@ -53,11 +53,6 @@ class MatchLobbyActivity : AppCompatActivity() {
 //            Log.i("message Recieve", topicMessage.payload)
 //        }
 
-//        val headerList = arrayListOf<StompHeader>()
-//        headerList.add(StompHeader("inviteCode","test0912"))
-//        headerList.add(StompHeader("username", text.value))
-//        headerList.add(StompHeader("positionType", "1"))
-//        stompClient.connect(headerList)
         stompClient.connect()
 
         stompClient.lifecycle().subscribe { lifecycleEvent ->
@@ -71,6 +66,13 @@ class MatchLobbyActivity : AppCompatActivity() {
                 }
             }
         }
+        val data = JSONObject()
+        data.put("userNickname", "darly1")
+        data.put("matchId", matchId)
+//        data.put("")
+        stompClient.send("/usermatch")
+
+
 //        stompClient.lifecycle().subscribe { lifecycleEvent ->
 //            when (lifecycleEvent.type) {
 //                LifecycleEvent.Type.OPENED -> {
