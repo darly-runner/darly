@@ -1,10 +1,6 @@
 package com.darly.db.repository.socket;
 
-import com.darly.db.entity.socket.ChatRoom;
 import org.springframework.stereotype.Repository;
-
-import javax.annotation.PostConstruct;
-import java.util.*;
 
 @Repository
 public class ChatRoomRepository {

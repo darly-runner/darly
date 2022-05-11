@@ -33,7 +33,7 @@ public class MatchController {
         return ResponseEntity.ok(BaseResponseBody.of(200, "Success"));
     }
 
-    // M-002 방 삭제 : 나간 사람이 방장이거나 curperson이 0이 되면 방 삭제 <- 이 처리는 방 퇴장에서
+    // M-002 방 삭제 : 나간 사람이 방장(게임시작전)이거나 curperson이 0이 되면 방 상태만 무효화 <- 이 처리는 방 퇴장에서
 //    @DeleteMapping
 
 
@@ -46,14 +46,14 @@ public class MatchController {
         return ResponseEntity.ok(matchInRes);
     }
 
-    // M-004 방 퇴장 : 인원을 UserMatch 테이블에서 삭제, curPerson--
-    @DeleteMapping("{matchId}/out")
-    public ResponseEntity<BaseResponseBody> matchOut(@PathVariable("matchId") Long matchId, Authentication authentication) {
-        Long userId = Long.parseLong((String) authentication.getPrincipal());
-        matchService.matchOut(matchId, userId);
-
-        return ResponseEntity.ok(BaseResponseBody.of(200,"success"));
-    }
+//    // M-004 방 퇴장 : 인원을 UserMatch 테이블에서 삭제, curPerson--
+//    @DeleteMapping("{matchId}/out")
+//    public ResponseEntity<BaseResponseBody> matchOut(@PathVariable("matchId") Long matchId, Authentication authentication) {
+//        Long userId = Long.parseLong((String) authentication.getPrincipal());
+//        matchService.matchOut(matchId, userId);
+//
+//        return ResponseEntity.ok(BaseResponseBody.of(200,"success"));
+//    }
 
 //    @GetMapping("/rooms/{id}")
 //    public String room(@PathVariable Long id, Model model){

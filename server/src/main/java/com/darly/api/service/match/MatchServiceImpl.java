@@ -106,6 +106,7 @@ public class MatchServiceImpl implements MatchService {
             }
 
             userMatches.add(UserMatchMapping.builder()
+                    .userId(user.getUserMatchId().getUser().getUserId())
                     .userNickname(user.getUserMatchId().getUser().getUserNickname())
                     .userImage(user.getUserMatchId().getUser().getUserImage())
                     .userTotalDistance(user.getUserMatchId().getUser().getUserTotalDistance())
