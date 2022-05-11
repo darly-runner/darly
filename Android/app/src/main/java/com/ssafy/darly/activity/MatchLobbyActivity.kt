@@ -68,10 +68,15 @@ class MatchLobbyActivity : AppCompatActivity() {
             }
         }
         val data = JSONObject()
+        data.put("type", "ENTER")
         data.put("userNickname", "darly1")
         data.put("matchId", matchId)
         data.put("userId", myUserId)
-        stompClient.send("/usermatch", data.toString()).subscribe()
+        stompClient.send("/pub/usermatch", data.toString()).subscribe()
+        stompClient.topic("/sub/usermatch/${matchId}").subscribe {
+            Log.i("tagg", it.toString())
+        }
+
 
 
 //        stompClient.lifecycle().subscribe { lifecycleEvent ->
