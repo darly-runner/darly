@@ -89,4 +89,8 @@ dependencies {
 
     implementation "com.kakao.sdk:v2-user:2.3.0" // 카카오 로그인
     implementation 'com.kakao.sdk:usermgmt:1.27.0' // 카카오 로그인 버튼 만들 때 사용
+
+    def room_version = "2.3.0"
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 }
