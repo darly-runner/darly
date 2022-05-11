@@ -16,6 +16,7 @@ import com.darly.common.model.response.BaseResponseBody;
 import com.darly.common.util.Type;
 import com.darly.db.entity.crew.*;
 import com.darly.db.entity.feed.Feed;
+import com.darly.db.entity.feed.FeedDetailMapping;
 import com.darly.db.entity.match.Match;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,9 +27,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -397,13 +396,33 @@ public class CrewController {
             return ResponseEntity.ok(BaseResponseBody.of(405, "Fail get crew feed list: Not valid crewId"));
         return ResponseEntity.ok(CrewFeedGetRes.builder()
                 .statusCode(200)
-                .page(feedService.getFeedList(crewId, page))
+                .page(feedService.getFeedDetailListRange(crewId, page))
                 .currentPage(page.getPageNumber())
                 .message("Success get crew feed list")
                 .build());
     }
 
     // C-016
+    @GetMapping("/{crewId}/feed/{feedId}")
+    @ApiOperation(value = "크루 피드 상세목록", notes = "크루 피드 상세목록 얻기")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "테스트 성공"),
+            @ApiResponse(code = 404, message = "잘못된 url 접근"),
+            @ApiResponse(code = 405, message = "잘못된 crewId"),
+            @ApiResponse(code = 406, message = "잘못된 feedId"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
+    public ResponseEntity<? extends BaseResponseBody> getCrewFeedDetailList(@PathVariable("crewId") Long crewId, @PathVariable("feedId") Long feedId, @RequestParam(name = "size") Integer size, Authentication authentication) {
+        if (!crewService.isCrewExists(crewId))
+            return ResponseEntity.ok(BaseResponseBody.of(405, "Fail get crew feed detail list: Not valid crewId"));
+//        List<FeedDetailMapping> feedList = feedService.getFeedDetailListRange(crewId, feedId, size);
+        return ResponseEntity.ok(CrewFeedDetailGetRes.builder()
+                .statusCode(200)
+                .message("Success get crew feed detail list")
+                .build());
+    }
+
+    // C-017
     @PostMapping("/{crewId}/feed")
     @ApiOperation(value = "크루 피드 생성", notes = "크루 피드 생성하기")
     @ApiResponses({
@@ -424,7 +443,7 @@ public class CrewController {
         return ResponseEntity.ok(BaseResponseBody.of(200, "Success create crew feed"));
     }
 
-    // C-017
+    // C-018
     @GetMapping("/{crewId}/match")
     @ApiOperation(value = "크루 경쟁방 목록", notes = "크루 경쟁방 목록 얻기")
     @ApiResponses({
@@ -444,7 +463,7 @@ public class CrewController {
                 .build());
     }
 
-    // C-018
+    // C-019
     @PostMapping("/{crewId}/match")
     @ApiOperation(value = "크루 경쟁방 생성", notes = "크루원 경쟁방 만들기")
     @ApiResponses({
