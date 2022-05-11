@@ -14,6 +14,7 @@ public class MessageController {
     @MessageMapping("/usermatch")
     public void userMatch(SocketMessage message) {
         if (SocketMessage.MessageType.ENTER.equals(message.getType())) {
+            System.out.println("누군가가 입장했습니다.");
             message.setMessage("누군가가 입장했습니다.");
             template.convertAndSend("/sub/usermatch/" + message.getUserId(), message);
         }
