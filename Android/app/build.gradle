@@ -111,4 +111,7 @@ dependencies {
 
     // chart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    // web socket
+    implementation 'com.squareup.okhttp3:okhttp:3.12.12'
 }
