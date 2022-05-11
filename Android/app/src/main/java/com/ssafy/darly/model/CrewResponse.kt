@@ -148,6 +148,7 @@ data class MatchLobbyDetails(
     var matchMaxPerson: Short,
     var matchCurPerson: Short,
     var matchGoalDistance: Float,
+    var hostNickname: String,
     var users: List<MatchUsers>
 )
 
@@ -158,4 +159,12 @@ data class MatchUsers(
     var userPaceAvg: Float,
     var userStatus: String,
     var isHost: Int
+)
+
+data class GetOutMatch(
+    var statusCode: Int
+)
+
+data class CreateMatch(
+    var statusCode: Int
 )

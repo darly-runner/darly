@@ -49,7 +49,7 @@ class MatchLobbyActivity : AppCompatActivity() {
             model.matchUsers.value = response.body()?.users ?: listOf()
 
             binding.matchTitle.text = response.body()?.matchTitle ?: ""
-//            binding.hostNickname.text = response.body()?.
+            binding.hostNickname.text = response.body()?.hostNickname
             binding.goalDistance.text = response.body()?.matchGoalDistance.toString()
             binding.currentNum.text = response.body()?.matchCurPerson.toString()
             Log.d("matchId", "${response.body()}")
@@ -63,6 +63,11 @@ class MatchLobbyActivity : AppCompatActivity() {
             binding.matchUsersList.adapter = adapter
             binding.matchUsersList.layoutManager = GridLayoutManager(this@MatchLobbyActivity, 1)
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+
     }
 
 //    fun subscribeObserver() {
