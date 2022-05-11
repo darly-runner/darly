@@ -35,6 +35,8 @@ public class RecordDetailGetRes extends BaseResponseBody {
     private Integer recordPace;
     @ApiModelProperty(name="recordHeart", example="0")
     private Integer recordHeart;
+    @ApiModelProperty(name="recordSpeed", example="0")
+    private Float recordSpeed;
     @ApiModelProperty(name="recordCalories", example="100")
     private Integer recordCalories;
     @ApiModelProperty(name="recordImage", example="image.png")
@@ -60,6 +62,7 @@ public class RecordDetailGetRes extends BaseResponseBody {
         this.recordTime = record.getRecordTime();
         this.recordPace = record.getRecordPace();
         this.recordHeart = record.getRecordHeart();
+        this.recordSpeed = record.getRecordSpeed();
         this.recordCalories = record.getRecordCalories();
         this.recordImage = record.getRecordImage();
         this.sections = sections;
