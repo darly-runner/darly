@@ -15,7 +15,6 @@ import java.util.UUID;
 @Getter
 @Embeddable
 @NoArgsConstructor
-@AllArgsConstructor
 public class UserMatchId implements Serializable {
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -24,9 +23,10 @@ public class UserMatchId implements Serializable {
     @JoinColumn(name = "match_id")
     private Match match;
 
+
     @Builder
-    public UserMatchId(Long userId, Long matchId) {
-        this.user = User.builder().userId(userId).build();
-        this.match = Match.builder().matchId(matchId).build();
+    public UserMatchId(User user, Match match) {
+        this.user = user;
+        this.match = match;
     }
 }

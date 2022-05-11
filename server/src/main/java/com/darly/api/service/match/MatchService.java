@@ -12,5 +12,5 @@ public interface MatchService {
     Page<Match> getCrewMatchList(Long crewId, Pageable page);
     Match createCrewMatch(Long crewId, Long userId, MatchCreatePostReq matchCreatePostReq);
 
-    MatchInRes getMatchInfo(Long matchId);
+    MatchInRes getMatchInfo(Long matchId, Long userId);
 }

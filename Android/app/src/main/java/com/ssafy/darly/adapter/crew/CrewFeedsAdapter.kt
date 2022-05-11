@@ -35,7 +35,7 @@ class CrewFeedsAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CrewFeedsAdapter.ViewHolder {
-        val view = inflater.inflate(R.layout.feeds_item, parent, false)
+        val view = inflater.inflate(R.layout.crew_feeds_item, parent, false)
         return ViewHolder(view)
     }
 

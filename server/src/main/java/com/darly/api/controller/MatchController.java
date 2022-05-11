@@ -10,6 +10,7 @@ import com.darly.db.repository.match.UserMatchRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,8 +27,11 @@ public class MatchController {
 
 
     @GetMapping("/{matchId}/in")
-    public ResponseEntity<MatchInRes> getMatchInfo(@PathVariable("matchId") Long matchId){
-        MatchInRes matchInRes = matchService.getMatchInfo(matchId);
+    public ResponseEntity<MatchInRes> getMatchInfo(@PathVariable("matchId") Long matchId, Authentication authentication){
+        Long userId = Long.parseLong((String) authentication.getPrincipal());
+        MatchInRes matchInRes = matchService.getMatchInfo(matchId, userId);
+
+
 
         return ResponseEntity.ok(matchInRes);
     }
