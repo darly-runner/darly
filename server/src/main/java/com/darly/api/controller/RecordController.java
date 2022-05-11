@@ -21,7 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-@Api(value="Record Api", tags = {"Records"})
+@Api(value = "Record Api", tags = {"Records"})
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/records")
@@ -36,11 +36,11 @@ public class RecordController {
 
     // R-001
     @PostMapping
-    @ApiOperation(value="경로기록저장", notes="경로기록저장")
+    @ApiOperation(value = "경로기록저장", notes = "경로기록저장")
     @ApiResponses({
-            @ApiResponse(code=200, message="테스트 성공"),
-            @ApiResponse(code=404, message="잘못된 url 접근"),
-            @ApiResponse(code=500, message="서버 에러")
+            @ApiResponse(code = 200, message = "테스트 성공"),
+            @ApiResponse(code = 404, message = "잘못된 url 접근"),
+            @ApiResponse(code = 500, message = "서버 에러")
     })
     public ResponseEntity<? extends BaseResponseBody> createRecord(@ModelAttribute RecordCreatePostReq recordCreatePostReq, Authentication authentication) {
         Long userId = Long.parseLong((String) authentication.getPrincipal());
@@ -52,12 +52,24 @@ public class RecordController {
     }
 
     // R-002
-    @GetMapping
-    @ApiOperation(value="경로기록목록", notes="경로기록목록 가져오기")
+    @PostMapping("/watch")
+    @ApiOperation(value = "경로기록저장_워치용", notes = "경로기록저장_워치용")
     @ApiResponses({
-            @ApiResponse(code=200, message="테스트 성공"),
-            @ApiResponse(code=404, message="잘못된 url 접근"),
-            @ApiResponse(code=500, message="서버 에러")
+            @ApiResponse(code = 200, message = "테스트 성공"),
+            @ApiResponse(code = 404, message = "잘못된 url 접근"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
+    public ResponseEntity<? extends BaseResponseBody> createRecordWatch(@RequestBody RecordCreatePostReq recordCreatePostReq, Authentication authentication) {
+        return createRecord(recordCreatePostReq, authentication);
+    }
+
+    // R-003
+    @GetMapping
+    @ApiOperation(value = "경로기록목록", notes = "경로기록목록 가져오기")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "테스트 성공"),
+            @ApiResponse(code = 404, message = "잘못된 url 접근"),
+            @ApiResponse(code = 500, message = "서버 에러")
     })
     public ResponseEntity<? extends BaseResponseBody> getRecordList(@RequestParam String type, Authentication authentication) {
         Long userId = Long.parseLong((String) authentication.getPrincipal());
@@ -68,13 +80,13 @@ public class RecordController {
         return ResponseEntity.ok(BaseResponseBody.of(405, "Fail get record list: Not valid type"));
     }
 
-    // R-003
+    // R-004
     @GetMapping("/{recordId}")
-    @ApiOperation(value="경로기록상세보기", notes="경로기록1개 상세보기")
+    @ApiOperation(value = "경로기록상세보기", notes = "경로기록1개 상세보기")
     @ApiResponses({
-            @ApiResponse(code=200, message="테스트 성공"),
-            @ApiResponse(code=404, message="잘못된 url 접근"),
-            @ApiResponse(code=500, message="서버 에러")
+            @ApiResponse(code = 200, message = "테스트 성공"),
+            @ApiResponse(code = 404, message = "잘못된 url 접근"),
+            @ApiResponse(code = 500, message = "서버 에러")
     })
     public ResponseEntity<? extends BaseResponseBody> getRecordDetail(@PathVariable("recordId") Long recordId, Authentication authentication) {
         Record record = recordService.getRecordDetail(recordId);
@@ -90,20 +102,20 @@ public class RecordController {
                 .build());
     }
 
-    // R-004
+    // R-005
     @PatchMapping("/{recordId}")
-    @ApiOperation(value="경로기록 제목수정", notes="경로기록 제목수정")
+    @ApiOperation(value = "경로기록 제목수정", notes = "경로기록 제목수정")
     @ApiResponses({
-            @ApiResponse(code=200, message="테스트 성공"),
-            @ApiResponse(code=404, message="잘못된 url 접근"),
-            @ApiResponse(code=500, message="서버 에러")
+            @ApiResponse(code = 200, message = "테스트 성공"),
+            @ApiResponse(code = 404, message = "잘못된 url 접근"),
+            @ApiResponse(code = 500, message = "서버 에러")
     })
     public ResponseEntity<? extends BaseResponseBody> updateRecordTitle(@PathVariable("recordId") Long recordId, @RequestBody RecordUpdatePatchReq recordUpdatePatchReq, Authentication authentication) {
         Record record = recordService.getRecordDetail(recordId);
         if (record == null)
             return ResponseEntity.ok(BaseResponseBody.of(405, "Fail update record title: Not valid recordId"));
         Long userId = Long.parseLong((String) authentication.getPrincipal());
-        if(userId != record.getUser().getUserId())
+        if (userId != record.getUser().getUserId())
             return ResponseEntity.ok(BaseResponseBody.of(406, "Fail update record title: User is not record owner"));
         record.setRecordTitle(recordUpdatePatchReq.getRecordTitle());
         recordService.updateRecord(record);

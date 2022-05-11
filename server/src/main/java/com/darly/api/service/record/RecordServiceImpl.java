@@ -75,10 +75,14 @@ public class RecordServiceImpl implements RecordService {
 
     private String getTitle(LocalDateTime today) {
         String title = today.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.KOREAN);
-        if (today.getHour() < 12)
+        if(today.getHour() < 6)
+            title += " 새벽 러닝";
+        else if (today.getHour() < 12)
             title += " 오전 러닝";
-        else
+        else if (today.getHour() < 18)
             title += " 오후 러닝";
+        else
+            title += " 저녁 러닝";
         return title;
     }
 }
