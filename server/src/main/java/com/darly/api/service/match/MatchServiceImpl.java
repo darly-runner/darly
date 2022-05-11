@@ -120,6 +120,7 @@ public class MatchServiceImpl implements MatchService {
         return MatchInRes.builder()
                 .statusCode(200)
                 .message("success")
+                .myUserId(userId)
                 .match(match)
                 .userMatches(userMatches)
                 .build();
