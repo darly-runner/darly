@@ -13,4 +13,6 @@ public interface MatchService {
     Match createCrewMatch(Long crewId, Long userId, MatchCreatePostReq matchCreatePostReq);
 
     MatchInRes getMatchInfo(Long matchId, Long userId);
+
+    void matchOut(Long matchId, Long userId);
 }
