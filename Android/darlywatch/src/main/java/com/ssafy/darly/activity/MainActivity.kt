@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
+import androidx.wear.ambient.AmbientModeSupport
 import com.ssafy.darly.R
 import com.ssafy.darly.adapter.MainViewPagerAdapter
 import com.ssafy.darly.util.GlobalApplication
