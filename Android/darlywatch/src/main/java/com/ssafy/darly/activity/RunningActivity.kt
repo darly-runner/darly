@@ -2,10 +2,8 @@ package com.ssafy.darly.activity
 
 import android.annotation.SuppressLint
 import android.app.ActivityManager
-import android.content.ComponentName
-import android.content.Context
-import android.content.Intent
-import android.content.ServiceConnection
+import android.app.AlertDialog
+import android.content.*
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
@@ -20,7 +18,11 @@ import com.ssafy.darly.R
 import com.ssafy.darly.adapter.RunningViewPagerAdapter
 import com.ssafy.darly.background.MyService
 import com.ssafy.darly.databinding.ActivityRunningBinding
+import com.ssafy.darly.service.DarlyService
 import com.ssafy.darly.viewmodel.RunningViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class RunningActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRunningBinding
@@ -58,19 +60,44 @@ class RunningActivity : AppCompatActivity() {
                 }
             }
         })
-        //if(!isMyServiceRunning(MyService::class.java))
-        serviceStart()
+        if(!isMyServiceRunning(MyService::class.java)){
+            serviceStart()
+            Log.d("RunningActivity", "실행중인 서비스가 없으므로 새로운 서비스를 시작합니다.")
+        }else{
+            service.time.value = service.time.value?.plus(1)
+            service.totalDist.value = service.totalDist.value?.plus(0.01f)
+            Log.d("RunningActivity", "실행중인 서비스가 있으므로 기존의 서비스값으로 계속합니다.")
+        }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        serviceStop()
+    override fun onBackPressed() {
+        var builder = AlertDialog.Builder(this)
+        var dialog = builder.create()
+        builder.setTitle("기록을 저장하시겠습니까?")
+        builder.setIcon(R.mipmap.ic_launcher)
+
+        var listener = object : DialogInterface.OnClickListener {
+            override fun onClick(p0: DialogInterface?, p1: Int) {
+                if(p1 == DialogInterface.BUTTON_POSITIVE){
+                    CoroutineScope(Dispatchers.Main).launch {
+                        DarlyService.getDarlyService().postRecord(model.record())
+
+                        val intent = Intent(applicationContext, MainActivity::class.java)
+                        startActivity(intent)
+                    }
+                }else if(p1 == DialogInterface.BUTTON_NEGATIVE){
+                    dialog.dismiss()
+                }
+            }
+        }
+        builder.setPositiveButton("기록 저장", listener)
+        builder.setNegativeButton("취소", null)
+        builder.show()
     }
 
-//    override fun onStop() {
-//        super.onStop()
-//        serviceStop()
-//    }
+    fun exit(){
+        super.onBackPressed()
+    }
 
     fun subscribeObserver(){
         // 시간초
