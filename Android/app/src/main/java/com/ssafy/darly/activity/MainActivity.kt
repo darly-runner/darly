@@ -12,11 +12,16 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
+import com.google.android.gms.wearable.*
 import com.ssafy.darly.R
 import com.ssafy.darly.viewmodel.MainViewModel
 import com.ssafy.darly.databinding.ActivityMainBinding
 import com.ssafy.darly.fragment.*
-import com.ssafy.darly.util.GlobalApplication
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -28,6 +33,9 @@ class MainActivity : AppCompatActivity() {
     private val CHALLENGE_FRAGMENT = "challenge_fragment"
     private val MYPAGE_FRAGMENT = "mypage_fragment"
 
+    private val VOICE_TRANSCRIPTION_CAPABILITY_NAME = "voice_transcription"
+    val VOICE_TRANSCRIPTION_MESSAGE_PATH = "/voice_transcription"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -37,6 +45,73 @@ class MainActivity : AppCompatActivity() {
 
         checkPermission()
         setBottomNavigationBar()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            setupVoiceTranscription()
+            Log.d("MainActivity : Node ", getNodes().toString())
+            requestTranscription("달리".toByteArray())
+        }
+
+        Wearable.getMessageClient(this).addListener {
+            onMessageReceived(it)
+        }
+//        MessageClient.OnMessageReceivedListener {
+//            onMessageReceived(it)
+//        }
+    }
+
+    // 필요한 기능을 갖춘 노드 검색
+    private fun setupVoiceTranscription() {
+        val capabilityInfo: CapabilityInfo = Tasks.await(
+            Wearable.getCapabilityClient(this)
+                .getCapability(
+                    VOICE_TRANSCRIPTION_CAPABILITY_NAME,
+                    CapabilityClient.FILTER_REACHABLE
+                )
+        )
+        // capabilityInfo has the reachable nodes with the transcription capability
+        updateTranscriptionCapability(capabilityInfo)
+    }
+    private var transcriptionNodeId: String? = null
+
+    private fun updateTranscriptionCapability(capabilityInfo: CapabilityInfo) {
+        Log.d("UpdateTranscriptionCapability","${capabilityInfo.nodes}")
+        transcriptionNodeId = pickBestNodeId(capabilityInfo.nodes)
+        transcriptionNodeId = getNodes().toString()
+        Log.d("transcriptionNodeId","${transcriptionNodeId}")
+    }
+
+    private fun pickBestNodeId(nodes: Set<Node>): String? {
+        // Find a nearby node or pick one arbitrarily
+        return nodes.firstOrNull { it.isNearby }?.id ?: nodes.firstOrNull()?.id
+    }
+
+    private fun requestTranscription(voiceData: ByteArray) {
+        transcriptionNodeId?.also { nodeId ->
+            val sendTask: Task<*> = Wearable.getMessageClient(this).sendMessage(
+                nodeId,
+                VOICE_TRANSCRIPTION_MESSAGE_PATH,
+                voiceData
+            ).apply {
+                addOnSuccessListener {
+                    Log.d("MainActivity", "성공")
+                }
+                addOnFailureListener {
+                    Log.d("MainActivity", "실패")
+                }
+            }
+        }
+    }
+
+    fun onMessageReceived(messageEvent: MessageEvent) {
+        Log.d("MainActivity, Received", "메시지 도착")
+        if (messageEvent.path == VOICE_TRANSCRIPTION_MESSAGE_PATH) {
+            Log.d("MainActivity, Received", "메시지 도착")
+        }
+    }
+
+    private fun getNodes(): Collection<String> {
+        return Tasks.await(Wearable.getNodeClient(this).connectedNodes).map { it.id }
     }
 
     fun checkPermission(){

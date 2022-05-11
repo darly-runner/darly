@@ -167,7 +167,7 @@ class StatFragment : Fragment() {
         val paceAvg: Int = response.body()?.paceAvg?.toInt() ?: 0
         model.paceAvg.value = String.format("%01d'%02d''", paceAvg / 60, paceAvg % 60)
         model.heartAvg.value = response.body()?.heartAvg?.toString()
-        if (model.heartAvg.value == null)
+        if (model.heartAvg.value == null || model.heartAvg.value == "0")
             model.heartAvg.value = "--"
         model.distances.value = response.body()?.distances ?: listOf()
     }
