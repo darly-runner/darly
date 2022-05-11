@@ -1,6 +1,7 @@
 package com.darly.api.controller;
 
 import com.darly.api.request.match.MatchCreatePostReq;
+import com.darly.api.request.match.MatchPatchReq;
 import com.darly.api.response.match.MatchInRes;
 import com.darly.api.service.match.MatchService;
 import com.darly.common.model.response.BaseResponseBody;
@@ -14,10 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -26,6 +24,17 @@ public class MatchController {
 
     @Autowired
     private final MatchService matchService;
+
+    // M-001 방 정보 수정 : matchTitle, matchMaxPerson, matchGoalDistance 수정
+    @PatchMapping("/{matchId}")
+    public ResponseEntity<BaseResponseBody> patchMatchInfo(@PathVariable("matchId") Long matchId, MatchPatchReq matchPatchReq){
+        matchService.patchMatchInfo(matchId, matchPatchReq);
+
+        return ResponseEntity.ok(BaseResponseBody.of(200, "Success"));
+    }
+
+    // M-002 방 삭제 : 나간 사람이 방장이거나 curperson이 0이 되면 방 삭제 <- 이 처리는 방 퇴장에서
+//    @DeleteMapping
 
 
     // M-003 방 참가 : 참가한 인원을 UserMatch 테이블에 등록, curPerson++, matchId에 해당하는 방의 모든 유저를 갖고옴

@@ -1,6 +1,7 @@
 package com.darly.api.service.match;
 
 import com.darly.api.request.match.MatchCreatePostReq;
+import com.darly.api.request.match.MatchPatchReq;
 import com.darly.api.response.match.MatchInRes;
 import com.darly.db.entity.crew.Crew;
 import com.darly.db.entity.match.Match;
@@ -136,6 +137,18 @@ public class MatchServiceImpl implements MatchService {
         matchRepository.save(match);
 
         userMatchRepository.delete(userMatch);
+    }
+
+    // 방 정보 수정, matchTitle, matchMaxPerson, matchGoalDistance를 수정
+    @Override
+    public void patchMatchInfo(Long matchId, MatchPatchReq matchPatchReq) {
+        Match match = matchRepository.findByMatchId(matchId);
+
+        match.setMatchTitle(matchPatchReq.getMatchTitle());
+        match.setMatchMaxPerson(matchPatchReq.getMatchMaxPerson());
+        match.setMatchGoalDistance(matchPatchReq.getMatchGoalDistance());
+
+        matchRepository.save(match);
     }
 
     private Long getTimestamp() {
