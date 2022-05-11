@@ -19,8 +19,8 @@ public class RecordRepositorySupport {
     QCoordinate qCoordinate = QCoordinate.coordinate;
 
     public List<RecordMapping> getRecordListAll(Long userId) {
-        return jpaQueryFactory.select(new QRecordMapping(qRecord.recordId, qRecord.recordTitle, qRecord.recordDate, qRecord.recordDistance, qRecord.recordTime, qRecord.recordPace, qRecord.recordHeart, qRecord.recordCalories, qRecord.recordImage, qCoordinate.coordinateLatitude, qCoordinate.coordinateLongitude))
-                .from(qRecord).innerJoin(qCoordinate)
+        return jpaQueryFactory.select(new QRecordMapping(qRecord.recordId, qRecord.recordTitle, qRecord.recordDate, qRecord.recordDistance, qRecord.recordTime, qRecord.recordPace, qRecord.recordHeart, qRecord.recordCalories, qRecord.recordImage))
+                .from(qRecord).leftJoin(qCoordinate)
                 .on(qRecord.recordId.eq(qCoordinate.record.recordId))
                 .where(qRecord.user.userId.eq(userId))
                 .orderBy(qRecord.recordId.desc())
@@ -28,8 +28,8 @@ public class RecordRepositorySupport {
     }
 
     public List<RecordMapping> getRecordListTop(Long userId) {
-        return jpaQueryFactory.select(new QRecordMapping(qRecord.recordId, qRecord.recordTitle, qRecord.recordDate, qRecord.recordDistance, qRecord.recordTime, qRecord.recordPace, qRecord.recordHeart, qRecord.recordCalories, qRecord.recordImage, qCoordinate.coordinateLatitude, qCoordinate.coordinateLongitude))
-                .from(qRecord).innerJoin(qCoordinate)
+        return jpaQueryFactory.select(new QRecordMapping(qRecord.recordId, qRecord.recordTitle, qRecord.recordDate, qRecord.recordDistance, qRecord.recordTime, qRecord.recordPace, qRecord.recordHeart, qRecord.recordCalories, qRecord.recordImage))
+                .from(qRecord).leftJoin(qCoordinate)
                 .on(qRecord.recordId.eq(qCoordinate.record.recordId))
                 .where(qRecord.user.userId.eq(userId))
                 .limit(3)

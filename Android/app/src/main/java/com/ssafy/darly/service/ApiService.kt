@@ -5,6 +5,7 @@ import com.ssafy.darly.model.address.AddressSearchGetRes
 import com.ssafy.darly.model.friend.FriendApplyReq
 import com.ssafy.darly.model.friend.FriendListGetRes
 import com.ssafy.darly.model.friend.FriendSearchReq
+import com.ssafy.darly.model.record.RecordListGetRes
 import com.ssafy.darly.model.stat.StatGetRes
 import com.ssafy.darly.model.user.NicknameCheckPostReq
 import com.ssafy.darly.model.user.NicknameCheckPostRes
@@ -29,6 +30,7 @@ interface ApiService {
 
     // Record
     @Multipart
+    @JvmSuppressWildcards
     @POST("records")
     suspend fun postRecord(
         @PartMap data: HashMap<String, RequestBody>,
@@ -36,7 +38,6 @@ interface ApiService {
         @Part("coordinateLatitudes[]") coordinateLatitudes: List<RequestBody>,
         @Part("coordinateLongitudes[]") coordinateLongitudes: List<RequestBody>,
         @Part sections: List<MultipartBody.Part>
-//        @Body recordReq : RecordRequest
     ): Response<BaseRes>
 
     @GET("users")
@@ -199,4 +200,9 @@ interface ApiService {
 
     @GET("stats")
     suspend fun getAllStat(): Response<StatGetRes>
+
+    @GET("records")
+    suspend fun getRecordList(
+        @Query("type") type: String
+    ): Response<RecordListGetRes>
 }

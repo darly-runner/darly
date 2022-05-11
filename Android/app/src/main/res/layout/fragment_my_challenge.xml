@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="viewModel"
-            type="com.ssafy.darly.viewmodel.RecordViewModel" />
+            type="com.ssafy.darly.viewmodel.MyChallengeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/pretendard_bold"
-            android:text="@string/recent_records"
+            android:text="@string/participate_challenges"
             android:textColor="@color/black"
             android:textSize="17sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,7 +30,6 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
-            setRecordItems="@{viewModel.records}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -48,7 +48,7 @@
             android:layout_marginTop="6dp"
             android:background="@drawable/button_stroke_gray"
             android:fontFamily="@font/pretendard_medium"
-            android:text="@string/more_records"
+            android:text="@string/more_challenges"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
