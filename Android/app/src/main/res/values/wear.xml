@@ -3,6 +3,6 @@
     tools:keep="@array/android_wear_capabilities">
     <string-array name="android_wear_capabilities"
         tools:ignore="ExtraTranslation">
-        <item>verify_remote_example_phone_app</item>
+        <item>phone</item>
     </string-array>
 </resources>
