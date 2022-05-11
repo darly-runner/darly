@@ -25,7 +25,10 @@
                 android:id="@+id/backBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginStart="-5dp"
+                android:layout_marginTop="5dp"
+                android:paddingVertical="5dp"
+                android:paddingRight="5dp"
                 android:src="@drawable/ic_chevron_left"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -48,15 +51,17 @@
                 android:layout_marginEnd="27dp"
                 android:background="@null"
                 android:fontFamily="@font/pretendard_medium"
-                android:hint="기록 제목"
+                android:hint="@string/title"
+                android:lines="1"
                 android:paddingVertical="5dp"
+                android:singleLine="true"
                 android:text="@{viewModel.recordTitle}"
                 android:textSize="18sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/dateText" />
 
             <ImageView
-                android:id="@+id/writeButton"
+                android:id="@+id/editBtn"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_fi_edit_2"
@@ -297,9 +302,9 @@
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/mapview"
                 android:name="com.google.android.gms.maps.SupportMapFragment"
-                android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="450dp"
+                android:layout_marginTop="20dp"
                 app:layout_constraintTop_toBottomOf="@+id/paceLayout"
                 tools:layout="@layout/abc_search_view"
                 tools:layout_editor_absoluteX="20dp" />

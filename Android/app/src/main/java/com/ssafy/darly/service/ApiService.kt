@@ -7,6 +7,7 @@ import com.ssafy.darly.model.friend.FriendListGetRes
 import com.ssafy.darly.model.friend.FriendSearchReq
 import com.ssafy.darly.model.record.RecordDetailGetRes
 import com.ssafy.darly.model.record.RecordListGetRes
+import com.ssafy.darly.model.record.RecordTitlePatchReq
 import com.ssafy.darly.model.stat.StatGetRes
 import com.ssafy.darly.model.user.NicknameCheckPostReq
 import com.ssafy.darly.model.user.NicknameCheckPostRes
@@ -211,4 +212,10 @@ interface ApiService {
     suspend fun getRecordDetail(
         @Path("recordId") recordId: Long
     ): Response<RecordDetailGetRes>
+
+    @PATCH("records/{recordId}")
+    suspend fun updateRecordTitle(
+        @Path("recordId") recordId: Long,
+        @Body recordTitlePatchReq: RecordTitlePatchReq
+    ): Response<BaseRes>
 }
