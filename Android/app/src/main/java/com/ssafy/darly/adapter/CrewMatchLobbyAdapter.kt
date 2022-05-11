@@ -50,6 +50,7 @@ class CrewMatchLobbyAdapter(
         holder.userName.text = users.get(position).userNickname
         holder.userDistance.text = users.get(position).userTotalDistance.toString()
         holder.userPace.text = users.get(position).userPaceAvg.toString()
+
         val isReady = users.get(position).userStatus
         when (isReady) {
             "R" -> holder.userIsReady.setBackgroundResource(R.drawable.ic_ready)

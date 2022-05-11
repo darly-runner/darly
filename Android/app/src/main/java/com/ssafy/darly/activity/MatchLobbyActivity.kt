@@ -33,6 +33,7 @@ class MatchLobbyActivity : AppCompatActivity() {
     private val model: CrewViewModel by viewModels()
     var matchId: Long = 0
     lateinit var adapter: CrewMatchLobbyAdapter
+    var myUserId: Long=0
 
 //    lateinit var stompConnection: Disposable
 //    lateinit var topic: Disposable
@@ -69,8 +70,8 @@ class MatchLobbyActivity : AppCompatActivity() {
         val data = JSONObject()
         data.put("userNickname", "darly1")
         data.put("matchId", matchId)
-//        data.put("")
-        stompClient.send("/usermatch")
+        data.put("userId", myUserId)
+        stompClient.send("/usermatch", data.toString()).subscribe()
 
 
 //        stompClient.lifecycle().subscribe { lifecycleEvent ->
@@ -114,10 +115,13 @@ class MatchLobbyActivity : AppCompatActivity() {
 //        binding.matchUsersList.adapter = adapter
 //        binding.matchUsersList.layoutManager = GridLayoutManager(this, 1)
 //        subscribeObserver()
-        runStomp()
+//        runStomp()
         CoroutineScope(Dispatchers.Main).launch {
             val response = DarlyService.getDarlyService().getMatchDetails(matchId)
             model.matchUsers.value = response.body()?.users ?: listOf()
+            Log.d("ppopoppopo", model.matchUsers.value.toString())
+
+            myUserId = response.body()?.myUserId ?: 3
 
             binding.matchTitle.text = response.body()?.matchTitle ?: ""
             binding.hostNickname.text = response.body()?.hostNickname
@@ -133,6 +137,7 @@ class MatchLobbyActivity : AppCompatActivity() {
             )
             binding.matchUsersList.adapter = adapter
             binding.matchUsersList.layoutManager = GridLayoutManager(this@MatchLobbyActivity, 1)
+            runStomp()
         }
     }
 
