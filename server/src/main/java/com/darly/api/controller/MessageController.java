@@ -14,6 +14,14 @@ public class MessageController {
 
     private final SimpMessagingTemplate template; //특정 Broker로 메세지를 전달
 
+    @MessageMapping("/creatematch")
+    public void createMatch(SocketMessage message) {
+        message.setMessage("방이 생성되었습니다.");
+        
+        template.convertAndSend("/sub/creatematch", message);
+        System.out.println("CREATE sub 완료");
+    }
+    
     /*
     * ENTER : 유저 입장
     * LEAVE : 유저 퇴장
@@ -92,9 +100,5 @@ public class MessageController {
             template.convertAndSend("/sub/usermatch/" + message.getMatchId(), message);
             System.out.println("START sub 완료");
         }
-
-//        else if(socksdlkfjsadkljf euqls(ready)){
-//            List<SockeMessage> <- 모든 사람들에 대한 가각의 message를 리스트형태로 넘겨줠ㅏ
-//        }
     }
 }

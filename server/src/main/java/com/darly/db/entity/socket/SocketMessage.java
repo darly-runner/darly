@@ -9,6 +9,7 @@ public class SocketMessage {
 
     // 메시지 타입
     public enum MessageType {
+        CREATE,
         ENTER, LEAVE,
         READY,
         PACE,
