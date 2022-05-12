@@ -16,9 +16,3 @@ data class RecordRequest(
     var coordinateLongitudes : ArrayList<String>,
     var sections : ArrayList<Section>
 ) : Serializable
-
-data class Section(
-    val km : Float,
-    val pace : Int,
-    val calories : Int
-) : Serializable

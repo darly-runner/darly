@@ -10,9 +10,9 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface UserMatchRepository extends JpaRepository<UserMatch, UserMatchId> {
-//    @Query(value="select * from tb_user u\n" +
-//            "inner join tb_user_match um\n" +
-//            "on u.user_id = um.user_id\n" +
-//            "where um.match_id = :matchId", nativeQuery = true)
+
     List<UserMatch> findAllByUserMatchId_Match_MatchId(Long id);
+    UserMatch findByUserMatchId_Match_MatchIdAndUserMatchId_User_UserId(Long matchId, Long userId);
+
+    void deleteAllByUserMatchId_Match_MatchId(Long id);
 }

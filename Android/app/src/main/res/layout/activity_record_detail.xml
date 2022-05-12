@@ -10,18 +10,314 @@
             type="com.ssafy.darly.viewmodel.RecordDetailViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F7F7F7"
-        android:padding="20dp">
+        android:overScrollMode="never">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="상세보기"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageView
+                android:id="@+id/backBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-5dp"
+                android:layout_marginTop="5dp"
+                android:paddingVertical="5dp"
+                android:paddingRight="5dp"
+                android:src="@drawable/ic_chevron_left"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/dateText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@{viewModel.recordDate}"
+                android:textColor="@color/gray_600"
+                android:textSize="12sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/backBtn" />
+
+            <EditText
+                android:id="@+id/titleText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="30dp"
+                android:background="@null"
+                android:fontFamily="@font/pretendard_semibold"
+                android:hint="@string/title"
+                android:lines="1"
+                android:paddingVertical="5dp"
+                android:singleLine="true"
+                android:text="@{viewModel.recordTitle}"
+                android:textSize="22sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dateText" />
+
+            <ImageView
+                android:id="@+id/editBtn"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_fi_edit_2"
+                app:layout_constraintBottom_toBottomOf="@+id/titleText"
+                app:layout_constraintStart_toEndOf="@+id/titleText"
+                app:layout_constraintTop_toTopOf="@+id/titleText" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray_400"
+                android:layout_marginTop="-4dp"
+                app:layout_constraintTop_toBottomOf="@+id/titleText"
+                tools:layout_editor_absoluteX="20dp" />
+
+            <TextView
+                android:id="@+id/textView23"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/pretendard_bold"
+                android:text="@{viewModel.recordDistance}"
+                android:textColor="@color/black"
+                android:textSize="50sp"
+                app:layout_constraintStart_toStartOf="@+id/titleText"
+                app:layout_constraintTop_toBottomOf="@+id/titleText" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/futura_medium_italic"
+                android:paddingBottom="10dp"
+                android:text="@string/km"
+                android:textColor="@color/black"
+                android:textSize="30sp"
+                app:layout_constraintBottom_toBottomOf="@+id/textView23"
+                app:layout_constraintStart_toEndOf="@+id/textView23" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/paceLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:minWidth="100dp"
+                app:layout_constraintEnd_toStartOf="@+id/calorieLayout"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView23">
+
+                <TextView
+                    android:id="@+id/paceText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pace_avg"
+                    android:textColor="@color/gray_600"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView33"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendard_semibold"
+                    android:text="@{viewModel.recordPace}"
+                    android:textColor="@color/black"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="@+id/paceText"
+                    app:layout_constraintTop_toBottomOf="@+id/paceText" />
+
+                <TextView
+                    android:id="@+id/speedText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:text="@string/speed_avg"
+                    android:textColor="@color/gray_600"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="@+id/textView33"
+                    app:layout_constraintTop_toBottomOf="@+id/textView33" />
+
+                <TextView
+                    android:id="@+id/textView34"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendard_semibold"
+                    android:text="@{viewModel.recordSpeed}"
+                    android:textColor="@color/black"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/speedText" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:paddingBottom="5dp"
+                    android:text="@string/kmh"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView34"
+                    app:layout_constraintStart_toEndOf="@+id/textView34" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/calorieLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="100dp"
+                app:layout_constraintEnd_toStartOf="@+id/heartLayout"
+                app:layout_constraintStart_toEndOf="@+id/paceLayout"
+                app:layout_constraintTop_toTopOf="@+id/paceLayout">
+
+                <TextView
+                    android:id="@+id/calText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/calories"
+                    android:textColor="@color/gray_600"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/calNumText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendard_semibold"
+                    android:text="@{viewModel.recordCalories}"
+                    android:textColor="@color/black"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="@+id/calText"
+                    app:layout_constraintTop_toBottomOf="@+id/calText" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:paddingBottom="5dp"
+                    android:text="@string/kcal"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/calNumText"
+                    app:layout_constraintStart_toEndOf="@+id/calNumText" />
+
+                <TextView
+                    android:id="@+id/timeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:text="@string/time_total"
+                    android:textColor="@color/gray_600"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="@+id/calNumText"
+                    app:layout_constraintTop_toBottomOf="@+id/calNumText" />
+
+                <TextView
+                    android:id="@+id/timeNumText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendard_semibold"
+                    android:text="@{viewModel.recordTime}"
+                    android:textColor="@color/black"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="@+id/timeText"
+                    app:layout_constraintTop_toBottomOf="@+id/timeText" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/heartLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="100dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/calorieLayout"
+                app:layout_constraintTop_toTopOf="@+id/calorieLayout">
+
+                <TextView
+                    android:id="@+id/heartText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/heart_avg"
+                    android:textColor="@color/gray_600"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/heartNumText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendard_semibold"
+                    android:text="@{viewModel.recordHeart}"
+                    android:textColor="@color/black"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="@+id/heartText"
+                    app:layout_constraintTop_toBottomOf="@+id/heartText" />
+
+                <ImageView
+                    android:id="@+id/imageView6"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="5dp"
+                    android:src="@drawable/ic_heart"
+                    app:layout_constraintBottom_toBottomOf="@+id/heartNumText"
+                    app:layout_constraintStart_toEndOf="@+id/heartNumText"
+                    app:layout_constraintTop_toTopOf="@+id/heartNumText" />
+
+                <TextView
+                    android:id="@+id/rankText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:text="@string/ranking"
+                    android:textColor="@color/gray_600"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/heartNumText" />
+
+                <TextView
+                    android:id="@+id/rankNumText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendard_semibold"
+                    android:text="@{viewModel.recordRank}"
+                    android:textColor="@color/black"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="@+id/rankText"
+                    app:layout_constraintTop_toBottomOf="@+id/rankText" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/mapview"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="450dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@+id/paceLayout"
+                tools:layout="@layout/abc_search_view"
+                tools:layout_editor_absoluteX="20dp" />
+
+            <fragment
+                android:id="@+id/sectionFragment"
+                android:name="com.ssafy.darly.fragment.SectionFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                app:layout_constraintTop_toBottomOf="@+id/mapview"
+                tools:layout_editor_absoluteX="20dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
 </layout>
