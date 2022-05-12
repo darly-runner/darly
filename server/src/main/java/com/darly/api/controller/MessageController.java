@@ -27,7 +27,6 @@ public class MessageController {
     public void userMatch(SocketMessage message) {
         // 유저 입장, SIGNAL만 보내고 그때마다 프론트에서 방입장 API 호출
         if (SocketMessage.MessageType.ENTER.equals(message.getType())) {
-            System.out.println(message.getUserNickname() + "님이 입장했습니다.");
             message.setMessage(message.getUserNickname() + "님이 입장했습니다.");
             template.convertAndSend("/sub/usermatch/" + message.getMatchId(), message);
             System.out.println("ENTER sub 완료");
@@ -67,26 +66,21 @@ public class MessageController {
             System.out.println("UPDATE sub 완료");
         }
         else if (SocketMessage.MessageType.READY.equals(message.getType())) {
-            message.setMessage(message.getUserNickname() + "님이 레디하셨습니다.");
+            if(message.getIsReady().equals('R')) {
+                message.setMessage(message.getUserNickname() + "님이 레디하셨습니다.");
+            }
+            else if (message.getIsReady().equals('N')) {
+                message.setMessage(message.getUserNickname() + "님이 레디해제 하셨습니다.");
+            }
             
             Long matchId = message.getMatchId();
             Long userId = message.getUserId();
+            Character isReady = message.getIsReady();
             
-            matchService.userReady(matchId, userId);
+            matchService.userReady(matchId, userId, isReady);
             
             template.convertAndSend("/sub/usermatch/" + message.getMatchId(), message);
             System.out.println("READY sub 완료");
-        }
-        else if (SocketMessage.MessageType.UNREADY.equals(message.getType())) {
-            message.setMessage(message.getUserNickname() + "님이 레디를 해제하셨습니다.");
-
-            Long matchId = message.getMatchId();
-            Long userId = message.getUserId();
-
-            matchService.userUnReady(matchId, userId);
-
-            template.convertAndSend("/sub/usermatch/" + message.getMatchId(), message);
-            System.out.println("UNREADY sub 완료");
         }
         else if (SocketMessage.MessageType.START.equals(message.getType())) {
             message.setMessage("게임을 시작합니다.");
