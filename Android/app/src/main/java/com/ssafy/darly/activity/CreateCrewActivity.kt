@@ -28,6 +28,7 @@ import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
+import java.net.URI
 
 class CreateCrewActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateCrewBinding
@@ -37,7 +38,7 @@ class CreateCrewActivity : AppCompatActivity() {
     var crewAddress: Long = 1
     var crewJoin: String = "Lock"
 
-    private lateinit var imageURI: Uri
+    private var imageURI= Uri.EMPTY
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,9 +52,11 @@ class CreateCrewActivity : AppCompatActivity() {
 
         val imgPickerLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-                imageURI = it.data?.data!!
-                glide.load(imageURI).into(selectedImageView)
-                Log.d("select img", "" + imageURI)
+                imageURI = it.data?.data ?: Uri.EMPTY
+                if (imageURI != Uri.EMPTY) {
+                    glide.load(imageURI).into(selectedImageView)
+                    Log.d("select img", "" + imageURI)
+                }
             }
 
         binding.uploadCrewImg.setOnClickListener {
