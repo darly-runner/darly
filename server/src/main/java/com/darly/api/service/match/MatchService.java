@@ -17,4 +17,8 @@ public interface MatchService {
 
     void matchOut(Long matchId, Long userId);
     void patchMatchInfo(Long matchId, MatchPatchReq matchPatchReq);
+
+    void userReady(Long matchId, Long userId);
+    void userUnReady(Long matchId, Long userId);
+    void matchStart(Long matchId);
 }
