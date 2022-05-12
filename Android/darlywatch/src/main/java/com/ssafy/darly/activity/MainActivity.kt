@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity(){
         })
 
         CoroutineScope(Dispatchers.IO).launch {
-            if(GlobalApplication.network.getNetworkConnected()){
+            if(!GlobalApplication.network.getNetworkConnected()){
                 val db = Room.databaseBuilder(
                     applicationContext,
                     AppDatabase::class.java,

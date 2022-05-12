@@ -54,7 +54,7 @@ class RunningViewModel : ViewModel(){
     }
 
     fun setSpeed(){
-        val s = dist.value?.div(timeCnt / 3600f)
+        val s = dist.value?.div(timeCnt)?.times(3600)
         if (s != null)
             speed.value = round((s * 10f)) / 10f
     }
@@ -91,7 +91,7 @@ class RunningViewModel : ViewModel(){
     }
 
     fun setCalorie(){
-        calorieCnt = (4 * (timeCnt / 3600) * 75)
+        calorieCnt = (timeCnt / 10)
         calorie.value = "$calorieCnt kcal"
     }
 

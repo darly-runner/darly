@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import com.ssafy.darly.fragment.MultiFragment
+import com.ssafy.darly.fragment.RecordFragment
 import com.ssafy.darly.fragment.SoloFragment
 
 class MainViewPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
@@ -12,7 +12,7 @@ class MainViewPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) 
     override fun getItem(position: Int): Fragment {
         return when(position) {
             0       ->  SoloFragment()
-            else    ->  MultiFragment()
+            else    ->  RecordFragment()
         }
 
     }
