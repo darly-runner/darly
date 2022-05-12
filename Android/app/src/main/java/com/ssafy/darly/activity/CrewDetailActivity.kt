@@ -68,9 +68,10 @@ class CrewDetailActivity : AppCompatActivity() {
                             Log.d("Join", "${joinResponse.body()}")
                             val intent = Intent(this@CrewDetailActivity, CrewDetailActivity::class.java)
                             intent.putExtra("crewId", crewId)
-                            intent.flags =
-                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP //액티비티 스택제거
+//                            intent.flags =
+//                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP //액티비티 스택제거
 //                            intent.putExtra("crewId", crewId)
+                            finish()
                             ContextCompat.startActivity(this@CrewDetailActivity, intent, null)
                         }
                     }
@@ -92,6 +93,11 @@ class CrewDetailActivity : AppCompatActivity() {
             intent.putExtra("crewId", crewId)
             ContextCompat.startActivity(this, intent, null)
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
     }
 
     @JvmName("getCrewId1")
