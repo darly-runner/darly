@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SectionMapping {
     private Float km;
-    private Float pace;
+    private Integer pace;
     private Integer calories;
 
     @QueryProjection
-    public SectionMapping(Float km, Float pace, Integer calories) {
+    public SectionMapping(Float km, Integer pace, Integer calories) {
         this.km = km;
         this.pace = pace;
         this.calories = calories;
