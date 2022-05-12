@@ -1,8 +1,11 @@
 package com.ssafy.darly.fragment
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationRequest
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,14 +15,22 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.tasks.Task
 import com.ssafy.darly.R
 import com.ssafy.darly.activity.RunningActivity
 import com.ssafy.darly.databinding.FragmentRunningBinding
+import com.ssafy.darly.dialog.MatchLottieDialog
 import com.ssafy.darly.dialog.TargetDialog
+import com.ssafy.darly.util.LocationHelper
 import com.ssafy.darly.viewmodel.RunningViewModel
+import java.util.logging.Logger
 
 class RunningFragment : Fragment() ,
     OnMapReadyCallback,
@@ -55,8 +66,14 @@ class RunningFragment : Fragment() ,
         }
 
         binding.startButton.setOnClickListener {
-            val intent = Intent(this.requireContext(),RunningActivity::class.java)
-            startActivity(intent)
+            if(binding.runningTab.selectedTabPosition == 0){
+                val intent = Intent(this.requireContext(),RunningActivity::class.java)
+                startActivity(intent)
+            }
+            else if(binding.runningTab.selectedTabPosition == 1){
+                val dialog = MatchLottieDialog()
+                dialog.show(parentFragmentManager,"match")
+            }
         }
 
         return binding.root
@@ -70,5 +87,12 @@ class RunningFragment : Fragment() ,
             == PackageManager.PERMISSION_GRANTED) {
             map.isMyLocationEnabled = true
         }
+
+        LocationHelper().startListeningUserLocation(requireContext(), object : LocationHelper.MyLocationListener {
+            override fun onLocationChanged(location: Location) {
+                val latLng = LatLng(location.latitude, location.longitude)
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14f))
+            }
+        })
     }
 }

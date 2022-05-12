@@ -36,6 +36,7 @@ class LoginActivity : AppCompatActivity() {
     private val RC_SIGN_IN = 99
 
     val darlyService = DarlyService.getDarlyService()
+    var statusCode = 200
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -122,7 +123,9 @@ class LoginActivity : AppCompatActivity() {
                     val response = darlyService.accountKakao(AccountLoginReq(token.accessToken))
                     response?.body()?.accessToken?.let {GlobalApplication.prefs.setString("token",it)}
                     Log.d("LoginActivity","kakao access token : ${response.body()}")
-                    toMainActivity()
+                    statusCode = response?.body()?.statusCode ?: 200
+                    Log.d("LoginActivity, Status Code","${response?.code()}")
+                    checkFirstLogin()
                 }
             }
         }
@@ -150,6 +153,8 @@ class LoginActivity : AppCompatActivity() {
 
                     // 얻어낸 access token을 Preference에 저장한다.
                     response?.body()?.accessToken?.let {GlobalApplication.prefs.setString("token",it)}
+                    statusCode = response?.body()?.statusCode ?: 200
+                    Log.d("LoginActivity, Status Code","${response?.body()?.statusCode}")
                 }
 
                 account.idToken?.let { firebaseAuthWithGoogle(it) }
@@ -168,12 +173,27 @@ class LoginActivity : AppCompatActivity() {
                     val user = auth.currentUser
                     Log.d("인증 성공", user.toString())
                     if(user != null)
-                        toMainActivity()
+                        checkFirstLogin()
                 }else{
                     Log.d("LoginActivity", "인증 실패 signInWithCredential : failire",task.exception)
                     Toast.makeText(this,"로그인에 실패하였습니다.",Toast.LENGTH_SHORT)
                 }
             }
+    }
+
+    private fun checkFirstLogin(){
+        if(statusCode == 200){
+            toMainActivity()
+        }else if(statusCode == 201){
+            toUpdateActivity()
+        }
+    }
+
+    private fun toUpdateActivity(){
+        val intent = Intent(this, MyPageUpdateActivity::class.java)
+        intent.putExtra("FirstLogin",true)
+        startActivity(intent)
+        finish()
     }
 
     // 메인 액티비티로 이동

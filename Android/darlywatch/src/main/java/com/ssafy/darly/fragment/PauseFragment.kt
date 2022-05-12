@@ -4,12 +4,10 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.room.Room
 import com.ssafy.darly.R
@@ -17,7 +15,6 @@ import com.ssafy.darly.activity.MainActivity
 import com.ssafy.darly.dao.AppDatabase
 import com.ssafy.darly.databinding.FragmentPauseBinding
 import com.ssafy.darly.model.RecordRequest
-import com.ssafy.darly.model.RecordRequestDto
 import com.ssafy.darly.service.DarlyService
 import com.ssafy.darly.util.GlobalApplication
 import com.ssafy.darly.viewmodel.RunningViewModel
@@ -57,7 +54,7 @@ class PauseFragment : Fragment() {
             builder.setTitle("기록을 저장하시겠습니까?")
             builder.setIcon(R.mipmap.ic_launcher)
 
-            var listener = object : DialogInterface.OnClickListener {
+            var record = object : DialogInterface.OnClickListener {
                 override fun onClick(p0: DialogInterface?, p1: Int) {
                     CoroutineScope(Dispatchers.IO).launch {
                         // 네트워크 연결이 가능할때는 서버DB에 저장한다.
@@ -65,6 +62,9 @@ class PauseFragment : Fragment() {
                             DarlyService.getDarlyService().postRecord(model.record())
 
                             val intent = Intent(context, MainActivity::class.java)
+                            intent.flags =
+                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP //액티비티 스택제거
+
                             startActivity(intent)
                         }
                         // 네트워크 연걸이 불가능한경우 내장DB에 저장한다.
@@ -72,16 +72,39 @@ class PauseFragment : Fragment() {
                             saveLocalDb(model.record())
 
                             val intent = Intent(context, MainActivity::class.java)
+                            intent.flags =
+                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP //액티비티 스택제거
+
                             startActivity(intent)
                         }
+                        serviceStop()
                     }
                 }
             }
-            builder.setPositiveButton("기록 저장", listener)
-            builder.setNegativeButton("취소", null)
+
+            var cancle = object : DialogInterface.OnClickListener {
+                override fun onClick(p0: DialogInterface?, p1: Int) {
+                    model.isPause.value = true
+                    val intent = Intent(context, MainActivity::class.java)
+                    intent.flags =
+                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP //액티비티 스택제거
+                    startActivity(intent)
+                }
+            }
+
+
+            builder.setPositiveButton("기록 저장", record)
+            builder.setNeutralButton("기록 취소", cancle)
+            builder.setNegativeButton("계속하기", null)
             builder.show()
         }
         return binding.root
+    }
+
+    fun serviceStop(){
+        CoroutineScope(Dispatchers.Main).launch {
+            model.isPause.value = true
+        }
     }
 
     fun saveLocalDb(record : RecordRequest){

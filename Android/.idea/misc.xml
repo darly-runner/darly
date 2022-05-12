@@ -4,8 +4,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/activity_my_page_update.xml" value="0.25" />
+        <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/activity_result.xml" value="0.17806484295845998" />
         <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/activity_running.xml" value="0.25" />
+        <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/dialog_lottie.xml" value="0.2171875" />
         <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/fragment_pause.xml" value="0.25" />
+        <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/fragment_running.xml" value="0.1" />
+        <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/fragment_stat.xml" value="0.103596757852077" />
         <entry key="..\:/S06P31A301/Android/darlywatch/src/main/res/layout/fragment_multi.xml" value="0.6785714285714286" />
         <entry key="..\:/S06P31A301/android/app/src/main/res/drawable/ic_act.xml" value="0.1695" />
         <entry key="..\:/S06P31A301/android/app/src/main/res/drawable/ic_challenge.xml" value="0.1" />
