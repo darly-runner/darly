@@ -130,4 +130,28 @@ object BindingConversion {
             (recyclerView.adapter as SectionListAdapter).sectionStringList = sectionList
         }
     }
+
+    @JvmStatic
+    @BindingAdapter("setSectionMinValue")
+    fun setSectionMinValue(recyclerView: RecyclerView, item: Int) {
+        item?.let {
+            (recyclerView.adapter as SectionListAdapter).minValue = item
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("setSectionGapValue")
+    fun setSectionGapValue(recyclerView: RecyclerView, item: Int) {
+        item?.let {
+            (recyclerView.adapter as SectionListAdapter).gapValue = item
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("setSectionMinIndex")
+    fun setSectionMinIndex(recyclerView: RecyclerView, item: Int) {
+        item?.let {
+            (recyclerView.adapter as SectionListAdapter).minIndex = item
+        }
+    }
 }

@@ -20,6 +20,10 @@ class RecordDetailViewModel : ViewModel() {
     val recordRank = MutableLiveData<String>()
     val ranks = MutableLiveData<List<Rank>>()
 
+    val minSectionValue = MutableLiveData<Int>()
+    val minSectionIndex = MutableLiveData<Int>()
+    val gapSectionValue = MutableLiveData<Int>()
+
     init {
         coordinateLatitudes.value = listOf()
         coordinateLongitudes.value = listOf()

@@ -88,17 +88,27 @@ class RecordDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             model.recordRank.value = "--"
         model.ranks.value = response.body()?.ranks ?: listOf()
         var sectionList = mutableListOf<SectionString>()
-        for (section in response.body()?.sections ?: listOf()) {
-            var km = ""
-            km = if (section.km % 1 == 0f) section.km.toInt().toString()
+        var min = Int.MAX_VALUE
+        var minIndex = 0
+        var max = -1
+        for ((index, section) in response.body()?.sections?.withIndex() ?: listOf()) {
+            if(section.pace < min) {
+                min = section.pace
+                minIndex = index
+            }
+            if(section.pace > max)
+                max = section.pace
+            var km = if (section.km % 1 == 0f) section.km.toInt().toString()
             else String.format("%.02f", section.km)
+            Log.d("response", section.pace.toString())
             var pace = if (section.pace == 0) "--" else String.format("%01d'%02d''", section.pace / 60, section.pace % 60)
             var calories = section.calories.toString()
-            sectionList.add(SectionString(km, pace, calories))
+            sectionList.add(SectionString(km, pace, calories, section.pace))
         }
-        for (section in (1..3)) {
-            sectionList.add(SectionString((section).toString(), (section*2).toString(), (section*3).toString()))
-        }
+        model.minSectionIndex.value = minIndex
+        model.minSectionValue.value = min
+        model.gapSectionValue.value = max - min
+
         model.sections.value = sectionList
         Log.d("response", "${model.sections.value}")
     }
