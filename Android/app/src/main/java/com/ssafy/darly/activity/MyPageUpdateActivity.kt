@@ -59,11 +59,13 @@ class MyPageUpdateActivity : AppCompatActivity() {
         binding.recyclerView.adapter = myPageListAdapter
         binding.recyclerView.layoutManager = GridLayoutManager(this, 2)
 
-        model.userImage.value = intent.getStringExtra("userImage")
-        originNickname = intent.getStringExtra("userNickname") ?: ""
-        model.userNickname.value = intent.getStringExtra("userNickname")
-        model.userMessage.value = intent.getStringExtra("userMessage")
-        model.userAddress.value = intent.getSerializableExtra("userAddresses") as List<Address>
+        if(!intent.getBooleanExtra("FirstLogin",false)){
+            model.userImage.value = intent.getStringExtra("userImage")
+            originNickname = intent.getStringExtra("userNickname") ?: ""
+            model.userNickname.value = intent.getStringExtra("userNickname")
+            model.userMessage.value = intent.getStringExtra("userMessage")
+            model.userAddress.value = intent.getSerializableExtra("userAddresses") as List<Address>
+        }
 
         binding.cancelBtn.setOnClickListener { finish() }
         binding.saveBtn.setOnClickListener {
