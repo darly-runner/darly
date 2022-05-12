@@ -4,15 +4,13 @@ import com.ssafy.darly.model.*
 import com.ssafy.darly.model.address.AddressSearchGetRes
 import com.ssafy.darly.model.friend.FriendApplyReq
 import com.ssafy.darly.model.friend.FriendListGetRes
+import com.ssafy.darly.model.friend.FriendProfileGetRes
 import com.ssafy.darly.model.friend.FriendSearchReq
 import com.ssafy.darly.model.record.RecordDetailGetRes
 import com.ssafy.darly.model.record.RecordListGetRes
 import com.ssafy.darly.model.record.RecordTitlePatchReq
 import com.ssafy.darly.model.stat.StatGetRes
-import com.ssafy.darly.model.user.NicknameCheckPostReq
-import com.ssafy.darly.model.user.NicknameCheckPostRes
-import com.ssafy.darly.model.user.UserFeedGetRes
-import com.ssafy.darly.model.user.UserProfileGetRes
+import com.ssafy.darly.model.user.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -144,7 +142,7 @@ interface ApiService {
     suspend fun deleteFriend(@Path("friendId") friendId: Long): Response<BaseRes>
 
     @GET("friends/{friendId}/profile")
-    suspend fun getFriendProfile(@Path("friendId") friendId: Long): Response<UserProfileGetRes>
+    suspend fun getFriendProfile(@Path("friendId") friendId: Long): Response<FriendProfileGetRes>
 
     @GET("friends/{friendId}/feed")
     suspend fun getFriendFeedList(
