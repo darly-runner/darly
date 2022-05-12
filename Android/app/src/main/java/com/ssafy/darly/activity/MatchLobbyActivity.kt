@@ -85,7 +85,7 @@ class MatchLobbyActivity : AppCompatActivity() {
                 }
                 "READY" -> {
                     CoroutineScope(Dispatchers.Main).launch {
-                        val response = DarlyService.getDarlyService().getMatchDetails(matchId)
+                        val response = DarlyService.getDarlyService().refreshMatchDetails(matchId)
                         model.matchUsers.value = response.body()?.users ?: listOf()
 
                         adapter = CrewMatchLobbyAdapter(
