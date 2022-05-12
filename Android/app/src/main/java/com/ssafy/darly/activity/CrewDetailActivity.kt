@@ -86,6 +86,12 @@ class CrewDetailActivity : AppCompatActivity() {
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = tabTitleArray[position]
         }.attach()
+
+        binding.createBtn.setOnClickListener {
+            val intent = Intent(this, CrewCreateFeedActivity::class.java)
+            intent.putExtra("crewId", crewId)
+            ContextCompat.startActivity(this, intent, null)
+        }
     }
 
     @JvmName("getCrewId1")

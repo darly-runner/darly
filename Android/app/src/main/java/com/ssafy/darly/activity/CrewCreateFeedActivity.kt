@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.doAfterTextChanged
@@ -13,6 +14,10 @@ import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.ssafy.darly.R
 import com.ssafy.darly.databinding.ActivityCrewCreateFeedBinding
+import com.ssafy.darly.service.DarlyService
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -22,6 +27,7 @@ import java.io.File
 class CrewCreateFeedActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCrewCreateFeedBinding
     private lateinit var imageURI: Uri
+    var crewId: Long=0
     var feedDesc: String=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,11 +55,23 @@ class CrewCreateFeedActivity : AppCompatActivity() {
             feedDesc = it.toString()
         }
 
+        crewId = intent.getLongExtra("crewId", 0)
         binding.createFeedButton.setOnClickListener {
             val file = getImgFile(imageURI)
             val requestFile = RequestBody.create(MediaType.parse(contentResolver.getType(imageURI!!)), file)
-            val crewImgBody = MultipartBody.Part.createFormData("crewImage", file!!.name, requestFile)
-            val crewDesc = RequestBody.create(MediaType.parse("text/plain"), feedDesc)
+            val feedImgBody = MultipartBody.Part.createFormData("feedImage", file!!.name, requestFile)
+            val feedContent = RequestBody.create(MediaType.parse("text/plain"), feedDesc)
+            val feedTitle = RequestBody.create(MediaType.parse("text/plain"), "title")
+
+            val textHashMap = hashMapOf<String,RequestBody>()
+
+            textHashMap["feedContent"] = feedContent
+            textHashMap["feedTitle"] = feedTitle
+
+            CoroutineScope(Dispatchers.IO).launch {
+                val response = DarlyService.getDarlyService().createFeed(crewId = crewId, feedImage = feedImgBody, data = textHashMap )
+                Log.d("Create Feeddd", "${response}")
+            }
         }
     }
 

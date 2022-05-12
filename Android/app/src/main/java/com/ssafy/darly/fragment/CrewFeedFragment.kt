@@ -26,7 +26,7 @@ class CrewFeedFragment : Fragment() {
     private val model: CrewViewModel by viewModels()
     private var crewId: Long = 0
     private var crewJoin: String = ""
-    private var crewName: String=""
+    private var crewName: String = ""
     lateinit var adapter: CrewDetailFeedsAdapter
 
     override fun onCreateView(
@@ -53,12 +53,14 @@ class CrewFeedFragment : Fragment() {
         val glide = Glide.with(this@CrewFeedFragment)
         Log.d("crew Join ch", crewJoin)
 
-        when(crewJoin) {
+        when (crewJoin) {
             "J" -> {
+                binding.locked.visibility = View.GONE
                 binding.notJoined.visibility = View.GONE
                 CoroutineScope(Dispatchers.Main).launch {
                     val response =
-                        DarlyService.getDarlyService().getCrewFeeds(crewId = crewId, page = 0, size = 30)
+                        DarlyService.getDarlyService()
+                            .getCrewFeeds(crewId = crewId, page = 0, size = 30)
                     model.crewDetailFeeds.value = response.body()?.feeds
 
                     val feedsImg = model.crewDetailFeeds.value
