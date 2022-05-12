@@ -23,6 +23,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service("matchService")
 @RequiredArgsConstructor
@@ -81,9 +82,25 @@ public class MatchServiceImpl implements MatchService {
         match.setMatchCurPerson(curPerson);
         matchRepository.save(match);
 
+        return getMatchRefresh(matchId, userId);
+    }
+
+    // 현재 유저의 정보만 가져오기
+    @Override
+    public MatchInRes getMatchRefresh(Long matchId, Long userId) {
+        Match match = matchRepository.findByMatchId(matchId);
+        User enterUser = userRepository.findById(userId).get();
+
         List<UserMatch> userMatch = userMatchRepository.findAllByUserMatchId_Match_MatchId(matchId);
-//        Collections.reverse(userMatch);
         List<UserMatchMapping> userMatches = new ArrayList();
+
+        Integer imHost;
+        if(match.getHost().getUserNickname().equals(enterUser.getUserNickname())){
+            imHost = 1;
+        }
+        else {
+            imHost = 0;
+        }
 
         for(UserMatch user : userMatch) {
             Integer isHost;
@@ -121,6 +138,7 @@ public class MatchServiceImpl implements MatchService {
                 .statusCode(200)
                 .message("success")
                 .myUserId(userId)
+                .imHost(imHost)
                 .match(match)
                 .userMatches(userMatches)
                 .build();
@@ -131,14 +149,34 @@ public class MatchServiceImpl implements MatchService {
     public void matchOut(Long matchId, Long userId) {
         UserMatch userMatch = userMatchRepository.findByUserMatchId_Match_MatchIdAndUserMatchId_User_UserId(matchId, userId);
         Match match = matchRepository.findByMatchId(matchId);
+        Long hostId = match.getHost().getUserId();
+        System.out.println(hostId);
+        System.out.println(userId);
 
-        // 1명 퇴장
-        Short curPerson = match.getMatchCurPerson();
-        curPerson--;
-        match.setMatchCurPerson(curPerson);
-        matchRepository.save(match);
+        // 퇴장한 사람이 방장이 아님
+        if(hostId != userId) {
+            Short curPerson = match.getMatchCurPerson();
+            curPerson--;
+            match.setMatchCurPerson(curPerson);
 
-        userMatchRepository.delete(userMatch);
+            // 만약 현재 인원이 0명이 돼버리면
+            if(curPerson == 0) {
+                // 비활성화 상태로 변환
+                match.setMatchStatus('U');
+            }
+            matchRepository.save(match);
+            // 나간사람 1명만 삭제
+            userMatchRepository.delete(userMatch);
+        }
+        // 퇴장한 사람이 방장, 아직 시작안한방에서 방장나가면 방 비활성화 상태로 바꾸고 전부 내보냄
+        else if ((hostId == userId) && match.getMatchStatus().equals('W')){
+            Short curPerson = 0;
+            match.setMatchCurPerson(curPerson);
+            match.setMatchStatus('U');
+            matchRepository.save(match);
+            // userMatch 테이블의 matchId로 검색해 전부 삭제, match는 남아있지만 방에는 아무도 없음
+            userMatchRepository.deleteAllByUserMatchId_Match_MatchId(matchId);
+        }
     }
 
     // 방 정보 수정, matchTitle, matchMaxPerson, matchGoalDistance를 수정
@@ -152,6 +190,30 @@ public class MatchServiceImpl implements MatchService {
 
         matchRepository.save(match);
     }
+
+    @Override
+    public void userReady(Long matchId, Long userId, Character isReady) {
+        // matchid, userid로 특정 유저 찾아내기
+        UserMatch userMatch = userMatchRepository.findByUserMatchId_Match_MatchIdAndUserMatchId_User_UserId(matchId, userId);
+
+        if(isReady.equals('R')) {
+            userMatch.setUserMatchStatus('R');
+        }
+        else if(isReady.equals('N')) {
+            userMatch.setUserMatchStatus('N');
+        }
+        userMatchRepository.save(userMatch);
+    }
+
+    @Override
+    public void matchStart(Long matchId) {
+        Match match = matchRepository.findByMatchId(matchId);
+
+        // 시작상태로 매치 상태 바꿈
+        match.setMatchStatus('S');
+        matchRepository.save(match);
+    }
+
 
     private Long getTimestamp() {
         return Timestamp.valueOf(LocalDate.now().atStartOfDay()).getTime() / 1000;

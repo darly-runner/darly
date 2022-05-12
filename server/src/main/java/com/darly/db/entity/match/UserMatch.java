@@ -1,9 +1,6 @@
 package com.darly.db.entity.match;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.EmbeddedId;
@@ -12,6 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @DynamicInsert

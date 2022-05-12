@@ -53,8 +53,8 @@ class CrewMatchLobbyAdapter(
 
         val isReady = users.get(position).userStatus
         when (isReady) {
-            "R" -> holder.userIsReady.setBackgroundResource(R.drawable.ic_ready)
-            "N" -> holder.userIsReady.setBackgroundResource(R.drawable.ic_unready)
+            "R" -> holder.userIsReady.setImageResource(R.drawable.ic_status_ready)
+            "N" -> holder.userIsReady.setImageResource(R.drawable.ic_unready)
         }
         val isUserHost = users.get(position).isHost
         when(isUserHost == 1) {

@@ -22,6 +22,6 @@ public class Section {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Record record;
     private Float sectionKm;
-    private Float sectionPace;
+    private Integer sectionPace;
     private Integer sectionCalories;
 }

@@ -9,11 +9,15 @@ import com.ssafy.darly.adapter.friend.FriendAddListAdapter
 import com.ssafy.darly.adapter.friend.FriendListAdapter
 import com.ssafy.darly.adapter.friend.FriendWaitingListAdapter
 import com.ssafy.darly.adapter.mypage.MyPageListAdapter
+import com.ssafy.darly.adapter.record.RankListAdapter
 import com.ssafy.darly.adapter.record.RecordListAdapter
+import com.ssafy.darly.adapter.record.SectionListAdapter
 import com.ssafy.darly.adapter.user.UserFeedListAdapter
 import com.ssafy.darly.model.address.Address
 import com.ssafy.darly.model.friend.Friend
+import com.ssafy.darly.model.record.RankString
 import com.ssafy.darly.model.record.Record
+import com.ssafy.darly.model.record.SectionString
 import com.ssafy.darly.model.user.Feed
 
 object BindingConversion {
@@ -114,6 +118,62 @@ object BindingConversion {
         }
         items?.let {
             (recyclerView.adapter as RecordListAdapter).recordList = recordList
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("setSectionItems")
+    fun setSectionItems(recyclerView: RecyclerView, items: List<SectionString>) {
+        var sectionList = mutableListOf<SectionString>()
+        for (item in items) {
+            sectionList.add(item)
+        }
+        items?.let {
+            (recyclerView.adapter as SectionListAdapter).sectionStringList = sectionList
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("setSectionMinValue")
+    fun setSectionMinValue(recyclerView: RecyclerView, item: Int) {
+        item?.let {
+            (recyclerView.adapter as SectionListAdapter).minValue = item
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("setSectionGapValue")
+    fun setSectionGapValue(recyclerView: RecyclerView, item: Int) {
+        item?.let {
+            (recyclerView.adapter as SectionListAdapter).gapValue = item
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("setSectionMinIndex")
+    fun setSectionMinIndex(recyclerView: RecyclerView, item: Int) {
+        item?.let {
+            (recyclerView.adapter as SectionListAdapter).minIndex = item
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("setRankItems")
+    fun setRankItems(recyclerView: RecyclerView, items: List<RankString>) {
+        var rankStringList = mutableListOf<RankString>()
+        for (item in items) {
+            rankStringList.add(item)
+        }
+        items?.let {
+            (recyclerView.adapter as RankListAdapter).rankStringList = rankStringList
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("setMyRank")
+    fun setMyRank(recyclerView: RecyclerView, item: Int) {
+        item?.let {
+            (recyclerView.adapter as RankListAdapter).myRank = item
         }
     }
 }

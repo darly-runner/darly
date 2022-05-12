@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.ssafy.darly.R
 import com.ssafy.darly.adapter.address.AddressListAdapter
 import com.ssafy.darly.databinding.DialogSearchAddressBinding
@@ -74,6 +75,7 @@ class SearchAddressDialog : DialogFragment() {
         })
 
         binding.locationList.adapter = addressListFinishAdapter
+        binding.locationList.layoutManager = LinearLayoutManager(context)
 
         binding.searchCrewLocation.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
