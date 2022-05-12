@@ -38,7 +38,7 @@ class MatchLobbyActivity : AppCompatActivity() {
     var myUserId: Long = 0
     var isHost: Int = 0
     var prevStatus: String = "N"
-//    var participants
+    var participants: List<MatchUsers>? = null
 
     val url = "http://3.36.61.107:8000/ws/websocket"
     val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
@@ -84,8 +84,6 @@ class MatchLobbyActivity : AppCompatActivity() {
                     }
                 }
                 "READY" -> {
-//                    Log.d(("check ready"), "READY")
-//                }
                     CoroutineScope(Dispatchers.Main).launch {
                         val response = DarlyService.getDarlyService().getMatchDetails(matchId)
                         model.matchUsers.value = response.body()?.users ?: listOf()
@@ -95,7 +93,7 @@ class MatchLobbyActivity : AppCompatActivity() {
                             LayoutInflater.from(this@MatchLobbyActivity),
                             glide
                         )
-                        adapter.notifyDataSetChanged()
+//                        adapter.notifyDataSetChanged()
                         binding.matchUsersList.adapter = adapter
                         binding.matchUsersList.layoutManager =
                             GridLayoutManager(this@MatchLobbyActivity, 1)
@@ -110,7 +108,7 @@ class MatchLobbyActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_match_lobby)
         binding.lifecycleOwner = this
         binding.viewModel = model
-
+//        subscribeObserver()
         val glide = Glide.with(this)
         matchId = intent.getLongExtra("matchId", 0)
 
@@ -127,7 +125,8 @@ class MatchLobbyActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.Main).launch {
             val response = DarlyService.getDarlyService().getMatchDetails(matchId)
             model.matchUsers.value = response.body()?.users ?: listOf()
-            
+            participants = model.matchUsers.value
+            Log.d("chch check", model.matchUsers.value!!.javaClass.toString())
 
             myUserId = response.body()?.myUserId ?: 3
             isHost = response.body()?.imHost ?: 0
@@ -184,9 +183,9 @@ class MatchLobbyActivity : AppCompatActivity() {
         super.onBackPressed()
     }
 
-//    fun subscribeObserver() {
-//        model.matchUsers.observe(this, Observer {
+//    private fun subscribeObserver() {
+//        model.matchUsers.observe(this) {
 //            adapter.users = model.matchUsers.value as MutableList<MatchUsers>
-//        })
+//        }
 //    }
 }
