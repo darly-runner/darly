@@ -10,25 +10,18 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
-import com.google.gson.JsonParser
 import com.ssafy.darly.R
 import com.ssafy.darly.adapter.CrewMatchLobbyAdapter
 import com.ssafy.darly.databinding.ActivityMatchLobbyBinding
 import com.ssafy.darly.model.MatchUsers
 import com.ssafy.darly.service.DarlyService
 import com.ssafy.darly.viewmodel.CrewViewModel
-import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.DisposableHandle
 import kotlinx.coroutines.launch
-import okhttp3.OkHttpClient
 import org.json.JSONObject
 import ua.naiksoftware.stomp.Stomp
-import ua.naiksoftware.stomp.StompClient
 import ua.naiksoftware.stomp.dto.LifecycleEvent
-import ua.naiksoftware.stomp.dto.StompCommand
-import ua.naiksoftware.stomp.dto.StompHeader
 
 class MatchLobbyActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMatchLobbyBinding

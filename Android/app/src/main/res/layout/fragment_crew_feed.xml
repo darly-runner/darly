@@ -16,37 +16,78 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:background="#EDEDED" />
-
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:paddingHorizontal="18dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="1dp"
-                android:src="@drawable/ic_notice" />
+            android:id="@+id/noticeLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/crewNotice"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="#EDEDED" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:paddingHorizontal="18dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="1dp"
+                    android:src="@drawable/ic_notice" />
+
+                <TextView
+                    android:id="@+id/crewNotice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingHorizontal="4dp"
+                    android:text="매일 평일 저녁 7시마다 방 만들어요"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="#EDEDED" />
+        </LinearLayout>
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/ic_lock"/>
+
+        <LinearLayout
+            android:id="@+id/notJoined"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingTop="15dp"
+            android:paddingBottom="40dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/notJoinedCrewName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingHorizontal="4dp"
-                android:text="매일 평일 저녁 7시마다 방 만들어요"
-                android:textColor="@color/black" />
-        </LinearLayout>
+                android:fontFamily="@font/pretendard_medium"
+                android:textColor="@color/black"
+                android:paddingRight="5dp"
+                android:textSize="15dp"
+                android:text="Locked"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray_800"
+                android:textSize="15dp"
+                android:text="크루에 가입하고 피드를 공유해보세요!"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:background="#EDEDED" />
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/crewDetailFeeds"

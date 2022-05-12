@@ -24,7 +24,9 @@ import kotlinx.coroutines.launch
 class CrewFeedFragment : Fragment() {
     private lateinit var binding: FragmentCrewFeedBinding
     private val model: CrewViewModel by viewModels()
-    var crewId: Long=0
+    private var crewId: Long = 0
+    private var crewJoin: String = ""
+    private var crewName: String=""
     lateinit var adapter: CrewDetailFeedsAdapter
 
     override fun onCreateView(
@@ -42,25 +44,58 @@ class CrewFeedFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         crewId = (activity as CrewDetailActivity).getCrewId()
+        crewJoin = (activity as CrewDetailActivity).getCrewStatus()
+        crewName = (activity as CrewDetailActivity).getCrewName()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val glide = Glide.with(this@CrewFeedFragment)
+        Log.d("crew Join ch", crewJoin)
 
-        CoroutineScope(Dispatchers.Main).launch {
-            val response = DarlyService.getDarlyService().getCrewFeeds(crewId = crewId, page = 0, size = 30)
-            model.crewDetailFeeds.value = response.body()?.feeds
-            Log.d("feeds check", "${response}")
+        when(crewJoin) {
+            "J" -> {
+                binding.notJoined.visibility = View.GONE
+                CoroutineScope(Dispatchers.Main).launch {
+                    val response =
+                        DarlyService.getDarlyService().getCrewFeeds(crewId = crewId, page = 0, size = 30)
+                    model.crewDetailFeeds.value = response.body()?.feeds
 
-            val feedsImg = model.crewDetailFeeds.value
-            adapter = CrewDetailFeedsAdapter(
-                feedsImg!!,
-                LayoutInflater.from(context),
-                glide
-            )
-            binding.crewDetailFeeds.adapter = adapter
-            binding.crewDetailFeeds.layoutManager = GridLayoutManager(context, 3)
+                    val feedsImg = model.crewDetailFeeds.value
+                    adapter = CrewDetailFeedsAdapter(
+                        feedsImg!!,
+                        LayoutInflater.from(context),
+                        glide
+                    )
+                    binding.crewDetailFeeds.adapter = adapter
+                    binding.crewDetailFeeds.layoutManager = GridLayoutManager(context, 3)
+                }
+            }
+            "N" -> {
+                binding.notJoinedCrewName.text = crewName
+                binding.crewDetailFeeds.visibility = View.GONE
+                binding.noticeLayout.visibility = View.GONE
+            }
+            "A" -> {
+                binding.notJoinedCrewName.text = crewName
+                binding.crewDetailFeeds.visibility = View.GONE
+                binding.noticeLayout.visibility = View.GONE
+            }
         }
+
+//        CoroutineScope(Dispatchers.Main).launch {
+//            val response =
+//                DarlyService.getDarlyService().getCrewFeeds(crewId = crewId, page = 0, size = 30)
+//            model.crewDetailFeeds.value = response.body()?.feeds
+//
+//            val feedsImg = model.crewDetailFeeds.value
+//            adapter = CrewDetailFeedsAdapter(
+//                feedsImg!!,
+//                LayoutInflater.from(context),
+//                glide
+//            )
+//            binding.crewDetailFeeds.adapter = adapter
+//            binding.crewDetailFeeds.layoutManager = GridLayoutManager(context, 3)
+//        }
     }
 }

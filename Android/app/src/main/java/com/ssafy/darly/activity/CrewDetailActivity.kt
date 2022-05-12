@@ -23,9 +23,9 @@ import kotlinx.coroutines.launch
 class CrewDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCrewDetailBinding
     private val model: CrewViewModel by viewModels()
-    var crewId: Long = 0
-    var crewJoin: String = ""
-    var prevCrewJoin: String =""
+    private var crewId: Long = 0
+    private var crewJoin: String = ""
+    var crewName: String=""
     private val tabTitleArray = arrayOf(
         "요약",
         "피드",
@@ -51,9 +51,10 @@ class CrewDetailActivity : AppCompatActivity() {
             binding.crewDesc.text = response.body()?.crewDesc
             glide.load(response.body()?.crewImage).into(binding.crewImage)
 
-            prevCrewJoin = response.body()?.crewStatus ?: "N"
+            crewJoin = response.body()?.crewStatus ?: "N"
+            crewName = response.body()?.crewName ?: ""
 
-            when (prevCrewJoin) {
+            when (crewJoin) {
                 "A" -> {
                     binding.crewJoinButton.setBackgroundResource(R.drawable.button_crewjoin_disable)
                     binding.crewJoinButton.setTextColor(Color.rgb(114, 87, 93))
@@ -85,7 +86,6 @@ class CrewDetailActivity : AppCompatActivity() {
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = tabTitleArray[position]
         }.attach()
-
     }
 
     @JvmName("getCrewId1")
@@ -95,5 +95,10 @@ class CrewDetailActivity : AppCompatActivity() {
 
     fun getCrewStatus(): String {
         return crewJoin
+    }
+
+    @JvmName("getCrewName1")
+    fun getCrewName(): String {
+        return crewName
     }
 }
