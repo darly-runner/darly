@@ -2,7 +2,6 @@ package com.ssafy.darly.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -32,7 +31,7 @@ class CrewFeedFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_crew_feed, container, false)
         activity?.let {
             binding.lifecycleOwner = this
@@ -51,7 +50,6 @@ class CrewFeedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val glide = Glide.with(this@CrewFeedFragment)
-        Log.d("crew Join ch", crewJoin)
 
         when (crewJoin) {
             "J" -> {
@@ -74,11 +72,13 @@ class CrewFeedFragment : Fragment() {
                 }
             }
             "N" -> {
+                binding.line.visibility = View.GONE
                 binding.notJoinedCrewName.text = crewName
                 binding.crewDetailFeeds.visibility = View.GONE
                 binding.noticeLayout.visibility = View.GONE
             }
             "A" -> {
+                binding.line.visibility = View.GONE
                 binding.notJoinedCrewName.text = crewName
                 binding.crewDetailFeeds.visibility = View.GONE
                 binding.noticeLayout.visibility = View.GONE

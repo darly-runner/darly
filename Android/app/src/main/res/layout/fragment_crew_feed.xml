@@ -53,15 +53,20 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="3dp"
-                android:background="#EDEDED" />
+                android:background="#ededed" />
         </LinearLayout>
+        <TextView
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ededed" />
 
         <ImageView
             android:id="@+id/locked"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="60dp"
             android:src="@drawable/ic_lock" />
 
         <LinearLayout
