@@ -33,9 +33,11 @@ import ua.naiksoftware.stomp.dto.StompHeader
 class MatchLobbyActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMatchLobbyBinding
     private val model: CrewViewModel by viewModels()
-    var matchId: Long = 0
     lateinit var adapter: CrewMatchLobbyAdapter
+    var matchId: Long = 0
     var myUserId: Long = 0
+    var isHost: Int = 0
+    var prevStatus: String = "N"
 
     val url = "http://3.36.61.107:8000/ws/websocket"
     val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
@@ -60,30 +62,24 @@ class MatchLobbyActivity : AppCompatActivity() {
             Log.i("tagg", it.toString())
             val newMessage = JSONObject(it.payload)
             val type = newMessage.getString("type")
+            val userId = newMessage.getString("userId")
 
             when (type) {
                 "ENTER" -> {
-                    CoroutineScope(Dispatchers.Main).launch {
-                        val response = DarlyService.getDarlyService().getMatchDetails(matchId)
-                        model.matchUsers.value = response.body()?.users ?: listOf()
+                    if (userId != myUserId.toString()) {
+                        CoroutineScope(Dispatchers.Main).launch {
+                            val response = DarlyService.getDarlyService().getMatchDetails(matchId)
+                            model.matchUsers.value = response.body()?.users ?: listOf()
 
-                        myUserId = response.body()?.myUserId ?: 3
-
-                        binding.matchTitle.text = response.body()?.matchTitle ?: ""
-                        binding.hostNickname.text = response.body()?.hostNickname
-                        binding.goalDistance.text = response.body()?.matchGoalDistance.toString()
-                        binding.currentNum.text = response.body()?.matchCurPerson.toString()
-                        Log.d("matchId", "${response.body()}")
-                        Log.d("qiqiqiqi", "${model.matchUsers.value}")
-
-                        adapter = CrewMatchLobbyAdapter(
-                            model.matchUsers.value!!,
-                            LayoutInflater.from(this@MatchLobbyActivity),
-                            glide
-                        )
-                        binding.matchUsersList.adapter = adapter
-                        binding.matchUsersList.layoutManager =
-                            GridLayoutManager(this@MatchLobbyActivity, 1)
+                            adapter = CrewMatchLobbyAdapter(
+                                model.matchUsers.value!!,
+                                LayoutInflater.from(this@MatchLobbyActivity),
+                                glide
+                            )
+                            binding.matchUsersList.adapter = adapter
+                            binding.matchUsersList.layoutManager =
+                                GridLayoutManager(this@MatchLobbyActivity, 1)
+                        }
                     }
                 }
                 "READY" -> Log.d("READY", "READY")
@@ -113,8 +109,9 @@ class MatchLobbyActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.Main).launch {
             val response = DarlyService.getDarlyService().getMatchDetails(matchId)
             model.matchUsers.value = response.body()?.users ?: listOf()
-
+            
             myUserId = response.body()?.myUserId ?: 3
+            isHost = response.body()?.isHost ?: 0
 
             binding.matchTitle.text = response.body()?.matchTitle ?: ""
             binding.hostNickname.text = response.body()?.hostNickname
@@ -137,13 +134,36 @@ class MatchLobbyActivity : AppCompatActivity() {
             data.put("matchId", matchId)
             data.put("userId", myUserId)
             stompClient.send("/pub/usermatch", data.toString()).subscribe()
+//            runStomp()
+        }
+
+        binding.readyButton.setOnClickListener {
+            prevStatus = if (prevStatus == "N") {
+                "R"
+            } else {
+                "N"
+            }
+            val data = JSONObject()
+            data.put("type", "READY")
+            data.put("userNickname", "darly1")
+            data.put("matchId", matchId)
+            data.put("userId", myUserId)
+            data.put("isReady", prevStatus)
+            stompClient.send("/pub/usermatch", data.toString()).subscribe()
 
         }
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
 
+        val data = JSONObject()
+        data.put("type", "LEAVE")
+        data.put("userNickname", "darly1")
+        data.put("matchId", matchId)
+        data.put("userId", myUserId)
+        data.put("isHost", isHost)
+        stompClient.send("/pub/usermatch", data.toString()).subscribe()
+        super.onBackPressed()
     }
 
 //    fun subscribeObserver() {

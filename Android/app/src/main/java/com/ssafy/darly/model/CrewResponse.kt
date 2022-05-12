@@ -143,6 +143,7 @@ data class CrewJoin(
 
 data class MatchLobbyDetails(
     var myUserId: Long,
+    var isHost: Int,
     var statusCode: Int,
     var message: String,
     var matchTitle: String,
