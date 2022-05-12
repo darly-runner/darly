@@ -1,6 +1,5 @@
 package com.ssafy.darly.activity
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
@@ -8,7 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayoutMediator
@@ -66,25 +65,12 @@ class CrewDetailActivity : AppCompatActivity() {
                         CoroutineScope(Dispatchers.Main).launch {
                             val joinResponse = DarlyService.getDarlyService().crewJoin(crewId)
                             Log.d("Join", "${joinResponse.body()}")
-                            when(joinResponse.body()?.statusCode.toString()) {
-                                "201" -> crewJoin = "J"
-                                "200" -> crewJoin = "A"
-                            }
-//                            when(joinResponse.body()?.statusCode.toString()) {
-//                                "201" -> {
-//                                    val builder = AlertDialog.Builder(this@CrewDetailActivity)
-//                                    val intent = Intent(this@CrewDetailActivity, CrewDetailActivity::class.java)
-//                                    builder.setTitle("")
-//                                        .setMessage("")
-//                                        .setPositiveButton("Yes", DialogInterface.OnClickListener {
-//                                            dialog, id -> startActivity(intent)
-//                                        })
-//                                    builder.show()
-//                                }
-//                            }
-//                            binding.crewJoinButton.setBackgroundResource(R.drawable.button_crewjoin_disable)
-//                            binding.crewJoinButton.setdTextColor(Color.rgb(114, 87, 93))
-//                            binding.crewJoinButton.text = "승인 대기중"
+                            val intent = Intent(this@CrewDetailActivity, CrewDetailActivity::class.java)
+                            intent.putExtra("crewId", crewId)
+                            intent.flags =
+                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP //액티비티 스택제거
+//                            intent.putExtra("crewId", crewId)
+                            ContextCompat.startActivity(this@CrewDetailActivity, intent, null)
                         }
                     }
                 }
@@ -100,39 +86,6 @@ class CrewDetailActivity : AppCompatActivity() {
             tab.text = tabTitleArray[position]
         }.attach()
 
-//        if(crewJoin != "") {
-//            if(prevCrewJoin != crewJoin) {
-//
-//            }
-//        }
-//        when (crewJoin) {
-//            "A" -> {
-//                binding.crewJoinButton.setBackgroundResource(R.drawable.button_crewjoin_disable)
-//                binding.crewJoinButton.setTextColor(Color.rgb(114, 87, 93))
-//                binding.crewJoinButton.text = "승인 대기중"
-//            }
-//            "J" -> binding.crewJoinButton.visibility = View.GONE
-//            "N" -> {
-//                binding.crewJoinButton.setOnClickListener {
-//                    CoroutineScope(Dispatchers.Main).launch {
-//                        val joinResponse = DarlyService.getDarlyService().crewJoin(crewId)
-//                        Log.d("Join", "${joinResponse}")
-////                        val intent = Intent(this@CrewDetailActivity, CrewDetailActivity::class.java)
-////                        startActivity(intent)
-////                            binding.crewJoinButton.setBackgroundResource(R.drawable.button_crewjoin_disable)
-////                            binding.crewJoinButton.setTextColor(Color.rgb(114, 87, 93))
-////                            binding.crewJoinButton.text = "승인 대기중"
-//                    }
-//                }
-//            }
-//        }
-
-//        binding.crewJoinButton.setOnClickListener {
-//            CoroutineScope(Dispatchers.Main).launch {
-//                val response = DarlyService.getDarlyService().crewJoin(crewId)
-//                Log.d("Join", "${response}")
-//            }
-//        }
     }
 
     @JvmName("getCrewId1")
