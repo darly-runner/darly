@@ -1,8 +1,10 @@
 package com.ssafy.darly.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ssafy.darly.model.record.Rank
+import com.ssafy.darly.model.record.RankString
 import com.ssafy.darly.model.record.SectionString
 
 class RecordDetailViewModel : ViewModel() {
@@ -17,17 +19,22 @@ class RecordDetailViewModel : ViewModel() {
     val coordinateLatitudes = MutableLiveData<List<String>>()
     val coordinateLongitudes = MutableLiveData<List<String>>()
     val sections = MutableLiveData<List<SectionString>>()
-    val recordRank = MutableLiveData<String>()
+    val recordRank = MutableLiveData<Int>()
+    val recordRankString = MutableLiveData<String>()
     val ranks = MutableLiveData<List<Rank>>()
 
     val minSectionValue = MutableLiveData<Int>()
     val minSectionIndex = MutableLiveData<Int>()
     val gapSectionValue = MutableLiveData<Int>()
 
+    val rankStringList = MutableLiveData<List<RankString>>()
+
     init {
         coordinateLatitudes.value = listOf()
         coordinateLongitudes.value = listOf()
         sections.value = listOf()
         ranks.value = listOf()
+        rankStringList.value = listOf()
+        recordRank.value = 0
     }
 }
