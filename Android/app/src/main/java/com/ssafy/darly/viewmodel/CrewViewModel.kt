@@ -26,4 +26,6 @@ class CrewViewModel : ViewModel(){
     var crewRoomsList = MutableLiveData<List<MatchDetails>>()
 
     var matchUsers = MutableLiveData<List<MatchUsers>>()
+
+    var EnterResponse = MutableLiveData<EnterRes>()
 }

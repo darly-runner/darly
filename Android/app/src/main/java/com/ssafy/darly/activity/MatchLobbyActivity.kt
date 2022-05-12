@@ -1,5 +1,6 @@
 package com.ssafy.darly.activity
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
+import com.google.gson.JsonParser
 import com.ssafy.darly.R
 import com.ssafy.darly.adapter.CrewMatchLobbyAdapter
 import com.ssafy.darly.databinding.ActivityMatchLobbyBinding
@@ -33,29 +35,15 @@ class MatchLobbyActivity : AppCompatActivity() {
     private val model: CrewViewModel by viewModels()
     var matchId: Long = 0
     lateinit var adapter: CrewMatchLobbyAdapter
-    var myUserId: Long=0
-
-//    lateinit var stompConnection: Disposable
-//    lateinit var topic: Disposable
+    var myUserId: Long = 0
 
     val url = "http://3.36.61.107:8000/ws/websocket"
-//    val intervalMills = 1000L
-//    val client = OkHttpClient()
-//    lateinit var stomp: StompClient
+    val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
 
-//    val stomp = StompClient()
-//    val test = StompCommand()
-
-    val stompClient =  Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
-
+    @SuppressLint("CheckResult")
     fun runStomp() {
-//        stompClient.
-//        stompClient.topic("/chat/enter").subscribe { topicMessage ->
-//            Log.i("message Recieve", topicMessage.payload)
-//        }
-
+        val glide = Glide.with(this)
         stompClient.connect()
-
         stompClient.lifecycle().subscribe { lifecycleEvent ->
             when (lifecycleEvent.type) {
                 LifecycleEvent.Type.OPENED -> {
@@ -67,39 +55,40 @@ class MatchLobbyActivity : AppCompatActivity() {
                 }
             }
         }
-        val data = JSONObject()
-        data.put("type", "ENTER")
-        data.put("userNickname", "darly1")
-        data.put("matchId", matchId)
-        data.put("userId", myUserId)
-        stompClient.send("/pub/usermatch", data.toString()).subscribe()
+
         stompClient.topic("/sub/usermatch/${matchId}").subscribe {
             Log.i("tagg", it.toString())
+            val newMessage = JSONObject(it.payload)
+            val type = newMessage.getString("type")
+
+            when (type) {
+                "ENTER" -> {
+                    CoroutineScope(Dispatchers.Main).launch {
+                        val response = DarlyService.getDarlyService().getMatchDetails(matchId)
+                        model.matchUsers.value = response.body()?.users ?: listOf()
+
+                        myUserId = response.body()?.myUserId ?: 3
+
+                        binding.matchTitle.text = response.body()?.matchTitle ?: ""
+                        binding.hostNickname.text = response.body()?.hostNickname
+                        binding.goalDistance.text = response.body()?.matchGoalDistance.toString()
+                        binding.currentNum.text = response.body()?.matchCurPerson.toString()
+                        Log.d("matchId", "${response.body()}")
+                        Log.d("qiqiqiqi", "${model.matchUsers.value}")
+
+                        adapter = CrewMatchLobbyAdapter(
+                            model.matchUsers.value!!,
+                            LayoutInflater.from(this@MatchLobbyActivity),
+                            glide
+                        )
+                        binding.matchUsersList.adapter = adapter
+                        binding.matchUsersList.layoutManager =
+                            GridLayoutManager(this@MatchLobbyActivity, 1)
+                    }
+                }
+                "READY" -> Log.d("READY", "READY")
+            }
         }
-
-
-
-//        stompClient.lifecycle().subscribe { lifecycleEvent ->
-//            when (lifecycleEvent.type) {
-//                LifecycleEvent.Type.OPENED -> {
-//                    Log.i("ENTER", "!!")
-//                }
-//                LifecycleEvent.Type.ERROR -> {
-//                    Log.i("ERROR", "!!")
-//                    Log.e("CONNECT ERROR", lifecycleEvent.exception.toString())
-//                }
-//                else ->{
-//                    Log.i("ELSE", lifecycleEvent.message)
-//                }
-//            }
-//        }
-//        val data = JSONObject()
-//        data.put("positionType", "1")
-//        data.put("content", "test")
-//        data.put("messageType", "CHAT")
-//        data.put("destRoomCode", "test0912")
-//
-//        stompClient.send("/stream/chat/send", data.toString()).subscribe()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -124,7 +113,6 @@ class MatchLobbyActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.Main).launch {
             val response = DarlyService.getDarlyService().getMatchDetails(matchId)
             model.matchUsers.value = response.body()?.users ?: listOf()
-            Log.d("ppopoppopo", model.matchUsers.value.toString())
 
             myUserId = response.body()?.myUserId ?: 3
 
@@ -143,6 +131,13 @@ class MatchLobbyActivity : AppCompatActivity() {
             binding.matchUsersList.adapter = adapter
             binding.matchUsersList.layoutManager = GridLayoutManager(this@MatchLobbyActivity, 1)
             runStomp()
+            val data = JSONObject()
+            data.put("type", "ENTER")
+            data.put("userNickname", "darly1")
+            data.put("matchId", matchId)
+            data.put("userId", myUserId)
+            stompClient.send("/pub/usermatch", data.toString()).subscribe()
+
         }
     }
 
