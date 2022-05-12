@@ -20,4 +20,6 @@ public interface MatchService {
 
     void userReady(Long matchId, Long userId, Character isReady);
     void matchStart(Long matchId);
+
+    MatchInRes getMatchRefresh(Long matchId, Long userId);
 }

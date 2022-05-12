@@ -82,9 +82,25 @@ public class MatchServiceImpl implements MatchService {
         match.setMatchCurPerson(curPerson);
         matchRepository.save(match);
 
+        return getMatchRefresh(matchId, userId);
+    }
+
+    // 현재 유저의 정보만 가져오기
+    @Override
+    public MatchInRes getMatchRefresh(Long matchId, Long userId) {
+        Match match = matchRepository.findByMatchId(matchId);
+        User enterUser = userRepository.findById(userId).get();
+
         List<UserMatch> userMatch = userMatchRepository.findAllByUserMatchId_Match_MatchId(matchId);
-//        Collections.reverse(userMatch);
         List<UserMatchMapping> userMatches = new ArrayList();
+
+        Integer imHost;
+        if(match.getHost().getUserNickname().equals(enterUser.getUserNickname())){
+            imHost = 1;
+        }
+        else {
+            imHost = 0;
+        }
 
         for(UserMatch user : userMatch) {
             Integer isHost;
@@ -122,6 +138,7 @@ public class MatchServiceImpl implements MatchService {
                 .statusCode(200)
                 .message("success")
                 .myUserId(userId)
+                .imHost(imHost)
                 .match(match)
                 .userMatches(userMatches)
                 .build();
@@ -196,6 +213,7 @@ public class MatchServiceImpl implements MatchService {
         match.setMatchStatus('S');
         matchRepository.save(match);
     }
+
 
     private Long getTimestamp() {
         return Timestamp.valueOf(LocalDate.now().atStartOfDay()).getTime() / 1000;
