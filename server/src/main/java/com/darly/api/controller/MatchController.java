@@ -26,12 +26,12 @@ public class MatchController {
     private final MatchService matchService;
 
     // M-001 방 정보 수정 : matchTitle, matchMaxPerson, matchGoalDistance 수정
-    @PatchMapping("/{matchId}")
-    public ResponseEntity<BaseResponseBody> patchMatchInfo(@PathVariable("matchId") Long matchId, MatchPatchReq matchPatchReq){
-        matchService.patchMatchInfo(matchId, matchPatchReq);
-
-        return ResponseEntity.ok(BaseResponseBody.of(200, "Success"));
-    }
+//    @PatchMapping("/{matchId}")
+//    public ResponseEntity<BaseResponseBody> patchMatchInfo(@PathVariable("matchId") Long matchId, MatchPatchReq matchPatchReq){
+//        matchService.patchMatchInfo(matchId, matchPatchReq);
+//
+//        return ResponseEntity.ok(BaseResponseBody.of(200, "Success"));
+//    }
 
     // M-002 방 삭제 : 나간 사람이 방장(게임시작전)이거나 curperson이 0이 되면 방 상태만 무효화 <- 이 처리는 방 퇴장에서
 //    @DeleteMapping
