@@ -38,6 +38,7 @@ class MatchLobbyActivity : AppCompatActivity() {
     var myUserId: Long = 0
     var isHost: Int = 0
     var prevStatus: String = "N"
+//    var participants
 
     val url = "http://3.36.61.107:8000/ws/websocket"
     val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
@@ -82,7 +83,24 @@ class MatchLobbyActivity : AppCompatActivity() {
                         }
                     }
                 }
-                "READY" -> Log.d("READY", "READY")
+                "READY" -> {
+//                    Log.d(("check ready"), "READY")
+//                }
+                    CoroutineScope(Dispatchers.Main).launch {
+                        val response = DarlyService.getDarlyService().getMatchDetails(matchId)
+                        model.matchUsers.value = response.body()?.users ?: listOf()
+
+                        adapter = CrewMatchLobbyAdapter(
+                            model.matchUsers.value!!,
+                            LayoutInflater.from(this@MatchLobbyActivity),
+                            glide
+                        )
+                        adapter.notifyDataSetChanged()
+                        binding.matchUsersList.adapter = adapter
+                        binding.matchUsersList.layoutManager =
+                            GridLayoutManager(this@MatchLobbyActivity, 1)
+                    }
+                }
             }
         }
     }
@@ -110,13 +128,14 @@ class MatchLobbyActivity : AppCompatActivity() {
             val response = DarlyService.getDarlyService().getMatchDetails(matchId)
             model.matchUsers.value = response.body()?.users ?: listOf()
             
+
             myUserId = response.body()?.myUserId ?: 3
-            isHost = response.body()?.isHost ?: 0
+            isHost = response.body()?.imHost ?: 0
 
             binding.matchTitle.text = response.body()?.matchTitle ?: ""
             binding.hostNickname.text = response.body()?.hostNickname
             binding.goalDistance.text = response.body()?.matchGoalDistance.toString()
-            binding.currentNum.text = response.body()?.matchCurPerson.toString()
+            binding.currentNum.text = model.matchUsers.value!!.size.toString()
             Log.d("matchId", "${response.body()}")
             Log.d("qiqiqiqi", "${model.matchUsers.value}")
 
@@ -150,7 +169,6 @@ class MatchLobbyActivity : AppCompatActivity() {
             data.put("userId", myUserId)
             data.put("isReady", prevStatus)
             stompClient.send("/pub/usermatch", data.toString()).subscribe()
-
         }
     }
 
