@@ -2,6 +2,7 @@ package com.ssafy.darly.fragment
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -18,6 +20,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.PolylineOptions
 import com.ssafy.darly.R
 import com.ssafy.darly.databinding.FragmentPauseBinding
+import com.ssafy.darly.util.LocationHelper
 import com.ssafy.darly.viewmodel.RunningViewModel
 
 class PauseFragment : Fragment() , OnMapReadyCallback {
@@ -62,6 +65,13 @@ class PauseFragment : Fragment() , OnMapReadyCallback {
                 polylineOptions.points.add(marker)
             }
             map.addPolyline(polylineOptions)
+        })
+
+        LocationHelper().startListeningUserLocation(requireContext(), object : LocationHelper.MyLocationListener {
+            override fun onLocationChanged(location: Location) {
+                val latLng = LatLng(location.latitude, location.longitude)
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14f))
+            }
         })
     }
 }

@@ -70,6 +70,11 @@ class RunningActivity : AppCompatActivity() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        unbindService(connection);
+    }
+
     override fun onBackPressed() {
         var builder = AlertDialog.Builder(this)
         var dialog = builder.create()
@@ -90,13 +95,21 @@ class RunningActivity : AppCompatActivity() {
                 }
             }
         }
+
+        var cancle = object : DialogInterface.OnClickListener {
+            override fun onClick(p0: DialogInterface?, p1: Int) {
+                model.isPause.value = true
+                val intent = Intent(applicationContext, MainActivity::class.java)
+                intent.flags =
+                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP //액티비티 스택제거
+                startActivity(intent)
+            }
+        }
+
         builder.setPositiveButton("기록 저장", listener)
+        builder.setNeutralButton("기록 취소", cancle)
         builder.setNegativeButton("취소", null)
         builder.show()
-    }
-
-    fun exit(){
-        super.onBackPressed()
     }
 
     fun subscribeObserver(){
