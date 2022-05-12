@@ -12,7 +12,7 @@ public class SectionReq {
     @ApiModelProperty(name="km", example="4.2")
     private Float km;
     @ApiModelProperty(name="pace", example="5.0")
-    private Float pace;
+    private Integer pace;
     @ApiModelProperty(name="calories", example="100")
     private Integer calories;
 }

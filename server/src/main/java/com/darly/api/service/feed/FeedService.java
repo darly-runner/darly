@@ -2,10 +2,12 @@ package com.darly.api.service.feed;
 
 import com.darly.api.request.feed.FeedUpdatePatchReq;
 import com.darly.db.entity.feed.Feed;
+import com.darly.db.entity.feed.FeedDetailMapping;
 import com.darly.db.entity.feed.FeedMapping;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface FeedService {
@@ -16,4 +18,5 @@ public interface FeedService {
     boolean updateFeed(Long feedId, FeedUpdatePatchReq feedUpdatePatchReq);
     boolean deleteByFeedId(Long feedId);
     boolean existsByFeedId(Long feedId);
+    Page<FeedDetailMapping> getFeedDetailListRange(Long crewId, Pageable page);
 }

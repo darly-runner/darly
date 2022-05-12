@@ -3,6 +3,7 @@ package com.darly.api.service.feed;
 import com.darly.api.request.feed.FeedUpdatePatchReq;
 import com.darly.db.entity.crew.Crew;
 import com.darly.db.entity.feed.Feed;
+import com.darly.db.entity.feed.FeedDetailMapping;
 import com.darly.db.entity.feed.FeedMapping;
 import com.darly.db.entity.user.User;
 import com.darly.db.repository.feed.FeedRepository;
@@ -84,6 +85,11 @@ public class FeedServiceImpl implements FeedService {
     @Override
     public boolean existsByFeedId(Long feedId) {
         return feedRepository.existsByFeedId(feedId);
+    }
+
+    @Override
+    public Page<FeedDetailMapping> getFeedDetailListRange(Long crewId, Pageable page) {
+        return feedRepository.findByCrewAndFeedLimit(crewId, page);
     }
 
     private Long getTimestamp() {
