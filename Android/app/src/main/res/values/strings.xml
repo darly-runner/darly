@@ -52,4 +52,5 @@
     <string name="speed_avg">평균 속력</string>
     <string name="ranking">랭킹</string>
     <string name="kmh">km/h</string>
+    <string name="title">제목</string>
 </resources>
