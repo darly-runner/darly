@@ -7,11 +7,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.ssafy.darly.R
-import com.ssafy.darly.adapter.CrewMatchLobbyAdapter
+import com.ssafy.darly.adapter.crew.CrewMatchLobbyAdapter
 import com.ssafy.darly.databinding.ActivityMatchLobbyBinding
 import com.ssafy.darly.model.MatchUsers
 import com.ssafy.darly.service.DarlyService
