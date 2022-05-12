@@ -82,20 +82,5 @@ class CrewFeedFragment : Fragment() {
                 binding.noticeLayout.visibility = View.GONE
             }
         }
-
-//        CoroutineScope(Dispatchers.Main).launch {
-//            val response =
-//                DarlyService.getDarlyService().getCrewFeeds(crewId = crewId, page = 0, size = 30)
-//            model.crewDetailFeeds.value = response.body()?.feeds
-//
-//            val feedsImg = model.crewDetailFeeds.value
-//            adapter = CrewDetailFeedsAdapter(
-//                feedsImg!!,
-//                LayoutInflater.from(context),
-//                glide
-//            )
-//            binding.crewDetailFeeds.adapter = adapter
-//            binding.crewDetailFeeds.layoutManager = GridLayoutManager(context, 3)
-//        }
     }
 }
