@@ -252,7 +252,7 @@ public class CrewController {
             return ResponseEntity.ok(BaseResponseBody.of(405, "Fail join crew: Not valid crewId"));
         if (userCrewService.isUserCrewExists(userId, crewId))
             return ResponseEntity.ok(BaseResponseBody.of(406, "Fail join crew: Already crew"));
-        if (crew.get().getCrewJoin() == Type.Lock.getLabel()) {
+        if (crew.get().getCrewJoin() == Type.Free.getLabel()) {
             userCrewService.createUserCrew(userId, crewId);
             return ResponseEntity.ok(BaseResponseBody.of(201, "Success join crew"));
         }
