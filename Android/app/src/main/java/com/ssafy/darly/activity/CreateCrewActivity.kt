@@ -111,6 +111,9 @@ class CreateCrewActivity : AppCompatActivity() {
                 val response = DarlyService.getDarlyService()
                     .createCrew(crewImage = crewImgBody, data = textHashMap)
                 Log.d("Create Crew", "${response}")
+                finish()
+//                val intent = Intent(this@CreateCrewActivity, )
+
             }
         }
 

@@ -26,11 +26,11 @@ class MatchLobbyActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMatchLobbyBinding
     private val model: CrewViewModel by viewModels()
     lateinit var adapter: CrewMatchLobbyAdapter
-    var matchId: Long = 0
-    var myUserId: Long = 0
-    var isHost: Int = 0
-    var prevStatus: String = "N"
-    var participants: List<MatchUsers>? = null
+    private var matchId: Long = 0
+    private var myUserId: Long = 0
+    private var isHost: Int = 0
+    private var prevStatus: String = "N"
+    private var participants: List<MatchUsers>? = null
 
     val url = "http://3.36.61.107:8000/ws/websocket"
     val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
