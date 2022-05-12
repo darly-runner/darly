@@ -54,4 +54,6 @@
     <string name="kmh">km/h</string>
     <string name="title">제목</string>
     <string name="section">구간</string>
+    <string name="more_sections">구간별 정보 더보기</string>
+    <string name="time">시간</string>
 </resources>

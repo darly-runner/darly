@@ -46,6 +46,14 @@ public class MatchController {
         return ResponseEntity.ok(matchInRes);
     }
 
+    @GetMapping("/{matchId}/refresh")
+    public ResponseEntity<MatchInRes> getMatchRefresh(@PathVariable("matchId") Long matchId, Authentication authentication){
+        Long userId = Long.parseLong((String) authentication.getPrincipal());
+        MatchInRes matchInRes = matchService.getMatchRefresh(matchId, userId);
+
+        return ResponseEntity.ok(matchInRes);
+    }
+
 //    // M-004 방 퇴장 : 인원을 UserMatch 테이블에서 삭제, curPerson--
 //    @DeleteMapping("{matchId}/out")
 //    public ResponseEntity<BaseResponseBody> matchOut(@PathVariable("matchId") Long matchId, Authentication authentication) {

@@ -122,6 +122,11 @@ interface ApiService {
         @Body createMatchReq: CreateMatchReq,
     ): Response<CreateMatch>
 
+    @GET("matches/{matchId}/refresh")
+    suspend fun refreshMatchDetails(
+        @Path("matchId") matchId: Long,
+    ): Response<MatchLobbyDetails>
+
 
     @GET("users/profile")
     suspend fun getUserProfile(): Response<UserProfileGetRes>

@@ -142,6 +142,8 @@ data class CrewJoin(
 )
 
 data class MatchLobbyDetails(
+    var myUserId: Long,
+    var imHost: Int,
     var statusCode: Int,
     var message: String,
     var matchTitle: String,
@@ -153,6 +155,7 @@ data class MatchLobbyDetails(
 )
 
 data class MatchUsers(
+    var userId: Long,
     var userImage: String,
     var userTotalDistance: Float,
     var userNickname: String,

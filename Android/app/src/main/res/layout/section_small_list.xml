@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -14,46 +13,56 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp">
 
         <TextView
             android:id="@+id/textView36"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/pretendard_medium"
-            android:text="1"
+            android:paddingStart="2dp"
+            android:text="@{viewModel.km}"
             android:textColor="@color/black"
             android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="@+id/view5"
-            app:layout_constraintEnd_toStartOf="@+id/view5"
+            app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+            app:layout_constraintEnd_toStartOf="@+id/linearLayout"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/view5" />
+            app:layout_constraintTop_toTopOf="@+id/linearLayout" />
 
-        <View
-            android:id="@+id/view5"
-            android:layout_width="250dp"
-            android:layout_height="15dp"
-            android:background="@drawable/rectangle_round_bar"
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="205dp"
+            android:layout_height="10dp"
             app:layout_constraintBottom_toBottomOf="@+id/textView37"
             app:layout_constraintEnd_toStartOf="@+id/textView37"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/textView36"
-            app:layout_constraintTop_toTopOf="@+id/textView37" />
+            app:layout_constraintTop_toTopOf="@+id/textView37">
+
+            <View
+                android:id="@+id/barView"
+                android:layout_width="205dp"
+                android:layout_height="10dp"
+                android:background="@drawable/rectangle_gray_round" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/textView37"
-            android:layout_width="wrap_content"
+            android:layout_width="65dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
             android:fontFamily="@font/pretendard_medium"
-            android:text="5'46''"
+            android:gravity="right"
+            android:text="@{viewModel.pace}"
             android:textColor="@color/black"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/view5"
+            app:layout_constraintStart_toEndOf="@+id/linearLayout"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

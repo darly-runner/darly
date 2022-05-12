@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 class CrewMatchFragment : Fragment() {
     private lateinit var binding: FragmentCrewMatchBinding
     private val model: CrewViewModel by viewModels()
-    var crewId: Long=0
+    var crewId: Long = 0
     lateinit var adapter: CrewMatchListAdapter
 
     override fun onCreateView(
@@ -50,7 +50,8 @@ class CrewMatchFragment : Fragment() {
         val glide = Glide.with(this@CrewMatchFragment)
 
         CoroutineScope(Dispatchers.Main).launch {
-            val response = DarlyService.getDarlyService().getRoomsList(crewId = crewId, page=0, size=50)
+            val response =
+                DarlyService.getDarlyService().getRoomsList(crewId = crewId, page = 0, size = 50)
             Log.d("match", "${response.body()}")
             model.crewRoomsList.value = response.body()?.matches
 

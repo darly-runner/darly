@@ -20,7 +20,7 @@
             android:fontFamily="@font/pretendard_semibold"
             android:text="@string/section"
             android:textColor="@color/black"
-            android:textSize="30sp"
+            android:textSize="28sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,7 +38,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="70dp"
+            android:layout_marginStart="54dp"
             android:text="@string/pace_avg"
             android:textColor="@color/gray_600"
             android:textSize="12sp"
@@ -48,11 +48,26 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             setSectionItems="@{viewModel.sections}"
+            setSectionMinValue="@{viewModel.minSectionValue}"
+            setSectionMinIndex="@{viewModel.minSectionIndex}"
+            setSectionGapValue="@{viewModel.gapSectionValue}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:overScrollMode="never"
+            app:layout_constraintTop_toBottomOf="@+id/textView35" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/allBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:overScrollMode="never"
-            app:layout_constraintTop_toBottomOf="@+id/textView35" />
+            android:background="@drawable/button_stroke_gray"
+            android:fontFamily="@font/pretendard_medium"
+            android:text="@string/more_sections"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
