@@ -1,0 +1,13 @@
+package com.ssafy.darly.viewmodel
+
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.ssafy.darly.model.record.SectionString
+
+class SectionViewModel : ViewModel() {
+    var sectionList = MutableLiveData<List<SectionString>>()
+
+    init {
+        sectionList.value = listOf()
+    }
+}

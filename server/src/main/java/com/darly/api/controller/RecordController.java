@@ -48,7 +48,7 @@ public class RecordController {
         sectionService.createSection(record.getRecordId(), recordCreatePostReq.getSections());
         coordinateService.createCoordinate(record.getRecordId(), recordCreatePostReq.getCoordinateLatitudes(), recordCreatePostReq.getCoordinateLongitudes());
         userService.updateUserRecord(userId, recordCreatePostReq);
-        return ResponseEntity.ok(BaseResponseBody.of(200, "Success save record"));
+        return ResponseEntity.ok(BaseResponseBody.of(200, "Success save record!"));
     }
 
     // R-002
