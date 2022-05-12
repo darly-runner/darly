@@ -129,10 +129,10 @@ class MyService : Service() {
                 builder.setLargeIcon(Bitmap.createScaledBitmap(iconNotification!!, 128, 128, false))
             }
             notification = builder.build()
-            //startForeground(mNotificationId, notification)
-            NotificationManagerCompat.from(this).apply {
-                notify(mNotificationId, notification!!)
-            }
+            startForeground(mNotificationId, notification)
+//            NotificationManagerCompat.from(this).apply {
+//                notify(mNotificationId, notification!!)
+//            }
         }
     }
 }

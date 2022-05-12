@@ -1,5 +1,5 @@
 package com.darly.api.controller;
-import com.darly.db.entity.socket.ChatMessage;
+import com.darly.db.entity.socket.SocketMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -11,23 +11,22 @@ public class MessageController {
 
     private final SimpMessagingTemplate template; //특정 Broker로 메세지를 전달
 
-    //Client가 SEND할 수 있는 경로
-    //stompConfig에서 설정한 applicationDestinationPrefixes와 @MessageMapping 경로가 병합됨
-    //"/pub/chat/enter"
-    @MessageMapping(value = "/chat/enter")
-    public void enter(ChatMessage message){
-        message.setMessage(message.getWriter() + "님이 채팅방에 참여하였습니다.");
-        template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
-    }
+    @MessageMapping("/usermatch")
+    public void userMatch(SocketMessage message) {
+        if (SocketMessage.MessageType.ENTER.equals(message.getType())) {
+            System.out.println("누군가가 입장했습니다.");
+            message.setMessage("누군가가 입장했습니다.");
+            template.convertAndSend("/sub/usermatch/" + message.getMatchId(), message);
+            System.out.println(message.getUserId());
+            System.out.println(message.getUserNickname());
+            System.out.println(message.getMatchId());
+            System.out.println(message.getMessage());
+            System.out.println("sub이 잘됐습니다.");
+        }
 
-    @MessageMapping(value = "/chat/message")
-    public void message(ChatMessage message){
-        template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
-    }
 
-    @MessageMapping(value = "/chat/leave")
-    public void leave(ChatMessage message) {
-        message.setMessage(message.getWriter() + "님이 채팅방에서 퇴장하셨습니다.");
-        template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
+//        else if(socksdlkfjsadkljf euqls(ready)){
+//            List<SockeMessage> <- 모든 사람들에 대한 가각의 message를 리스트형태로 넘겨줠ㅏ
+//        }
     }
 }

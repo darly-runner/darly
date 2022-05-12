@@ -14,15 +14,20 @@ import com.ssafy.darly.adapter.crew.main.CrewRecommendationAdapter
 import com.ssafy.darly.databinding.ActivityAllCrewListBinding
 import com.ssafy.darly.service.DarlyService
 import com.ssafy.darly.viewmodel.CrewViewModel
+import com.ssafy.darly.websocket.WebSocketListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
+import okhttp3.Request
 
 class AllCrewListActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAllCrewListBinding
     lateinit var adapter: CrewRecommendationAdapter
     private val model: CrewViewModel by viewModels()
     var crewName: String =""
+
+//    private lateinit var client: OkHttpClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,5 +72,13 @@ class AllCrewListActivity : AppCompatActivity() {
         binding.backBtn.setOnClickListener {
             finish()
         }
+
+//        client = OkHttpClient()
+//
+//        val request: Request = Request.Builder().url("ws://3.36.61.107:80/ws").build()
+//        val listener: WebSocketListener = WebSocketListener()
+//
+//        client.newWebSocket(request, listener)
+//        client.dispatcher().executorService().shutdown()
     }
 }

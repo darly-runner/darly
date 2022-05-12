@@ -5,6 +5,7 @@ import com.ssafy.darly.model.address.AddressSearchGetRes
 import com.ssafy.darly.model.friend.FriendApplyReq
 import com.ssafy.darly.model.friend.FriendListGetRes
 import com.ssafy.darly.model.friend.FriendSearchReq
+import com.ssafy.darly.model.record.RecordDetailGetRes
 import com.ssafy.darly.model.record.RecordListGetRes
 import com.ssafy.darly.model.stat.StatGetRes
 import com.ssafy.darly.model.user.NicknameCheckPostReq
@@ -118,7 +119,7 @@ interface ApiService {
     suspend fun createMatch(
         @Path("crewId") crewId: Long,
         @Body createMatchReq: CreateMatchReq,
-    ):Response<CreateMatch>
+    ): Response<CreateMatch>
 
 
     @GET("users/profile")
@@ -205,4 +206,9 @@ interface ApiService {
     suspend fun getRecordList(
         @Query("type") type: String
     ): Response<RecordListGetRes>
+
+    @GET("records/{recordId}")
+    suspend fun getRecordDetail(
+        @Path("recordId") recordId: Long
+    ): Response<RecordDetailGetRes>
 }
