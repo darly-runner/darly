@@ -102,7 +102,12 @@ class MyPageUpdateActivity : AppCompatActivity() {
                     else DarlyService.getDarlyService()
                         .updateUserProfile(data = textHashMap, userImage = userImage, userAddresses = userAddresses)
 
-                    finish()
+                    if(intent.getBooleanExtra("FirstLogin",false)){
+                        startActivity(Intent(applicationContext, MainActivity::class.java))
+                        finish()
+                    }else{
+                        finish()
+                    }
                 }
             }
         }
