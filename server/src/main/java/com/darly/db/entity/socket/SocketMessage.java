@@ -3,47 +3,34 @@ package com.darly.db.entity.socket;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-
-
 @Getter
 @Setter
 public class SocketMessage {
 
     // 메시지 타입
     public enum MessageType {
-        // 유저 세션에 넣을 용
-        LOGIN, LOGOUT,		// 로그인 ,로그아웃
-
-        // [지정큐]겨루기 초대
-        INVITE,				// 초대
-        ACCEPT, 			// 수락
-        REFUSE,				// 수락
-        // [지정큐]대기방
-        ENTER, LEAVE,		// 대기방 입장, 떠남
-        GAMESTART,			// 겨루기 시작
-        CHAT,
-
-        // [랜덤큐]
-        RandomMatched
+        CREATE,
+        ENTER, LEAVE,
+        READY,
+        PACE,
+        START,
+        UPDATE
     }
-    // 일반 로그인
-    private MessageType type; // 메시지 타입
-    private String userId;
-    // 겨루기 신청
-    private String hostId;
-    private String guestId;
-    private String roomId; // 방번호
-    // for 메시지 추가정보
-    private String userNick;
-    private String hostNick;
-    private String guestNick;
-    // 랜덤큐
-    private String userTier;
-    private String isMatched;
-    private String isHost;
-    // 게임시작
-    private String ovToken;
+    // 메시지 타입
+    private MessageType type;
 
-    private String message; // 메시지
+    // 기본적인 정보
+    private Long userId;
+    private Long matchId;
+    private String userNickname;
+    private Integer isHost; // 0이면 일반유저, 1이면 방장
+    private Character isReady;
+    
+    // match 수정용
+    private String matchTitle;
+    private Short matchMaxPerson;
+    private Float matchGoalDistance;
+
+    // 메시지
+    private String message;
 }

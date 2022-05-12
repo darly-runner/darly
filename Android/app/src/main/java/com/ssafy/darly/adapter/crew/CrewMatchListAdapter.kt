@@ -46,7 +46,8 @@ class CrewMatchListAdapter(
         holder.goalDistance.text = roomsList.get(position).matchGoalDistance.toString()
         holder.matchTitle.text = roomsList.get(position).matchTitle
         holder.hostNickname.text = roomsList.get(position).hostNickname
-        holder.currentNum.text = roomsList.get(position).matchCurPerson.toString()
+//        holder.currentNum.text = roomsList.get(position).matchCurPerson.toString()
+        holder.currentNum.text = roomsList.size.toString()
         val matchId = roomsList.get(position).matchId
 
         holder.itemView.setOnClickListener {

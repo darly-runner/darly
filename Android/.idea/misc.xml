@@ -37,6 +37,7 @@
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/activity_friend_waiting.xml" value="0.16502778965369816" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/activity_main.xml" value="0.313212325875897" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/activity_my_page_update.xml" value="0.313212325875897" />
+        <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/activity_friend_waiting.xml" value="0.16502778965369816" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/activity_record_all.xml" value="0.33" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/activity_record_detail.xml" value="0.33" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/activity_record_fragment.xml" value="0.31025749261291685" />
@@ -60,7 +61,6 @@
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/fragment_rank_list_adapter.xml" value="0.20436083796494228" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/fragment_record.xml" value="0.33" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/fragment_running.xml" value="0.3172295852928602" />
-        <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/fragment_section.xml" value="0.33" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/fragment_stat.xml" value="0.33" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/friend_add_list.xml" value="0.23632993512511585" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/friend_list.xml" value="0.313212325875897" />
@@ -69,7 +69,6 @@
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/rank_list.xml" value="0.67" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/record_list.xml" value="0.3172295852928602" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/rooms_item.xml" value="0.33" />
-        <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/section_small_list.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/button_background.xml" value="0.368" />
         <entry key="app/src/main/res/drawable/button_background_lg.xml" value="0.1925" />
         <entry key="app/src/main/res/drawable/crew_create_background.xml" value="0.294" />
@@ -82,7 +81,9 @@
         <entry key="app/src/main/res/drawable/ic_check.xml" value="0.2305" />
         <entry key="app/src/main/res/drawable/ic_chevron_right.xml" value="0.2305" />
         <entry key="app/src/main/res/drawable/ic_location.xml" value="0.2755" />
+        <entry key="app/src/main/res/drawable/ic_ready.xml" value="0.162" />
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.2355" />
+        <entry key="app/src/main/res/drawable/ic_unready.xml" value="0.162" />
         <entry key="app/src/main/res/drawable/location_list_background.xml" value="0.2355" />
         <entry key="app/src/main/res/drawable/ranking_background.xml" value="0.1895" />
         <entry key="app/src/main/res/drawable/ranking_rank_background.xml" value="0.1895" />
@@ -90,18 +91,23 @@
         <entry key="app/src/main/res/drawable/search_background.xml" value="0.2355" />
         <entry key="app/src/main/res/font/font.xml" value="0.5120370370370371" />
         <entry key="app/src/main/res/layout/activity_create_crew.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_crew_detail.xml" value="0.2361111111111111" />
         <entry key="app/src/main/res/layout/activity_crew_list.xml" value="0.375" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.5158514492753623" />
+        <entry key="app/src/main/res/layout/activity_match_lobby.xml" value="0.2361111111111111" />
         <entry key="app/src/main/res/layout/activity_running.xml" value="0.1" />
         <entry key="app/src/main/res/layout/crew_location.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/crew_match_lobby_item.xml" value="0.2361111111111111" />
         <entry key="app/src/main/res/layout/crew_mycrew.xml" value="0.189209726443769" />
         <entry key="app/src/main/res/layout/crew_ranking_items.xml" value="0.335" />
         <entry key="app/src/main/res/layout/crew_recommendations.xml" value="0.375" />
         <entry key="app/src/main/res/layout/fragment_challenge.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/layout/fragment_crew.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_crew_feed.xml" value="0.2361111111111111" />
         <entry key="app/src/main/res/layout/fragment_crew_image_upload.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_crew_list.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_crew_match.xml" value="0.25925925925925924" />
         <entry key="app/src/main/res/layout/fragment_mypage.xml" value="0.32971014492753625" />
         <entry key="app/src/main/res/layout/fragment_pause.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_running.xml" value="0.1" />
@@ -118,7 +124,7 @@
     </option>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

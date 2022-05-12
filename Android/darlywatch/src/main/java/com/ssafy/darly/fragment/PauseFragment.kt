@@ -9,11 +9,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.room.Room
 import com.ssafy.darly.R
 import com.ssafy.darly.activity.MainActivity
+import com.ssafy.darly.dao.AppDatabase
 import com.ssafy.darly.databinding.FragmentPauseBinding
+import com.ssafy.darly.model.RecordRequest
+import com.ssafy.darly.model.RecordRequestDto
 import com.ssafy.darly.service.DarlyService
+import com.ssafy.darly.util.GlobalApplication
 import com.ssafy.darly.viewmodel.RunningViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -53,11 +59,21 @@ class PauseFragment : Fragment() {
 
             var listener = object : DialogInterface.OnClickListener {
                 override fun onClick(p0: DialogInterface?, p1: Int) {
-                    CoroutineScope(Dispatchers.Main).launch {
-                        DarlyService.getDarlyService().postRecord(model.record())
+                    CoroutineScope(Dispatchers.IO).launch {
+                        // 네트워크 연결이 가능할때는 서버DB에 저장한다.
+                        if(GlobalApplication.network.getNetworkConnected()) {
+                            DarlyService.getDarlyService().postRecord(model.record())
 
-                        val intent = Intent(context, MainActivity::class.java)
-                        startActivity(intent)
+                            val intent = Intent(context, MainActivity::class.java)
+                            startActivity(intent)
+                        }
+                        // 네트워크 연걸이 불가능한경우 내장DB에 저장한다.
+                        else{
+                            saveLocalDb(model.record())
+
+                            val intent = Intent(context, MainActivity::class.java)
+                            startActivity(intent)
+                        }
                     }
                 }
             }
@@ -66,5 +82,18 @@ class PauseFragment : Fragment() {
             builder.show()
         }
         return binding.root
+    }
+
+    fun saveLocalDb(record : RecordRequest){
+        val db = Room.databaseBuilder(
+            requireContext(),
+            AppDatabase::class.java,
+            "recordDB"
+        ).build()
+
+        // DB에 넣는다.
+        db.recordDao().insertRecord(
+            GlobalApplication.network.recordToDto(record)
+        )
     }
 }

@@ -6,26 +6,26 @@
     android:layout_height="match_parent"
     android:padding="@dimen/box_inset_layout_padding"
     android:background="@color/black"
-    tools:context=".fragment.MultiFragment"
+    tools:context=".fragment.RecordFragment"
     tools:deviceIds="wear">
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <TextView
-            android:id="@+id/startText"
-            android:text="MULTI"
+            android:id="@+id/soloText"
+            android:text="동기화가 안된 데이터"
+            android:fontFamily="@font/pretendard_bold"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/recordCount"
+            android:text="0"
             android:textSize="30dp"
             android:textColor="@color/main"
             android:fontFamily="@font/pretendard_bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"/>
-        <TextView
-            android:id="@+id/soloText"
-            android:text="함께 달리기"
-            android:fontFamily="@font/pretendard_bold"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
     </FrameLayout>
 </androidx.wear.widget.BoxInsetLayout>

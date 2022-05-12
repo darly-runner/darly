@@ -4,10 +4,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import com.ssafy.darly.fragment.MultiFragment
 import com.ssafy.darly.fragment.PauseFragment
 import com.ssafy.darly.fragment.RunningFragment
-import com.ssafy.darly.fragment.SoloFragment
 
 class RunningViewPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
 

@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class UserMatchMapping {
+    private Long userId;
     private String userNickname;
     private Float userPaceAvg;
     private String userImage;
@@ -17,7 +18,8 @@ public class UserMatchMapping {
     private Integer isHost;
 
     @Builder
-    public UserMatchMapping (String userNickname, Float userPaceAvg, String userImage, Float userTotalDistance, Character userStatus, Integer isHost){
+    public UserMatchMapping (Long userId, String userNickname, Float userPaceAvg, String userImage, Float userTotalDistance, Character userStatus, Integer isHost){
+        this.userId = userId;
         this.userNickname = userNickname;
         this.userPaceAvg = userPaceAvg;
         this.userImage = userImage;

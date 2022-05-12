@@ -114,7 +114,7 @@ class RunningActivity : AppCompatActivity() {
             model.setPaceBySection(1f)
 
             model.locationList.value = service.locationList.value
-            Toast.makeText(this,"${model.paceSection.value?.size} , 섹션크기", Toast.LENGTH_LONG).show()
+            //Toast.makeText(this,"${model.paceSection.value?.size} , 섹션크기", Toast.LENGTH_LONG).show()
         })
 
         // 일시정지를 누르면 일시정지화면을 보여준다.

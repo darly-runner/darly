@@ -3,6 +3,7 @@ package com.ssafy.darly.activity
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
@@ -11,6 +12,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.room.Room
 import androidx.viewpager.widget.ViewPager
@@ -21,6 +23,7 @@ import com.ssafy.darly.util.GlobalApplication
 import com.ssafy.darly.databinding.ActivityMainBinding
 import com.ssafy.darly.model.RecordRequest
 import com.ssafy.darly.model.RecordRequestDto
+import com.ssafy.darly.service.DarlyService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -60,43 +63,23 @@ class MainActivity : AppCompatActivity(){
             }
         })
 
-        val db = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java,
-            "recordDB"
-        ).build()
-
         CoroutineScope(Dispatchers.IO).launch {
-//            db.recordDao().insertRecord(
-//                RecordRequestDto(
-//                    null,
-//                    null,
-//                    0f,
-//                    0,
-//                    0,
-//                    0,
-//                    0f,
-//                    0,
-//                    null,
-//                    null,
-//                    listOf(),
-//                    listOf(),
-//                    listOf()
-//                )
-//            )
-            Log.d("Room Test","${db.recordDao().getAll()}")
+            if(!GlobalApplication.network.getNetworkConnected()){
+                val db = Room.databaseBuilder(
+                    applicationContext,
+                    AppDatabase::class.java,
+                    "recordDB"
+                ).build()
+                // 확인 메세지
+                Log.d("DB Test", "${db.recordDao().getAll()}")
+                val list = db.recordDao().getAll()
+                for(i in list){
+                    val record = GlobalApplication.network.dtoToRecord(i)
+                    DarlyService.getDarlyService().postRecord(record)
+                }
+                db.recordDao().deleteAll()
+            }
         }
-
-        Toast.makeText(this,"${getNetworkConnected(this)}",Toast.LENGTH_LONG).show()
-        //Log.d("Room Test","${getNetworkConnected(this)}")
-    }
-
-    fun getNetworkConnected(context: Context): Boolean {
-        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val activeNetwork : NetworkInfo? = cm.activeNetworkInfo
-        val isConnected : Boolean = activeNetwork?.isConnectedOrConnecting == true
-
-        return isConnected
     }
 
     fun checkPermission(){
