@@ -290,7 +290,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/pretendard_semibold"
-                    android:text="@{viewModel.recordRank}"
+                    android:text="@{viewModel.recordRankString}"
                     android:textColor="@color/black"
                     android:textSize="22sp"
                     app:layout_constraintStart_toStartOf="@+id/rankText"
@@ -315,6 +315,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
                 app:layout_constraintTop_toBottomOf="@+id/mapview"
+                tools:layout_editor_absoluteX="20dp" />
+
+            <fragment
+                android:id="@+id/rankFragment"
+                android:name="com.ssafy.darly.fragment.RankFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                app:layout_constraintTop_toBottomOf="@+id/sectionFragment"
                 tools:layout_editor_absoluteX="20dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

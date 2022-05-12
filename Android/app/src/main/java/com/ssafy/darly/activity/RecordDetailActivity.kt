@@ -1,7 +1,6 @@
 package com.ssafy.darly.activity
 
 import android.os.Bundle
-import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -12,9 +11,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.ssafy.darly.R
 import com.ssafy.darly.databinding.ActivityRecordDetailBinding
-import com.ssafy.darly.model.record.RecordDetailGetRes
-import com.ssafy.darly.model.record.RecordTitlePatchReq
-import com.ssafy.darly.model.record.SectionString
+import com.ssafy.darly.model.record.*
 import com.ssafy.darly.service.DarlyService
 import com.ssafy.darly.viewmodel.RecordDetailViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -29,6 +26,8 @@ class RecordDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     private var recordId = 0L
     private lateinit var imm: InputMethodManager
     private lateinit var map: GoogleMap
+    private val defaultImage =
+        "https://darly-bucket.s3.ap-northeast-2.amazonaws.com/user/darly_logo_white.png"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,24 +82,49 @@ class RecordDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         model.recordCalories.value = dec.format(response.body()?.recordCalories)
         model.coordinateLongitudes.value = response.body()?.coordinateLongitudes
         model.coordinateLatitudes.value = response.body()?.coordinateLatitudes
-        model.recordRank.value = response.body()?.recordRank.toString()
-        if (model.recordRank.value == null || model.recordRank.value == "0")
-            model.recordRank.value = "--"
+        model.recordRank.value = response.body()?.recordRank ?: 0
+        model.recordRankString.value = response.body()?.recordRank.toString()
+        if (model.recordRank.value == null || model.recordRank.value == 0)
+            model.recordRankString.value = "--"
         model.ranks.value = response.body()?.ranks ?: listOf()
-        var sectionList = mutableListOf<SectionString>()
-        for (section in response.body()?.sections ?: listOf()) {
-            var km = ""
-            km = if (section.km % 1 == 0f) section.km.toInt().toString()
+        //
+//        val rrr = mutableListOf<Rank>()
+//        rrr.add(Rank("사용자1", null, 1, 1000, 300))
+//        rrr.add(Rank("사용자2", null, 3, 2000, 600))
+//        rrr.add(Rank("사용자3", null, 2, 3000, 700))
+//        rrr.add(Rank("사용자4", null, 4, 4000, 1000))
+        //
+        val rankStringList = mutableListOf<RankString>()
+        for (rank in model.ranks.value ?: listOf()) {
+//        for (rank in rrr ?: listOf()) {
+            val image = if (rank.userImage == null) defaultImage else rank.userImage
+            val pace = if (rank.matchResultPace == 0) "--" else String.format("%01d'%02d''", rank.matchResultPace / 60, rank.matchResultPace % 60)
+            val time = String.format("%02d:%02d:%02d", rank.matchResultTime / 3600, (rank.matchResultTime % 3600) / 60, rank.matchResultTime % 60)
+            rankStringList.add(RankString(rank.userNickname, image, rank.matchResultRank.toString(), time, pace))
+        }
+        model.rankStringList.value = rankStringList
+
+        val sectionList = mutableListOf<SectionString>()
+        var min = Int.MAX_VALUE
+        var minIndex = 0
+        var max = -1
+        for ((index, section) in response.body()?.sections?.withIndex() ?: listOf()) {
+            if (section.pace < min) {
+                min = section.pace
+                minIndex = index
+            }
+            if (section.pace > max)
+                max = section.pace
+            val km = if (section.km % 1 == 0f) section.km.toInt().toString()
             else String.format("%.02f", section.km)
-            var pace = if (section.pace == 0) "--" else String.format("%01d'%02d''", section.pace / 60, section.pace % 60)
-            var calories = section.calories.toString()
-            sectionList.add(SectionString(km, pace, calories))
+            val pace = if (section.pace == 0) "--" else String.format("%01d'%02d''", section.pace / 60, section.pace % 60)
+            val calories = section.calories.toString()
+            sectionList.add(SectionString(km, pace, calories, section.pace))
         }
-        for (section in (1..3)) {
-            sectionList.add(SectionString((section).toString(), (section*2).toString(), (section*3).toString()))
-        }
+        model.minSectionIndex.value = minIndex
+        model.minSectionValue.value = min
+        model.gapSectionValue.value = max - min
         model.sections.value = sectionList
-        Log.d("response", "${model.sections.value}")
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
