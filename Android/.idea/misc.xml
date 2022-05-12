@@ -88,6 +88,7 @@
         <entry key="app/src/main/res/layout/crew_mycrew.xml" value="0.189209726443769" />
         <entry key="app/src/main/res/layout/crew_ranking_items.xml" value="0.335" />
         <entry key="app/src/main/res/layout/crew_recommendations.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/dialog_crew_alert.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/layout/fragment_challenge.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/layout/fragment_crew.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_crew_feed.xml" value="0.2361111111111111" />

@@ -15,6 +15,8 @@ import com.ssafy.darly.R
 import com.ssafy.darly.activity.CrewDetailActivity
 import com.ssafy.darly.adapter.crew.CrewDetailRankAdapter
 import com.ssafy.darly.databinding.FragmentCrewDataBinding
+import com.ssafy.darly.model.CrewSummary
+import com.ssafy.darly.model.CrewSummaryRankings
 import com.ssafy.darly.service.DarlyService
 import com.ssafy.darly.viewmodel.CrewViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -25,6 +27,7 @@ class CrewDataFragment : Fragment() {
     private lateinit var binding: FragmentCrewDataBinding
     private val model: CrewViewModel by viewModels()
     var crewId: Long = 0
+    var rankings: List<CrewSummaryRankings>? = null
     lateinit var adapter: CrewDetailRankAdapter
 
     override fun onCreateView(
@@ -49,7 +52,8 @@ class CrewDataFragment : Fragment() {
         val glide = Glide.with(this@CrewDataFragment)
 
         CoroutineScope(Dispatchers.Main).launch {
-            val response = DarlyService.getDarlyService().getCrewSummary(crewId = crewId, type = "week")
+            val response =
+                DarlyService.getDarlyService().getCrewSummary(crewId = crewId, type = "week")
             Log.d("resss", "${response.body()}")
             model.crewDetailRankings.value = response.body()?.ranks
 
@@ -59,13 +63,26 @@ class CrewDataFragment : Fragment() {
             binding.crewDetailTime.text = response.body()?.crewTime.toString()
 
             val crewRankingsList = model.crewDetailRankings.value
-            adapter = CrewDetailRankAdapter(
-                crewRankingsList!!,
-                LayoutInflater.from(context),
-                glide
-            )
-            binding.crewRankingList.adapter = adapter
-            binding.crewRankingList.layoutManager = GridLayoutManager(context, 1)
+            if (model.crewDetailRankings.value?.size != 0) {
+                rankings = model.crewDetailRankings.value
+                adapter = CrewDetailRankAdapter(
+                    model.crewDetailRankings.value!!,
+//                rankings,
+                    LayoutInflater.from(context),
+                    glide
+                )
+                binding.crewRankingList.adapter = adapter
+                binding.crewRankingList.layoutManager = GridLayoutManager(context, 1)
+            }
+//            rankings = model.crewDetailRankings.value
+//            adapter = CrewDetailRankAdapter(
+//                model.crewDetailRankings.value!!,
+////                rankings,
+//                LayoutInflater.from(context),
+//                glide
+//            )
+//            binding.crewRankingList.adapter = adapter
+//            binding.crewRankingList.layoutManager = GridLayoutManager(context, 1)
         }
     }
 }
