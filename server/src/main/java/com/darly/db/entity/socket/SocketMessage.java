@@ -10,7 +10,7 @@ public class SocketMessage {
     // 메시지 타입
     public enum MessageType {
         ENTER, LEAVE,
-        READY, UNREADY,
+        READY,
         PACE,
         START,
         UPDATE
@@ -22,8 +22,9 @@ public class SocketMessage {
     private Long userId;
     private Long matchId;
     private String userNickname;
-    private Integer isHost;
-
+    private Integer isHost; // 0이면 일반유저, 1이면 방장
+    private Character isReady;
+    
     // match 수정용
     private String matchTitle;
     private Short matchMaxPerson;

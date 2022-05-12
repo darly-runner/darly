@@ -133,9 +133,11 @@ public class MatchServiceImpl implements MatchService {
         UserMatch userMatch = userMatchRepository.findByUserMatchId_Match_MatchIdAndUserMatchId_User_UserId(matchId, userId);
         Match match = matchRepository.findByMatchId(matchId);
         Long hostId = match.getHost().getUserId();
+        System.out.println(hostId);
+        System.out.println(userId);
 
         // 퇴장한 사람이 방장이 아님
-        if(!Objects.equals(hostId, userId)) {
+        if(hostId != userId) {
             Short curPerson = match.getMatchCurPerson();
             curPerson--;
             match.setMatchCurPerson(curPerson);
@@ -150,7 +152,7 @@ public class MatchServiceImpl implements MatchService {
             userMatchRepository.delete(userMatch);
         }
         // 퇴장한 사람이 방장, 아직 시작안한방에서 방장나가면 방 비활성화 상태로 바꾸고 전부 내보냄
-        else if (Objects.equals(hostId, userId) && match.getMatchStatus().equals('W')){
+        else if ((hostId == userId) && match.getMatchStatus().equals('W')){
             Short curPerson = 0;
             match.setMatchCurPerson(curPerson);
             match.setMatchStatus('U');
@@ -173,19 +175,16 @@ public class MatchServiceImpl implements MatchService {
     }
 
     @Override
-    public void userReady(Long matchId, Long userId) {
+    public void userReady(Long matchId, Long userId, Character isReady) {
         // matchid, userid로 특정 유저 찾아내기
         UserMatch userMatch = userMatchRepository.findByUserMatchId_Match_MatchIdAndUserMatchId_User_UserId(matchId, userId);
 
-        userMatch.setUserMatchStatus('R');
-        userMatchRepository.save(userMatch);
-    }
-
-    @Override
-    public void userUnReady(Long matchId, Long userId) {
-        UserMatch userMatch = userMatchRepository.findByUserMatchId_Match_MatchIdAndUserMatchId_User_UserId(matchId, userId);
-
-        userMatch.setUserMatchStatus('N');
+        if(isReady.equals('R')) {
+            userMatch.setUserMatchStatus('R');
+        }
+        else if(isReady.equals('N')) {
+            userMatch.setUserMatchStatus('N');
+        }
         userMatchRepository.save(userMatch);
     }
 
