@@ -18,7 +18,6 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#F7F7F7"
             android:padding="20dp">
 
             <ImageView
@@ -37,7 +36,7 @@
                 android:id="@+id/dateText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:text="@{viewModel.recordDate}"
                 android:textColor="@color/gray_600"
                 android:textSize="12sp"
@@ -48,15 +47,15 @@
                 android:id="@+id/titleText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="27dp"
+                android:layout_marginEnd="30dp"
                 android:background="@null"
-                android:fontFamily="@font/pretendard_medium"
+                android:fontFamily="@font/pretendard_semibold"
                 android:hint="@string/title"
                 android:lines="1"
                 android:paddingVertical="5dp"
                 android:singleLine="true"
                 android:text="@{viewModel.recordTitle}"
-                android:textSize="18sp"
+                android:textSize="22sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/dateText" />
 
@@ -73,6 +72,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/gray_400"
+                android:layout_marginTop="-4dp"
                 app:layout_constraintTop_toBottomOf="@+id/titleText"
                 tools:layout_editor_absoluteX="20dp" />
 
@@ -84,7 +84,7 @@
                 android:fontFamily="@font/pretendard_bold"
                 android:text="@{viewModel.recordDistance}"
                 android:textColor="@color/black"
-                android:textSize="55sp"
+                android:textSize="50sp"
                 app:layout_constraintStart_toStartOf="@+id/titleText"
                 app:layout_constraintTop_toBottomOf="@+id/titleText" />
 
@@ -92,12 +92,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:fontFamily="@font/futura_bold"
+                android:fontFamily="@font/futura_medium_italic"
                 android:paddingBottom="10dp"
                 android:text="@string/km"
                 android:textColor="@color/black"
                 android:textSize="30sp"
-                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/textView23"
                 app:layout_constraintStart_toEndOf="@+id/textView23" />
 
@@ -105,7 +104,7 @@
                 android:id="@+id/paceLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:minWidth="100dp"
                 app:layout_constraintEnd_toStartOf="@+id/calorieLayout"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -118,7 +117,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/pace_avg"
                     android:textColor="@color/gray_600"
-                    android:textSize="13sp"
+                    android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -129,7 +128,7 @@
                     android:fontFamily="@font/pretendard_semibold"
                     android:text="@{viewModel.recordPace}"
                     android:textColor="@color/black"
-                    android:textSize="24sp"
+                    android:textSize="22sp"
                     app:layout_constraintStart_toStartOf="@+id/paceText"
                     app:layout_constraintTop_toBottomOf="@+id/paceText" />
 
@@ -140,7 +139,7 @@
                     android:layout_marginTop="18dp"
                     android:text="@string/speed_avg"
                     android:textColor="@color/gray_600"
-                    android:textSize="13sp"
+                    android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="@+id/textView33"
                     app:layout_constraintTop_toBottomOf="@+id/textView33" />
 
@@ -151,7 +150,7 @@
                     android:fontFamily="@font/pretendard_semibold"
                     android:text="@{viewModel.recordSpeed}"
                     android:textColor="@color/black"
-                    android:textSize="24sp"
+                    android:textSize="22sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/speedText" />
 
@@ -159,11 +158,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:fontFamily="@font/pretendard_semibold"
+                    android:fontFamily="@font/pretendard_medium"
                     android:paddingBottom="5dp"
                     android:text="@string/kmh"
                     android:textColor="@color/black"
-                    android:textSize="13sp"
+                    android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@+id/textView34"
                     app:layout_constraintStart_toEndOf="@+id/textView34" />
 
@@ -184,7 +183,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/calories"
                     android:textColor="@color/gray_600"
-                    android:textSize="13sp"
+                    android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -195,7 +194,7 @@
                     android:fontFamily="@font/pretendard_semibold"
                     android:text="@{viewModel.recordCalories}"
                     android:textColor="@color/black"
-                    android:textSize="24sp"
+                    android:textSize="22sp"
                     app:layout_constraintStart_toStartOf="@+id/calText"
                     app:layout_constraintTop_toBottomOf="@+id/calText" />
 
@@ -203,11 +202,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:fontFamily="@font/pretendard_semibold"
+                    android:fontFamily="@font/pretendard_medium"
                     android:paddingBottom="5dp"
                     android:text="@string/kcal"
                     android:textColor="@color/black"
-                    android:textSize="13sp"
+                    android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@+id/calNumText"
                     app:layout_constraintStart_toEndOf="@+id/calNumText" />
 
@@ -218,7 +217,7 @@
                     android:layout_marginTop="18dp"
                     android:text="@string/time_total"
                     android:textColor="@color/gray_600"
-                    android:textSize="13sp"
+                    android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="@+id/calNumText"
                     app:layout_constraintTop_toBottomOf="@+id/calNumText" />
 
@@ -229,7 +228,7 @@
                     android:fontFamily="@font/pretendard_semibold"
                     android:text="@{viewModel.recordTime}"
                     android:textColor="@color/black"
-                    android:textSize="24sp"
+                    android:textSize="22sp"
                     app:layout_constraintStart_toStartOf="@+id/timeText"
                     app:layout_constraintTop_toBottomOf="@+id/timeText" />
 
@@ -250,7 +249,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/heart_avg"
                     android:textColor="@color/gray_600"
-                    android:textSize="13sp"
+                    android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -261,7 +260,7 @@
                     android:fontFamily="@font/pretendard_semibold"
                     android:text="@{viewModel.recordHeart}"
                     android:textColor="@color/black"
-                    android:textSize="24sp"
+                    android:textSize="22sp"
                     app:layout_constraintStart_toStartOf="@+id/heartText"
                     app:layout_constraintTop_toBottomOf="@+id/heartText" />
 
@@ -282,7 +281,7 @@
                     android:layout_marginTop="18dp"
                     android:text="@string/ranking"
                     android:textColor="@color/gray_600"
-                    android:textSize="13sp"
+                    android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/heartNumText" />
 
@@ -293,7 +292,7 @@
                     android:fontFamily="@font/pretendard_semibold"
                     android:text="@{viewModel.recordRank}"
                     android:textColor="@color/black"
-                    android:textSize="24sp"
+                    android:textSize="22sp"
                     app:layout_constraintStart_toStartOf="@+id/rankText"
                     app:layout_constraintTop_toBottomOf="@+id/rankText" />
 
@@ -309,6 +308,14 @@
                 tools:layout="@layout/abc_search_view"
                 tools:layout_editor_absoluteX="20dp" />
 
+            <fragment
+                android:id="@+id/sectionFragment"
+                android:name="com.ssafy.darly.fragment.SectionFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                app:layout_constraintTop_toBottomOf="@+id/mapview"
+                tools:layout_editor_absoluteX="20dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
