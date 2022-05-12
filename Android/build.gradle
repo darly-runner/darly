@@ -7,6 +7,11 @@ plugins {
     id 'com.google.gms.google-services' version '4.3.10' apply false
 }
 
+//repositories {
+//    jcenter()
+//    maven { url "https://jitpack.io" }
+//}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
