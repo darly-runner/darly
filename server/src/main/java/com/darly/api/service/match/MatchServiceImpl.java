@@ -139,6 +139,7 @@ public class MatchServiceImpl implements MatchService {
                 .message("success")
                 .myUserId(userId)
                 .imHost(imHost)
+                .matchStatus(match.getMatchStatus())
                 .match(match)
                 .userMatches(userMatches)
                 .build();
