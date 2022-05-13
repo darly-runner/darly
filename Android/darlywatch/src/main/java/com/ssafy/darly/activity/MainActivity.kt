@@ -16,6 +16,7 @@ import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.room.Room
 import androidx.viewpager.widget.ViewPager
+import com.kakao.util.helper.Utility
 import com.ssafy.darly.R
 import com.ssafy.darly.adapter.MainViewPagerAdapter
 import com.ssafy.darly.dao.AppDatabase
@@ -41,6 +42,9 @@ class MainActivity : AppCompatActivity(){
         setContentView(binding.root)
         val token = GlobalApplication.prefs.getString("token","noToken")
         Log.d("MainActivity", "$token")
+
+        val keyHash = Utility.getKeyHash(this)
+        Log.d("Hash", keyHash)
 
         checkPermission()
         binding.viewPager.adapter = MainActivity@adapter

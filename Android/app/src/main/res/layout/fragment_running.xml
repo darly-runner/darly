@@ -69,14 +69,16 @@
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/mapview"
                 android:layout_margin="50dp"/>
+
             <Button
                 android:id="@+id/startButton"
-                android:gravity="center"
-                android:text="운동 시작하기"
-                android:layout_width="wrap_content"
+                android:background="@drawable/button_background_lg"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/targetButton"
-                android:layout_centerHorizontal="true"/>
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="운동 시작하기" />
             <TextView
                 android:id="@+id/targetButton"
                 android:text="목표 설정하기"
@@ -84,6 +86,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/mapview"
                 android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="80dp"/>
         </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
