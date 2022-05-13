@@ -1,11 +1,15 @@
 package com.darly.api.controller;
+
 import com.darly.api.request.match.MatchPatchReq;
 import com.darly.api.service.match.MatchService;
+import com.darly.db.entity.match.MatchRUser;
 import com.darly.db.entity.socket.SocketMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -42,7 +46,8 @@ public class MessageController {
         else if (SocketMessage.MessageType.LEAVE.equals(message.getType())) {
             Long userId = message.getUserId();
             Long matchId = message.getMatchId();
-            matchService.matchOut(matchId, userId);
+
+            message.setMatchStatus(matchService.matchOut(matchId, userId));
 
             template.convertAndSend("/sub/usermatch/" + message.getMatchId(), message);
             System.out.println("LEAVE sub 완료");
@@ -81,10 +86,20 @@ public class MessageController {
             template.convertAndSend("/sub/usermatch/" + message.getMatchId(), message);
             System.out.println("START sub 완료");
         }
-    }
+        else if (SocketMessage.MessageType.RANDOMMATCH.equals(message.getType())) {
+            message.setMessage("랜덤매칭을 시작합니다.");
 
-    @MessageMapping("/randommatch")
-    public void randommatch(SocketMessage message) {
+            Long userId = message.getUserId();
+            List<MatchRUser> userQueue = matchService.randomMatch(userId);
 
+            if(userQueue == null) {
+                return;
+            }
+            else {
+                message.setUserQueue(userQueue);
+            }
+
+            template.convertAndSend("/sub/usermatch/randommatch", message);
+        }
     }
 }
