@@ -48,6 +48,8 @@ public class MessageController {
             Long matchId = message.getMatchId();
             matchService.matchOut(matchId, userId);
 
+
+
             template.convertAndSend("/sub/usermatch/" + message.getMatchId(), message);
             System.out.println("LEAVE sub 완료");
         }
