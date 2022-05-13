@@ -3,15 +3,29 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/S06P31A301/Android/app/src/main/res/drawable/button_background_lg.xml" value="0.117" />
+        <entry key="..\:/S06P31A301/Android/app/src/main/res/drawable/button_white_round.xml" value="0.1235" />
+        <entry key="..\:/S06P31A301/Android/app/src/main/res/drawable/crew_img_upload_background.xml" value="0.1235" />
+        <entry key="..\:/S06P31A301/Android/app/src/main/res/drawable/ic_fi_edit_2.xml" value="0.1235" />
+        <entry key="..\:/S06P31A301/Android/app/src/main/res/drawable/ic_logo.xml" value="0.1235" />
+        <entry key="..\:/S06P31A301/Android/app/src/main/res/drawable/ic_round_arrow_back_gray.xml" value="0.1235" />
+        <entry key="..\:/S06P31A301/Android/app/src/main/res/drawable/image_view_round.xml" value="0.117" />
+        <entry key="..\:/S06P31A301/Android/app/src/main/res/drawable/parallelogram_bar.xml" value="0.1235" />
+        <entry key="..\:/S06P31A301/Android/app/src/main/res/drawable/ranking_background.xml" value="0.1235" />
+        <entry key="..\:/S06P31A301/Android/app/src/main/res/drawable/rectangle_red_round.xml" value="0.1235" />
+        <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/activity_friend.xml" value="0.25" />
         <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/activity_main.xml" value="0.22" />
-        <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/activity_multi.xml" value="0.1" />
+        <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/activity_match.xml" value="0.1" />
+        <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/activity_match_lobby.xml" value="0.22056159420289856" />
+        <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/activity_multi.xml" value="0.22" />
         <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/activity_my_page_update.xml" value="0.25" />
         <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/activity_result.xml" value="0.17806484295845998" />
         <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/activity_running.xml" value="0.25" />
         <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/dialog_lottie.xml" value="0.2171875" />
         <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/fragment_pause.xml" value="0.25" />
-        <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/fragment_running.xml" value="0.1" />
+        <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/fragment_running.xml" value="0.22" />
         <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/fragment_stat.xml" value="0.103596757852077" />
+        <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/match_list_item.xml" value="0.22056159420289856" />
         <entry key="..\:/S06P31A301/Android/darlywatch/src/main/res/layout/fragment_multi.xml" value="0.6785714285714286" />
         <entry key="..\:/S06P31A301/android/app/src/main/res/drawable/ic_act.xml" value="0.1695" />
         <entry key="..\:/S06P31A301/android/app/src/main/res/drawable/ic_challenge.xml" value="0.1" />
@@ -81,8 +95,6 @@
         <entry key="app/src/main/res/drawable/ic_location.xml" value="0.2755" />
         <entry key="app/src/main/res/drawable/ic_logo.xml" value="0.112" />
         <entry key="app/src/main/res/drawable/ic_rectangle.xml" value="0.2765" />
-        <entry key="app/src/main/res/drawable/ic_lock.xml" value="0.1" />
-        <entry key="app/src/main/res/drawable/ic_ready.xml" value="0.162" />
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.2355" />
         <entry key="app/src/main/res/drawable/ic_unready.xml" value="0.112" />
         <entry key="app/src/main/res/drawable/location_list_background.xml" value="0.2355" />
@@ -96,16 +108,11 @@
         <entry key="app/src/main/res/layout/activity_create_crew.xml" value="0.2659279778393352" />
         <entry key="app/src/main/res/layout/activity_crew_detail.xml" value="0.45" />
         <entry key="app/src/main/res/layout/activity_crew_feeds_detail.xml" value="0.338768115942029" />
-        <entry key="app/src/main/res/layout/activity_create_crew.xml" value="0.2077562326869806" />
-        <entry key="app/src/main/res/layout/activity_crew_create_feed.xml" value="0.2613240418118467" />
-        <entry key="app/src/main/res/layout/activity_crew_detail.xml" value="0.2361111111111111" />
         <entry key="app/src/main/res/layout/activity_crew_list.xml" value="0.375" />
         <entry key="app/src/main/res/layout/activity_friend.xml" value="0.3111111111111111" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.5158514492753623" />
         <entry key="app/src/main/res/layout/activity_match_lobby.xml" value="0.375" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.375" />
-        <entry key="app/src/main/res/layout/activity_match_lobby.xml" value="0.2361111111111111" />
         <entry key="app/src/main/res/layout/activity_running.xml" value="0.1" />
         <entry key="app/src/main/res/layout/address_list.xml" value="0.38385416666666666" />
         <entry key="app/src/main/res/layout/crew_feeds_grid.xml" value="0.338768115942029" />
@@ -117,8 +124,6 @@
         <entry key="app/src/main/res/layout/crew_ranking_items.xml" value="0.335" />
         <entry key="app/src/main/res/layout/crew_recommendations.xml" value="0.375" />
         <entry key="app/src/main/res/layout/feeds_item.xml" value="0.3125" />
-        <entry key="app/src/main/res/layout/crew_recommendations.xml" value="0.18796992481203006" />
-        <entry key="app/src/main/res/layout/dialog_crew_alert.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/layout/fragment_challenge.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/layout/fragment_crew.xml" value="0.3296398891966759" />
         <entry key="app/src/main/res/layout/fragment_crew_data.xml" value="0.3242753623188406" />
