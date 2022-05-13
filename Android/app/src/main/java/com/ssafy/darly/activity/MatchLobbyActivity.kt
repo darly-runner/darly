@@ -99,7 +99,7 @@ class MatchLobbyActivity : AppCompatActivity() {
                     Log.d("cur NUMBER", currentNum.toString())
                     Log.d("ready COUNT", readyCount.toString())
                     if((isHost == 1) && (readyCount == currentNum)) {
-                        binding.readyButton.setBackgroundResource(R.drawable.button_crewjoin_active)
+                        binding.readyButton.setBackgroundResource(R.drawable.button_background_lg)
                         binding.readyButton.setTextColor(Color.rgb(247, 248, 251))
                         binding.readyButton.setOnClickListener {
                             Log.d("!! START", "START!!!!!")
@@ -140,6 +140,7 @@ class MatchLobbyActivity : AppCompatActivity() {
 //        subscribeObserver()
         val glide = Glide.with(this)
         matchId = intent.getLongExtra("matchId", 0)
+//        Log.
 
 
 //        adapter = CrewMatchLobbyAdapter(
@@ -160,7 +161,7 @@ class MatchLobbyActivity : AppCompatActivity() {
 
             if (isHost == 1) {
                 binding.readyButton.text = "START"
-                binding.readyButton.setBackgroundResource(R.drawable.button_crewjoin_disable)
+                binding.readyButton.setBackgroundResource(R.drawable.button_background_stroke)
                 binding.readyButton.setTextColor(Color.rgb(114, 87, 93))
 
                 val data = JSONObject()
