@@ -17,7 +17,7 @@ public interface MatchService {
 
     MatchInRes getMatchInfo(Long matchId, Long userId);
 
-    void matchOut(Long matchId, Long userId);
+    Character matchOut(Long matchId, Long userId);
     void patchMatchInfo(Long matchId, MatchPatchReq matchPatchReq);
 
     void userReady(Long matchId, Long userId, Character isReady);
