@@ -43,7 +43,8 @@ public class MatchServiceImpl implements MatchService {
 
     @Override
     public Page<Match> getCrewMatchList(Long crewId, Pageable page) {
-        return matchRepository.findByCrew_CrewId(crewId, page);
+
+        return matchRepository.findByCrew_CrewIdAndMatchStatusIsNot(crewId, 'U', page);
     }
 
     @Override
@@ -105,35 +106,34 @@ public class MatchServiceImpl implements MatchService {
         }
 
         for(UserMatch user : userMatch) {
-            Integer isHost;
-            if(match.getHost().getUserNickname()
-                    .equals(user.getUserMatchId().getUser().getUserNickname())){
-                isHost = 1;
-            }
-            else {
-                isHost = 0;
+                Integer isHost;
+                if (match.getHost().getUserNickname()
+                        .equals(user.getUserMatchId().getUser().getUserNickname())) {
+                    isHost = 1;
+                } else {
+                    isHost = 0;
+                }
+
+                Float userTotalPace = user.getUserMatchId().getUser().getUserTotalPace();
+                Long recordNum = recordRepository.countAllByUser_UserId(user.getUserMatchId().getUser().getUserId());
+                Float userPaceAvg;
+                if (recordNum == 0) {
+                    userPaceAvg = 0f;
+                } else {
+                    userPaceAvg = userTotalPace / recordNum;
+                }
+
+                userMatches.add(UserMatchMapping.builder()
+                        .userId(user.getUserMatchId().getUser().getUserId())
+                        .userNickname(user.getUserMatchId().getUser().getUserNickname())
+                        .userImage(user.getUserMatchId().getUser().getUserImage())
+                        .userTotalDistance(user.getUserMatchId().getUser().getUserTotalDistance())
+                        .userPaceAvg(userPaceAvg)
+                        .userStatus(user.getUserMatchStatus())
+                        .isHost(isHost)
+                        .build());
             }
 
-            Float userTotalPace = user.getUserMatchId().getUser().getUserTotalPace();
-            Long recordNum = recordRepository.countAllByUser_UserId(user.getUserMatchId().getUser().getUserId());
-            Float userPaceAvg;
-            if(recordNum == 0){
-                userPaceAvg = 0f;
-            }
-            else {
-                userPaceAvg = userTotalPace / recordNum;
-            }
-
-            userMatches.add(UserMatchMapping.builder()
-                    .userId(user.getUserMatchId().getUser().getUserId())
-                    .userNickname(user.getUserMatchId().getUser().getUserNickname())
-                    .userImage(user.getUserMatchId().getUser().getUserImage())
-                    .userTotalDistance(user.getUserMatchId().getUser().getUserTotalDistance())
-                    .userPaceAvg(userPaceAvg)
-                    .userStatus(user.getUserMatchStatus())
-                    .isHost(isHost)
-                    .build());
-        }
 
 
         return MatchInRes.builder()
@@ -146,6 +146,7 @@ public class MatchServiceImpl implements MatchService {
                 .userMatches(userMatches)
                 .build();
     }
+
 
     // 방 퇴장, usermatch에서 해당 user 삭제, curperson--
     @Override
@@ -163,22 +164,30 @@ public class MatchServiceImpl implements MatchService {
             match.setMatchCurPerson(curPerson);
 
             // 만약 현재 인원이 0명이 돼버리면
-            if(curPerson == 0) {
+            if(curPerson == 0 ) {
                 // 비활성화 상태로 변환
-                match.setMatchStatus('U');
+                match.setMatchStatus('E');
             }
             matchRepository.save(match);
             // 나간사람 1명만 삭제
             userMatchRepository.delete(userMatch);
         }
         // 퇴장한 사람이 방장, 아직 시작안한방에서 방장나가면 방 비활성화 상태로 바꾸고 전부 내보냄
-        else if ((hostId == userId) && match.getMatchStatus().equals('W')){
+        else if (hostId == userId && match.getMatchStatus() == 'W'){
             Short curPerson = 0;
             match.setMatchCurPerson(curPerson);
             match.setMatchStatus('U');
             matchRepository.save(match);
             // userMatch 테이블의 matchId로 검색해 전부 삭제, match는 남아있지만 방에는 아무도 없음
             userMatchRepository.deleteAllByUserMatchId_Match_MatchId(matchId);
+        }
+        else if (hostId == userId && match.getMatchStatus() == 'S') {
+            Short curPerson = match.getMatchCurPerson();
+            curPerson--;
+            match.setMatchCurPerson(curPerson);
+            match.setMatchStatus('E');
+            matchRepository.save(match);
+            userMatchRepository.delete(userMatch);
         }
     }
 

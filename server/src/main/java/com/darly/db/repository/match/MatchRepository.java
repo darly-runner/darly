@@ -34,7 +34,7 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
 //                    "where m.crew_id = :crewId\n" +
 //                    "and m.match_status != 'U'",
 //            nativeQuery = true)
-    Page<Match> findByCrew_CrewId(Long crewId, Pageable page);
+    Page<Match> findByCrew_CrewIdAndMatchStatusIsNot(Long crewId, Character status, Pageable page);
 
     Match findByMatchId(Long Id);
 
