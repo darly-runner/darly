@@ -35,21 +35,11 @@ public class MessageController {
     public void userMatch(SocketMessage message) {
         // 유저 입장, SIGNAL만 보내고 그때마다 프론트에서 방입장 API 호출
         if (SocketMessage.MessageType.ENTER.equals(message.getType())) {
-            message.setMessage(message.getUserNickname() + "님이 입장했습니다.");
             template.convertAndSend("/sub/usermatch/" + message.getMatchId(), message);
             System.out.println("ENTER sub 완료");
         }
         // 유저 퇴장, 신호 올떄마다 SIGNAL을 보내고 유저 삭제
         else if (SocketMessage.MessageType.LEAVE.equals(message.getType())) {
-
-            // 나간 사람이 방장일때
-            if(message.getIsHost() == 1) {
-                message.setMessage("방장인 " + message.getUserNickname() + "님이 퇴장했습니다.");
-            }
-            else{
-                message.setMessage(message.getUserNickname() + "님이 퇴장했습니다.");
-            }
-
             Long userId = message.getUserId();
             Long matchId = message.getMatchId();
             matchService.matchOut(matchId, userId);
@@ -59,8 +49,6 @@ public class MessageController {
         }
         // 방정보 업데이트
         else if (SocketMessage.MessageType.UPDATE.equals(message.getType())) {
-            message.setMessage("방정보가 수정되었습니다.");
-
             Long matchId = message.getMatchId();
             MatchPatchReq matchPatchReq = MatchPatchReq.builder()
                     .matchTitle(message.getMatchTitle())
@@ -74,13 +62,6 @@ public class MessageController {
             System.out.println("UPDATE sub 완료");
         }
         else if (SocketMessage.MessageType.READY.equals(message.getType())) {
-            if(message.getIsReady().equals('R')) {
-                message.setMessage(message.getUserNickname() + "님이 레디하셨습니다.");
-            }
-            else if (message.getIsReady().equals('N')) {
-                message.setMessage(message.getUserNickname() + "님이 레디해제 하셨습니다.");
-            }
-            
             Long matchId = message.getMatchId();
             Long userId = message.getUserId();
             Character isReady = message.getIsReady();
@@ -100,5 +81,10 @@ public class MessageController {
             template.convertAndSend("/sub/usermatch/" + message.getMatchId(), message);
             System.out.println("START sub 완료");
         }
+    }
+
+    @MessageMapping("/randommatch")
+    public void randommatch(SocketMessage message) {
+
     }
 }
