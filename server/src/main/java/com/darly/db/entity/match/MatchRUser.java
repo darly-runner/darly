@@ -28,6 +28,6 @@ public class MatchRUser implements Comparable<MatchRUser>{
         this.userImage = user.getUserImage();
 
         Float totalPace = user.getUserTotalPace();
-        this.userPaceAvg = Math.round(totalPace / totalRecordNum);
+        this.userPaceAvg = Math.round((totalPace / totalRecordNum)*100);
     }
 }
