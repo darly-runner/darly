@@ -12,7 +12,6 @@ import com.bumptech.glide.Glide
 import com.ssafy.darly.R
 import com.ssafy.darly.adapter.crew.CrewMatchLobbyAdapter
 import com.ssafy.darly.databinding.ActivityMatchLobbyBinding
-import com.ssafy.darly.model.MatchUsers
 import com.ssafy.darly.service.DarlyService
 import com.ssafy.darly.viewmodel.CrewViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -30,9 +29,8 @@ class MatchLobbyActivity : AppCompatActivity() {
     private var myUserId: Long = 0
     private var isHost: Int = 0
     private var prevStatus: String = "N"
-    private var participants: List<MatchUsers>? = null
 
-    val url = "http://3.36.61.107:8000/ws/websocket"
+    private val url = "http://3.36.61.107:8000/ws/websocket"
     val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
 
     @SuppressLint("CheckResult")
@@ -52,7 +50,6 @@ class MatchLobbyActivity : AppCompatActivity() {
         }
 
         stompClient.topic("/sub/usermatch/${matchId}").subscribe {
-            Log.i("tagg", it.toString())
             val newMessage = JSONObject(it.payload)
             val type = newMessage.getString("type")
             val userId = newMessage.getString("userId")
@@ -91,6 +88,23 @@ class MatchLobbyActivity : AppCompatActivity() {
                             GridLayoutManager(this@MatchLobbyActivity, 1)
                     }
                 }
+                "LEAVE" -> {
+                    if (userId != myUserId.toString()) {
+                        CoroutineScope(Dispatchers.Main).launch {
+                            val response = DarlyService.getDarlyService().getMatchDetails(matchId)
+                            model.matchUsers.value = response.body()?.users ?: listOf()
+
+                            adapter = CrewMatchLobbyAdapter(
+                                model.matchUsers.value!!,
+                                LayoutInflater.from(this@MatchLobbyActivity),
+                                glide
+                            )
+                            binding.matchUsersList.adapter = adapter
+                            binding.matchUsersList.layoutManager =
+                                GridLayoutManager(this@MatchLobbyActivity, 1)
+                        }
+                    }
+                }
             }
         }
     }
@@ -117,8 +131,6 @@ class MatchLobbyActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.Main).launch {
             val response = DarlyService.getDarlyService().getMatchDetails(matchId)
             model.matchUsers.value = response.body()?.users ?: listOf()
-            participants = model.matchUsers.value
-            Log.d("chch check", model.matchUsers.value!!.javaClass.toString())
 
             myUserId = response.body()?.myUserId ?: 3
             isHost = response.body()?.imHost ?: 0
@@ -137,10 +149,10 @@ class MatchLobbyActivity : AppCompatActivity() {
             )
             binding.matchUsersList.adapter = adapter
             binding.matchUsersList.layoutManager = GridLayoutManager(this@MatchLobbyActivity, 1)
+
             runStomp()
             val data = JSONObject()
             data.put("type", "ENTER")
-            data.put("userNickname", "darly1")
             data.put("matchId", matchId)
             data.put("userId", myUserId)
             stompClient.send("/pub/usermatch", data.toString()).subscribe()
@@ -155,7 +167,6 @@ class MatchLobbyActivity : AppCompatActivity() {
             }
             val data = JSONObject()
             data.put("type", "READY")
-            data.put("userNickname", "darly1")
             data.put("matchId", matchId)
             data.put("userId", myUserId)
             data.put("isReady", prevStatus)
@@ -164,15 +175,14 @@ class MatchLobbyActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-
+        super.onBackPressed()
         val data = JSONObject()
         data.put("type", "LEAVE")
-        data.put("userNickname", "darly1")
         data.put("matchId", matchId)
         data.put("userId", myUserId)
         data.put("isHost", isHost)
         stompClient.send("/pub/usermatch", data.toString()).subscribe()
-        super.onBackPressed()
+        finish()
     }
 
 //    private fun subscribeObserver() {
