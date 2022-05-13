@@ -150,7 +150,7 @@ public class MatchServiceImpl implements MatchService {
 
     // 방 퇴장, usermatch에서 해당 user 삭제, curperson--
     @Override
-    public void matchOut(Long matchId, Long userId) {
+    public Character matchOut(Long matchId, Long userId) {
         UserMatch userMatch = userMatchRepository.findByUserMatchId_Match_MatchIdAndUserMatchId_User_UserId(matchId, userId);
         Match match = matchRepository.findByMatchId(matchId);
         Long hostId = match.getHost().getUserId();
@@ -189,6 +189,8 @@ public class MatchServiceImpl implements MatchService {
             matchRepository.save(match);
             userMatchRepository.delete(userMatch);
         }
+
+        return match.getMatchStatus();
     }
 
     // 방 정보 수정, matchTitle, matchMaxPerson, matchGoalDistance를 수정

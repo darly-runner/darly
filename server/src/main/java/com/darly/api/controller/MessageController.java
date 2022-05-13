@@ -46,9 +46,8 @@ public class MessageController {
         else if (SocketMessage.MessageType.LEAVE.equals(message.getType())) {
             Long userId = message.getUserId();
             Long matchId = message.getMatchId();
-            matchService.matchOut(matchId, userId);
 
-
+            message.setMatchStatus(matchService.matchOut(matchId, userId));
 
             template.convertAndSend("/sub/usermatch/" + message.getMatchId(), message);
             System.out.println("LEAVE sub 완료");

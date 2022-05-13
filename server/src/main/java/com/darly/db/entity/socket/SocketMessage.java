@@ -38,7 +38,10 @@ public class SocketMessage {
 
     // 유저큐
     private List<MatchRUser> userQueue;
-    
+
+    // 방 상태
+    private Character matchStatus;
+
     // 메시지
     private String message;
 }
