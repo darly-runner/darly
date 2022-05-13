@@ -131,8 +131,10 @@ class RunningFragment : Fragment(),
 
             location.run {
                 val latLng = LatLng(latitude, longitude)
-                map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
-                fusedLocationProviderClient.removeLocationUpdates(locationCallback)
+                if (::map.isInitialized) {
+                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
+                    fusedLocationProviderClient.removeLocationUpdates(locationCallback)
+                }
             }
         }
     }
