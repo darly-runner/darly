@@ -1,7 +1,8 @@
 package com.darly.db.repository.match;
 
+import com.darly.db.entity.crew.Crew;
 import com.darly.db.entity.match.Match;
-import com.darly.db.entity.match.MatchTitleMapping;
+import com.darly.db.entity.user.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -36,4 +37,6 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
     Page<Match> findByCrew_CrewId(Long crewId, Pageable page);
 
     Match findByMatchId(Long Id);
+
+    Match findByHostAndCrewAndMatchStatus(User user, Crew crew, Character matchStatus);
 }

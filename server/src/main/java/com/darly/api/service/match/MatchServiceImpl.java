@@ -5,6 +5,7 @@ import com.darly.api.request.match.MatchPatchReq;
 import com.darly.api.response.match.MatchInRes;
 import com.darly.db.entity.crew.Crew;
 import com.darly.db.entity.match.Match;
+import com.darly.db.entity.match.MatchRUser;
 import com.darly.db.entity.match.UserMatch;
 import com.darly.db.entity.match.UserMatchId;
 import com.darly.db.entity.user.User;
@@ -20,10 +21,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.PriorityQueue;
 
 @Service("matchService")
 @RequiredArgsConstructor
@@ -33,6 +34,7 @@ public class MatchServiceImpl implements MatchService {
     private final UserMatchRepositorySupport userMatchRepositorySupport;
     private final RecordRepository recordRepository;
     private final UserRepository userRepository;
+    private PriorityQueue<MatchRUser> userQueue = new PriorityQueue();
 
     @Override
     public void setNullByCrewId(Long crewId) {
@@ -215,9 +217,87 @@ public class MatchServiceImpl implements MatchService {
         matchRepository.save(match);
     }
 
+    @Override
+    public List<MatchRUser> randomMatch(Long userId) {
+        // 지금 매칭 신청한 유저 찾기
+        User user = userRepository.getById(userId);
+        Long totalRecordNum = recordRepository.countAllByUser_UserId(userId);
 
-    private Long getTimestamp() {
-        return Timestamp.valueOf(LocalDate.now().atStartOfDay()).getTime() / 1000;
+
+        if (userQueue.size() == 0) {
+            userQueue.add(MatchRUser.builder()
+                            .user(user)
+                            .totalRecordNum(totalRecordNum)
+                    .build());
+            return null;
+        }
+        else {
+            List<MatchRUser> matchRUsers = new ArrayList<>();
+            MatchRUser prev_ruser = userQueue.poll();
+
+            Long prev_userId = prev_ruser.getUserId();
+            matchRUsers.add(prev_ruser);
+
+            User prev_user = userRepository.getById(prev_userId);
+
+            matchRUsers.add(MatchRUser.builder()
+                    .user(user)
+                    .totalRecordNum(totalRecordNum)
+                    .build());
+
+            // 방 만들어주기 현재인원2 최대인원2 방상태는 바로 'S' 목표거리는 5km
+            makeRandomMatch(user);
+
+            // 방금 생성한 방의 matchId(방장이 user이고 crewId는 null, 방상태는 'S')
+            makeUserMatch(user, prev_user);
+
+            return matchRUsers;
+        }
     }
 
+    private void makeRandomMatch(User user) {
+        Match match = Match.builder()
+                .crew(null)
+                .host(user)
+                .matchMaxPerson((short)2)
+                .matchCurPerson((short)2)
+                .matchStatus('S')
+                .matchTitle("경쟁전")
+                .matchDate(getTimestamp())
+                .matchStartTime(getTimestamp())
+                .matchGoalDistance(5f)
+                .build();
+        matchRepository.save(match);
+    }
+
+    private void makeUserMatch(User user, User prev_user) {
+        Match match = matchRepository.findByHostAndCrewAndMatchStatus(user, null, 'S');
+
+        UserMatchId userMatchId = UserMatchId.builder()
+                .user(user)
+                .match(match)
+                .build();
+
+        UserMatchId prev_userMatchId = UserMatchId.builder()
+                .user(prev_user)
+                .match(match)
+                .build();
+
+        UserMatch userMatch = UserMatch.builder()
+                .userMatchId(userMatchId)
+                .userMatchStatus('R')
+                .build();
+
+        UserMatch prev_userMatch = UserMatch.builder()
+                .userMatchId(prev_userMatchId)
+                .userMatchStatus('R')
+                .build();
+
+        userMatchRepository.save(userMatch);
+        userMatchRepository.save(prev_userMatch);
+    }
+
+    private Long getTimestamp() {
+        return Timestamp.valueOf(LocalDateTime.now()).getTime() / 1000;
+    }
 }
