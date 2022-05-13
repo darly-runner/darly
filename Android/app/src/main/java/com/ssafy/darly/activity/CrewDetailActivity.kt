@@ -1,11 +1,13 @@
 package com.ssafy.darly.activity
 
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayoutMediator
@@ -21,8 +23,9 @@ import kotlinx.coroutines.launch
 class CrewDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCrewDetailBinding
     private val model: CrewViewModel by viewModels()
-    var crewId: Long = 0
-    var crewJoin: String=""
+    private var crewId: Long = 0
+    private var crewJoin: String = ""
+    var crewName: String=""
     private val tabTitleArray = arrayOf(
         "요약",
         "피드",
@@ -49,11 +52,30 @@ class CrewDetailActivity : AppCompatActivity() {
             glide.load(response.body()?.crewImage).into(binding.crewImage)
 
             crewJoin = response.body()?.crewStatus ?: "N"
+            crewName = response.body()?.crewName ?: ""
 
-            when(crewJoin) {
-                "A" -> {binding.crewJoinButton.setBackgroundResource(R.drawable.button_crewjoin_disable)
-                    binding.crewJoinButton.setTextColor(Color.rgb(114,87,93))}
+            when (crewJoin) {
+                "A" -> {
+                    binding.crewJoinButton.setBackgroundResource(R.drawable.button_crewjoin_disable)
+                    binding.crewJoinButton.setTextColor(Color.rgb(114, 87, 93))
+                    binding.crewJoinButton.text = "승인 대기중"
+                }
                 "J" -> binding.crewJoinButton.visibility = View.GONE
+                "N" -> {
+                    binding.crewJoinButton.setOnClickListener {
+                        CoroutineScope(Dispatchers.Main).launch {
+                            val joinResponse = DarlyService.getDarlyService().crewJoin(crewId)
+                            Log.d("Join", "${joinResponse.body()}")
+                            val intent = Intent(this@CrewDetailActivity, CrewDetailActivity::class.java)
+                            intent.putExtra("crewId", crewId)
+//                            intent.flags =
+//                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP //액티비티 스택제거
+//                            intent.putExtra("crewId", crewId)
+                            finish()
+                            ContextCompat.startActivity(this@CrewDetailActivity, intent, null)
+                        }
+                    }
+                }
             }
         }
 
@@ -66,12 +88,16 @@ class CrewDetailActivity : AppCompatActivity() {
             tab.text = tabTitleArray[position]
         }.attach()
 
-        binding.crewJoinButton.setOnClickListener {
-            CoroutineScope(Dispatchers.Main).launch {
-                val response = DarlyService.getDarlyService().crewJoin(crewId)
-                Log.d("Join", "${response}")
-            }
+        binding.createBtn.setOnClickListener {
+            val intent = Intent(this, CrewCreateFeedActivity::class.java)
+            intent.putExtra("crewId", crewId)
+            ContextCompat.startActivity(this, intent, null)
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
     }
 
     @JvmName("getCrewId1")
@@ -81,5 +107,10 @@ class CrewDetailActivity : AppCompatActivity() {
 
     fun getCrewStatus(): String {
         return crewJoin
+    }
+
+    @JvmName("getCrewName1")
+    fun getCrewName(): String {
+        return crewName
     }
 }

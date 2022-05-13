@@ -125,6 +125,14 @@ interface ApiService {
         @Path("matchId") matchId: Long,
     ): Response<MatchLobbyDetails>
 
+    @Multipart
+    @POST("crew/{crewId}/feed")
+    suspend fun createFeed(
+        @Path("crewId") crewId: Long,
+        @PartMap data: HashMap<String, RequestBody>,
+        @Part feedImage: MultipartBody.Part?,
+    ): Response<CreateFeed>
+
 
     @GET("users/profile")
     suspend fun getUserProfile(): Response<UserProfileGetRes>
