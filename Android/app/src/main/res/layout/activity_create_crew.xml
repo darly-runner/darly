@@ -47,7 +47,9 @@
                     android:id="@+id/selectedCrewImg"
                     android:layout_width="match_parent"
                     android:layout_height="170dp"
-                    android:background="@drawable/crew_img_upload_background" />
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/crew_img_upload_background"
+                    android:scaleType="centerCrop" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -89,8 +91,8 @@
                     android:background="@drawable/crew_create_background"
                     android:inputType="text"
                     android:maxLength="20"
-                    android:paddingLeft="10dp"
                     android:maxLines="1"
+                    android:paddingLeft="10dp"
                     android:textSize="14dp" />
 
                 <TextView
@@ -112,20 +114,20 @@
                     android:maxLines="1"
                     android:paddingLeft="10dp"
                     android:textColorHint="@color/gray_500"
-                    android:textSize="14dp" >
+                    android:textSize="14dp">
 
                     <TextView
                         android:id="@+id/selectedLocation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="시, 군, 구로 검색 (ex. 서울시 종로구)"/>
+                        android:text="시, 군, 구로 검색 (ex. 서울시 종로구)" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingRight="4dp"
-                        android:src="@drawable/ic_chevron_right"/>
+                        android:src="@drawable/ic_chevron_right" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -141,9 +143,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:layout_marginBottom="20dp"
+                    android:background="@drawable/crew_create_background"
                     android:paddingHorizontal="10dp"
                     android:paddingVertical="8dp"
-                    android:background="@drawable/crew_create_background"
                     android:textSize="14dp" />
 
                 <TextView

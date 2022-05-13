@@ -7,38 +7,30 @@ import android.util.Log
 import android.view.LayoutInflater
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
-import com.google.gson.JsonParser
 import com.ssafy.darly.R
-import com.ssafy.darly.adapter.CrewMatchLobbyAdapter
+import com.ssafy.darly.adapter.crew.CrewMatchLobbyAdapter
 import com.ssafy.darly.databinding.ActivityMatchLobbyBinding
 import com.ssafy.darly.model.MatchUsers
 import com.ssafy.darly.service.DarlyService
 import com.ssafy.darly.viewmodel.CrewViewModel
-import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.DisposableHandle
 import kotlinx.coroutines.launch
-import okhttp3.OkHttpClient
 import org.json.JSONObject
 import ua.naiksoftware.stomp.Stomp
-import ua.naiksoftware.stomp.StompClient
 import ua.naiksoftware.stomp.dto.LifecycleEvent
-import ua.naiksoftware.stomp.dto.StompCommand
-import ua.naiksoftware.stomp.dto.StompHeader
 
 class MatchLobbyActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMatchLobbyBinding
     private val model: CrewViewModel by viewModels()
     lateinit var adapter: CrewMatchLobbyAdapter
-    var matchId: Long = 0
-    var myUserId: Long = 0
-    var isHost: Int = 0
-    var prevStatus: String = "N"
-    var participants: List<MatchUsers>? = null
+    private var matchId: Long = 0
+    private var myUserId: Long = 0
+    private var isHost: Int = 0
+    private var prevStatus: String = "N"
+    private var participants: List<MatchUsers>? = null
 
     val url = "http://3.36.61.107:8000/ws/websocket"
     val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)

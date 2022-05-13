@@ -171,3 +171,8 @@ data class GetOutMatch(
 data class CreateMatch(
     var statusCode: Int
 )
+
+data class CreateFeed(
+    var statusCode: Int,
+    var message: String
+)

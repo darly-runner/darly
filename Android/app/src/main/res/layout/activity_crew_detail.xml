@@ -62,10 +62,10 @@
                             android:layout_weight="1" />
 
                         <ImageView
-                            android:layout_gravity="center"
                             android:id="@+id/createBtn"
                             android:layout_width="22dp"
                             android:layout_height="22dp"
+                            android:layout_gravity="center"
                             android:src="@drawable/ic_plus_square"
                             app:tint="@color/white_custom" />
                     </LinearLayout>
@@ -177,22 +177,22 @@
             tools:layout_editor_absoluteX="0dp" />
 
         <!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:src=""-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:src=""-->
 
-<!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--            android:id="@+id/fab_main"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_margin="12dp"-->
-<!--            android:backgroundTint="@color/main"-->
-<!--            android:tint="@color/white_custom"-->
-<!--            android:src="@drawable/ic_plus"-->
-<!--            app:borderWidth="0dp"-->
-<!--            app:fabSize="mini"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent" />-->
+        <!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+        <!--            android:id="@+id/fab_main"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_margin="12dp"-->
+        <!--            android:backgroundTint="@color/main"-->
+        <!--            android:tint="@color/white_custom"-->
+        <!--            android:src="@drawable/ic_plus"-->
+        <!--            app:borderWidth="0dp"-->
+        <!--            app:fabSize="mini"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

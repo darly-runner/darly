@@ -24,6 +24,9 @@
             android:name=".MultiActivity"
             android:exported="false" />
         <activity
+            android:name=".activity.CrewCreateFeedActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.RecordDetailActivity"
             android:exported="false" />
         <activity

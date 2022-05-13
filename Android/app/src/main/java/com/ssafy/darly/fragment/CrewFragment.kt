@@ -89,5 +89,54 @@ class CrewFragment : Fragment() {
             startActivity(intent)
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        val glide = Glide.with(this@CrewFragment)
+
+        CoroutineScope(Dispatchers.Main).launch {
+            val response = DarlyService.getDarlyService().myCrewList()
+            model.myCrewList.value = response.body()?.crew ?: listOf()
+
+            val crewItemList = model.myCrewList.value
+            val adapter = MyCrewListAdapter(
+                crewItemList!!,
+                LayoutInflater.from(context),
+                glide
+            )
+            binding.myCrew.adapter = adapter
+            binding.crewRecommendation.layoutManager = GridLayoutManager(context, 2)
+        }
+
+        CoroutineScope(Dispatchers.Main).launch {
+            val response = DarlyService.getDarlyService().getCrewList(page=0, size = 8, address = 0, key = "" )
+            model.crewRecommendationList.value = response.body()?.crew ?: listOf()
+
+            val crewRecommendationList = model.crewRecommendationList.value
+            recAdapter = CrewRecommendationAdapter(
+                crewRecommendationList!!,
+                LayoutInflater.from(context),
+                glide
+            )
+            binding.crewRecommendation.adapter = recAdapter
+        }
+
+        // createCrew
+        binding.createCrew.setOnClickListener {
+            val intent = Intent(context, CreateCrewActivity::class.java)
+            startActivity(intent)
+        }
+
+        // All crew lists
+        binding.searchCrew.setOnClickListener {
+            val intent = Intent(context, AllCrewListActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.allCrewList.setOnClickListener {
+            val intent = Intent(context, AllCrewListActivity::class.java)
+            startActivity(intent)
+        }
+    }
 }
 

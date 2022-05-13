@@ -81,6 +81,8 @@
         <entry key="app/src/main/res/drawable/ic_location.xml" value="0.2755" />
         <entry key="app/src/main/res/drawable/ic_logo.xml" value="0.112" />
         <entry key="app/src/main/res/drawable/ic_rectangle.xml" value="0.2765" />
+        <entry key="app/src/main/res/drawable/ic_lock.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_ready.xml" value="0.162" />
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.2355" />
         <entry key="app/src/main/res/drawable/ic_unready.xml" value="0.112" />
         <entry key="app/src/main/res/drawable/location_list_background.xml" value="0.2355" />
@@ -94,11 +96,16 @@
         <entry key="app/src/main/res/layout/activity_create_crew.xml" value="0.2659279778393352" />
         <entry key="app/src/main/res/layout/activity_crew_detail.xml" value="0.45" />
         <entry key="app/src/main/res/layout/activity_crew_feeds_detail.xml" value="0.338768115942029" />
+        <entry key="app/src/main/res/layout/activity_create_crew.xml" value="0.2077562326869806" />
+        <entry key="app/src/main/res/layout/activity_crew_create_feed.xml" value="0.2613240418118467" />
+        <entry key="app/src/main/res/layout/activity_crew_detail.xml" value="0.2361111111111111" />
         <entry key="app/src/main/res/layout/activity_crew_list.xml" value="0.375" />
         <entry key="app/src/main/res/layout/activity_friend.xml" value="0.3111111111111111" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.5158514492753623" />
         <entry key="app/src/main/res/layout/activity_match_lobby.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/activity_match_lobby.xml" value="0.2361111111111111" />
         <entry key="app/src/main/res/layout/activity_running.xml" value="0.1" />
         <entry key="app/src/main/res/layout/address_list.xml" value="0.38385416666666666" />
         <entry key="app/src/main/res/layout/crew_feeds_grid.xml" value="0.338768115942029" />
@@ -110,6 +117,8 @@
         <entry key="app/src/main/res/layout/crew_ranking_items.xml" value="0.335" />
         <entry key="app/src/main/res/layout/crew_recommendations.xml" value="0.375" />
         <entry key="app/src/main/res/layout/feeds_item.xml" value="0.3125" />
+        <entry key="app/src/main/res/layout/crew_recommendations.xml" value="0.18796992481203006" />
+        <entry key="app/src/main/res/layout/dialog_crew_alert.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/layout/fragment_challenge.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/layout/fragment_crew.xml" value="0.3296398891966759" />
         <entry key="app/src/main/res/layout/fragment_crew_data.xml" value="0.3242753623188406" />

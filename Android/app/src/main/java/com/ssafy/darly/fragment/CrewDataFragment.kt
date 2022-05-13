@@ -2,7 +2,6 @@ package com.ssafy.darly.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -24,7 +23,7 @@ import kotlinx.coroutines.launch
 class CrewDataFragment : Fragment() {
     private lateinit var binding: FragmentCrewDataBinding
     private val model: CrewViewModel by viewModels()
-    var crewId: Long = 0
+    private var crewId: Long = 0
     lateinit var adapter: CrewDetailRankAdapter
 
     override fun onCreateView(
@@ -49,8 +48,8 @@ class CrewDataFragment : Fragment() {
         val glide = Glide.with(this@CrewDataFragment)
 
         CoroutineScope(Dispatchers.Main).launch {
-            val response = DarlyService.getDarlyService().getCrewSummary(crewId = crewId, type = "week")
-            Log.d("resss", "${response.body()}")
+            val response =
+                DarlyService.getDarlyService().getCrewSummary(crewId = crewId, type = "week")
             model.crewDetailRankings.value = response.body()?.ranks
 
             binding.crewDistance.text = response.body()?.crewDistance.toString()
@@ -58,9 +57,8 @@ class CrewDataFragment : Fragment() {
             binding.crewDetailPplNum.text = response.body()?.crewPeopleNum.toString()
             binding.crewDetailTime.text = response.body()?.crewTime.toString()
 
-            val crewRankingsList = model.crewDetailRankings.value
             adapter = CrewDetailRankAdapter(
-                crewRankingsList!!,
+                model.crewDetailRankings.value!!,
                 LayoutInflater.from(context),
                 glide
             )
