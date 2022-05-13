@@ -1,7 +1,11 @@
 package com.darly.db.entity.socket;
 
+import com.darly.db.entity.match.MatchRUser;
+import com.darly.db.entity.user.User;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,6 +18,7 @@ public class SocketMessage {
         READY,
         PACE,
         START,
+        RANDOMMATCH, RANDOMSTART,
         UPDATE
     }
     // 메시지 타입
@@ -31,6 +36,9 @@ public class SocketMessage {
     private Short matchMaxPerson;
     private Float matchGoalDistance;
 
+    // 유저큐
+    private List<MatchRUser> userQueue;
+    
     // 메시지
     private String message;
 }
