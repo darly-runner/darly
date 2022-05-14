@@ -14,6 +14,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.ssafy.darly.R
 import com.ssafy.darly.adapter.crew.CrewDetailFragmentAdapter
 import com.ssafy.darly.databinding.ActivityCrewDetailBinding
+import com.ssafy.darly.dialog.CrewCreateDialog
 import com.ssafy.darly.service.DarlyService
 import com.ssafy.darly.viewmodel.CrewViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -89,9 +90,24 @@ class CrewDetailActivity : AppCompatActivity() {
         }.attach()
 
         binding.createBtn.setOnClickListener {
-            val intent = Intent(this, CrewCreateFeedActivity::class.java)
-            intent.putExtra("crewId", crewId)
-            ContextCompat.startActivity(this, intent, null)
+            val crewUploadDialog = CrewCreateDialog(this)
+            crewUploadDialog.show()
+            crewUploadDialog.setOnClickedListener(object : CrewCreateDialog.ButtonClickListener {
+                override fun onClickedUploadFeed() {
+                    val intent = Intent(this@CrewDetailActivity, CrewCreateFeedActivity::class.java)
+                    intent.putExtra("crewId", crewId)
+                    ContextCompat.startActivity(this@CrewDetailActivity, intent, null)
+                }
+
+                override fun onClickedCreateMatch() {
+                    val intent = Intent(this@CrewDetailActivity, CrewCreateMatchActivity::class.java)
+                    intent.putExtra("crewId", crewId)
+                    ContextCompat.startActivity(this@CrewDetailActivity, intent, null)
+                }
+            })
+//            val intent = Intent(this, CrewCreateFeedActivity::class.java)
+//            intent.putExtra("crewId", crewId)
+//            ContextCompat.startActivity(this, intent, null)
         }
     }
 

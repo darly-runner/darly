@@ -133,7 +133,6 @@ interface ApiService {
         @Part feedImage: MultipartBody.Part?,
     ): Response<CreateFeed>
 
-
     @GET("users/profile")
     suspend fun getUserProfile(): Response<UserProfileGetRes>
 

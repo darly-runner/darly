@@ -168,11 +168,12 @@ data class GetOutMatch(
     var statusCode: Int
 )
 
-data class CreateMatch(
-    var statusCode: Int
+data class CreateFeed(
+    var statusCode: Int,
+    var message: String
 )
 
-data class CreateFeed(
+data class CreateMatch(
     var statusCode: Int,
     var message: String
 )
