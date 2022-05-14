@@ -81,15 +81,15 @@ class SearchAddressDialog : DialogFragment() {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0?.trim()?.length == 0) {
-                    model.addresses.value = listOf()
+//                if (p0?.trim()?.length == 0) {
+//                    model.addresses.value = listOf()
+//                    addressListFinishAdapter.notifyDataSetChanged()
+//                } else {
+                CoroutineScope(Dispatchers.Main).launch {
+                    val response = DarlyService.getDarlyService().searchAddresses(p0.toString())
+                    model.addresses.value = response.body()?.addresses ?: listOf()
                     addressListFinishAdapter.notifyDataSetChanged()
-                } else {
-                    CoroutineScope(Dispatchers.Main).launch {
-                        val response = DarlyService.getDarlyService().searchAddresses(p0.toString())
-                        model.addresses.value = response.body()?.addresses ?: listOf()
-                        addressListFinishAdapter.notifyDataSetChanged()
-                    }
+//                    }
                 }
             }
 
@@ -98,6 +98,12 @@ class SearchAddressDialog : DialogFragment() {
 
         binding.closeDialog.setOnClickListener {
             dismiss()
+        }
+
+        CoroutineScope(Dispatchers.Main).launch {
+            val response = DarlyService.getDarlyService().searchAddresses("")
+            model.addresses.value = response.body()?.addresses ?: listOf()
+            addressListFinishAdapter.notifyDataSetChanged()
         }
     }
 }

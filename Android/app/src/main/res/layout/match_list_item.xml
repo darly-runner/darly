@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/match_background"
+    android:padding="30dp">
+    <ImageView
+        android:id="@+id/profileImage"
+        android:src="@drawable/ic_logo"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <TextView
+        android:id="@+id/nicknameText"
+        android:text="로고얘가만듬"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintTop_toTopOf="@+id/profileImage"
+        app:layout_constraintBottom_toBottomOf="@+id/profileImage"
+        app:layout_constraintLeft_toRightOf="@+id/profileImage"/>
+
+    <TextView
+        android:id="@+id/timeText"
+        android:text="37:15"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="30dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/paceText"/>
+    <TextView
+        android:id="@+id/timeUiText"
+        android:text="총 시간"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@id/timeText"
+        app:layout_constraintRight_toRightOf="@id/timeText"
+        app:layout_constraintTop_toBottomOf="@id/timeText"/>
+
+    <TextView
+        android:id="@+id/paceText"
+        android:text="8`23``"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+    <TextView
+        android:id="@+id/paceUiText"
+        android:text="페이스"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@id/paceText"
+        app:layout_constraintRight_toRightOf="@id/paceText"
+        app:layout_constraintTop_toBottomOf="@id/paceText"/>
+
+    <LinearLayout
+        android:id="@+id/recordView"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/timeUiText"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <TextView
+            android:text="4.33"
+            android:textSize="48dp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/futura_bold_italic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:text="kilomiters"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
+            android:id="@+id/progressBar"
+            android:layout_width="200dp"
+            android:layout_height="20dp"
+            android:progress="50"
+            android:progressTint="@color/main" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

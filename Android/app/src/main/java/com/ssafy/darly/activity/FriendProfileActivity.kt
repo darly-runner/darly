@@ -22,7 +22,6 @@ class FriendProfileActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_friend_profile)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_friend_profile)
         binding.lifecycleOwner = this
         binding.viewModel = model
@@ -38,13 +37,12 @@ class FriendProfileActivity : AppCompatActivity() {
             model.userNickname.value = response.body()?.userNickname ?: "nickname"
             model.userMessage.value = response.body()?.userMessage ?: "message"
             var list = response.body()?.userAddresses ?: listOf()
-            model.userAddress.value = if (list.isEmpty()) "address" else list.get(0).addressName
+            model.userAddress.value = if (list.isEmpty()) "address" else list[0]
             model.userTotalDistance.value = response.body()?.userTotalDistance ?: 0.0F
             val dec = DecimalFormat("#,###");
             model.userFriendNum.value =
                 if (response.body()?.userFriendNum == null) "0" else dec.format(response.body()?.userFriendNum)
-            model.userImage.value = response.body()?.userImage ?:
-                    "https://darly-bucket.s3.ap-northeast-2.amazonaws.com/user/darly_logo_white.png"
+            model.userImage.value = response.body()?.userImage ?: "https://darly-bucket.s3.ap-northeast-2.amazonaws.com/user/darly_logo_white.png"
         }
 
         CoroutineScope(Dispatchers.Main).launch {

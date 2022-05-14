@@ -1,6 +1,5 @@
-package com.ssafy.darly.adapter
+package com.ssafy.darly.adapter.crew
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,12 +39,12 @@ class CrewMatchLobbyAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): CrewMatchLobbyAdapter.ViewHolder {
+    ): ViewHolder {
         val view = inflater.inflate(R.layout.crew_match_lobby_item, parent, false)
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: CrewMatchLobbyAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         glide.load(users.get(position).userImage).circleCrop().into(holder.userImg)
         holder.userName.text = users.get(position).userNickname
         holder.userDistance.text = users.get(position).userTotalDistance.toString()
@@ -58,7 +57,10 @@ class CrewMatchLobbyAdapter(
         }
         val isUserHost = users.get(position).isHost
         when(isUserHost == 1) {
-            true -> holder.isHost.visibility = View.VISIBLE
+            true -> {
+                holder.isHost.visibility = View.VISIBLE
+                holder.userIsReady.setImageResource(R.drawable.ic_status_ready)
+            }
             false -> holder.isHost.visibility = View.GONE
         }
     }

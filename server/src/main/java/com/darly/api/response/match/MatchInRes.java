@@ -22,14 +22,16 @@ public class MatchInRes extends BaseResponseBody {
     private String hostNickname;
     private Long myUserId;
     private Integer imHost;
+    private Character matchStatus;
     private List<UserMatchMapping> users;
 
     @Builder
-    public MatchInRes(Integer statusCode, String message, Integer imHost, Long myUserId, List<UserMatchMapping> userMatches, Match match){
+    public MatchInRes(Integer statusCode, String message, Integer imHost, Character matchStatus, Long myUserId, List<UserMatchMapping> userMatches, Match match){
         super(statusCode, message);
         this.matchTitle = match.getMatchTitle();
         this.myUserId = myUserId;
         this.imHost = imHost;
+        this.matchStatus = matchStatus;
         this.hostNickname = match.getHost().getUserNickname();
         this.matchGoalDistance = match.getMatchGoalDistance();
         this.matchCurPerson = match.getMatchCurPerson();

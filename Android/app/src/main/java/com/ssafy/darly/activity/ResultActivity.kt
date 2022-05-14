@@ -1,21 +1,33 @@
 package com.ssafy.darly.activity
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.location.Location
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.PolylineOptions
 import com.ssafy.darly.R
 import com.ssafy.darly.databinding.ActivityResultBinding
 import com.ssafy.darly.model.RecordRequest
 import com.ssafy.darly.service.DarlyService
+import com.ssafy.darly.util.LocationHelper
 import com.ssafy.darly.viewmodel.RunningViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -25,7 +37,8 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
 import java.io.FileOutputStream
-
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class ResultActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var binding: ActivityResultBinding
@@ -34,6 +47,7 @@ class ResultActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var record: RecordRequest
     private lateinit var map: GoogleMap
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -47,9 +61,15 @@ class ResultActivity : AppCompatActivity(), OnMapReadyCallback {
         init()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n")
     private fun init() {
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("MM월 dd일 HH시 mm분")
+        val formatted = current.format(formatter)
+
         record = intent.getSerializableExtra("record") as RecordRequest
+        binding.dateText.text = "$formatted"
         model.pace.value = model.timeToStr(record.recordPace)
         model.calorie.value = "${record.recordCalories} kcal"
         model.speed.value = record.recordSpeed
@@ -141,5 +161,29 @@ class ResultActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
+
+        // 현재 내위치 표시
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+            == PackageManager.PERMISSION_GRANTED) {
+            map.isMyLocationEnabled = true
+        }
+
+
+        val polylineOptions = PolylineOptions()
+        polylineOptions.color(resources.getColor(R.color.main))
+
+        for(i in model.locationList.value ?: ArrayList()){
+            val marker = LatLng(i.latitude, i.longitude)
+            polylineOptions.points.add(marker)
+        }
+        map.addPolyline(polylineOptions)
+
+
+        LocationHelper().startListeningUserLocation(this, object : LocationHelper.MyLocationListener {
+            override fun onLocationChanged(location: Location) {
+                val latLng = LatLng(location.latitude, location.longitude)
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14f))
+            }
+        })
     }
 }

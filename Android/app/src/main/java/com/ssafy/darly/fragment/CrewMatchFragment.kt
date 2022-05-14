@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.ssafy.darly.R
 import com.ssafy.darly.activity.CrewDetailActivity
+import com.ssafy.darly.adapter.crew.CrewDetailFeedsAdapter
 import com.ssafy.darly.adapter.crew.CrewMatchListAdapter
 import com.ssafy.darly.databinding.FragmentCrewDataBinding
 import com.ssafy.darly.databinding.FragmentCrewMatchBinding
@@ -26,6 +27,8 @@ class CrewMatchFragment : Fragment() {
     private lateinit var binding: FragmentCrewMatchBinding
     private val model: CrewViewModel by viewModels()
     var crewId: Long = 0
+    private var crewJoin: String = ""
+    private var crewName: String = ""
     lateinit var adapter: CrewMatchListAdapter
 
     override fun onCreateView(
@@ -43,26 +46,87 @@ class CrewMatchFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         crewId = (activity as CrewDetailActivity).getCrewId()
+        crewJoin = (activity as CrewDetailActivity).getCrewStatus()
+        crewName = (activity as CrewDetailActivity).getCrewName()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val glide = Glide.with(this@CrewMatchFragment)
 
-        CoroutineScope(Dispatchers.Main).launch {
-            val response =
-                DarlyService.getDarlyService().getRoomsList(crewId = crewId, page = 0, size = 50)
-            Log.d("match", "${response.body()}")
-            model.crewRoomsList.value = response.body()?.matches
+        when (crewJoin) {
+            "J" -> {
+                binding.locked.visibility = View.GONE
+                binding.notJoined.visibility = View.GONE
+                CoroutineScope(Dispatchers.Main).launch {
+                    val response =
+                        DarlyService.getDarlyService().getRoomsList(crewId = crewId, page = 0, size = 50)
+                    Log.d("match", "${response.body()}")
+                    model.crewRoomsList.value = response.body()?.matches
 
-            val roomsList = model.crewRoomsList.value
-            adapter = CrewMatchListAdapter(
-                roomsList!!,
-                LayoutInflater.from(context),
-                glide
-            )
-            binding.crewRoomsList.adapter = adapter
-            binding.crewRoomsList.layoutManager = GridLayoutManager(context, 1)
+                    val roomsList = model.crewRoomsList.value
+                    adapter = CrewMatchListAdapter(
+                        roomsList!!,
+                        LayoutInflater.from(context),
+                        glide
+                    )
+                    binding.crewRoomsList.adapter = adapter
+                    binding.crewRoomsList.layoutManager = GridLayoutManager(context, 1)
+                }
+
+            }
+            "N" -> {
+                binding.line.visibility = View.GONE
+                binding.notJoinedCrewName.text = crewName
+                binding.crewRoomsList.visibility = View.GONE
+                binding.noticeLayout.visibility = View.GONE
+            }
+            "A" -> {
+                binding.line.visibility = View.GONE
+                binding.notJoinedCrewName.text = crewName
+                binding.crewRoomsList.visibility = View.GONE
+                binding.noticeLayout.visibility = View.GONE
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val glide = Glide.with(this@CrewMatchFragment)
+
+        when (crewJoin) {
+            "J" -> {
+                binding.locked.visibility = View.GONE
+                binding.notJoined.visibility = View.GONE
+                CoroutineScope(Dispatchers.Main).launch {
+                    val response =
+                        DarlyService.getDarlyService().getRoomsList(crewId = crewId, page = 0, size = 50)
+                    Log.d("match", "${response.body()}")
+                    model.crewRoomsList.value = response.body()?.matches
+
+                    val roomsList = model.crewRoomsList.value
+                    adapter = CrewMatchListAdapter(
+                        roomsList!!,
+                        LayoutInflater.from(context),
+                        glide
+                    )
+                    binding.crewRoomsList.adapter = adapter
+                    binding.crewRoomsList.layoutManager = GridLayoutManager(context, 1)
+                }
+
+            }
+            "N" -> {
+                binding.line.visibility = View.GONE
+                binding.notJoinedCrewName.text = crewName
+                binding.crewRoomsList.visibility = View.GONE
+                binding.noticeLayout.visibility = View.GONE
+            }
+            "A" -> {
+                binding.line.visibility = View.GONE
+                binding.notJoinedCrewName.text = crewName
+                binding.crewRoomsList.visibility = View.GONE
+                binding.noticeLayout.visibility = View.GONE
+            }
         }
     }
 }

@@ -183,6 +183,7 @@ class StatFragment : Fragment() {
         }
         barData.add(BarEntry(7f, -3f))
         var gran = Math.ceil((maxValue / 3).toDouble()).toFloat()
+        if(gran == 0f) gran = 1f
         var max = gran * 3
 
         var barDataSet = BarDataSet(barData, "")

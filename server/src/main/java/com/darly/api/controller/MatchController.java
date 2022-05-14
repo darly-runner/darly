@@ -7,6 +7,7 @@ import com.darly.api.service.match.MatchService;
 import com.darly.common.model.response.BaseResponseBody;
 import com.darly.db.entity.match.Match;
 import com.darly.db.entity.match.UserMatch;
+import com.darly.db.entity.user.User;
 import com.darly.db.repository.match.MatchRepository;
 import com.darly.db.repository.match.UserMatchRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -53,6 +56,16 @@ public class MatchController {
 
         return ResponseEntity.ok(matchInRes);
     }
+
+//    @GetMapping("/queue")
+//    public ResponseEntity<List<User>> userQueue(Authentication authentication) {
+//        Long userId = Long.parseLong((String) authentication.getPrincipal());
+//
+//        List<User> userQueue = matchService.randomMatch(userId);
+//
+//        if
+//        return ResponseEntity.ok(userQueue);
+//    }
 
 //    // M-004 방 퇴장 : 인원을 UserMatch 테이블에서 삭제, curPerson--
 //    @DeleteMapping("{matchId}/out")

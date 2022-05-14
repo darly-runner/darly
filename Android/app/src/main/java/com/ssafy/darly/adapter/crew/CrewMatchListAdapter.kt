@@ -1,7 +1,6 @@
 package com.ssafy.darly.adapter.crew
 
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,7 @@ import com.ssafy.darly.activity.MatchLobbyActivity
 import com.ssafy.darly.model.MatchDetails
 
 class CrewMatchListAdapter(
-    val roomsList: List<MatchDetails>,
+    private val roomsList: List<MatchDetails>,
     val inflater: LayoutInflater,
     val glide: RequestManager
 ): RecyclerView.Adapter<CrewMatchListAdapter.ViewHolder>() {
@@ -51,9 +50,8 @@ class CrewMatchListAdapter(
         val matchId = roomsList.get(position).matchId
 
         holder.itemView.setOnClickListener {
-            val intent = Intent(holder.itemView?.context, MatchLobbyActivity::class.java)
+            val intent = Intent(holder.itemView.context, MatchLobbyActivity::class.java)
             intent.putExtra("matchId", matchId)
-            Log.d("chchchch", matchId.javaClass.toString())
             ContextCompat.startActivity(holder.itemView.context, intent, null)
         }
     }
