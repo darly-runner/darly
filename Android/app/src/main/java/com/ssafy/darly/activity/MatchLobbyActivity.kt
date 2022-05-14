@@ -114,7 +114,7 @@ class MatchLobbyActivity : AppCompatActivity() {
                 "LEAVE" -> {
                     if (userId != myUserId.toString()) {
                         CoroutineScope(Dispatchers.Main).launch {
-                            val response = DarlyService.getDarlyService().getMatchDetails(matchId)
+                            val response = DarlyService.getDarlyService().refreshMatchDetails(matchId)
                             model.matchUsers.value = response.body()?.users ?: listOf()
 
                             adapter = CrewMatchLobbyAdapter(
