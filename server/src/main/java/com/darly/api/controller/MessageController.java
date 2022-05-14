@@ -54,6 +54,7 @@ public class MessageController {
             Match match = matchService.createCrewMatch(crewId, userId, matchCreatePostReq);
             userMatchService.createUserMatch(userId, match.getMatchId());
             message.setMatchId(match.getMatchId());
+
             message.setMessage("Success create crew match");
             template.convertAndSend("/sub/creatematch", message);
             System.out.println("CREATE sub 완료");
