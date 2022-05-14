@@ -65,7 +65,8 @@ class CrewFeedFragment : Fragment() {
                     adapter = CrewDetailFeedsAdapter(
                         feedsImg!!,
                         LayoutInflater.from(context),
-                        glide
+                        glide,
+                        crewId
                     )
                     binding.crewDetailFeeds.adapter = adapter
                     binding.crewDetailFeeds.layoutManager = GridLayoutManager(context, 3)

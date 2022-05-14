@@ -84,11 +84,14 @@
         <entry key="app/src/main/res/layout/activity_crew_create_feed.xml" value="0.2613240418118467" />
         <entry key="app/src/main/res/layout/activity_crew_create_match.xml" value="0.2657407407407407" />
         <entry key="app/src/main/res/layout/activity_crew_detail.xml" value="0.2361111111111111" />
+        <entry key="app/src/main/res/layout/activity_crew_feeds_detail.xml" value="0.17685185185185184" />
         <entry key="app/src/main/res/layout/activity_crew_list.xml" value="0.375" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.375" />
         <entry key="app/src/main/res/layout/activity_match_lobby.xml" value="0.2361111111111111" />
         <entry key="app/src/main/res/layout/activity_running.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/crew_feeds_grid.xml" value="0.17685185185185184" />
+        <entry key="app/src/main/res/layout/crew_feeds_item.xml" value="0.25555555555555554" />
         <entry key="app/src/main/res/layout/crew_location.xml" value="0.335" />
         <entry key="app/src/main/res/layout/crew_match_lobby_item.xml" value="0.2361111111111111" />
         <entry key="app/src/main/res/layout/crew_mycrew.xml" value="0.189209726443769" />

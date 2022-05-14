@@ -18,7 +18,8 @@ import kotlin.reflect.typeOf
 class CrewDetailFeedsAdapter(
     val feedsList: List<FeedsList>,
     val inflater: LayoutInflater,
-    val glide: RequestManager
+    val glide: RequestManager,
+    val crewId: Long,
 ) : RecyclerView.Adapter<CrewDetailFeedsAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -44,10 +45,12 @@ class CrewDetailFeedsAdapter(
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, CrewFeedsDetailActivity::class.java)
             intent.putExtra("feedId", feedId)
+            intent.putExtra("crewId", crewId)
+            intent.putExtra("position", position)
+//            intent.putExtra("object", feedsList)
 //            Log.d("feedId", feedId.javaClass)
             ContextCompat.startActivity(holder.itemView.context, intent, null)
         }
-
     }
 
     override fun getItemCount(): Int {
