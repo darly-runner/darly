@@ -89,20 +89,30 @@ data class CrewFeeds(
 )
 
 data class FeedsList(
+    var hostNickname: String,
+    var hostImage: String,
     var feedId: Long,
+    var feedTitle: String,
+    var feedContent: String,
+    var feedDate: String,
     var feedImage: String,
+    var commentNum: Int,
 )
 
 data class FeedsDetail(
     var statusCode: Int,
     var message: String,
+    var feeds: List<Feeds>,
+)
+
+data class Feeds(
     var hostNickname: String,
     var hostImage: String,
     var feedTitle: String,
     var feedContent: String,
     var feedDate: String,
-    var feedImages: String,
-    var comments: List<FeedsComments>
+    var feedImage: String,
+    var commentNum: Int
 )
 
 data class FeedsComments(
