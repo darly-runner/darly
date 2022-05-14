@@ -31,11 +31,11 @@ class CrewFeedsDetailActivity : AppCompatActivity() {
         val glide = Glide.with(this)
         feedId = intent.getLongExtra("feedId", 0)
 
-        CoroutineScope(Dispatchers.Main).launch {
-            val response = DarlyService.getDarlyService().getFeedsDetail(feedId = feedId)
-
-            Log.d("feeed", "${response}")
-        }
+//        CoroutineScope(Dispatchers.Main).launch {
+//            val response = DarlyService.getDarlyService().getFeedsDetail(feedId = feedId)
+//
+//            Log.d("feeed", "${response}")
+//        }
 
     }
 }

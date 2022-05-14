@@ -8,10 +8,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.ssafy.darly.R
+import com.ssafy.darly.model.Feeds
 import com.ssafy.darly.model.FeedsDetail
 
 class CrewFeedsAdapter(
-    val feedsDetail: List<FeedsDetail>,
+    val feedsDetail: List<Feeds>,
     val inflater: LayoutInflater,
     val glide: RequestManager
 ): RecyclerView.Adapter<CrewFeedsAdapter.ViewHolder>() {
@@ -42,15 +43,9 @@ class CrewFeedsAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         glide.load(feedsDetail.get(position).hostImage).circleCrop().into(holder.feedHostImg)
         holder.feedHostName.text = feedsDetail.get(position).hostNickname
-        glide.load(feedsDetail.get(position).feedImages).into(holder.feedImage)
+        glide.load(feedsDetail.get(position).feedImage).into(holder.feedImage)
         holder.feedDate.text = feedsDetail.get(position).feedDate
         holder.feedContent.text = feedsDetail.get(position).feedContent
-        val commentsSize = feedsDetail.get(position).comments.size
-        val commentsText = "댓글 ${commentsSize}개 전체보기"
-        holder.feedComments.text = when(commentsSize == 0) {
-            true -> "etjtj"
-            false -> commentsText
-        }
     }
 
     override fun getItemCount(): Int {

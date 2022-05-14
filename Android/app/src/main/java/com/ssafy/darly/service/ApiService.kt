@@ -87,9 +87,11 @@ interface ApiService {
         @Query("size") size: Int
     ): Response<CrewFeeds>
 
-    @GET("feeds/{feedId}")
+    @GET("crew/{crewId}/feed/{feedId}")
     suspend fun getFeedsDetail(
+        @Path("crewId") crewId: Long,
         @Path("feedId") feedId: Long,
+        @Query("size") size: Int,
     ): Response<FeedsDetail>
 
     @GET("crew/{crewId}/match")
