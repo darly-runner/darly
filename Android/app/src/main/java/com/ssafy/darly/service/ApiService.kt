@@ -42,7 +42,7 @@ interface ApiService {
 
     @GET("users")
     suspend fun getUsers(
-        @Query("userId") userId: Int,
+//        @Query("userId") userId: Int,
     ): Response<UserGetRes>
 
     // CREW
@@ -134,6 +134,8 @@ interface ApiService {
         @PartMap data: HashMap<String, RequestBody>,
         @Part feedImage: MultipartBody.Part?,
     ): Response<CreateFeed>
+
+
 
     @GET("users/profile")
     suspend fun getUserProfile(): Response<UserProfileGetRes>
