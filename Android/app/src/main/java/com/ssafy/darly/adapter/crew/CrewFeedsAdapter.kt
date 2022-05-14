@@ -51,6 +51,10 @@ class CrewFeedsAdapter(
         val commentsNum = feedsDetail.get(position).commentNum
         holder.feedComments.text = "댓글 ${commentsNum}개 전체보기"
 
+        holder.feedComments.setOnClickListener {
+
+        }
+
 //        val smoothScroller : RecyclerView.SmoothScroller by lazy {
 //            object: LinearSmoothScroller(this@) {
 //                override fun getVerticalSnapPreference() = SNAP_TO_START
