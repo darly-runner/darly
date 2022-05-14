@@ -30,7 +30,7 @@ class MatchLobbyActivity : AppCompatActivity() {
     private var myUserId: Long = 0
     private var isHost: Int = 0
     private var prevStatus: String = "N"
-    private var readyCount : Int = 0
+    private var readyCount : Int = 1
     var currentNum : Int = 0
 
     private val url = "http://3.36.61.107:8000/ws/websocket"
@@ -63,6 +63,7 @@ class MatchLobbyActivity : AppCompatActivity() {
                     if (userId != myUserId.toString()) {
                         CoroutineScope(Dispatchers.Main).launch {
                             val response = DarlyService.getDarlyService().getMatchDetails(matchId)
+                            binding.currentNum.text = response.body()?.matchCurPerson.toString()
                             model.matchUsers.value = response.body()?.users ?: listOf()
 
                             adapter = CrewMatchLobbyAdapter(
@@ -116,6 +117,7 @@ class MatchLobbyActivity : AppCompatActivity() {
                         CoroutineScope(Dispatchers.Main).launch {
                             val response = DarlyService.getDarlyService().refreshMatchDetails(matchId)
                             model.matchUsers.value = response.body()?.users ?: listOf()
+                            binding.currentNum.text = response.body()?.matchCurPerson.toString()
 
                             adapter = CrewMatchLobbyAdapter(
                                 model.matchUsers.value!!,
