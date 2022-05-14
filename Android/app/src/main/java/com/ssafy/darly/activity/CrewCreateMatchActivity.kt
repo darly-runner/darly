@@ -1,10 +1,14 @@
 package com.ssafy.darly.activity
 
+import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
+import com.bumptech.glide.Glide
 import com.ssafy.darly.R
 import com.ssafy.darly.databinding.ActivityCrewCreateMatchBinding
 import com.ssafy.darly.model.CreateMatchReq
@@ -12,15 +16,42 @@ import com.ssafy.darly.service.DarlyService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.json.JSONObject
+import ua.naiksoftware.stomp.Stomp
+import ua.naiksoftware.stomp.dto.LifecycleEvent
 
 class CrewCreateMatchActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCrewCreateMatchBinding
-    var crewId: Long=0
-    var matchTitle: String=""
-    var matchDistance: String=""
+    var crewId: Long = 0
+    private var matchTitle: String = ""
+    private var matchDistance: String = ""
+    private var matchId: Long = 0
 
-//    var matchMaxPerson: Short,
-//    var matchGoalDistance: Float
+    private val url = "http://3.36.61.107:8000/ws/websocket"
+    val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
+
+    @SuppressLint("CheckResult")
+    fun runStomp() {
+        stompClient.connect()
+        stompClient.lifecycle().subscribe { lifecycleEvent ->
+            when (lifecycleEvent.type) {
+                LifecycleEvent.Type.OPENED -> {
+                    Log.d("ENTER", "ENTERED!!")
+                }
+                LifecycleEvent.Type.ERROR -> {
+                    Log.i("ERROR", "!!")
+                    Log.e("CONNECT ERROR", lifecycleEvent.exception.toString())
+                }
+            }
+        }
+
+        stompClient.topic("/sub/creatematch").subscribe {
+            val newMessage = JSONObject(it.payload)
+            matchId = newMessage.getString("matchId").toLong()
+        }
+
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,11 +68,25 @@ class CrewCreateMatchActivity : AppCompatActivity() {
         }
 
         binding.createMatchButton.setOnClickListener {
-            CoroutineScope(Dispatchers.Main).launch {
-                val CrewMathList = CreateMatchReq(matchTitle = matchTitle, matchMaxPerson = 6, matchGoalDistance = matchDistance.toFloat())
-                val response = DarlyService.getDarlyService().createMatch(crewId = crewId, CrewMathList)
-                Log.d("create MATCH", "${response}")
-            }
+//            CoroutineScope(Dispatchers.Main).launch {
+//                val CrewMathList = CreateMatchReq(matchTitle = matchTitle, matchMaxPerson = 6, matchGoalDistance = matchDistance.toFloat())
+//                val response = DarlyService.getDarlyService().createMatch(crewId = crewId, CrewMathList)
+//                Log.d("create MATCH", "${response}")
+//            }
+            runStomp()
+            val data = JSONObject()
+            data.put("type", "CREATE")
+            data.put("crewId", crewId)
+            data.put("matchTitle", matchTitle)
+            data.put("matchGoalDistance", matchDistance)
+            data.put("matchMaxPerson", "6")
+//            data.put("userId", myUserId)
+            data.put("userId", "3")
+            stompClient.send("/pub/creatematch", data.toString()).subscribe()
+
+            val intent = Intent(this, MatchLobbyActivity::class.java)
+            intent.putExtra("matchId", matchId)
+            ContextCompat.startActivity(this, intent, null)
         }
     }
 }
