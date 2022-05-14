@@ -55,10 +55,9 @@ public class MessageController {
             userMatchService.createUserMatch(userId, match.getMatchId());
             message.setMatchId(match.getMatchId());
             message.setMessage("Success create crew match");
+            template.convertAndSend("/sub/creatematch", message);
+            System.out.println("CREATE sub 완료");
         }
-
-        template.convertAndSend("/sub/creatematch", message);
-        System.out.println("CREATE sub 완료");
     }
     
     /*
