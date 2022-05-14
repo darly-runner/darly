@@ -31,7 +31,7 @@ class MatchLobbyActivity : AppCompatActivity() {
     private var isHost: Int = 0
     private var prevStatus: String = "N"
     private var readyCount : Int = 1
-    var currentNum : Int = 0
+    private var currentNum : Int = 0
 
     private val url = "http://3.36.61.107:8000/ws/websocket"
     val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
@@ -64,6 +64,7 @@ class MatchLobbyActivity : AppCompatActivity() {
                         CoroutineScope(Dispatchers.Main).launch {
                             val response = DarlyService.getDarlyService().getMatchDetails(matchId)
                             binding.currentNum.text = response.body()?.matchCurPerson.toString()
+                            currentNum = response.body()?.matchCurPerson?.toInt() ?: 0
                             model.matchUsers.value = response.body()?.users ?: listOf()
 
                             adapter = CrewMatchLobbyAdapter(
