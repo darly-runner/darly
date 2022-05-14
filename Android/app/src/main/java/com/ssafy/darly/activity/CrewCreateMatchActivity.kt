@@ -2,6 +2,7 @@ package com.ssafy.darly.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import com.ssafy.darly.R
@@ -26,6 +27,8 @@ class CrewCreateMatchActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_crew_create_match)
         binding.lifecycleOwner = this
 
+        crewId = intent.getLongExtra("crewId", 0)
+
         binding.createMatchName.doAfterTextChanged {
             matchTitle = it.toString()
         }
@@ -37,6 +40,7 @@ class CrewCreateMatchActivity : AppCompatActivity() {
             CoroutineScope(Dispatchers.Main).launch {
                 val CrewMathList = CreateMatchReq(matchTitle = matchTitle, matchMaxPerson = 6, matchGoalDistance = matchDistance.toFloat())
                 val response = DarlyService.getDarlyService().createMatch(crewId = crewId, CrewMathList)
+                Log.d("create MATCH", "${response}")
             }
         }
     }
