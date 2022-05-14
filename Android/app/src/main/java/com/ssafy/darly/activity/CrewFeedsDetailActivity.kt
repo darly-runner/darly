@@ -38,16 +38,17 @@ class CrewFeedsDetailActivity : AppCompatActivity() {
         feedId = intent.getLongExtra("feedId", 0)
         crewId = intent.getLongExtra("crewId", 0)
         position = intent.getIntExtra("position", 0)
+        Log.d("qqqq POSITION", position.toString())
 
 //        adapter = CrewFeedsAdapter()
 
-        val smoothScroller : RecyclerView.SmoothScroller by lazy {
-            object: LinearSmoothScroller(this) {
-                override fun getVerticalSnapPreference() = SNAP_TO_START
-            }
-        }
-        smoothScroller.targetPosition = position
-        binding.feedDetails.layoutManager?.startSmoothScroll(smoothScroller)
+//        val smoothScroller : RecyclerView.SmoothScroller by lazy {
+//            object: LinearSmoothScroller(this) {
+//                override fun getVerticalSnapPreference() = SNAP_TO_START
+//            }
+//        }
+//        smoothScroller.targetPosition = position
+//        binding.feedDetails.layoutManager?.startSmoothScroll(smoothScroller)
 
 
         CoroutineScope(Dispatchers.Main).launch {
@@ -60,7 +61,16 @@ class CrewFeedsDetailActivity : AppCompatActivity() {
                 glide
             )
             binding.feedDetails.adapter = adapter
+            val smoothScroller : RecyclerView.SmoothScroller by lazy {
+                object: LinearSmoothScroller(this@CrewFeedsDetailActivity) {
+                    override fun getVerticalSnapPreference() = SNAP_TO_START
+                }
+            }
+            smoothScroller.targetPosition = position
+//            recyclerView.layoutMan
+            binding.feedDetails.layoutManager?.startSmoothScroll(smoothScroller)
             binding.feedDetails.layoutManager = GridLayoutManager(this@CrewFeedsDetailActivity, 1)
+
 
             Log.d("feeed", "${response}")
         }
