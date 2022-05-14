@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#00ffffff">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/dialog_crew_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/uploadFeed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:fontFamily="@font/pretendard_medium"
+                android:layout_gravity="center"
+                android:paddingVertical="20dp"
+                android:textSize="17dp"
+                android:text="FEED UPLOAD"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#EDEDED"/>
+
+            <TextView
+                android:id="@+id/createMatch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:fontFamily="@font/pretendard_medium"
+                android:layout_gravity="center"
+                android:paddingVertical="20dp"
+                android:textSize="17dp"
+                android:text="MATCH"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingVertical="20dp"
+            android:textSize="17dp"
+            android:fontFamily="@font/pretendard_medium"
+            android:background="@drawable/dialog_crew_content"
+            android:backgroundTint="#FCFDFF"
+            android:text="CANCEL"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+</layout>
