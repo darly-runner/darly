@@ -23,7 +23,7 @@ import ua.naiksoftware.stomp.dto.LifecycleEvent
 class CrewCreateMatchActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCrewCreateMatchBinding
     var crewId: Long = 0
-    private var myUserId: Long=3
+    private var myUserId: Long = 3
     private var matchTitle: String = ""
     private var matchDistance: String = ""
     private var matchId: Long = 0
@@ -77,6 +77,11 @@ class CrewCreateMatchActivity : AppCompatActivity() {
             matchDistance = it.toString()
         }
 
+        CoroutineScope(Dispatchers.Main).launch {
+            val response = DarlyService.getDarlyService().getUsers()
+            myUserId = response.body()?.userId ?: 0
+        }
+
         binding.createMatchButton.setOnClickListener {
             runStomp()
             val data = JSONObject()
@@ -86,7 +91,7 @@ class CrewCreateMatchActivity : AppCompatActivity() {
             data.put("matchGoalDistance", matchDistance)
             data.put("matchMaxPerson", "6")
 //            data.put("userId", myUserId)
-            data.put("userId", "3")
+            data.put("userId", myUserId)
             stompClient.send("/pub/creatematch", data.toString()).subscribe()
         }
     }
