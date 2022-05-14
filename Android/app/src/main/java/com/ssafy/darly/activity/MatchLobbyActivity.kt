@@ -164,12 +164,12 @@ class MatchLobbyActivity : AppCompatActivity() {
                 binding.readyButton.setBackgroundResource(R.drawable.button_background_stroke)
                 binding.readyButton.setTextColor(Color.rgb(114, 87, 93))
 
-                val data = JSONObject()
-                data.put("type", "READY")
-                data.put("matchId", matchId)
-                data.put("userId", myUserId)
-                data.put("isReady", "R")
-                stompClient.send("/pub/usermatch", data.toString()).subscribe()
+//                val data = JSONObject()
+//                data.put("type", "READY")
+//                data.put("matchId", matchId)
+//                data.put("userId", myUserId)
+//                data.put("isReady", "R")
+//                stompClient.send("/pub/usermatch", data.toString()).subscribe()
 
 
             } else if (isHost == 0) {

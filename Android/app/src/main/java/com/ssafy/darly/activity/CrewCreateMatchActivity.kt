@@ -23,6 +23,7 @@ import ua.naiksoftware.stomp.dto.LifecycleEvent
 class CrewCreateMatchActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCrewCreateMatchBinding
     var crewId: Long = 0
+    private var myUserId: Long=3
     private var matchTitle: String = ""
     private var matchDistance: String = ""
     private var matchId: Long = 0
@@ -47,7 +48,16 @@ class CrewCreateMatchActivity : AppCompatActivity() {
 
         stompClient.topic("/sub/creatematch").subscribe {
             val newMessage = JSONObject(it.payload)
+            val type = newMessage.getString("type")
+            val userId = newMessage.getString("userId")
             matchId = newMessage.getString("matchId").toLong()
+
+            if ((type == "CREATE") && (userId == myUserId.toString())) {
+                val intent = Intent(this, MatchLobbyActivity::class.java)
+                intent.putExtra("matchId", matchId)
+                finish()
+                ContextCompat.startActivity(this, intent, null)
+            }
         }
 
     }
@@ -68,11 +78,6 @@ class CrewCreateMatchActivity : AppCompatActivity() {
         }
 
         binding.createMatchButton.setOnClickListener {
-//            CoroutineScope(Dispatchers.Main).launch {
-//                val CrewMathList = CreateMatchReq(matchTitle = matchTitle, matchMaxPerson = 6, matchGoalDistance = matchDistance.toFloat())
-//                val response = DarlyService.getDarlyService().createMatch(crewId = crewId, CrewMathList)
-//                Log.d("create MATCH", "${response}")
-//            }
             runStomp()
             val data = JSONObject()
             data.put("type", "CREATE")
@@ -83,10 +88,6 @@ class CrewCreateMatchActivity : AppCompatActivity() {
 //            data.put("userId", myUserId)
             data.put("userId", "3")
             stompClient.send("/pub/creatematch", data.toString()).subscribe()
-
-            val intent = Intent(this, MatchLobbyActivity::class.java)
-            intent.putExtra("matchId", matchId)
-            ContextCompat.startActivity(this, intent, null)
         }
     }
 }
