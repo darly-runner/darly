@@ -43,9 +43,6 @@ class MainActivity : AppCompatActivity(){
         val token = GlobalApplication.prefs.getString("token","noToken")
         Log.d("MainActivity", "$token")
 
-        val keyHash = Utility.getKeyHash(this)
-        Log.d("Hash", keyHash)
-
         checkPermission()
         binding.viewPager.adapter = MainActivity@adapter
 
@@ -67,23 +64,23 @@ class MainActivity : AppCompatActivity(){
             }
         })
 
-        CoroutineScope(Dispatchers.IO).launch {
-            if(!GlobalApplication.network.getNetworkConnected()){
-                val db = Room.databaseBuilder(
-                    applicationContext,
-                    AppDatabase::class.java,
-                    "recordDB"
-                ).build()
-                // 확인 메세지
-                Log.d("DB Test", "${db.recordDao().getAll()}")
-                val list = db.recordDao().getAll()
-                for(i in list){
-                    val record = GlobalApplication.network.dtoToRecord(i)
-                    DarlyService.getDarlyService().postRecord(record)
-                }
-                db.recordDao().deleteAll()
-            }
-        }
+//        CoroutineScope(Dispatchers.IO).launch {
+//            if(!GlobalApplication.network.getNetworkConnected()){
+//                val db = Room.databaseBuilder(
+//                    applicationContext,
+//                    AppDatabase::class.java,
+//                    "recordDB"
+//                ).build()
+//                // 확인 메세지
+//                Log.d("DB Test", "${db.recordDao().getAll()}")
+//                val list = db.recordDao().getAll()
+//                for(i in list){
+//                    val record = GlobalApplication.network.dtoToRecord(i)
+//                    DarlyService.getDarlyService().postRecord(record)
+//                }
+//                db.recordDao().deleteAll()
+//            }
+//        }
     }
 
     fun checkPermission(){

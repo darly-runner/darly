@@ -54,9 +54,10 @@ class RunningViewModel : ViewModel(){
     }
 
     fun setSpeed(){
-        val s = dist.value?.times(3600)?.div(timeCnt)
-        if (s != null)
-            speed.value = round((s * 10f)) / 10f
+        var s = dist.value?.div(timeCnt)
+        s = s?.times(3600)
+
+        speed.value = round((s?.times(10f)!!)) / 10f
     }
 
     // 페이스

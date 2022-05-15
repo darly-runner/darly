@@ -12,14 +12,18 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.room.Room
 import androidx.viewpager.widget.ViewPager
 import androidx.wear.ambient.AmbientModeSupport
 import com.ssafy.darly.BuildConfig
 import com.ssafy.darly.R
 import com.ssafy.darly.adapter.RunningViewPagerAdapter
 import com.ssafy.darly.background.MyService
+import com.ssafy.darly.dao.AppDatabase
 import com.ssafy.darly.databinding.ActivityRunningBinding
+import com.ssafy.darly.model.RecordRequest
 import com.ssafy.darly.service.DarlyService
+import com.ssafy.darly.util.GlobalApplication
 import com.ssafy.darly.viewmodel.RunningViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -81,21 +85,33 @@ class RunningActivity : AppCompatActivity(), AmbientModeSupport.AmbientCallbackP
 
     override fun onBackPressed() {
         var builder = AlertDialog.Builder(this)
-        var dialog = builder.create()
         builder.setTitle("기록을 저장하시겠습니까?")
         builder.setIcon(R.mipmap.ic_launcher)
 
-        var listener = object : DialogInterface.OnClickListener {
+        var record = object : DialogInterface.OnClickListener {
             override fun onClick(p0: DialogInterface?, p1: Int) {
-                if(p1 == DialogInterface.BUTTON_POSITIVE){
-                    CoroutineScope(Dispatchers.Main).launch {
+                CoroutineScope(Dispatchers.IO).launch {
+                    // 네트워크 연결이 가능할때는 서버DB에 저장한다.
+                    if(GlobalApplication.network.getNetworkConnected()) {
                         DarlyService.getDarlyService().postRecord(model.record())
 
                         val intent = Intent(applicationContext, MainActivity::class.java)
+                        intent.flags =
+                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP //액티비티 스택제거
+
                         startActivity(intent)
                     }
-                }else if(p1 == DialogInterface.BUTTON_NEGATIVE){
-                    dialog.dismiss()
+                    // 네트워크 연걸이 불가능한경우 내장DB에 저장한다.
+                    else{
+                        saveLocalDb(model.record())
+
+                        val intent = Intent(applicationContext, MainActivity::class.java)
+                        intent.flags =
+                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP //액티비티 스택제거
+
+                        startActivity(intent)
+                    }
+                    serviceStop()
                 }
             }
         }
@@ -110,9 +126,10 @@ class RunningActivity : AppCompatActivity(), AmbientModeSupport.AmbientCallbackP
             }
         }
 
-        builder.setPositiveButton("기록 저장", listener)
+
+        builder.setPositiveButton("기록 저장", record)
         builder.setNeutralButton("기록 취소", cancle)
-        builder.setNegativeButton("취소", null)
+        builder.setNegativeButton("계속하기", null)
         builder.show()
     }
 
@@ -131,7 +148,6 @@ class RunningActivity : AppCompatActivity(), AmbientModeSupport.AmbientCallbackP
             model.setPaceBySection(1f)
 
             model.locationList.value = service.locationList.value
-            //Toast.makeText(this,"${model.paceSection.value?.size} , 섹션크기", Toast.LENGTH_LONG).show()
         })
 
         // 일시정지를 누르면 일시정지화면을 보여준다.
@@ -193,6 +209,19 @@ class RunningActivity : AppCompatActivity(), AmbientModeSupport.AmbientCallbackP
             return false
         }
         return false
+    }
+
+    fun saveLocalDb(record : RecordRequest){
+        val db = Room.databaseBuilder(
+            applicationContext,
+            AppDatabase::class.java,
+            "recordDB"
+        ).build()
+
+        // DB에 넣는다.
+        db.recordDao().insertRecord(
+            GlobalApplication.network.recordToDto(record)
+        )
     }
 
     companion object{

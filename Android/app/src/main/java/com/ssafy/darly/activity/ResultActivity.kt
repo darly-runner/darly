@@ -13,10 +13,8 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -25,7 +23,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.PolylineOptions
 import com.ssafy.darly.R
 import com.ssafy.darly.databinding.ActivityResultBinding
-import com.ssafy.darly.model.RecordRequest
+import com.ssafy.darly.model.record.RecordRequest
 import com.ssafy.darly.service.DarlyService
 import com.ssafy.darly.util.LocationHelper
 import com.ssafy.darly.viewmodel.RunningViewModel
@@ -39,6 +37,8 @@ import java.io.File
 import java.io.FileOutputStream
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ResultActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var binding: ActivityResultBinding
@@ -55,10 +55,10 @@ class ResultActivity : AppCompatActivity(), OnMapReadyCallback {
         binding.lifecycleOwner = this
         binding.viewModel = model
 
+        init()
+
         val mapFragment: SupportMapFragment = supportFragmentManager.findFragmentById(R.id.mapview) as SupportMapFragment
         mapFragment.getMapAsync(this)
-
-        init()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -70,10 +70,12 @@ class ResultActivity : AppCompatActivity(), OnMapReadyCallback {
 
         record = intent.getSerializableExtra("record") as RecordRequest
         binding.dateText.text = "$formatted"
+        model.dist.value = record.recordDistance
         model.pace.value = model.timeToStr(record.recordPace)
         model.calorie.value = "${record.recordCalories} kcal"
         model.speed.value = record.recordSpeed
         model.time.value = model.timeToStr(record.recordTime)
+        model.setLocationList(record)
 
         // 구간별, 추후에 차트 추가
         var cnt = 1
@@ -168,16 +170,16 @@ class ResultActivity : AppCompatActivity(), OnMapReadyCallback {
             map.isMyLocationEnabled = true
         }
 
-
-        val polylineOptions = PolylineOptions()
-        polylineOptions.color(resources.getColor(R.color.main))
-
-        for(i in model.locationList.value ?: ArrayList()){
-            val marker = LatLng(i.latitude, i.longitude)
-            polylineOptions.points.add(marker)
-        }
-        map.addPolyline(polylineOptions)
-
+        // 비동기 처리
+        model.locationList.observe(this, androidx.lifecycle.Observer {
+            val polylineOptions = PolylineOptions()
+            polylineOptions.color(resources.getColor(R.color.main))
+            for(i in model.locationList.value ?: ArrayList()){
+                val marker = LatLng(i.latitude, i.longitude)
+                polylineOptions.points.add(marker)
+            }
+            map.addPolyline(polylineOptions)
+        })
 
         LocationHelper().startListeningUserLocation(this, object : LocationHelper.MyLocationListener {
             override fun onLocationChanged(location: Location) {

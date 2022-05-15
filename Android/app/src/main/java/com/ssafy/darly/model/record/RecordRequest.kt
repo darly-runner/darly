@@ -1,5 +1,6 @@
-package com.ssafy.darly.model
+package com.ssafy.darly.model.record
 
+import com.ssafy.darly.model.Section
 import java.io.Serializable
 
 data class RecordRequest(

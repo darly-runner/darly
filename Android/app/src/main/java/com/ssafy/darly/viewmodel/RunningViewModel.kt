@@ -3,7 +3,7 @@ package com.ssafy.darly.viewmodel
 import android.location.Location
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ssafy.darly.model.RecordRequest
+import com.ssafy.darly.model.record.RecordRequest
 import com.ssafy.darly.model.Section
 import java.lang.Math.round
 import kotlin.math.roundToInt
@@ -63,9 +63,10 @@ class RunningViewModel : ViewModel(){
     }
 
     fun setSpeed(){
-        val s = dist.value?.div(timeCnt)?.times(3600)
-        if (s != null)
-            speed.value = round((s * 10f)) / 10f
+        val t = timeCnt * 3600
+        val s = dist.value?.div(t)
+
+        speed.value = round((s?.times(10f)!!)) / 10f
     }
     // 페이스
     fun setPace(){
@@ -146,5 +147,17 @@ class RunningViewModel : ViewModel(){
             lng,
             paceSection.value ?: ArrayList()
         )
+    }
+
+    fun setLocationList(record : RecordRequest){
+        val coordinateLatitudes = record.coordinateLatitudes
+        val coordinateLongitudes = record.coordinateLongitudes
+
+        for(i in 0 until coordinateLatitudes.size){
+            val latlng = Location("")
+            latlng.latitude = coordinateLatitudes[i].toDouble()
+            latlng.longitude = coordinateLongitudes[i].toDouble()
+            locationList.value?.add(latlng)
+        }
     }
 }
