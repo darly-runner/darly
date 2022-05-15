@@ -54,7 +54,7 @@ class RunningViewModel : ViewModel(){
     }
 
     fun setSpeed(){
-        val s = dist.value?.div(timeCnt)?.times(3600)
+        val s = dist.value?.times(3600)?.div(timeCnt)
         if (s != null)
             speed.value = round((s * 10f)) / 10f
     }

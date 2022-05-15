@@ -32,14 +32,23 @@ class RunningViewModel : ViewModel(){
     val isPause = MutableLiveData<Boolean>()
 
     init {
+        target.value = "5.0"
         dist.value = 0.0f
         speed.value = 0.0f
         time.value = "00:00"
-        pace.value = "0.0"
+        pace.value = "--"
 
         isPause.value = false
 
         paceSection.value = ArrayList()
+    }
+
+    fun getRate() : Float? {
+        val targetCnt = target.value?.toFloat()
+        var rate = targetCnt?.let { dist.value?.div(it) }
+        rate = rate?.times(100)
+
+        return rate
     }
 
     fun setTime(t : Int){

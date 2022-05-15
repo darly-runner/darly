@@ -40,6 +40,7 @@ class RunningActivity : AppCompatActivity() {
             .replace(R.id.pauseFragment, PauseFragment())
             .commit()
         binding.pauseFragment.visibility = View.INVISIBLE
+        model.target.value = intent.getStringExtra("target")
 
         serviceStart()
         initBtn()
@@ -85,8 +86,10 @@ class RunningActivity : AppCompatActivity() {
             model.setCalorie()
             model.setPaceBySection(1f)
 
+            binding.progressBar.progress = model.getRate()?.toInt() ?: 0
+
             model.locationList.value = service.locationList.value
-            Toast.makeText(this,"${model.paceSection.value?.size} , 섹션크기",Toast.LENGTH_LONG).show()
+            //Toast.makeText(this,"${model.paceSection.value?.size} , 섹션크기",Toast.LENGTH_LONG).show()
         })
 
         // 일시정지를 누르면 일시정지화면을 보여준다.

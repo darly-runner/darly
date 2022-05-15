@@ -13,6 +13,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
+import androidx.wear.ambient.AmbientModeSupport
 import com.ssafy.darly.BuildConfig
 import com.ssafy.darly.R
 import com.ssafy.darly.adapter.RunningViewPagerAdapter
@@ -24,7 +25,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class RunningActivity : AppCompatActivity() {
+class RunningActivity : AppCompatActivity(), AmbientModeSupport.AmbientCallbackProvider{
     private lateinit var binding: ActivityRunningBinding
     private val model: RunningViewModel by viewModels()
 
@@ -32,6 +33,7 @@ class RunningActivity : AppCompatActivity() {
     private var bound: Boolean = false
 
     private val adapter by lazy { RunningViewPagerAdapter(supportFragmentManager) }
+    private lateinit var ambientController: AmbientModeSupport.AmbientController
 
     @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +43,8 @@ class RunningActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = model
         setContentView(binding.root)
+
+        ambientController = AmbientModeSupport.attach(this)
 
         binding.viewPager.adapter = RunningActivity@adapter
         binding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
@@ -193,5 +197,20 @@ class RunningActivity : AppCompatActivity() {
 
     companion object{
         const val  ACTION_STOP = "${BuildConfig.APPLICATION_ID}.stop"
+    }
+
+    // 대기모드 전환시 CallBack
+    override fun getAmbientCallback(): AmbientModeSupport.AmbientCallback {
+        return object : AmbientModeSupport.AmbientCallback() {
+            override fun onEnterAmbient(ambientDetails: Bundle) {
+                super.onEnterAmbient(ambientDetails)
+                Log.d("onEnterAmbient","대기모드 시작")
+            }
+
+            override fun onExitAmbient() {
+                super.onExitAmbient()
+                Log.d("onExitAmbient","대기모드 끝")
+            }
+        }
     }
 }
