@@ -9,4 +9,7 @@
     <string name="title_activity_login">LoginActivity</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment1111</string>
+    <string name="message">Watch face tapped</string>
+    <string name="my_digital_name">My Darly</string>
+    <string name="title_activity_darly">DarlyActivity</string>
 </resources>

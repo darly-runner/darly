@@ -14,7 +14,7 @@
         android:layout_height="match_parent">
         <TextView
             android:id="@+id/startText"
-            android:text="SOLO"
+            android:text="START"
             android:textSize="30dp"
             android:textColor="@color/main"
             android:fontFamily="@font/pretendard_bold"

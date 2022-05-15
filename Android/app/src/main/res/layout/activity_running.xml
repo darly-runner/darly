@@ -36,7 +36,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal">
                     <TextView
-                        android:text="♥ 102"
+                        android:text="♥ --"
                         android:textSize="24dp"
                         android:textColor="@color/white"
                         android:layout_width="wrap_content"
@@ -116,14 +116,15 @@
                     android:id="@+id/progressBar"
                     android:layout_width="200dp"
                     android:layout_height="20dp"
-                    android:progress="50"
+                    android:progress="20"
                     android:progressTint="@color/main" />
             </LinearLayout>
 
             <Button
                 android:id="@+id/pauseButton"
                 android:text="일시정지"
-                android:layout_width="wrap_content"
+                android:background="@drawable/button_background_lg"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -149,16 +150,18 @@
                 android:id="@+id/endButton"
                 android:layout_weight="1"
                 android:text="종료"
-                android:layout_width="wrap_content"
+                android:background="@drawable/button_background_lg"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="50dp"
                 android:layout_marginBottom="40dp"/>
             <Button
                 android:id="@+id/resumeButton"
                 android:text="계속 하기"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:background="@drawable/button_background_lg"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
