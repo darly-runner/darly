@@ -89,4 +89,44 @@ class CrewMatchFragment : Fragment() {
             }
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        val glide = Glide.with(this@CrewMatchFragment)
+
+        when (crewJoin) {
+            "J" -> {
+                binding.locked.visibility = View.GONE
+                binding.notJoined.visibility = View.GONE
+                CoroutineScope(Dispatchers.Main).launch {
+                    val response =
+                        DarlyService.getDarlyService().getRoomsList(crewId = crewId, page = 0, size = 50)
+                    Log.d("match", "${response.body()}")
+                    model.crewRoomsList.value = response.body()?.matches
+
+                    val roomsList = model.crewRoomsList.value
+                    adapter = CrewMatchListAdapter(
+                        roomsList!!,
+                        LayoutInflater.from(context),
+                        glide
+                    )
+                    binding.crewRoomsList.adapter = adapter
+                    binding.crewRoomsList.layoutManager = GridLayoutManager(context, 1)
+                }
+
+            }
+            "N" -> {
+                binding.line.visibility = View.GONE
+                binding.notJoinedCrewName.text = crewName
+                binding.crewRoomsList.visibility = View.GONE
+                binding.noticeLayout.visibility = View.GONE
+            }
+            "A" -> {
+                binding.line.visibility = View.GONE
+                binding.notJoinedCrewName.text = crewName
+                binding.crewRoomsList.visibility = View.GONE
+                binding.noticeLayout.visibility = View.GONE
+            }
+        }
+    }
 }
