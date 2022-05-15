@@ -16,7 +16,7 @@ import com.ssafy.darly.model.FeedsList
 import kotlin.reflect.typeOf
 
 class CrewDetailFeedsAdapter(
-    val feedsList: List<FeedsList>,
+    val feedsList: ArrayList<FeedsList>,
     val inflater: LayoutInflater,
     val glide: RequestManager,
     val crewId: Long,
@@ -47,7 +47,7 @@ class CrewDetailFeedsAdapter(
             intent.putExtra("feedId", feedId)
             intent.putExtra("crewId", crewId)
             intent.putExtra("position", position)
-//            intent.putExtra("object", feedsList)
+            intent.putExtra("object", feedsList)
 //            Log.d("feedId", feedId.javaClass)
             ContextCompat.startActivity(holder.itemView.context, intent, null)
         }

@@ -86,7 +86,7 @@ data class CrewFeeds(
     var totalFeeds: Long,
     var currentPage: Int,
     var numberOfFeed: Int,
-    var feeds: List<FeedsList>
+    var feeds: ArrayList<FeedsList>
 ): Serializable
 
 data class FeedsList(

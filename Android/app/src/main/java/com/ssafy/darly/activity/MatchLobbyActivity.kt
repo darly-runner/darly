@@ -102,15 +102,14 @@ class MatchLobbyActivity : AppCompatActivity() {
                     Log.d("ready COUNT", readyCount.toString())
                     if((isHost == 1) && (readyCount == currentNum)) {
                         Log.d("ALL READY", "ALL READY")
-//                        binding.readyButton.setBackgroundResource(R.drawable.button_background_lg)
-//                        binding.readyButton.setTextColor(Color.rgb(247, 248, 251))
+                        binding.readyButton.setBackgroundResource(R.drawable.button_background_lg)
+                        binding.readyButton.setTextColor(Color.rgb(247, 248, 251))
 //                        binding.readyButton.setOnClickListener {
 //                            Log.d("!! START", "START!!!!!")
 //                            val data = JSONObject()
 //                            data.put("type", "START")
 //                            data.put("matchId", matchId)
 //                            stompClient.send("/pub/usermatch", data.toString()).subscribe()
-//
 //                        }
                     }
                 }
