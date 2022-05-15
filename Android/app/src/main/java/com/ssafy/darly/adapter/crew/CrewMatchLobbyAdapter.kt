@@ -57,7 +57,10 @@ class CrewMatchLobbyAdapter(
         }
         val isUserHost = users.get(position).isHost
         when(isUserHost == 1) {
-            true -> holder.isHost.visibility = View.VISIBLE
+            true -> {
+                holder.isHost.visibility = View.VISIBLE
+                holder.userIsReady.setImageResource(R.drawable.ic_status_ready)
+            }
             false -> holder.isHost.visibility = View.GONE
         }
     }

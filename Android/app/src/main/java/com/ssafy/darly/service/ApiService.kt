@@ -42,7 +42,7 @@ interface ApiService {
 
     @GET("users")
     suspend fun getUsers(
-        @Query("userId") userId: Int,
+//        @Query("userId") userId: Int,
     ): Response<UserGetRes>
 
     // CREW
@@ -87,9 +87,11 @@ interface ApiService {
         @Query("size") size: Int
     ): Response<CrewFeeds>
 
-    @GET("feeds/{feedId}")
+    @GET("crew/{crewId}/feed/{feedId}")
     suspend fun getFeedsDetail(
+        @Path("crewId") crewId: Long,
         @Path("feedId") feedId: Long,
+        @Query("size") size: Int,
     ): Response<FeedsDetail>
 
     @GET("crew/{crewId}/match")
@@ -132,6 +134,7 @@ interface ApiService {
         @PartMap data: HashMap<String, RequestBody>,
         @Part feedImage: MultipartBody.Part?,
     ): Response<CreateFeed>
+
 
 
     @GET("users/profile")
