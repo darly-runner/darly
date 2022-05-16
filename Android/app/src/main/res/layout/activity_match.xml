@@ -25,7 +25,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/runningActivity"
                 android:background="@color/running_background"
-                android:padding="40dp"
+                android:paddingVertical="40dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <LinearLayout
