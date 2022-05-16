@@ -4,8 +4,10 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
@@ -21,7 +23,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -135,13 +141,6 @@ class RecordDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         if (model.recordRank.value == null || model.recordRank.value == 0)
             model.recordRankString.value = "--"
         model.ranks.value = response.body()?.ranks ?: listOf()
-        //
-//        val rrr = mutableListOf<Rank>()
-//        rrr.add(Rank("사용자1", null, 1, 1000, 300))
-//        rrr.add(Rank("사용자2", null, 3, 2000, 600))
-//        rrr.add(Rank("사용자3", null, 2, 3000, 700))
-//        rrr.add(Rank("사용자4", null, 4, 4000, 1000))
-        //
         val rankStringList = mutableListOf<RankString>()
         for (rank in model.ranks.value ?: listOf()) {
 //        for (rank in rrr ?: listOf()) {
@@ -249,13 +248,6 @@ class RecordDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         model.userImage.observe(this, Observer {
             if (model.userImage.value != null) {
                 CoroutineScope(Dispatchers.Main).launch {
-                    var latlng =
-                        LatLng(
-                            (model.latLngList.value?.get(0)?.latitude ?: 0.0) - 0.0001,
-                            (model.latLngList.value?.get(0)?.longitude ?: 0.0) - 0.0001
-                        )
-                    var markerOptions = MarkerOptions()
-                    markerOptions.position(latlng)
 
                     val options: RequestOptions = RequestOptions()
                         .centerCrop()
@@ -264,37 +256,43 @@ class RecordDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
                     Log.d("response", "${model.userImage.value}")
                     Log.d("response", "${markerList.size}")
-//                    Glide.with(applicationContext).load(model.userImage.value).apply(options).into(tag_image).into(imageView, new Callback () {
-//                        @Override
-//                        public void onSuccess() {
-//                            progressBar.setVisibility(View.GONE);
-//                        }
-//
-//                        @Override
-//                        public void onError() {
-//                        }
-//                    })
-                    val displayMetrics = windowManager.currentWindowMetrics
-                    marker_view.setLayoutParams(
-                        ViewGroup.LayoutParams(
-                            ViewGroup.LayoutParams.WRAP_CONTENT,
-                            ViewGroup.LayoutParams.WRAP_CONTENT
-                        )
-                    )
-                    marker_view.measure(displayMetrics.bounds.width(), displayMetrics.bounds.height())
-                    marker_view.layout(0, 0, displayMetrics.bounds.width(), displayMetrics.bounds.height())
-                    marker_view.buildDrawingCache()
-                    val bitmap: Bitmap = Bitmap.createBitmap(
-                        marker_view.getMeasuredWidth(),
-                        marker_view.getMeasuredHeight(),
-                        Bitmap.Config.ARGB_8888
-                    )
-                    val canvas = Canvas(bitmap)
-                    marker_view.draw(canvas)
-                    markerOptions.icon(BitmapDescriptorFactory.fromBitmap(bitmap))
-                    map.addMarker(markerOptions)
-                    markerList.add(markerOptions)
+                    Glide.with(applicationContext).load(model.userImage.value).apply(options).into(tag_image)
+                    Handler().postDelayed({
+                        model.isImageSet.value = true
+                    }, 300)
                 }
+            }
+        })
+
+        model.isImageSet.observe(this, Observer{
+            if(it){
+                var latlng =
+                    LatLng(
+                        (model.latLngList.value?.get(0)?.latitude ?: 0.0) - 0.0001,
+                        (model.latLngList.value?.get(0)?.longitude ?: 0.0) - 0.0001
+                    )
+                var markerOptions = MarkerOptions()
+                markerOptions.position(latlng)
+                val displayMetrics = windowManager.currentWindowMetrics
+                marker_view.setLayoutParams(
+                    ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                    )
+                )
+                marker_view.measure(displayMetrics.bounds.width(), displayMetrics.bounds.height())
+                marker_view.layout(0, 0, displayMetrics.bounds.width(), displayMetrics.bounds.height())
+                marker_view.buildDrawingCache()
+                val bitmap: Bitmap = Bitmap.createBitmap(
+                    marker_view.getMeasuredWidth(),
+                    marker_view.getMeasuredHeight(),
+                    Bitmap.Config.ARGB_8888
+                )
+                val canvas = Canvas(bitmap)
+                marker_view.draw(canvas)
+                markerOptions.icon(BitmapDescriptorFactory.fromBitmap(bitmap))
+                map.addMarker(markerOptions)
+                markerList.add(markerOptions)
             }
         })
     }
@@ -354,16 +352,6 @@ class RecordDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         )
         val canvas = Canvas(bitmap)
         view.draw(canvas)
-//        val color = Paint()
-//        color.setTextSize(35f)
-//        color.setColor(Color.BLACK)
-//
-//        canvas.drawBitmap(
-//            BitmapFactory.decodeResource(
-//                resources,
-//                R.drawable.ic_start_point
-//            ), 0f, 0f, color
-//        )
 
         return bitmap
     }
