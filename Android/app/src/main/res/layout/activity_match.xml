@@ -85,7 +85,6 @@
                         android:text="총 시간"
                         android:textColor="@color/grey" />
                 </LinearLayout>
-
                 <LinearLayout
                     android:id="@+id/distanceView"
                     android:layout_width="match_parent"
