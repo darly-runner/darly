@@ -11,6 +11,7 @@ import com.ssafy.darly.adapter.friend.FriendWaitingListAdapter
 import com.ssafy.darly.adapter.mypage.MyPageListAdapter
 import com.ssafy.darly.adapter.record.RankListAdapter
 import com.ssafy.darly.adapter.record.RecordListAdapter
+import com.ssafy.darly.adapter.record.SectionDetailListAdapter
 import com.ssafy.darly.adapter.record.SectionListAdapter
 import com.ssafy.darly.adapter.user.UserFeedListAdapter
 import com.ssafy.darly.model.address.Address
@@ -154,6 +155,42 @@ object BindingConversion {
     fun setSectionMinIndex(recyclerView: RecyclerView, item: Int) {
         item?.let {
             (recyclerView.adapter as SectionListAdapter).minIndex = item
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("setSectionDetailItems")
+    fun setSectionDetailItems(recyclerView: RecyclerView, items: List<SectionString>) {
+        var sectionList = mutableListOf<SectionString>()
+        for (item in items) {
+            sectionList.add(item)
+        }
+        items?.let {
+            (recyclerView.adapter as SectionDetailListAdapter).sectionStringList = sectionList
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("setSectionDetailMinValue")
+    fun setSectionDetailMinValue(recyclerView: RecyclerView, item: Int) {
+        item?.let {
+            (recyclerView.adapter as SectionDetailListAdapter).minValue = item
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("setSectionDetailGapValue")
+    fun setSectionDetailGapValue(recyclerView: RecyclerView, item: Int) {
+        item?.let {
+            (recyclerView.adapter as SectionDetailListAdapter).gapValue = item
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("setSectionDetailMinIndex")
+    fun setSectionDetailMinIndex(recyclerView: RecyclerView, item: Int) {
+        item?.let {
+            (recyclerView.adapter as SectionDetailListAdapter).minIndex = item
         }
     }
 
