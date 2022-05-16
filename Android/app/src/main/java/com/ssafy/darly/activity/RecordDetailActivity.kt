@@ -143,7 +143,6 @@ class RecordDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         model.ranks.value = response.body()?.ranks ?: listOf()
         val rankStringList = mutableListOf<RankString>()
         for (rank in model.ranks.value ?: listOf()) {
-//        for (rank in rrr ?: listOf()) {
             val image = rank.userImage ?: defaultImage
             val pace = if (rank.matchResultPace == 0) "--" else String.format("%01d'%02d''", rank.matchResultPace / 60, rank.matchResultPace % 60)
             val time = String.format("%02d:%02d:%02d", rank.matchResultTime / 3600, (rank.matchResultTime % 3600) / 60, rank.matchResultTime % 60)
@@ -189,9 +188,7 @@ class RecordDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             MapStyleOptions.loadRawResourceStyle(
                 this, R.raw.map_style
             )
-        );
-//        locationInit()
-//        addLocationListener()
+        )
 
         val initLocation = LatLng(37.5666805, 126.9784147)
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(initLocation, 16f))

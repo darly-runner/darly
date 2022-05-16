@@ -21,6 +21,9 @@
         android:theme="@style/Theme.DarlyApplication"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activity.SectionDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".CrewCommentsActivity"
             android:exported="false" />
         <activity
