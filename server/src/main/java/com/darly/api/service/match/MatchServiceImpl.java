@@ -81,13 +81,16 @@ public class MatchServiceImpl implements MatchService {
 
         userMatchRepository.save(enterUserMatch);
 
-        if(userId != hostId) {
-            Short curPerson = match.getMatchCurPerson();
-            curPerson++;
-            match.setMatchCurPerson(curPerson);
-            matchRepository.save(match);
-        }
+//        if(userId != hostId) {
+//            Short curPerson = match.getMatchCurPerson();
+//            curPerson++;
+//            match.setMatchCurPerson(curPerson);
+//            matchRepository.save(match);
+//        }
 
+        match.setMatchCurPerson(userMatchRepository.countAllByUserMatchId_Match_MatchId(matchId);
+        matchRepository.save(match);
+        
         return getMatchRefresh(matchId, userId);
     }
 
