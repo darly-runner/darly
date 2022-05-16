@@ -24,6 +24,7 @@
     <color name="main">#FB5454</color>
     <color name="main_opacity">#33FB5454</color>
     <color name="running_background">#120C32</color>
+    <color name="match_background">#2A2547</color>
     <color name="light_blue_600">#FF039BE5</color>
     <color name="light_blue_900">#FF01579B</color>
     <color name="light_blue_A200">#FF40C4FF</color>

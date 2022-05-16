@@ -21,6 +21,12 @@
         android:theme="@style/Theme.DarlyApplication"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activity.CrewCreateMatchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.MatchActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.CrewCreateFeedActivity"
             android:exported="false" />
         <activity
