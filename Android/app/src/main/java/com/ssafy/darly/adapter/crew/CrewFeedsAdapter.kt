@@ -5,14 +5,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.ssafy.darly.R
 import com.ssafy.darly.model.Feeds
 import com.ssafy.darly.model.FeedsDetail
+import com.ssafy.darly.model.FeedsList
 
 class CrewFeedsAdapter(
-    val feedsDetail: List<Feeds>,
+    val feedsDetail: List<FeedsList>,
     val inflater: LayoutInflater,
     val glide: RequestManager
 ): RecyclerView.Adapter<CrewFeedsAdapter.ViewHolder>() {
@@ -46,6 +48,19 @@ class CrewFeedsAdapter(
         glide.load(feedsDetail.get(position).feedImage).into(holder.feedImage)
         holder.feedDate.text = feedsDetail.get(position).feedDate
         holder.feedContent.text = feedsDetail.get(position).feedContent
+        val commentsNum = feedsDetail.get(position).commentNum
+        holder.feedComments.text = "댓글 ${commentsNum}개 전체보기"
+
+        holder.feedComments.setOnClickListener {
+
+        }
+
+//        val smoothScroller : RecyclerView.SmoothScroller by lazy {
+//            object: LinearSmoothScroller(this@) {
+//                override fun getVerticalSnapPreference() = SNAP_TO_START
+//            }
+//        }
+//        smoothScroller.targetPosition = position
     }
 
     override fun getItemCount(): Int {

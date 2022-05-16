@@ -6,25 +6,27 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingBottom="30dp"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="20dp"
+            android:paddingHorizontal="10dp"
             android:paddingVertical="15dp">
 
             <ImageView
                 android:id="@+id/feedHostImg"
                 android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:background="@color/black" />
+                android:layout_height="36dp" />
 
             <TextView
                 android:id="@+id/feedHostName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:textColor="@color/black"
+                android:fontFamily="@font/pretendard_medium"
                 android:paddingHorizontal="7dp"
                 android:text="userName" />
 
@@ -34,22 +36,26 @@
             android:id="@+id/feedImage"
             android:layout_width="match_parent"
             android:layout_height="350dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
             android:background="@color/white_custom" />
 
         <TextView
             android:id="@+id/feedDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="20dp"
-            android:paddingVertical="12dp"
+            android:paddingHorizontal="15dp"
+            android:paddingTop="12dp"
             android:text="April 22nd, 2020"
+            android:textSize="12dp"
             android:textColor="@color/gray_600" />
 
         <TextView
             android:id="@+id/feedContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="20dp"
+            android:paddingHorizontal="15dp"
+            android:paddingTop="8dp"
             android:textColor="@color/black"
             android:text="Natoque orci, enim adipiscing quam habitasse. In arcu molestie elementum. Feugiat viverra aliq urna, et mauris. In rhoncus viverra massa aliquam magna urna, eu. Mattis urna nunc."
             />
@@ -57,9 +63,10 @@
             android:id="@+id/feedComments"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="20dp"
+            android:paddingHorizontal="15dp"
             android:paddingVertical="15dp"
             android:textColor="@color/gray_700"
+            android:textSize="14dp"
             android:text="댓글 5개 전체보기"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>

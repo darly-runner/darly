@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".CrewCommentsActivity">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="20dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_chevron_left" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_medium"
+                android:text="Comments"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#F1F3F5" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="12dp">
+
+            <ImageView
+                android:id="@+id/feedHostImg"
+                android:layout_width="36dp"
+                android:layout_height="36dp" />
+
+            <TextView
+                android:id="@+id/feedHostName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/pretendard_medium"
+                android:paddingHorizontal="7dp"
+                android:text="userName"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="15dp"
+            android:text="CONTENTS"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/feedDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="12dp"
+            android:text="April 22nd, 2020"
+            android:textColor="@color/gray_600"
+            android:textSize="12dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#F1F3F5" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="12dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="12dp">
+
+            <ImageView
+                android:id="@+id/myImg"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:paddingHorizontal="15dp" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_background_stroke"
+                    android:hint="댓글을 입력해주세요"
+                    android:paddingHorizontal="20dp"
+                    android:textColorHint="#CED4DA"
+                    android:textSize="13dp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:paddingRight="15dp"
+                        android:src="@drawable/ic_send" />
+                </LinearLayout>
+
+            </FrameLayout>
+
+            <!--            <EditText-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="35dp"-->
+            <!--                android:layout_weight="1"-->
+            <!--                android:background="@drawable/button_background_stroke"-->
+            <!--                android:hint="댓글을 입력해주세요"-->
+            <!--                android:paddingHorizontal="20dp"-->
+            <!--                android:textColorHint="#CED4DA"-->
+            <!--                android:textSize="13dp" />-->
+        </LinearLayout>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</layout>

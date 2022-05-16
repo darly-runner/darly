@@ -21,7 +21,7 @@ class CrewViewModel : ViewModel(){
 
     var crewDetailRankings = MutableLiveData<List<CrewSummaryRankings>>()
 
-    var crewDetailFeeds = MutableLiveData<List<FeedsList>>()
+    var crewDetailFeeds = MutableLiveData<ArrayList<FeedsList>>()
 
     var crewRoomsList = MutableLiveData<List<MatchDetails>>()
 
