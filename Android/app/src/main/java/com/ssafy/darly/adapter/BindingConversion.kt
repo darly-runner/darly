@@ -9,13 +9,11 @@ import com.ssafy.darly.adapter.friend.FriendAddListAdapter
 import com.ssafy.darly.adapter.friend.FriendListAdapter
 import com.ssafy.darly.adapter.friend.FriendWaitingListAdapter
 import com.ssafy.darly.adapter.mypage.MyPageListAdapter
-import com.ssafy.darly.adapter.record.RankListAdapter
-import com.ssafy.darly.adapter.record.RecordListAdapter
-import com.ssafy.darly.adapter.record.SectionDetailListAdapter
-import com.ssafy.darly.adapter.record.SectionListAdapter
+import com.ssafy.darly.adapter.record.*
 import com.ssafy.darly.adapter.user.UserFeedListAdapter
 import com.ssafy.darly.model.address.Address
 import com.ssafy.darly.model.friend.Friend
+import com.ssafy.darly.model.record.Achieve
 import com.ssafy.darly.model.record.RankString
 import com.ssafy.darly.model.record.Record
 import com.ssafy.darly.model.record.SectionString
@@ -211,6 +209,18 @@ object BindingConversion {
     fun setMyRank(recyclerView: RecyclerView, item: Int) {
         item?.let {
             (recyclerView.adapter as RankListAdapter).myRank = item
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("setAchieveItems")
+    fun setAchieveItems(recyclerView: RecyclerView, items: List<Achieve>) {
+        var achieveList = mutableListOf<Achieve>()
+        for (item in items) {
+            achieveList.add(item)
+        }
+        items?.let {
+            (recyclerView.adapter as AchieveListAdapter).achieveList = achieveList
         }
     }
 }
