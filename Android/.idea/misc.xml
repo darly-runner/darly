@@ -4,6 +4,24 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/activity_match.xml" value="0.1" />
+        <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/activity_match_lobby.xml" value="0.22056159420289856" />
+        <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/activity_multi.xml" value="0.22" />
+        <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/activity_my_page_update.xml" value="0.25" />
+        <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/activity_result.xml" value="0.17806484295845998" />
+        <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/activity_running.xml" value="0.25" />
+        <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/dialog_lottie.xml" value="0.2171875" />
+        <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/dialog_target.xml" value="0.2625" />
+        <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/fragment_pause.xml" value="0.25" />
+        <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/fragment_running.xml" value="0.25" />
+        <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/fragment_stat.xml" value="0.103596757852077" />
+        <entry key="..\:/S06P31A301/Android/app/src/main/res/layout/match_list_item.xml" value="0.22056159420289856" />
+        <entry key="..\:/S06P31A301/Android/darlywatch/src/main/res/layout/activity_darly.xml" value="0.5954724409448819" />
+        <entry key="..\:/S06P31A301/Android/darlywatch/src/main/res/layout/activity_running.xml" value="0.3158995815899582" />
+        <entry key="..\:/S06P31A301/Android/darlywatch/src/main/res/layout/fragment_multi.xml" value="0.6785714285714286" />
+        <entry key="..\:/S06P31A301/Android/darlywatch/src/main/res/layout/fragment_record.xml" value="0.3158995815899582" />
+        <entry key="..\:/S06P31A301/Android/darlywatch/src/main/res/layout/fragment_running.xml" value="0.3158995815899582" />
+        <entry key="..\:/S06P31A301/Android/darlywatch/src/main/res/layout/fragment_solo.xml" value="0.3158995815899582" />
         <entry key="..\:/S06P31A301/android/app/src/main/res/drawable/ic_act.xml" value="0.1695" />
         <entry key="..\:/S06P31A301/android/app/src/main/res/drawable/ic_challenge.xml" value="0.1" />
         <entry key="..\:/S06P31A301/android/app/src/main/res/drawable/ic_icon_home.xml" value="0.1" />
@@ -27,6 +45,7 @@
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/drawable/button_stroke_gray.xml" value="0.1705" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/drawable/button_transparent_round.xml" value="0.1505" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/drawable/button_white_round.xml" value="0.1505" />
+        <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/drawable/ic_start_point.xml" value="0.163" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/drawable/parallelogram_bar.xml" value="0.2105" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/activity_friend_waiting.xml" value="0.16502778965369816" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/activity_record_all.xml" value="0.33" />
@@ -51,8 +70,10 @@
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/fragment_stat.xml" value="0.33" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/friend_add_list.xml" value="0.23632993512511585" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/friend_list.xml" value="0.313212325875897" />
+        <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/map_marker.xml" value="0.5" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/mypage_feed_grid.xml" value="0.29842446709916587" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/mypage_update_list.xml" value="0.23632993512511585" />
+        <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/rank_list.xml" value="0.38051282051282054" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/record_list.xml" value="0.3172295852928602" />
         <entry key="..\:/Users/SSAFY/git/SecondSeasonProject_Free/S06P31A301/Android/app/src/main/res/layout/rooms_item.xml" value="0.33" />
         <entry key="app/src/main/res/drawable/button_background.xml" value="0.368" />
