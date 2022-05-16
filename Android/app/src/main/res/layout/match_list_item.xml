@@ -26,7 +26,7 @@
 
     <TextView
         android:id="@+id/timeText"
-        android:text="37:15"
+        android:text="2등"
         android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
         app:layout_constraintRight_toLeftOf="@+id/paceText"/>
     <TextView
         android:id="@+id/timeUiText"
-        android:text="총 시간"
+        android:text="순위"
         android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

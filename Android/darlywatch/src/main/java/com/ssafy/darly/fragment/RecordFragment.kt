@@ -47,6 +47,7 @@ class RecordFragment : Fragment() {
                         CoroutineScope(Dispatchers.IO).launch {
                             sendRecord()
                         }
+                        Toast.makeText(context,"기록이 저장되었습니다.", Toast.LENGTH_LONG).show()
                     }
                     // 네트워크 연걸이 불가능한경우 내장DB에 저장한다.
                     else{

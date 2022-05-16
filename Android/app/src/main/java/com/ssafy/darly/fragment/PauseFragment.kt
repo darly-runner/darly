@@ -78,13 +78,6 @@ class PauseFragment : Fragment(), OnMapReadyCallback {
             }
             map.addPolyline(polylineOptions)
         })
-
-//        LocationHelper().startListeningUserLocation(requireContext(), object : LocationHelper.MyLocationListener {
-//            override fun onLocationChanged(location: Location) {
-//                val latLng = LatLng(location.latitude, location.longitude)
-//                map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14f))
-//            }
-//        })
     }
 
     private fun locationInit() {

@@ -57,7 +57,6 @@ class RunningFragment : Fragment(),
 
         locationInit()
         addLocationListener()
-//        permissionCheck()
 
         // 목표 설정 버튼
         binding.targetButton.setOnClickListener {
@@ -74,9 +73,10 @@ class RunningFragment : Fragment(),
         binding.startButton.setOnClickListener {
             if (binding.runningTab.selectedTabPosition == 0) {
                 val intent = Intent(this.requireContext(), RunningActivity::class.java)
+                intent.putExtra("target",model.target.value)
                 startActivity(intent)
             } else if (binding.runningTab.selectedTabPosition == 1) {
-                val dialog = MatchLottieDialog()
+                val dialog = MatchLottieDialog(model.target.value ?: "5.0")
                 dialog.show(parentFragmentManager, "match")
             }
         }
@@ -95,13 +95,6 @@ class RunningFragment : Fragment(),
         ) {
             map.isMyLocationEnabled = true
         }
-
-//        LocationHelper().startListeningUserLocation(requireContext(), object : LocationHelper.MyLocationListener {
-//            override fun onLocationChanged(location: Location) {
-//                val latLng = LatLng(location.latitude, location.longitude)
-//                map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
-//            }
-//        })
     }
 
     private fun locationInit() {

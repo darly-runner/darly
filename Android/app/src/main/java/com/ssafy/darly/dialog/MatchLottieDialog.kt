@@ -16,8 +16,9 @@ import com.ssafy.darly.R
 import com.ssafy.darly.activity.MatchActivity
 import com.ssafy.darly.databinding.DialogLottieBinding
 
-class MatchLottieDialog : DialogFragment() {
+class MatchLottieDialog(target : String) : DialogFragment() {
     private lateinit var binding: DialogLottieBinding
+    private val target = target
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,6 +53,7 @@ class MatchLottieDialog : DialogFragment() {
                     cancel()
 
                     val intent = Intent(context, MatchActivity::class.java)
+                    intent.putExtra("target",target)
                     startActivity(intent)
                 }
             }.start()

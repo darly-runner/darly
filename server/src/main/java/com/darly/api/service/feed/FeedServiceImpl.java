@@ -64,9 +64,9 @@ public class FeedServiceImpl implements FeedService {
             feed.setFeedTitle(feedUpdatePatchReq.getFeedTitle());
         if (feedUpdatePatchReq.getFeedContent() != null)
             feed.setFeedContent(feedUpdatePatchReq.getFeedContent());
-        if (feedUpdatePatchReq.getFeedImages() != null) {
+        if (feedUpdatePatchReq.getFeedImage() != null) {
             feedImageService.deleteByFeedId(feed.getFeedId());
-            feedImageService.createFeedImage(feedId, feedUpdatePatchReq.getFeedImages());
+            feedImageService.createFeedImage(feedId, feedUpdatePatchReq.getFeedImage());
         }
         return true;
     }

@@ -114,6 +114,9 @@ class MatchLobbyActivity : AppCompatActivity() {
 //                            data.put("matchId", matchId)
 //                            stompClient.send("/pub/usermatch", data.toString()).subscribe()
 //                        }
+                    } else if ((isHost == 1) && (readyCount != currentNum)) {
+                        binding.readyButton.setBackgroundResource(R.drawable.button_background_stroke)
+                        binding.readyButton.setTextColor(Color.rgb(114, 87, 93))
                     }
                 }
                 "LEAVE" -> {
@@ -139,6 +142,7 @@ class MatchLobbyActivity : AppCompatActivity() {
                     val intent = Intent(this, MatchActivity::class.java)
                     intent.putExtra("myUserId", myUserId)
                     intent.putExtra("goalDistance", goalDistance)
+                    finish()
                     ContextCompat.startActivity(this, intent, null)
                 }
             }
