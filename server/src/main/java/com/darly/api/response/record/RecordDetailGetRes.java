@@ -21,6 +21,8 @@ import java.util.List;
 @NoArgsConstructor
 @ApiModel("RecordDetailGetResponse")
 public class RecordDetailGetRes extends BaseResponseBody {
+    @ApiModelProperty(name="userImage", example="userImage.png")
+    private String userImage;
     @ApiModelProperty(name="recordId", example="1")
     private Long recordId;
     @ApiModelProperty(name="recordTitle", example="recordTitle1")
@@ -53,8 +55,9 @@ public class RecordDetailGetRes extends BaseResponseBody {
     private List<MatchResultMapping> ranks;
 
     @Builder
-    public RecordDetailGetRes(Integer statusCode, String message, Record record, Coordinate coordinate, List<SectionMapping> sections, List<MatchResultMapping> ranks) {
+    public RecordDetailGetRes(Integer statusCode, String message, String userImage, Record record, Coordinate coordinate, List<SectionMapping> sections, List<MatchResultMapping> ranks) {
         super(statusCode, message);
+        this.userImage = userImage;
         this.recordId = record.getRecordId();
         this.recordTitle = record.getRecordTitle();
         this.recordDate = new SimpleDateFormat("yyyy/MM/dd a KK:mm").format(new Date(record.getRecordDate() * 1000));
