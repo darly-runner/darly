@@ -8,7 +8,10 @@ import com.darly.api.service.match.MatchService;
 import com.darly.api.service.match.UserMatchService;
 import com.darly.db.entity.match.Match;
 import com.darly.db.entity.match.MatchRUser;
+import com.darly.db.entity.match.UserMatch;
 import com.darly.db.entity.socket.SocketMessage;
+import com.darly.db.entity.user.UserNowMapping;
+import com.darly.db.repository.match.UserMatchRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -23,6 +26,7 @@ public class MessageController {
     private final CrewService crewService;
     private final UserCrewService userCrewService;
     private final UserMatchService userMatchService;
+    private final UserMatchRepository userMatchRepository;
 
     private final SimpMessagingTemplate template; //특정 Broker로 메세지를 전달
 
@@ -135,6 +139,15 @@ public class MessageController {
             }
 
             template.convertAndSend("/sub/usermatch/randommatch", message);
+        }
+        else if (SocketMessage.MessageType.USER.equals(message.getType())) {
+            Long matchId = message.getMatchId();
+
+            List<UserNowMapping> users = matchService.nowUsers(matchId);
+
+            message.setUsers(users);
+
+            template.convertAndSend("/sub/usermatch/" + message.getMatchId(), message);
         }
         else if (SocketMessage.MessageType.PACE.equals(message.getType())) {
             message.setMessage("매칭 진행중");

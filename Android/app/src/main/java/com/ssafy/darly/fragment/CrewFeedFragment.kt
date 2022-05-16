@@ -86,4 +86,44 @@ class CrewFeedFragment : Fragment() {
             }
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        val glide = Glide.with(this@CrewFeedFragment)
+
+        when (crewJoin) {
+            "J" -> {
+                binding.locked.visibility = View.GONE
+                binding.notJoined.visibility = View.GONE
+                CoroutineScope(Dispatchers.Main).launch {
+                    val response =
+                        DarlyService.getDarlyService()
+                            .getCrewFeeds(crewId = crewId, page = 0, size = 30)
+                    model.crewDetailFeeds.value = response.body()?.feeds
+
+                    val feedsImg = model.crewDetailFeeds.value
+                    adapter = CrewDetailFeedsAdapter(
+                        feedsImg!!,
+                        LayoutInflater.from(context),
+                        glide,
+                        crewId
+                    )
+                    binding.crewDetailFeeds.adapter = adapter
+                    binding.crewDetailFeeds.layoutManager = GridLayoutManager(context, 3)
+                }
+            }
+            "N" -> {
+                binding.line.visibility = View.GONE
+                binding.notJoinedCrewName.text = crewName
+                binding.crewDetailFeeds.visibility = View.GONE
+                binding.noticeLayout.visibility = View.GONE
+            }
+            "A" -> {
+                binding.line.visibility = View.GONE
+                binding.notJoinedCrewName.text = crewName
+                binding.crewDetailFeeds.visibility = View.GONE
+                binding.noticeLayout.visibility = View.GONE
+            }
+        }
+    }
 }
