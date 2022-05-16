@@ -1,7 +1,12 @@
 package com.darly.api.controller;
 
+import com.darly.api.request.match.MatchCreatePostReq;
 import com.darly.api.request.match.MatchPatchReq;
+import com.darly.api.service.crew.CrewService;
+import com.darly.api.service.crew.UserCrewService;
 import com.darly.api.service.match.MatchService;
+import com.darly.api.service.match.UserMatchService;
+import com.darly.db.entity.match.Match;
 import com.darly.db.entity.match.MatchRUser;
 import com.darly.db.entity.socket.SocketMessage;
 import lombok.RequiredArgsConstructor;
@@ -15,15 +20,45 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MessageController {
     private final MatchService matchService;
+    private final CrewService crewService;
+    private final UserCrewService userCrewService;
+    private final UserMatchService userMatchService;
 
     private final SimpMessagingTemplate template; //특정 Broker로 메세지를 전달
 
     @MessageMapping("/creatematch")
     public void createMatch(SocketMessage message) {
         message.setMessage("방이 생성되었습니다.");
-        
-        template.convertAndSend("/sub/creatematch", message);
-        System.out.println("CREATE sub 완료");
+
+        Long userId = message.getUserId();
+
+        // 넘어온 방정보를 저장
+        Long crewId = message.getCrewId();
+        String matchTitle = message.getMatchTitle();
+        Float matchGoalDistance = message.getMatchGoalDistance();
+        Short matchMaxPerson = message.getMatchMaxPerson();
+
+        MatchCreatePostReq matchCreatePostReq = MatchCreatePostReq.builder()
+                .matchTitle(matchTitle)
+                .matchGoalDistance(matchGoalDistance)
+                .matchMaxPerson(matchMaxPerson)
+                .build();
+
+        if (!crewService.isCrewExists(crewId)) {
+            message.setMessage("Fail create crew match: Not valid crewId");
+        }
+        else if (!userCrewService.isUserCrewExists(userId, crewId)) {
+            message.setMessage("Fail create crew match: User is not member");
+        }
+        else {
+            Match match = matchService.createCrewMatch(crewId, userId, matchCreatePostReq);
+            userMatchService.createUserMatch(userId, match.getMatchId());
+            message.setMatchId(match.getMatchId());
+
+            message.setMessage("Success create crew match");
+            template.convertAndSend("/sub/creatematch", message);
+            System.out.println("CREATE sub 완료");
+        }
     }
     
     /*
@@ -100,6 +135,20 @@ public class MessageController {
             }
 
             template.convertAndSend("/sub/usermatch/randommatch", message);
+        }
+        else if (SocketMessage.MessageType.PACE.equals(message.getType())) {
+            message.setMessage("매칭 진행중");
+
+            Long userId = message.getUserId();
+            Float nowDistance = message.getNowDistance();
+            Integer nowTime = message.getNowTime();
+            Integer nowPace = Math.round(nowDistance/nowTime);
+
+            message.setUserId(userId);
+            message.setNowDistance(nowDistance);
+            message.setNowPace(nowPace);
+
+            template.convertAndSend("/sub/usermatch/" + message.getMatchId(), message);
         }
     }
 }

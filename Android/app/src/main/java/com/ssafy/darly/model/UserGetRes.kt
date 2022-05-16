@@ -8,4 +8,5 @@ data class UserGetRes(
     var userMessage : String,
     var userNickname : String,
     var userPoint : Int,
+    var userId: Long,
 )

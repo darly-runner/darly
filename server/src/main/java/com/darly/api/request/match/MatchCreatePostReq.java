@@ -11,7 +11,7 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-@NoArgsConstructor
+@Builder
 @ApiModel("MatchCreatePostReq")
 public class MatchCreatePostReq implements Serializable {
     @ApiModelProperty(name="matchTitle", example="matchTitle")
@@ -20,6 +20,4 @@ public class MatchCreatePostReq implements Serializable {
     private Short matchMaxPerson;
     @ApiModelProperty(name="matchGoalDistance", example="10")
     private Float matchGoalDistance;
-    // 나중에 지우삼
-    private String authorization;
 }

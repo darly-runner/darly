@@ -26,9 +26,9 @@ import java.io.File
 
 class CrewCreateFeedActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCrewCreateFeedBinding
-    private lateinit var imageURI: Uri
-    var crewId: Long=0
-    var feedDesc: String=""
+    private var imageURI= Uri.EMPTY
+    var crewId: Long = 0
+    private var feedDesc: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,10 +38,14 @@ class CrewCreateFeedActivity : AppCompatActivity() {
         val selectedImageView = findViewById<ImageView>(R.id.selectedFeedImg)
         val glide = Glide.with(this)
 
-        val imgPickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            imageURI = it.data?.data!!
-            glide.load(imageURI).into(selectedImageView)
-        }
+        val imgPickerLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                imageURI = it.data?.data ?: Uri.EMPTY
+                if (imageURI != Uri.EMPTY) {
+                    glide.load(imageURI).into(selectedImageView)
+                    Log.d("select img", "" + imageURI)
+                }
+            }
 
         binding.uploadFeedImg.setOnClickListener {
             imgPickerLauncher.launch(
@@ -58,18 +62,21 @@ class CrewCreateFeedActivity : AppCompatActivity() {
         crewId = intent.getLongExtra("crewId", 0)
         binding.createFeedButton.setOnClickListener {
             val file = getImgFile(imageURI)
-            val requestFile = RequestBody.create(MediaType.parse(contentResolver.getType(imageURI!!)), file)
-            val feedImgBody = MultipartBody.Part.createFormData("feedImage", file!!.name, requestFile)
+            val requestFile =
+                RequestBody.create(MediaType.parse(contentResolver.getType(imageURI!!)), file)
+            val feedImgBody =
+                MultipartBody.Part.createFormData("feedImage", file!!.name, requestFile)
             val feedContent = RequestBody.create(MediaType.parse("text/plain"), feedDesc)
             val feedTitle = RequestBody.create(MediaType.parse("text/plain"), "title")
 
-            val textHashMap = hashMapOf<String,RequestBody>()
+            val textHashMap = hashMapOf<String, RequestBody>()
 
             textHashMap["feedContent"] = feedContent
             textHashMap["feedTitle"] = feedTitle
 
             CoroutineScope(Dispatchers.IO).launch {
-                val response = DarlyService.getDarlyService().createFeed(crewId = crewId, feedImage = feedImgBody, data = textHashMap )
+                val response = DarlyService.getDarlyService()
+                    .createFeed(crewId = crewId, feedImage = feedImgBody, data = textHashMap)
                 Log.d("Create Feeddd", "${response}")
             }
         }

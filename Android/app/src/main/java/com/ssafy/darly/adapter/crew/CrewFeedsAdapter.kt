@@ -5,13 +5,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.ssafy.darly.R
+import com.ssafy.darly.model.Feeds
 import com.ssafy.darly.model.FeedsDetail
+import com.ssafy.darly.model.FeedsList
 
 class CrewFeedsAdapter(
-    val feedsDetail: List<FeedsDetail>,
+    val feedsDetail: List<FeedsList>,
     val inflater: LayoutInflater,
     val glide: RequestManager
 ): RecyclerView.Adapter<CrewFeedsAdapter.ViewHolder>() {
@@ -42,15 +45,22 @@ class CrewFeedsAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         glide.load(feedsDetail.get(position).hostImage).circleCrop().into(holder.feedHostImg)
         holder.feedHostName.text = feedsDetail.get(position).hostNickname
-        glide.load(feedsDetail.get(position).feedImages).into(holder.feedImage)
+        glide.load(feedsDetail.get(position).feedImage).into(holder.feedImage)
         holder.feedDate.text = feedsDetail.get(position).feedDate
         holder.feedContent.text = feedsDetail.get(position).feedContent
-        val commentsSize = feedsDetail.get(position).comments.size
-        val commentsText = "댓글 ${commentsSize}개 전체보기"
-        holder.feedComments.text = when(commentsSize == 0) {
-            true -> "etjtj"
-            false -> commentsText
+        val commentsNum = feedsDetail.get(position).commentNum
+        holder.feedComments.text = "댓글 ${commentsNum}개 전체보기"
+
+        holder.feedComments.setOnClickListener {
+
         }
+
+//        val smoothScroller : RecyclerView.SmoothScroller by lazy {
+//            object: LinearSmoothScroller(this@) {
+//                override fun getVerticalSnapPreference() = SNAP_TO_START
+//            }
+//        }
+//        smoothScroller.targetPosition = position
     }
 
     override fun getItemCount(): Int {

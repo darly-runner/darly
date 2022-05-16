@@ -66,6 +66,7 @@ public class MatchServiceImpl implements MatchService {
 
         Match match = matchRepository.findByMatchId(matchId);
         User enterUser = userRepository.findById(userId).get();
+        Long hostId = match.getHost().getUserId();
 
         UserMatchId userMatchId = UserMatchId.builder()
                 .match(match)
@@ -79,11 +80,12 @@ public class MatchServiceImpl implements MatchService {
 
         userMatchRepository.save(enterUserMatch);
 
-
-        Short curPerson = match.getMatchCurPerson();
-        curPerson++;
-        match.setMatchCurPerson(curPerson);
-        matchRepository.save(match);
+        if(userId != hostId) {
+            Short curPerson = match.getMatchCurPerson();
+            curPerson++;
+            match.setMatchCurPerson(curPerson);
+            matchRepository.save(match);
+        }
 
         return getMatchRefresh(matchId, userId);
     }
