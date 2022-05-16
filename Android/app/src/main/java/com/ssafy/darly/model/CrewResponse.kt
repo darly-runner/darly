@@ -1,4 +1,5 @@
 package com.ssafy.darly.model
+import java.io.Serializable
 
 data class MyCrewResponse(
     var message : String,
@@ -85,24 +86,34 @@ data class CrewFeeds(
     var totalFeeds: Long,
     var currentPage: Int,
     var numberOfFeed: Int,
-    var feeds: List<FeedsList>
-)
+    var feeds: ArrayList<FeedsList>
+): Serializable
 
 data class FeedsList(
+    var hostNickname: String,
+    var hostImage: String,
     var feedId: Long,
+    var feedTitle: String,
+    var feedContent: String,
+    var feedDate: String,
     var feedImage: String,
-)
+    var commentNum: Int,
+): Serializable
 
 data class FeedsDetail(
     var statusCode: Int,
     var message: String,
+    var feeds: List<Feeds>,
+)
+
+data class Feeds(
     var hostNickname: String,
     var hostImage: String,
     var feedTitle: String,
     var feedContent: String,
     var feedDate: String,
-    var feedImages: String,
-    var comments: List<FeedsComments>
+    var feedImage: String,
+    var commentNum: Int
 )
 
 data class FeedsComments(

@@ -8,8 +8,8 @@
     android:paddingHorizontal="30dp"
     android:paddingVertical="15dp">
     <TextView
-        android:id="@+id/dialogDistance"
-        android:text="거리"
+        android:id="@+id/distance1"
+        android:text="1 Km"
         android:textSize="14dp"
         android:textStyle="bold"
         android:gravity="center_vertical"
@@ -22,14 +22,85 @@
         android:layout_height="0.5dp"/>
 
     <TextView
-        android:id="@+id/dialogTime"
-        android:text="운동 시간"
+        android:id="@+id/distance3"
+        android:text="3 Km"
         android:textSize="14dp"
         android:textStyle="bold"
         android:gravity="center_vertical"
         android:layout_width="match_parent"
-        android:layout_height="60dp" />
+        android:layout_height="60dp"/>
+
+    <View
+        android:background="#989898"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
     <TextView
+        android:id="@+id/distance5"
+        android:text="5 Km"
+        android:textSize="14dp"
+        android:textStyle="bold"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"/>
+
+    <View
+        android:background="#989898"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
+    <TextView
+        android:id="@+id/distance10"
+        android:text="10 Km"
+        android:textSize="14dp"
+        android:textStyle="bold"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"/>
+
+    <View
+        android:background="#989898"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
+    <TextView
+        android:id="@+id/distance15"
+        android:text="15 Km"
+        android:textSize="14dp"
+        android:textStyle="bold"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"/>
+
+    <View
+        android:background="#989898"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
+    <TextView
+        android:id="@+id/distance20"
+        android:text="20 Km"
+        android:textSize="14dp"
+        android:textStyle="bold"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"/>
+
+    <View
+        android:background="#989898"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
+    <TextView
+        android:id="@+id/distance42"
+        android:text="42 Km"
+        android:textSize="14dp"
+        android:textStyle="bold"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"/>
+
+    <View
+        android:background="#989898"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
+    <TextView
+        android:id="@+id/reset"
         android:text="초기화"
         android:gravity="center"
         android:layout_width="match_parent"

@@ -32,6 +32,7 @@ public class SocketMessage {
     private Character isReady;
     
     // match 수정용
+    private Long crewId;
     private String matchTitle;
     private Short matchMaxPerson;
     private Float matchGoalDistance;
@@ -41,6 +42,11 @@ public class SocketMessage {
 
     // 방 상태
     private Character matchStatus;
+
+    // 경기 진행중의 정보
+    private Float nowDistance;
+    private Integer nowTime;
+    private Integer nowPace;
 
     // 메시지
     private String message;

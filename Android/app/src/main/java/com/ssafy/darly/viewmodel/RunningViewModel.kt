@@ -3,7 +3,8 @@ package com.ssafy.darly.viewmodel
 import android.location.Location
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ssafy.darly.model.RecordRequest
+import com.google.android.gms.maps.model.LatLng
+import com.ssafy.darly.model.record.RecordRequest
 import com.ssafy.darly.model.Section
 import java.lang.Math.round
 import kotlin.math.roundToInt
@@ -14,7 +15,6 @@ class RunningViewModel : ViewModel(){
     var timeCnt = 0         // 시간 값
     var paceCnt = 0         // 페이스 값
     var calorieCnt = 0
-    var speedCnt = 0f
 
     var dist = MutableLiveData<Float>()         // 거리
     var speed = MutableLiveData<Float>()        // 속력
@@ -32,14 +32,23 @@ class RunningViewModel : ViewModel(){
     val isPause = MutableLiveData<Boolean>()
 
     init {
+        target.value = "5.0"
         dist.value = 0.0f
         speed.value = 0.0f
         time.value = "00:00"
-        pace.value = "0.0"
+        pace.value = "--"
 
         isPause.value = false
 
         paceSection.value = ArrayList()
+    }
+
+    fun getRate() : Float? {
+        val targetCnt = target.value?.toFloat()
+        var rate = targetCnt?.let { dist.value?.div(it) }
+        rate = rate?.times(100)
+
+        return rate
     }
 
     fun setTime(t : Int){
@@ -48,16 +57,17 @@ class RunningViewModel : ViewModel(){
         time.postValue(timeToStr(t))
     }
 
+    // 거리
     fun setDist(d : Float){
-        // 소수점 한자리만 남긴다.
         dist.value = (d / 1000f * 100f).roundToInt() / 100f
     }
 
+    // 속력
     fun setSpeed(){
-        val s = dist.value?.div(timeCnt)?.times(3600)
-        if (s != null)
-            speed.value = round((s * 10f)) / 10f
+        var s = dist.value?.times(3600)?.div(timeCnt)
+        speed.value = round((s?.times(10f)!!)) / 10f
     }
+
     // 페이스
     fun setPace(){
         if(dist.value != 0f){
@@ -129,7 +139,7 @@ class RunningViewModel : ViewModel(){
             paceCnt,
             calorieCnt,
             0,
-            speedCnt,
+            speed.value,
             timeCnt,
             null,
             null,

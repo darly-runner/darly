@@ -10,6 +10,8 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ApiModel("UserGetResponse")
 public class UserGetRes extends BaseResponseBody {
+    @ApiModelProperty(name="userId", example="1")
+    private Long userId;
     @ApiModelProperty(name="userNickname", example="김싸피")
     private String userNickname;
     @ApiModelProperty(name="userEmail", example="ssafy@ssafy.com")
@@ -30,12 +32,14 @@ public class UserGetRes extends BaseResponseBody {
                .userPoint(user.getUserPoint())
                .userImage(user.getUserImage())
                .userMessage(user.getUserMessage())
+               .userId(user.getUserId())
                .build();
     }
 
     @Builder
-    public UserGetRes(Integer statusCode, String message, String userNickname, String userEmail, Integer userPoint, String userImage, String userMessage) {
+    public UserGetRes(Integer statusCode, Long userId, String message, String userNickname, String userEmail, Integer userPoint, String userImage, String userMessage) {
         super(statusCode, message);
+        this.userId = userId;
         this.userNickname = userNickname;
         this.userEmail = userEmail;
         this.userPoint = userPoint;
