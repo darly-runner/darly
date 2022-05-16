@@ -1,12 +1,14 @@
 package com.ssafy.darly.activity
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
@@ -32,6 +34,7 @@ class MatchLobbyActivity : AppCompatActivity() {
     private var prevStatus: String = "N"
     private var readyCount: Int = 1
     private var currentNum: Int = 0
+    private var goalDistance: Float = 0F
 
     private val url = "http://3.36.61.107:8000/ws/websocket"
     val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
@@ -132,6 +135,12 @@ class MatchLobbyActivity : AppCompatActivity() {
                         }
                     }
                 }
+                "START" -> {
+                    val intent = Intent(this, MatchActivity::class.java)
+                    intent.putExtra("myUserId", myUserId)
+                    intent.putExtra("goalDistance", goalDistance)
+                    ContextCompat.startActivity(this, intent, null)
+                }
             }
         }
     }
@@ -162,6 +171,7 @@ class MatchLobbyActivity : AppCompatActivity() {
 
             myUserId = response.body()?.myUserId ?: 3
             isHost = response.body()?.imHost ?: 0
+            goalDistance = response.body()?.matchGoalDistance!!
 
             if (isHost == 1) {
                 binding.readyButton.text = "START"
