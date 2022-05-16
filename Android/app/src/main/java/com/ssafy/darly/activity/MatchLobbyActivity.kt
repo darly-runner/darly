@@ -66,10 +66,12 @@ class MatchLobbyActivity : AppCompatActivity() {
                     if (userId != myUserId.toString()) {
                         CoroutineScope(Dispatchers.Main).launch {
                             val response = DarlyService.getDarlyService().getMatchDetails(matchId)
-                            binding.currentNum.text = response.body()?.matchCurPerson.toString()
+//                            binding.currentNum.text = response.body()?.matchCurPerson.toString()
 //                            currentNum = response.body()?.matchCurPerson?.toInt() ?: 0
                             currentNum = response.body()?.users?.size ?: 0
+                            binding.currentNum.text = response.body()?.users?.size.toString()
                             model.matchUsers.value = response.body()?.users ?: listOf()
+                            Log.d("USER", "${response.body()?.users}")
 
                             adapter = CrewMatchLobbyAdapter(
                                 model.matchUsers.value!!,
@@ -93,11 +95,11 @@ class MatchLobbyActivity : AppCompatActivity() {
                             LayoutInflater.from(this@MatchLobbyActivity),
                             glide
                         )
-//                        adapter.notifyDataSetChanged()
                         binding.matchUsersList.adapter = adapter
                         binding.matchUsersList.layoutManager =
                             GridLayoutManager(this@MatchLobbyActivity, 1)
                     }
+
                     if (isReady == "R") {
                         readyCount++
                     } else if (isReady == "N") {
