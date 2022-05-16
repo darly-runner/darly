@@ -8,7 +8,6 @@ import com.darly.api.service.match.MatchService;
 import com.darly.api.service.match.UserMatchService;
 import com.darly.db.entity.match.Match;
 import com.darly.db.entity.match.MatchRUser;
-import com.darly.db.entity.match.UserMatch;
 import com.darly.db.entity.socket.SocketMessage;
 import com.darly.db.entity.user.UserNowMapping;
 import com.darly.db.repository.match.UserMatchRepository;
