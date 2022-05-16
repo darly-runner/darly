@@ -33,5 +33,6 @@ class SectionDetailActivity : AppCompatActivity() {
         model.minSectionIndex.value = intent.getIntExtra("minSectionIndex", 0)
         model.minSectionValue.value = intent.getIntExtra("minSectionValue", 0)
 
+        binding.backBtn.setOnClickListener { finish() }
     }
 }
