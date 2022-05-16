@@ -12,6 +12,7 @@ import com.darly.api.service.record.SectionService;
 import com.darly.api.service.user.UserService;
 import com.darly.common.model.response.BaseResponseBody;
 import com.darly.db.entity.record.Record;
+import com.darly.db.entity.user.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -89,12 +90,15 @@ public class RecordController {
             @ApiResponse(code = 500, message = "서버 에러")
     })
     public ResponseEntity<? extends BaseResponseBody> getRecordDetail(@PathVariable("recordId") Long recordId, Authentication authentication) {
+        Long userId = Long.parseLong((String) authentication.getPrincipal());
+        User user = userService.getUserByUserId(userId);
         Record record = recordService.getRecordDetail(recordId);
         if (record == null)
             return ResponseEntity.ok(BaseResponseBody.of(405, "Fail get record detail: Not valid recordId"));
         return ResponseEntity.ok(RecordDetailGetRes.builder()
                 .statusCode(200)
                 .message("Success get record detail")
+                .userImage(user.getUserImage())
                 .record(record)
                 .coordinate(coordinateService.getCoordinate(recordId))
                 .sections(sectionService.getSectionList(recordId))
