@@ -17,14 +17,12 @@ public class FeedImageServiceImpl implements FeedImageService {
     private final FileProcessService fileProcessService;
 
     @Override
-    public void createFeedImage(Long feedId, List<MultipartFile> feedImageList) {
+    public void createFeedImage(Long feedId, MultipartFile feedImage) {
         Feed feed = Feed.builder().feedId(feedId).build();
-        for (MultipartFile feedImage : feedImageList) {
-            feedImageRepository.save(FeedImage.builder()
-                    .feed(feed)
-                    .feedImage(fileProcessService.uploadImage(feedImage, "feed"))
-                    .build());
-        }
+        feedImageRepository.save(FeedImage.builder()
+                .feed(feed)
+                .feedImage(fileProcessService.uploadImage(feedImage, "feed"))
+                .build());
     }
 
     @Override

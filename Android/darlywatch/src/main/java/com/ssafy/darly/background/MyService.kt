@@ -66,7 +66,6 @@ class MyService : Service() {
                         // 이전기록이 없다면
                         if(befLoc != null){
                             totalDist.value = totalDist.value?.plus(location.distanceTo(befLoc))
-                            //totalDist.value = totalDist.value?.plus(location.distanceTo(befLoc) * 10)
                         }
                         befLoc = location
                     }
@@ -74,7 +73,7 @@ class MyService : Service() {
             })
         }
         // 서비스가 죽으면 시스템을 어떻게할지
-        return START_NOT_STICKY
+        return START_STICKY
     }
 
     inner class MyBinder : Binder() {

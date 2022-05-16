@@ -1,13 +1,15 @@
 package com.ssafy.darly.viewmodel
 
-import android.util.Log
+import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.android.gms.maps.model.LatLng
 import com.ssafy.darly.model.record.Rank
 import com.ssafy.darly.model.record.RankString
 import com.ssafy.darly.model.record.SectionString
 
 class RecordDetailViewModel : ViewModel() {
+    val userImage = MutableLiveData<String>()
     val recordTitle = MutableLiveData<String>()
     val recordDate = MutableLiveData<String>()
     val recordDistance = MutableLiveData<String>()
@@ -18,6 +20,10 @@ class RecordDetailViewModel : ViewModel() {
     val recordCalories = MutableLiveData<String>()
     val coordinateLatitudes = MutableLiveData<List<String>>()
     val coordinateLongitudes = MutableLiveData<List<String>>()
+    val latLngList = MutableLiveData<List<LatLng>>()
+
+    val userImageBitmap = MutableLiveData<Bitmap>()
+
     val sections = MutableLiveData<List<SectionString>>()
     val recordRank = MutableLiveData<Int>()
     val recordRankString = MutableLiveData<String>()

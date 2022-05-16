@@ -3,6 +3,7 @@ package com.ssafy.darly.model.record
 import com.ssafy.darly.model.Section
 
 data class RecordDetailGetRes(
+    val userImage: String,
     val recordId: Int,
     val recordTitle: String,
     val recordDate: String,

@@ -51,24 +51,35 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/runningTab"
             app:layout_constraintBottom_toBottomOf="parent">
-
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/mapview"
                 android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:layout="@layout/abc_search_view" />
-            <EditText
-                android:text="@{viewModel.target}"
-                android:textSize="40dp"
-                android:textColor="@color/black"
-                android:gravity="center"
-                android:background="@android:color/transparent"
-                android:fontFamily="@font/pretendard_bold"
+
+            <TextView
+                android:id="@+id/targetText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/mapview"
-                android:layout_margin="50dp"/>
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="80dp"
+                android:layout_marginEnd="50dp"
+                android:layout_marginBottom="50dp"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/futura_bold_italic"
+                android:gravity="center"
+                android:text="@{viewModel.target}"
+                android:textColor="@color/black"
+                android:textSize="50dp" />
+
+            <ImageView
+                android:src="@drawable/shadow_background"
+                android:layout_alignParentBottom="true"
+                android:scaleType="fitXY"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"/>
 
             <Button
                 android:id="@+id/startButton"
@@ -82,6 +93,7 @@
             <TextView
                 android:id="@+id/targetButton"
                 android:text="목표 설정하기"
+                android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/mapview"
