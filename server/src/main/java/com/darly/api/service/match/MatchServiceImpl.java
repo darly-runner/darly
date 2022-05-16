@@ -88,9 +88,9 @@ public class MatchServiceImpl implements MatchService {
 //            matchRepository.save(match);
 //        }
 
-        match.setMatchCurPerson(userMatchRepository.countAllByUserMatchId_Match_MatchId(matchId);
+        match.setMatchCurPerson(userMatchRepository.countAllByUserMatchId_Match_MatchId(matchId));
         matchRepository.save(match);
-        
+
         return getMatchRefresh(matchId, userId);
     }
 
