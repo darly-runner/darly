@@ -84,8 +84,8 @@ class RunningViewModel : ViewModel(){
         val distance = dist.value?.toInt()
 
         val currentTime = timeCnt - befTime
-        val currentPace = (currentTime)
-        val currentCalorie = (4 * (currentTime/3600) * 75)
+        val currentPace = currentTime
+        val currentCalorie = (4 * currentTime * 75 / 3600)
 
         // 각 n km를 넘어설때마다 n-1에 저장
         if(d == 1f && size?:0 < distance ?:0){
