@@ -67,7 +67,8 @@ class MatchLobbyActivity : AppCompatActivity() {
                         CoroutineScope(Dispatchers.Main).launch {
                             val response = DarlyService.getDarlyService().getMatchDetails(matchId)
                             binding.currentNum.text = response.body()?.matchCurPerson.toString()
-                            currentNum = response.body()?.matchCurPerson?.toInt() ?: 0
+//                            currentNum = response.body()?.matchCurPerson?.toInt() ?: 0
+                            currentNum = response.body()?.users?.size ?: 0
                             model.matchUsers.value = response.body()?.users ?: listOf()
 
                             adapter = CrewMatchLobbyAdapter(
@@ -85,6 +86,7 @@ class MatchLobbyActivity : AppCompatActivity() {
                     CoroutineScope(Dispatchers.Main).launch {
                         val response = DarlyService.getDarlyService().refreshMatchDetails(matchId)
                         model.matchUsers.value = response.body()?.users ?: listOf()
+                        currentNum = response.body()?.users?.size ?: 0
 
                         adapter = CrewMatchLobbyAdapter(
                             model.matchUsers.value!!,
@@ -114,6 +116,9 @@ class MatchLobbyActivity : AppCompatActivity() {
 //                            data.put("matchId", matchId)
 //                            stompClient.send("/pub/usermatch", data.toString()).subscribe()
 //                        }
+                    } else if ((isHost == 1) && (readyCount != currentNum)) {
+                        binding.readyButton.setBackgroundResource(R.drawable.button_background_stroke)
+                        binding.readyButton.setTextColor(Color.rgb(114, 87, 93))
                     }
                 }
                 "LEAVE" -> {
@@ -122,7 +127,8 @@ class MatchLobbyActivity : AppCompatActivity() {
                             val response =
                                 DarlyService.getDarlyService().refreshMatchDetails(matchId)
                             model.matchUsers.value = response.body()?.users ?: listOf()
-                            binding.currentNum.text = response.body()?.matchCurPerson.toString()
+//                            binding.currentNum.text = response.body()?.matchCurPerson.toString()
+                            binding.currentNum.text = response.body()?.users?.size.toString()
 
                             adapter = CrewMatchLobbyAdapter(
                                 model.matchUsers.value!!,
@@ -139,6 +145,9 @@ class MatchLobbyActivity : AppCompatActivity() {
                     val intent = Intent(this, MatchActivity::class.java)
                     intent.putExtra("myUserId", myUserId)
                     intent.putExtra("goalDistance", goalDistance)
+//                    finish()
+                    intent.flags =
+                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP //액티비티 스택제거
                     ContextCompat.startActivity(this, intent, null)
                 }
             }

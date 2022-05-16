@@ -10,6 +10,7 @@ import com.darly.db.entity.match.UserMatch;
 import com.darly.db.entity.match.UserMatchId;
 import com.darly.db.entity.user.User;
 import com.darly.db.entity.user.UserMatchMapping;
+import com.darly.db.entity.user.UserNowMapping;
 import com.darly.db.repository.match.MatchRepository;
 import com.darly.db.repository.match.UserMatchRepository;
 import com.darly.db.repository.match.UserMatchRepositorySupport;
@@ -266,6 +267,28 @@ public class MatchServiceImpl implements MatchService {
 
             return matchRUsers;
         }
+    }
+
+    @Override
+    public List<UserNowMapping> nowUsers(Long matchId) {
+        List<UserMatch> userMatches = userMatchRepository.findAllByUserMatchId_Match_MatchId(matchId);
+        List<UserNowMapping> users = new ArrayList();
+
+        for (UserMatch usermatch : userMatches) {
+            User user = userRepository.findById(usermatch.getUserMatchId().getUser().getUserId()).get();
+
+            UserNowMapping userNowMapping = UserNowMapping.builder()
+                    .userId(user.getUserId())
+                    .userNickname(user.getUserNickname())
+                    .userImage(user.getUserImage())
+                    .userNowDistance(0.0f)
+                    .userNowPace(0)
+                    .build();
+
+            users.add(userNowMapping);
+        }
+
+        return users;
     }
 
     private void makeRandomMatch(User user) {
