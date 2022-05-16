@@ -30,8 +30,8 @@ class MatchLobbyActivity : AppCompatActivity() {
     private var myUserId: Long = 0
     private var isHost: Int = 0
     private var prevStatus: String = "N"
-    private var readyCount : Int = 1
-    private var currentNum : Int = 0
+    private var readyCount: Int = 1
+    private var currentNum: Int = 0
 
     private val url = "http://3.36.61.107:8000/ws/websocket"
     val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
@@ -100,7 +100,7 @@ class MatchLobbyActivity : AppCompatActivity() {
                     }
                     Log.d("cur NUMBER", currentNum.toString())
                     Log.d("ready COUNT", readyCount.toString())
-                    if((isHost == 1) && (readyCount == currentNum)) {
+                    if ((isHost == 1) && (readyCount == currentNum)) {
                         Log.d("ALL READY", "ALL READY")
                         binding.readyButton.setBackgroundResource(R.drawable.button_background_lg)
                         binding.readyButton.setTextColor(Color.rgb(247, 248, 251))
@@ -116,7 +116,8 @@ class MatchLobbyActivity : AppCompatActivity() {
                 "LEAVE" -> {
                     if (userId != myUserId.toString()) {
                         CoroutineScope(Dispatchers.Main).launch {
-                            val response = DarlyService.getDarlyService().refreshMatchDetails(matchId)
+                            val response =
+                                DarlyService.getDarlyService().refreshMatchDetails(matchId)
                             model.matchUsers.value = response.body()?.users ?: listOf()
                             binding.currentNum.text = response.body()?.matchCurPerson.toString()
 
@@ -166,6 +167,18 @@ class MatchLobbyActivity : AppCompatActivity() {
                 binding.readyButton.text = "START"
                 binding.readyButton.setBackgroundResource(R.drawable.button_background_stroke)
                 binding.readyButton.setTextColor(Color.rgb(114, 87, 93))
+            }
+
+            binding.readyButton.setOnClickListener {
+                if (isHost == 1) {
+//                    binding.readyButton.text = "START"
+//                    binding.readyButton.setBackgroundResource(R.drawable.button_background_stroke)
+//                    binding.readyButton.setTextColor(Color.rgb(114, 87, 93))
+
+                    val data = JSONObject()
+                    data.put("type", "START")
+                    data.put("matchId", matchId)
+                    stompClient.send("/pub/usermatch", data.toString()).subscribe()
 
 //                val data = JSONObject()
 //                data.put("type", "READY")
@@ -175,8 +188,8 @@ class MatchLobbyActivity : AppCompatActivity() {
 //                stompClient.send("/pub/usermatch", data.toString()).subscribe()
 
 
-            } else if (isHost == 0) {
-                binding.readyButton.setOnClickListener {
+                } else if (isHost == 0) {
+//                binding.readyButton.setOnClickListener {
                     prevStatus = if (prevStatus == "N") {
                         "R"
                     } else {
@@ -188,8 +201,10 @@ class MatchLobbyActivity : AppCompatActivity() {
                     data.put("userId", myUserId)
                     data.put("isReady", prevStatus)
                     stompClient.send("/pub/usermatch", data.toString()).subscribe()
+//                }
                 }
             }
+
 
             binding.matchTitle.text = response.body()?.matchTitle ?: ""
             binding.hostNickname.text = response.body()?.hostNickname
