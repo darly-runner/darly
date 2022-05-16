@@ -21,5 +21,5 @@ public class FeedUpdatePatchReq {
     private String feedContent;
     @ApiModelProperty(name = "feedImage", example = "[feedImage.png, feedImage.png]")
     @Nullable
-    private List<MultipartFile> feedImages;
+    private MultipartFile feedImage;
 }
