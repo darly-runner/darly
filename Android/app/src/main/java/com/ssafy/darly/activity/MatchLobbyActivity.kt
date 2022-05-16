@@ -142,7 +142,9 @@ class MatchLobbyActivity : AppCompatActivity() {
                     val intent = Intent(this, MatchActivity::class.java)
                     intent.putExtra("myUserId", myUserId)
                     intent.putExtra("goalDistance", goalDistance)
-                    finish()
+//                    finish()
+                    intent.flags =
+                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP //액티비티 스택제거
                     ContextCompat.startActivity(this, intent, null)
                 }
             }
