@@ -439,7 +439,7 @@ public class CrewController {
         if (!userCrewService.isUserCrewExists(userId, crewId))
             return ResponseEntity.ok(BaseResponseBody.of(406, "Fail create crew feed: User is not member"));
         Feed feed = feedService.createFeed(userId, crewId, feedCreatePostReq.getFeedTitle(), feedCreatePostReq.getFeedContent());
-        feedImageService.createFeedImage(feed.getFeedId(), feedCreatePostReq.getFeedImages());
+        feedImageService.createFeedImage(feed.getFeedId(), feedCreatePostReq.getFeedImage());
         return ResponseEntity.ok(BaseResponseBody.of(200, "Success create crew feed"));
     }
 

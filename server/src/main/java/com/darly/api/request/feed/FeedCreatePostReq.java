@@ -17,5 +17,5 @@ public class FeedCreatePostReq {
     @ApiModelProperty(name = "feedContent", example = "feedContent")
     private String feedContent;
     @ApiModelProperty(name = "feedImage", example = "[feedImage.png, feedImage.png]")
-    private List<MultipartFile> feedImages;
+    private MultipartFile feedImage;
 }
