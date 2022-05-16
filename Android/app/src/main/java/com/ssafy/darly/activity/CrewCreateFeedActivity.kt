@@ -9,6 +9,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
@@ -78,6 +79,10 @@ class CrewCreateFeedActivity : AppCompatActivity() {
                 val response = DarlyService.getDarlyService()
                     .createFeed(crewId = crewId, feedImage = feedImgBody, data = textHashMap)
                 Log.d("Create Feeddd", "${response}")
+                val intent = Intent(this@CrewCreateFeedActivity, CrewDetailActivity::class.java)
+                intent.putExtra("crewId", crewId)
+                finish()
+//                ContextCompat.startActivity(this@CrewCreateFeedActivity, intent, null)
             }
         }
     }
