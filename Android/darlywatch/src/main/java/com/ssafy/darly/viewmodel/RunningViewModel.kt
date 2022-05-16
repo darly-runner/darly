@@ -14,7 +14,6 @@ class RunningViewModel : ViewModel(){
     var timeCnt = 0         // 시간 값
     var paceCnt = 0         // 페이스 값
     var calorieCnt = 0
-    var speedCnt = 0f
 
     var dist = MutableLiveData<Float>()         // 거리
     var speed = MutableLiveData<Float>()        // 속력
@@ -53,10 +52,9 @@ class RunningViewModel : ViewModel(){
         dist.value = (d / 1000f * 100f).roundToInt() / 100f
     }
 
+    // 속력
     fun setSpeed(){
-        var s = dist.value?.div(timeCnt)
-        s = s?.times(3600)
-
+        var s = dist.value?.times(3600)?.div(timeCnt)
         speed.value = round((s?.times(10f)!!)) / 10f
     }
 
@@ -131,7 +129,7 @@ class RunningViewModel : ViewModel(){
             paceCnt,
             calorieCnt,
             0,
-            speedCnt,
+            speed.value,
             timeCnt,
             null,
             null,

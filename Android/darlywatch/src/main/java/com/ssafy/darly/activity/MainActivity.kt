@@ -2,32 +2,17 @@ package com.ssafy.darly.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.ConnectivityManager
-import android.net.NetworkInfo
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
-import androidx.room.Room
 import androidx.viewpager.widget.ViewPager
-import com.kakao.util.helper.Utility
 import com.ssafy.darly.R
 import com.ssafy.darly.adapter.MainViewPagerAdapter
-import com.ssafy.darly.dao.AppDatabase
 import com.ssafy.darly.util.GlobalApplication
 import com.ssafy.darly.databinding.ActivityMainBinding
-import com.ssafy.darly.model.RecordRequest
-import com.ssafy.darly.model.RecordRequestDto
-import com.ssafy.darly.service.DarlyService
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(){
     private lateinit var binding: ActivityMainBinding

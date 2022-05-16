@@ -8,13 +8,19 @@ import android.graphics.Bitmap
 import android.location.Location
 import android.os.Build
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -23,12 +29,14 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.PolylineOptions
 import com.ssafy.darly.R
 import com.ssafy.darly.databinding.ActivityResultBinding
+import com.ssafy.darly.fragment.RunningFragment
 import com.ssafy.darly.model.record.RecordRequest
 import com.ssafy.darly.service.DarlyService
 import com.ssafy.darly.util.LocationHelper
 import com.ssafy.darly.viewmodel.RunningViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -46,6 +54,10 @@ class ResultActivity : AppCompatActivity(), OnMapReadyCallback {
 
     lateinit var record: RecordRequest
     private lateinit var map: GoogleMap
+
+    private lateinit var locationRequest: LocationRequest
+    private lateinit var locationCallback: ResultActivity.MyLocationCallBack
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,7 +87,6 @@ class ResultActivity : AppCompatActivity(), OnMapReadyCallback {
         model.calorie.value = "${record.recordCalories} kcal"
         model.speed.value = record.recordSpeed
         model.time.value = model.timeToStr(record.recordTime)
-        model.setLocationList(record)
 
         // 구간별, 추후에 차트 추가
         var cnt = 1
@@ -163,6 +174,8 @@ class ResultActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
+        locationInit()
+        addLocationListener()
 
         // 현재 내위치 표시
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -170,22 +183,50 @@ class ResultActivity : AppCompatActivity(), OnMapReadyCallback {
             map.isMyLocationEnabled = true
         }
 
-        // 비동기 처리
-        model.locationList.observe(this, androidx.lifecycle.Observer {
-            val polylineOptions = PolylineOptions()
-            polylineOptions.color(resources.getColor(R.color.main))
-            for(i in model.locationList.value ?: ArrayList()){
-                val marker = LatLng(i.latitude, i.longitude)
-                polylineOptions.points.add(marker)
-            }
-            map.addPolyline(polylineOptions)
-        })
+        // 이동경로 표시
+        Toast.makeText(this, "${record.coordinateLatitudes.size}",Toast.LENGTH_LONG).show()
+        val polylineOptions = PolylineOptions()
+        polylineOptions.color(resources.getColor(R.color.main))
 
-        LocationHelper().startListeningUserLocation(this, object : LocationHelper.MyLocationListener {
-            override fun onLocationChanged(location: Location) {
-                val latLng = LatLng(location.latitude, location.longitude)
-                map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14f))
+        for(i in 0 until record.coordinateLatitudes.size){
+            val marker = LatLng(record.coordinateLatitudes[i].toDouble(), record.coordinateLongitudes[i].toDouble())
+            polylineOptions.points.add(marker)
+        }
+        map.addPolyline(polylineOptions)
+    }
+
+    private fun locationInit() {
+        fusedLocationProviderClient = FusedLocationProviderClient(this)
+        locationCallback = MyLocationCallBack(fusedLocationProviderClient)
+        locationRequest = LocationRequest.create().apply {
+            interval = 1000
+            fastestInterval = 1000
+            priority = LocationRequest.PRIORITY_NO_POWER
+            maxWaitTime = 10000
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun addLocationListener() {
+        fusedLocationProviderClient.requestLocationUpdates(
+            locationRequest,
+            locationCallback, Looper.getMainLooper()
+        )
+    }
+
+    inner class MyLocationCallBack(private val fusedLocationProviderClient: FusedLocationProviderClient) :
+        LocationCallback() {
+        override fun onLocationResult(locationRequest: LocationResult) {
+            super.onLocationResult(locationRequest)
+            val location = locationRequest.lastLocation
+
+            location.run {
+                val latLng = LatLng(latitude, longitude)
+                if (::map.isInitialized) {
+                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
+                    fusedLocationProviderClient.removeLocationUpdates(locationCallback)
+                }
             }
-        })
+        }
     }
 }
