@@ -8,7 +8,7 @@ import com.ssafy.darly.R
 import com.ssafy.darly.adapter.match.MatchViewPagerAdapter
 import com.ssafy.darly.databinding.ActivityMatchBinding
 import com.ssafy.darly.model.CompetitorInfo
-import com.ssafy.darly.model.RecordRequest
+import com.ssafy.darly.model.record.RecordRequest
 
 import com.ssafy.darly.viewmodel.RunningViewModel
 
@@ -48,7 +48,8 @@ class MatchActivity : AppCompatActivity() {
                     ArrayList(),
                     ArrayList(),
                     ArrayList()
-                )))
+                )
+            ))
         }
         adapter.list = list
         adapter.notifyDataSetChanged()

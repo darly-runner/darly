@@ -95,13 +95,6 @@ class RunningFragment : Fragment(),
         ) {
             map.isMyLocationEnabled = true
         }
-
-//        LocationHelper().startListeningUserLocation(requireContext(), object : LocationHelper.MyLocationListener {
-//            override fun onLocationChanged(location: Location) {
-//                val latLng = LatLng(location.latitude, location.longitude)
-//                map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
-//            }
-//        })
     }
 
     private fun locationInit() {
