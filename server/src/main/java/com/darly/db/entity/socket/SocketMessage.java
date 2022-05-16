@@ -2,6 +2,7 @@ package com.darly.db.entity.socket;
 
 import com.darly.db.entity.match.MatchRUser;
 import com.darly.db.entity.user.User;
+import com.darly.db.entity.user.UserNowMapping;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,7 +18,7 @@ public class SocketMessage {
         ENTER, LEAVE,
         READY,
         PACE,
-        START,
+        START, USER,
         RANDOMMATCH, RANDOMSTART,
         UPDATE
     }
@@ -42,6 +43,9 @@ public class SocketMessage {
 
     // 방 상태
     private Character matchStatus;
+
+    // 현재 방안의 유저들
+    private List<UserNowMapping> users;
 
     // 경기 진행중의 정보
     private Float nowDistance;
