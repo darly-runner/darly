@@ -28,7 +28,6 @@ class RunningActivity : AppCompatActivity() {
     private lateinit var service : MyService
     private var bound: Boolean = false
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
