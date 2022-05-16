@@ -23,6 +23,7 @@ class RecordDetailViewModel : ViewModel() {
     val latLngList = MutableLiveData<List<LatLng>>()
 
     val userImageBitmap = MutableLiveData<Bitmap>()
+    val isImageSet = MutableLiveData<Boolean>()
 
     val sections = MutableLiveData<List<SectionString>>()
     val recordRank = MutableLiveData<Int>()
