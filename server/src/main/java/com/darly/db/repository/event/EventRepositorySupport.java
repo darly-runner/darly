@@ -21,7 +21,7 @@ public class EventRepositorySupport {
 
 
     public List<EventList> findEvents() {
-        return jpaQueryFactory.select(Projections.constructor(EventList.class, qEvent.eventId, qEvent.eventTitle, qEvent.user.userNickname, qEvent.eventDate))
+        return jpaQueryFactory.select(Projections.constructor(EventList.class, qEvent.eventId, qEvent.eventTitle, qEvent.user.userNickname, qEvent.eventImage, qEvent.eventDate))
                 .from(qEvent, qUser)
                 .where(qEvent.user.userId.eq(qUser.userId))
                 .fetch();

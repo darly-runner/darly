@@ -13,12 +13,14 @@ public class EventList {
     private Long eventId;
     private String eventTitle;
     private String userNickname;
+    private String eventImage;
     private Long eventDate;
 
-    public EventList(Long eventId, String eventTitle, String userNickname, Long eventDate) {
+    public EventList(Long eventId, String eventTitle, String userNickname, String eventImage, Long eventDate) {
         this.eventId = eventId;
         this.eventTitle = eventTitle;
         this.userNickname = userNickname;
+        this.eventImage = eventImage;
         this.eventDate = eventDate;
     }
 }
