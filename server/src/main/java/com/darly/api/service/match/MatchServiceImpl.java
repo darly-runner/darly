@@ -46,7 +46,7 @@ public class MatchServiceImpl implements MatchService {
     @Override
     public Page<Match> getCrewMatchList(Long crewId, Pageable page) {
 
-        return matchRepository.findByCrew_CrewIdAndMatchStatusIsNot(crewId, 'U', 'E', page);
+        return matchRepository.findByCrew_CrewIdAndMatchStatusIsNotAndMatchStatusIsNot(crewId, 'U', 'E', page);
     }
 
     @Override
