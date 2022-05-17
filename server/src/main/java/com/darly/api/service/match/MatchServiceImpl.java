@@ -270,7 +270,7 @@ public class MatchServiceImpl implements MatchService {
                         .userId(userMatch.getUserMatchId().getUser().getUserId())
                         .userNickname(userMatch.getUserMatchId().getUser().getUserNickname())
                         .userImage(userMatch.getUserMatchId().getUser().getUserImage())
-                        .nowPace(0)
+                        .nowPace("--")
                         .nowDistance(0f)
                         .nowTime(0)
                         .build());
@@ -281,7 +281,7 @@ public class MatchServiceImpl implements MatchService {
     }
 
     @Override
-    public List<UserNowPace> nowPaces(Long matchId, Long userId, Float nowDistance, Integer nowTime, Integer nowPace) {
+    public List<UserNowPace> nowPaces(Long matchId, Long userId, Float nowDistance, Integer nowTime, String nowPace) {
         List<UserNowPace> userList = userPaceMap.get(matchId);
         for (UserNowPace user : userList) {
             if (user.getUserId().equals(userId)) {

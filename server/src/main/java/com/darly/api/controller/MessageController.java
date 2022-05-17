@@ -149,7 +149,7 @@ public class MessageController {
             Long userId = message.getUserId();
             Float nowDistance = message.getNowDistance();
             Integer nowTime = message.getNowTime();
-            Integer newPace = message.getNowPace();
+            String newPace = message.getNowPace();
 
             message.setNowPaces(matchService.nowPaces(matchId, userId, nowDistance, nowTime, newPace));
 

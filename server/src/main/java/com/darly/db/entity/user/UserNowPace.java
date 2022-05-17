@@ -13,7 +13,7 @@ public class UserNowPace implements Comparable<UserNowPace> {
     private String userImage;
     private Float nowDistance;
     private Integer nowTime;
-    private Integer nowPace;
+    private String nowPace;
 
     @Override
     public int compareTo(UserNowPace o) {
