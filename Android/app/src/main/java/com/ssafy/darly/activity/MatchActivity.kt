@@ -63,14 +63,17 @@ class MatchActivity : AppCompatActivity() {
             val newMessage = JSONObject(it.payload)
             val type = newMessage.getString("type")
             val userId = newMessage.getString("userId")
-            val usersList = newMessage.getJSONArray("users")
-            Log.d("USER WEBSOCKET", "${it}")
+
             when(type) {
                 "USER" -> {
                     if (userId == myUserId.toString()) {
+                        val usersList = newMessage.getJSONArray("users")
                         Log.d("type?", usersList.javaClass.toString())
                     }
                 }
+//                "PACE" -> {
+//                    Log,d("pace?", "PACE")
+//                }
             }
         }
 
@@ -141,6 +144,12 @@ class MatchActivity : AppCompatActivity() {
 
             binding.progressBar.progress = model.getRate()?.toInt() ?: 0
             model.locationList.value = service.locationList.value
+            val data = JSONObject()
+            data.put("type", "PACE")
+            data.put("nowDistance", service.totalDist.value)
+            data.put("nowTime", service.time.value)
+            data.put("userId", myUserId)
+            stompClient.send("/pub/usermatch", data.toString()).subscribe()
         })
     }
 
