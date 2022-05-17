@@ -9,20 +9,27 @@
             type="com.ssafy.darly.viewmodel.ChallengeViewModel" />
     </data>
 
-    <FrameLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         tools:context=".fragment.ActFragment">
 
-        <!-- TODO: Update blank fragment layout -->
         <TextView
             android:fontFamily="@font/pretendard_bold"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:paddingTop="20dp"
+            android:paddingBottom="10dp"
             android:paddingLeft="15dp"
             android:textSize="28dp"
+            android:textColor="@color/black"
             android:text="Challenge" />
 
-    </FrameLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/challengesList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>
