@@ -6,10 +6,7 @@ import com.ssafy.darly.model.friend.FriendApplyReq
 import com.ssafy.darly.model.friend.FriendListGetRes
 import com.ssafy.darly.model.friend.FriendProfileGetRes
 import com.ssafy.darly.model.friend.FriendSearchReq
-import com.ssafy.darly.model.record.BadgeListGetRes
-import com.ssafy.darly.model.record.RecordDetailGetRes
-import com.ssafy.darly.model.record.RecordListGetRes
-import com.ssafy.darly.model.record.RecordTitlePatchReq
+import com.ssafy.darly.model.record.*
 import com.ssafy.darly.model.stat.StatGetRes
 import com.ssafy.darly.model.user.*
 import okhttp3.MultipartBody
@@ -236,4 +233,7 @@ interface ApiService {
 
     @GET("users/badge")
     suspend fun getUserBadges(): Response<BadgeListGetRes>
+
+    @GET("users/event")
+    suspend fun getUserEvents(): Response<EventListGetRes>
 }
