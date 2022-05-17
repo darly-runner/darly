@@ -144,7 +144,7 @@ data class MatchDetails(
     var matchGoalDistance: Float,
     var matchDate: String,
     var matchStartTime: String,
-    var matchStatus: Char
+    var matchStatus: String,
 )
 
 data class CrewJoin(
