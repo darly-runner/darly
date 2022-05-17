@@ -123,7 +123,6 @@ class MatchActivity : AppCompatActivity() {
                 }
             }
         }
-
     }
 
 

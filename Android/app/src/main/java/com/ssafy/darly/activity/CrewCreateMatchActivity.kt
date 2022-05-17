@@ -59,7 +59,6 @@ class CrewCreateMatchActivity : AppCompatActivity() {
                 ContextCompat.startActivity(this, intent, null)
             }
         }
-
     }
 
 

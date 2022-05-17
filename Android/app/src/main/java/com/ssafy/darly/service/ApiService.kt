@@ -140,6 +140,11 @@ interface ApiService {
     ): Response<CreateFeed>
 
 
+    // challenges
+    @GET("events")
+    suspend fun getChallengesList():Response<ChallengesList>
+
+
 
     @GET("users/profile")
     suspend fun getUserProfile(): Response<UserProfileGetRes>

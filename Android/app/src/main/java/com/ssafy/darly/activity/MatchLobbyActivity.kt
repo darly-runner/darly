@@ -223,6 +223,9 @@ class MatchLobbyActivity : AppCompatActivity() {
                 }
             }
 
+            binding.backButton.setOnClickListener {
+                back()
+            }
 
             binding.matchTitle.text = response.body()?.matchTitle ?: ""
             binding.hostNickname.text = response.body()?.hostNickname
@@ -267,6 +270,10 @@ class MatchLobbyActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
+        back()
+    }
+
+    fun back(){
         val data = JSONObject()
         data.put("type", "LEAVE")
         data.put("matchId", matchId)
