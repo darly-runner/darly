@@ -39,9 +39,9 @@ class CrewDetailActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = model
 
-        binding.crewDetailTab.run {
-            header = header_view
-        }
+//        binding.crewDetailTab.run {
+//            header = header_view
+//        }
 
         val glide = Glide.with(this)
         crewId = intent.getLongExtra("crewId", 0)
