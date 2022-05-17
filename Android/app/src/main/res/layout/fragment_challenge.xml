@@ -9,7 +9,7 @@
             type="com.ssafy.darly.viewmodel.ChallengeViewModel" />
     </data>
 
-    <FrameLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".fragment.ActFragment">
@@ -22,7 +22,12 @@
             android:paddingTop="20dp"
             android:paddingLeft="15dp"
             android:textSize="28dp"
+            android:textColor="@color/black"
             android:text="Challenge" />
 
-    </FrameLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>
