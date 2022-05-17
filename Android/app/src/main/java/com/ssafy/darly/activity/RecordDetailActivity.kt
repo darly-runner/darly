@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -23,13 +22,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.Target
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -59,11 +52,6 @@ class RecordDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     private var recordId = 0L
     private lateinit var imm: InputMethodManager
     private lateinit var map: GoogleMap
-    private lateinit var locationRequest: LocationRequest
-    private var markerList = mutableListOf<MarkerOptions>()
-
-    //    private lateinit var locationCallback: MyLocationCallBack
-    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private val defaultImage =
         "https://darly-bucket.s3.ap-northeast-2.amazonaws.com/user/darly_logo_white.png"
     private lateinit var tag_image: ImageView
@@ -207,73 +195,53 @@ class RecordDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             }
             map.addPolyline(polylineOptions)
 
-            CoroutineScope(Dispatchers.Main).launch {
-                var swLat = 180.0
-                var swLng = 180.0
-                var neLat = 0.0
-                var neLng = 0.0
-                for (latlng in it){
-                    Log.d("response", "${latlng}")
-                    if(latlng.latitude > neLat)
-                        neLat = latlng.latitude
-                    if(latlng.latitude < swLat)
-                        swLat = latlng.latitude
-                    if(latlng.longitude > neLng)
-                        neLng = latlng.longitude
-                    if(latlng.longitude < swLng)
-                        swLng = latlng.latitude
-                }
-                Log.d("response!!", "${LatLng(swLat - 0.0001, swLng - 0.0001)}")
-                Log.d("response!!", "${LatLng(neLat + 0.0001, neLng + 0.0001)}")
+            var swLat = 90.0
+            var swLng = 180.0
+            var neLat = 0.0
+            var neLng = 0.0
+            for (latlng in it) {
+                if (latlng.latitude > neLat)
+                    neLat = latlng.latitude
+                if (latlng.latitude < swLat)
+                    swLat = latlng.latitude
+                if (latlng.longitude > neLng)
+                    neLng = latlng.longitude
+                if (latlng.longitude < swLng)
+                    swLng = latlng.longitude
+            }
+            Log.d("response!!", "${LatLng(swLat - 0.0001, swLng - 0.0001)}")
+            Log.d("response!!", "${LatLng(neLat + 0.0001, neLng + 0.0001)}")
 
+            if (it.isEmpty()) {
                 val bounds = LatLngBounds(
-                    LatLng(swLat , swLng ),
-                    LatLng(neLat  , neLng  )
+                    LatLng(37.5646805, 126.9764147),
+                    LatLng(37.5686805, 126.9804147)
+                )
+                map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 10));
+            } else {
+                val bounds = LatLngBounds(
+                    LatLng(swLat - 0.0002, swLng - 0.0002),
+                    LatLng(neLat + 0.0002, neLng + 0.0002)
                 )
                 map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 10));
             }
-//            if (it.isNotEmpty()) {
-//                val swLat: Double
-//                val swLng: Double
-//                val neLat: Double
-//                val neLng: Double
-//                if (it[0].latitude > it[it.size - 1].latitude) {
-//                    neLat = it[0].latitude + 0.0001
-//                    swLat = it[it.size - 1].latitude - 0.0001
-//                } else {
-//                    swLat = it[0].latitude - 0.0001
-//                    neLat = it[it.size - 1].latitude + 0.0001
-//                }
-//                if (it[0].longitude > it[it.size - 1].longitude) {
-//                    neLng = it[0].longitude + 0.0001
-//                    swLng = it[it.size - 1].longitude - 0.0001
-//                } else {
-//                    swLng = it[0].longitude - 0.0001
-//                    neLng = it[it.size - 1].longitude + 0.0001
-//                }
-//                val bounds = LatLngBounds(
-//                    LatLng(swLat, swLng),
-//                    LatLng(neLat, neLng)
-//                )
-//                Log.d("response!!", "${LatLng(swLat - 0.0001, swLng - 0.0001)}")
-//                Log.d("response!!", "${LatLng(neLat + 0.0001, neLng + 0.0001)}")
-//                map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
-//            }
+
             val vectorDrawable = resources.getDrawable(R.drawable.ic_end_point)
             vectorDrawable!!.setBounds(0, 0, vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight)
             var bitmap = Bitmap.createBitmap(vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
             var canvas = Canvas(bitmap)
             vectorDrawable.draw(canvas)
-            map.addMarker(
-                MarkerOptions()
-                    .position(LatLng(it[it.size - 1].latitude, it[it.size - 1].longitude))
-                    .icon(BitmapDescriptorFactory.fromBitmap(bitmap))
-                    .zIndex(2f)
-            );
+            if (!it.isEmpty())
+                map.addMarker(
+                    MarkerOptions()
+                        .position(LatLng(it[it.size - 1].latitude, it[it.size - 1].longitude))
+                        .icon(BitmapDescriptorFactory.fromBitmap(bitmap))
+                        .zIndex(2f)
+                );
         })
 
         model.userImage.observe(this, Observer {
-            if (model.userImage.value != null) {
+            if (model.userImage.value != null && model.latLngList.value?.size ?: 0 > 0) {
                 CoroutineScope(Dispatchers.Main).launch {
 
                     val options: RequestOptions = RequestOptions()
@@ -283,41 +251,14 @@ class RecordDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
                     Glide.with(applicationContext).load(model.userImage.value).apply(options).into(tag_image)
                     Handler().postDelayed({
-                        model.isImageSet.value = true
+                        addMarker(
+                            LatLng(
+                                (model.latLngList.value?.get(0)?.latitude ?: 0.0),
+                                (model.latLngList.value?.get(0)?.longitude ?: 0.0)
+                            )
+                        )
                     }, 300)
                 }
-            }
-        })
-
-        model.isImageSet.observe(this, Observer{
-            if(it){
-                var latlng =
-                    LatLng(
-                        (model.latLngList.value?.get(0)?.latitude ?: 0.0),
-                        (model.latLngList.value?.get(0)?.longitude ?: 0.0)
-                    )
-                var markerOptions = MarkerOptions()
-                markerOptions.position(latlng)
-                val displayMetrics = windowManager.currentWindowMetrics
-                marker_view.setLayoutParams(
-                    ViewGroup.LayoutParams(
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT
-                    )
-                )
-                marker_view.measure(displayMetrics.bounds.width(), displayMetrics.bounds.height())
-                marker_view.layout(0, 0, displayMetrics.bounds.width(), displayMetrics.bounds.height())
-                marker_view.buildDrawingCache()
-                val bitmap: Bitmap = Bitmap.createBitmap(
-                    marker_view.getMeasuredWidth(),
-                    marker_view.getMeasuredHeight(),
-                    Bitmap.Config.ARGB_8888
-                )
-                val canvas = Canvas(bitmap)
-                marker_view.draw(canvas)
-                markerOptions.icon(BitmapDescriptorFactory.fromBitmap(bitmap))
-                map.addMarker(markerOptions)
-                markerList.add(markerOptions)
             }
         })
     }
@@ -346,8 +287,6 @@ class RecordDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             .placeholder(R.mipmap.ic_launcher_round)
             .error(R.mipmap.ic_launcher_round)
 
-        Log.d("response", "${model.userImage.value}")
-        Log.d("response", "${markerList.size}")
         Glide.with(this).load(model.userImage.value).apply(options).into(tag_image)
         markerOptions.icon(
             BitmapDescriptorFactory.fromBitmap(
@@ -379,13 +318,5 @@ class RecordDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         view.draw(canvas)
 
         return bitmap
-    }
-
-    private fun findMaxMinLagLng(latlngList: List<LatLng>, moveMap: ()->Unit){
-        moveMap()
-    }
-
-    private fun moveMap(latlng: LatLng){
-
     }
 }
