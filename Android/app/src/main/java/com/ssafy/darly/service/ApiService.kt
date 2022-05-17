@@ -38,9 +38,15 @@ interface ApiService {
         @Part sections: List<MultipartBody.Part>
     ): Response<BaseRes>
 
+    @Multipart
+    @POST("users/feed")
+    suspend fun postFeed(
+        @Part userFeedImage: MultipartBody.Part?,
+    ): Response<BaseRes>
+
     @GET("users")
     suspend fun getUsers(
-//        @Query("userId") userId: Int,
+        // @Query("userId") userId: Int,
     ): Response<UserGetRes>
 
     // CREW
@@ -132,6 +138,11 @@ interface ApiService {
         @PartMap data: HashMap<String, RequestBody>,
         @Part feedImage: MultipartBody.Part?,
     ): Response<CreateFeed>
+
+
+    // challenges
+    @GET("events")
+    suspend fun getChallengesList():Response<ChallengesList>
 
 
 

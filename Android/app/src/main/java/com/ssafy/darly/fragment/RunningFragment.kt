@@ -26,6 +26,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.ssafy.darly.R
 import com.ssafy.darly.activity.RunningActivity
 import com.ssafy.darly.databinding.FragmentRunningBinding
+import com.ssafy.darly.dialog.CountDownDialog
 import com.ssafy.darly.dialog.MatchLottieDialog
 import com.ssafy.darly.dialog.TargetDialog
 import com.ssafy.darly.viewmodel.RunningViewModel
@@ -74,7 +75,9 @@ class RunningFragment : Fragment(),
             if (binding.runningTab.selectedTabPosition == 0) {
                 val intent = Intent(this.requireContext(), RunningActivity::class.java)
                 intent.putExtra("target",model.target.value)
-                startActivity(intent)
+                val dialog = CountDownDialog(3,model.target.value ?: "5.0", "running")
+                dialog.show(parentFragmentManager,"solo")
+                //startActivity(intent)
             } else if (binding.runningTab.selectedTabPosition == 1) {
                 val dialog = MatchLottieDialog(model.target.value ?: "5.0")
                 dialog.show(parentFragmentManager, "match")

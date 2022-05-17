@@ -53,9 +53,9 @@ class CrewDataFragment : Fragment() {
             model.crewDetailRankings.value = response.body()?.ranks
 
             binding.crewDistance.text = response.body()?.crewDistance.toString()
-            binding.crewDetailPace.text = response.body()?.crewPace.toString()
+            binding.crewDetailPace.text = response.body()?.crewPace?.toInt()?.let { timeToStr(it) }
             binding.crewDetailPplNum.text = response.body()?.crewPeopleNum.toString()
-            binding.crewDetailTime.text = response.body()?.crewTime.toString()
+            binding.crewDetailTime.text = response.body()?.crewTime?.toInt()?.let { timeToStr(it) }
 
             adapter = CrewDetailRankAdapter(
                 model.crewDetailRankings.value!!,
@@ -65,5 +65,25 @@ class CrewDataFragment : Fragment() {
             binding.crewRankingList.adapter = adapter
             binding.crewRankingList.layoutManager = GridLayoutManager(context, 1)
         }
+    }
+
+    // time -> hh:mm:ss
+    fun timeToStr(t : Int) : String{
+        val m = t / 60
+        var second = (t % 60).toString()
+
+        val hour = (m / 60).toString()
+        var minute = (m % 60).toString()
+
+        if(minute.length == 1)
+            minute = "0$minute"
+
+        if(second.length == 1)
+            second = "0$second"
+
+        return if(hour != "0")
+            "$hour:$minute:$second"
+        else
+            "$minute:$second"
     }
 }

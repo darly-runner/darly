@@ -18,7 +18,7 @@ public class RankEntity implements Comparable<RankEntity>{
         this.userNickname = crewSummaryMapping.getUserNickname();
         this.userImage = crewSummaryMapping.getUserImage();
         this.userDistance = crewSummaryMapping.getDayDistance();
-        this.userPace = crewSummaryMapping.getDayPace();
+        this.userPace = crewSummaryMapping.getDayPace() / crewSummaryMapping.getDayNum();
     }
 
     @Override
