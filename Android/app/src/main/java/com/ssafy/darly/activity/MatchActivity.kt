@@ -69,6 +69,7 @@ class MatchActivity : AppCompatActivity() {
                     if (userId == myUserId.toString()) {
                         val usersList = newMessage.getJSONArray("users")
                         Log.d("type?", usersList.javaClass.toString())
+                        Log.d("USERLIST", usersList.toString())
                     }
                 }
 //                "PACE" -> {

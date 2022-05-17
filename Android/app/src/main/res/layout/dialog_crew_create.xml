@@ -25,7 +25,7 @@
                 android:layout_gravity="center"
                 android:paddingVertical="20dp"
                 android:textSize="17dp"
-                android:text="피드 업로드하기"/>
+                android:text="피드 업로드"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
