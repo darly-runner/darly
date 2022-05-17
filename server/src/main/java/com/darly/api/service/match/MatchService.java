@@ -6,10 +6,12 @@ import com.darly.api.response.match.MatchInRes;
 import com.darly.db.entity.match.Match;
 import com.darly.db.entity.match.MatchRUser;
 import com.darly.db.entity.user.UserNowMapping;
+import com.darly.db.entity.user.UserNowPace;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.PriorityQueue;
 
 public interface MatchService {
     void setNullByCrewId(Long crewId);
@@ -29,4 +31,6 @@ public interface MatchService {
     List<MatchRUser> randomMatch(Long userId);
 
     List<UserNowMapping> nowUsers(Long matchId);
+
+    PriorityQueue<UserNowPace> nowPaces(List<UserNowPace> paces);
 }

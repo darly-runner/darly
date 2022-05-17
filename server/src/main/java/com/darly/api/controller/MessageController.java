@@ -10,13 +10,17 @@ import com.darly.db.entity.match.Match;
 import com.darly.db.entity.match.MatchRUser;
 import com.darly.db.entity.socket.SocketMessage;
 import com.darly.db.entity.user.UserNowMapping;
+import com.darly.db.entity.user.UserNowPace;
 import com.darly.db.repository.match.UserMatchRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
+import javax.annotation.Priority;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.PriorityQueue;
 
 @Controller
 @RequiredArgsConstructor
@@ -151,14 +155,20 @@ public class MessageController {
         else if (SocketMessage.MessageType.PACE.equals(message.getType())) {
             message.setMessage("매칭 진행중");
 
-            Long userId = message.getUserId();
-            Float nowDistance = message.getNowDistance();
-            Integer nowTime = message.getNowTime();
-            Integer nowPace = Math.round(nowDistance/nowTime);
+            List<UserNowPace> paces = message.getPaces();
 
-            message.setUserId(userId);
-            message.setNowDistance(nowDistance);
-            message.setNowPace(nowPace);
+//            Long userId = message.getUserId();
+//            Float nowDistance = message.getNowDistance();
+//            Integer nowTime = message.getNowTime();
+//            Integer nowPace = Math.round(nowDistance/nowTime);
+//
+//            message.setUserId(userId);
+//            message.setNowDistance(nowDistance);
+//            message.setNowPace(nowPace);
+
+            PriorityQueue<UserNowPace> nowPaces = matchService.nowPaces(paces);
+
+            message.setNowPaces(nowPaces);
 
             template.convertAndSend("/sub/usermatch/" + message.getMatchId(), message);
         }
