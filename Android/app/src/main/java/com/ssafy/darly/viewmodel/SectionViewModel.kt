@@ -5,9 +5,12 @@ import androidx.lifecycle.ViewModel
 import com.ssafy.darly.model.record.SectionString
 
 class SectionViewModel : ViewModel() {
-    var sectionList = MutableLiveData<List<SectionString>>()
+    var sections = MutableLiveData<List<SectionString>>()
+    val minSectionValue = MutableLiveData<Int>()
+    val minSectionIndex = MutableLiveData<Int>()
+    val gapSectionValue = MutableLiveData<Int>()
 
     init {
-        sectionList.value = listOf()
+        sections.value = listOf()
     }
 }
