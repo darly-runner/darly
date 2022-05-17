@@ -6,6 +6,7 @@ import com.ssafy.darly.model.friend.FriendApplyReq
 import com.ssafy.darly.model.friend.FriendListGetRes
 import com.ssafy.darly.model.friend.FriendProfileGetRes
 import com.ssafy.darly.model.friend.FriendSearchReq
+import com.ssafy.darly.model.record.BadgeListGetRes
 import com.ssafy.darly.model.record.RecordDetailGetRes
 import com.ssafy.darly.model.record.RecordListGetRes
 import com.ssafy.darly.model.record.RecordTitlePatchReq
@@ -232,4 +233,7 @@ interface ApiService {
         @Path("recordId") recordId: Long,
         @Body recordTitlePatchReq: RecordTitlePatchReq
     ): Response<BaseRes>
+
+    @GET("users/badge")
+    suspend fun getUserBadges(): Response<BadgeListGetRes>
 }
