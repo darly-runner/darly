@@ -61,7 +61,7 @@ class MatchActivity : AppCompatActivity() {
         stompClient.topic("/sub/usermatch/${matchId}").subscribe {
             val newMessage = JSONObject(it.payload)
             val type = newMessage.getString("type")
-            Log.d("USER WEBSOCKET", it.payload)
+            Log.d("USER WEBSOCKET", "${it}")
         }
 
     }
@@ -77,6 +77,7 @@ class MatchActivity : AppCompatActivity() {
         matchId = intent.getLongExtra("matchId", 0)
         myUserId = intent.getLongExtra("myUserId", 0)
         isHost = intent.getIntExtra("isHost", 0)
+        crewId = intent.getLongExtra("crewId", 0)
 
         serviceStart()
         init()

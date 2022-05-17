@@ -36,6 +36,7 @@ class MatchLobbyActivity : AppCompatActivity() {
     private var readyCount: Int = 1
     private var currentNum: Int = 0
     private var goalDistance: Float = 0F
+    private var crewId: Long = 0
 
     private val url = "http://3.36.61.107:8000/ws/websocket"
     val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
@@ -141,6 +142,7 @@ class MatchLobbyActivity : AppCompatActivity() {
                     intent.putExtra("goalDistance", goalDistance)
                     intent.putExtra("matchId", matchId)
                     intent.putExtra("isHost", isHost)
+                    intent.putExtra("crewId", crewId)
 //                    finish()
                     intent.flags =
                         Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP //액티비티 스택제거
@@ -177,6 +179,7 @@ class MatchLobbyActivity : AppCompatActivity() {
             myUserId = response.body()?.myUserId ?: 3
             isHost = response.body()?.imHost ?: 0
             goalDistance = response.body()?.matchGoalDistance!!
+            crewId = response.body()?.crewId ?: 0
 
             if (isHost == 1) {
                 binding.readyButton.text = "START"
