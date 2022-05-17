@@ -3,7 +3,6 @@ package com.ssafy.darly.adapter.record
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.ssafy.darly.R
 import com.ssafy.darly.databinding.SectionBigListBinding
 import com.ssafy.darly.model.record.SectionString
 
@@ -11,7 +10,6 @@ class SectionDetailListAdapter : RecyclerView.Adapter<SectionDetailListAdapter.S
     var sectionStringList = mutableListOf<SectionString>()
     var minValue = 0
     var gapValue = 0
-    var minIndex = 0
     private var barWidth = 0
 
     class SectionDetailListHolder private constructor(val binding: SectionBigListBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -35,10 +33,7 @@ class SectionDetailListAdapter : RecyclerView.Adapter<SectionDetailListAdapter.S
         if (barWidth == 0)
             barWidth = holder.binding.barView.layoutParams.width
         holder.binding.viewModel = sectionStringList[position]
-//        if (position == minIndex)
-//            holder.binding.barView.setBackgroundResource(R.drawable.rectangle_red_round)
-//        else
-            if (gapValue != 0) {
+        if (gapValue != 0) {
             val widthPercent = getWidthPercent(position)
             holder.binding.barView.layoutParams.width = (barWidth * widthPercent).toInt()
         }

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -17,9 +16,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="7dp"
         android:background="@drawable/button_white_round"
+        android:paddingVertical="10dp"
         android:paddingStart="20dp"
-        android:paddingEnd="10dp"
-        android:paddingVertical="10dp">
+        android:paddingEnd="10dp">
 
         <ImageView
             android:id="@+id/imageView4"
@@ -27,6 +26,8 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:adjustViewBounds="true"
+            android:background="@drawable/rectangle_transparent_round"
+            android:clipToOutline="true"
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
