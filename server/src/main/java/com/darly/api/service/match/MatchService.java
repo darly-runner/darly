@@ -11,26 +11,29 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.PriorityQueue;
 
 public interface MatchService {
     void setNullByCrewId(Long crewId);
+
     Page<Match> getCrewMatchList(Long crewId, Pageable page);
+
     Match createCrewMatch(Long crewId, Long userId, MatchCreatePostReq matchCreatePostReq);
 
     MatchInRes getMatchInfo(Long matchId, Long userId);
 
     Character matchOut(Long matchId, Long userId);
+
     void patchMatchInfo(Long matchId, MatchPatchReq matchPatchReq);
 
     void userReady(Long matchId, Long userId, Character isReady);
+
     void matchStart(Long matchId);
 
     MatchInRes getMatchRefresh(Long matchId, Long userId);
 
     List<MatchRUser> randomMatch(Long userId);
 
-    List<UserNowMapping> nowUsers(Long matchId);
+    List<UserNowPace> nowUsers(Long matchId);
 
-    PriorityQueue<UserNowPace> nowPaces(List<UserNowPace> paces);
+    List<UserNowPace> nowPaces(Long matchId, Long userId, Float nowDistance, Integer nowTime, String nowPace);
 }

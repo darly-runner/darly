@@ -10,7 +10,6 @@ import com.darly.db.entity.match.UserMatch;
 import com.darly.db.entity.match.UserMatchId;
 import com.darly.db.entity.user.User;
 import com.darly.db.entity.user.UserMatchMapping;
-import com.darly.db.entity.user.UserNowMapping;
 import com.darly.db.entity.user.UserNowPace;
 import com.darly.db.repository.match.MatchRepository;
 import com.darly.db.repository.match.UserMatchRepository;
@@ -24,9 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 
 @Service("matchService")
 @RequiredArgsConstructor
@@ -38,6 +35,8 @@ public class MatchServiceImpl implements MatchService {
     private final UserRepository userRepository;
     private PriorityQueue<MatchRUser> userQueue = new PriorityQueue();
 
+    private Map<Long, List<UserNowPace>> userPaceMap = new HashMap<>();
+
     @Override
     public void setNullByCrewId(Long crewId) {
         matchRepository.setNullByCrewId(crewId);
@@ -46,7 +45,7 @@ public class MatchServiceImpl implements MatchService {
     @Override
     public Page<Match> getCrewMatchList(Long crewId, Pageable page) {
 
-        return matchRepository.findByCrew_CrewIdAndMatchStatusIsNot(crewId, 'U', 'E', page);
+        return matchRepository.findByCrew_CrewIdAndMatchStatusIsNotAndMatchStatusIsNot(crewId, 'U', 'E', page);
     }
 
     @Override
@@ -97,42 +96,40 @@ public class MatchServiceImpl implements MatchService {
         List<UserMatchMapping> userMatches = new ArrayList();
 
         Integer imHost;
-        if(match.getHost().getUserNickname().equals(enterUser.getUserNickname())){
+        if (match.getHost().getUserNickname().equals(enterUser.getUserNickname())) {
             imHost = 1;
-        }
-        else {
+        } else {
             imHost = 0;
         }
 
-        for(UserMatch user : userMatch) {
-                Integer isHost;
-                if (match.getHost().getUserNickname()
-                        .equals(user.getUserMatchId().getUser().getUserNickname())) {
-                    isHost = 1;
-                } else {
-                    isHost = 0;
-                }
-
-                Float userTotalPace = user.getUserMatchId().getUser().getUserTotalPace();
-                Long recordNum = recordRepository.countAllByUser_UserId(user.getUserMatchId().getUser().getUserId());
-                Float userPaceAvg;
-                if (recordNum == 0) {
-                    userPaceAvg = 0f;
-                } else {
-                    userPaceAvg = userTotalPace / recordNum;
-                }
-
-                userMatches.add(UserMatchMapping.builder()
-                        .userId(user.getUserMatchId().getUser().getUserId())
-                        .userNickname(user.getUserMatchId().getUser().getUserNickname())
-                        .userImage(user.getUserMatchId().getUser().getUserImage())
-                        .userTotalDistance(user.getUserMatchId().getUser().getUserTotalDistance())
-                        .userPaceAvg(userPaceAvg)
-                        .userStatus(user.getUserMatchStatus())
-                        .isHost(isHost)
-                        .build());
+        for (UserMatch user : userMatch) {
+            Integer isHost;
+            if (match.getHost().getUserNickname()
+                    .equals(user.getUserMatchId().getUser().getUserNickname())) {
+                isHost = 1;
+            } else {
+                isHost = 0;
             }
 
+            Float userTotalPace = user.getUserMatchId().getUser().getUserTotalPace();
+            Long recordNum = recordRepository.countAllByUser_UserId(user.getUserMatchId().getUser().getUserId());
+            Float userPaceAvg;
+            if (recordNum == 0) {
+                userPaceAvg = 0f;
+            } else {
+                userPaceAvg = userTotalPace / recordNum;
+            }
+
+            userMatches.add(UserMatchMapping.builder()
+                    .userId(user.getUserMatchId().getUser().getUserId())
+                    .userNickname(user.getUserMatchId().getUser().getUserNickname())
+                    .userImage(user.getUserMatchId().getUser().getUserImage())
+                    .userTotalDistance(user.getUserMatchId().getUser().getUserTotalDistance())
+                    .userPaceAvg(userPaceAvg)
+                    .userStatus(user.getUserMatchStatus())
+                    .isHost(isHost)
+                    .build());
+        }
 
 
         return MatchInRes.builder()
@@ -155,14 +152,14 @@ public class MatchServiceImpl implements MatchService {
         Long hostId = match.getHost().getUserId();
 
         // 퇴장한 사람이 방장이 아님
-        if(hostId != userId) {
+        if (hostId != userId) {
             userMatchRepository.delete(userMatch);
 
             match.setMatchCurPerson(userMatchRepository.countAllByUserMatchId_Match_MatchId(matchId));
             matchRepository.save(match);
 
             // 만약 현재 인원이 0명이 돼버리면
-            if(match.getMatchCurPerson() == 0 ) {
+            if (match.getMatchCurPerson() == 0) {
                 // 비활성화 상태로 변환
                 match.setMatchStatus('E');
             }
@@ -171,23 +168,24 @@ public class MatchServiceImpl implements MatchService {
 
         }
         // 퇴장한 사람이 방장, 아직 시작안한방에서 방장나가면 방 비활성화 상태로 바꾸고 전부 내보냄
-        else if (hostId == userId && match.getMatchStatus() == 'W'){
+        else if (hostId == userId && match.getMatchStatus() == 'W') {
             Short curPerson = 0;
             match.setMatchCurPerson(curPerson);
             match.setMatchStatus('U');
             matchRepository.save(match);
             // userMatch 테이블의 matchId로 검색해 전부 삭제, match는 남아있지만 방에는 아무도 없음
             userMatchRepository.deleteAllByUserMatchId_Match_MatchId(matchId);
-        }
-        else if (hostId == userId && match.getMatchStatus() == 'S') {
+        } else if (hostId == userId && match.getMatchStatus() == 'S') {
             userMatchRepository.delete(userMatch);
 
             match.setMatchCurPerson(userMatchRepository.countAllByUserMatchId_Match_MatchId(matchId));
-            if(match.getMatchCurPerson() == 0) {
+            if (match.getMatchCurPerson() == 0) {
                 match.setMatchStatus('E');
             }
             matchRepository.save(match);
         }
+
+        userPaceMap.remove(matchId);
 
         return match.getMatchStatus();
     }
@@ -209,10 +207,9 @@ public class MatchServiceImpl implements MatchService {
         // matchid, userid로 특정 유저 찾아내기
         UserMatch userMatch = userMatchRepository.findByUserMatchId_Match_MatchIdAndUserMatchId_User_UserId(matchId, userId);
 
-        if(isReady.equals('R')) {
+        if (isReady.equals('R')) {
             userMatch.setUserMatchStatus('R');
-        }
-        else if(isReady.equals('N')) {
+        } else if (isReady.equals('N')) {
             userMatch.setUserMatchStatus('N');
         }
         userMatchRepository.save(userMatch);
@@ -235,12 +232,11 @@ public class MatchServiceImpl implements MatchService {
 
         if (userQueue.size() == 0) {
             userQueue.add(MatchRUser.builder()
-                            .user(user)
-                            .totalRecordNum(totalRecordNum)
+                    .user(user)
+                    .totalRecordNum(totalRecordNum)
                     .build());
             return null;
-        }
-        else {
+        } else {
             List<MatchRUser> matchRUsers = new ArrayList<>();
             MatchRUser prev_ruser = userQueue.poll();
 
@@ -265,49 +261,46 @@ public class MatchServiceImpl implements MatchService {
     }
 
     @Override
-    public List<UserNowMapping> nowUsers(Long matchId) {
-        List<UserMatch> userMatches = userMatchRepository.findAllByUserMatchId_Match_MatchId(matchId);
-        List<UserNowMapping> users = new ArrayList();
-
-        for (UserMatch usermatch : userMatches) {
-            User user = userRepository.findById(usermatch.getUserMatchId().getUser().getUserId()).get();
-
-            UserNowMapping userNowMapping = UserNowMapping.builder()
-                    .userId(user.getUserId())
-                    .userNickname(user.getUserNickname())
-                    .userImage(user.getUserImage())
-                    .userNowDistance(0.0f)
-                    .userNowPace(0)
-                    .build();
-
-            users.add(userNowMapping);
+    public List<UserNowPace> nowUsers(Long matchId) {
+        if (!userPaceMap.containsKey(matchId)) {
+            List<UserMatch> userMatchList = userMatchRepository.findAllByUserMatchId_Match_MatchId(matchId);
+            List<UserNowPace> userNowPaceList = new ArrayList<>();
+            for (UserMatch userMatch : userMatchList) {
+                userNowPaceList.add(UserNowPace.builder()
+                        .userId(userMatch.getUserMatchId().getUser().getUserId())
+                        .userNickname(userMatch.getUserMatchId().getUser().getUserNickname())
+                        .userImage(userMatch.getUserMatchId().getUser().getUserImage())
+                        .nowPace("--")
+                        .nowDistance(0f)
+                        .nowTime(0)
+                        .build());
+            }
+            userPaceMap.put(matchId, userNowPaceList);
         }
-
-        return users;
+        return userPaceMap.get(matchId);
     }
 
     @Override
-    public PriorityQueue<UserNowPace> nowPaces(List<UserNowPace> paces) {
-        PriorityQueue<UserNowPace> nowPaces = new PriorityQueue<>();
-
-        for (UserNowPace pace : paces) {
-            nowPaces.add(UserNowPace.builder()
-                    .userId(pace.getUserId())
-                    .nowTime(pace.getNowTime())
-                    .userNowDistance(pace.getUserNowDistance())
-                    .nowPace(Math.round(pace.getUserNowDistance()/pace.getNowTime()))
-                    .build());
+    public List<UserNowPace> nowPaces(Long matchId, Long userId, Float nowDistance, Integer nowTime, String nowPace) {
+        List<UserNowPace> userList = userPaceMap.get(matchId);
+        for (UserNowPace user : userList) {
+            if (user.getUserId().equals(userId)) {
+                user.setNowTime(nowTime);
+                user.setNowDistance(nowDistance);
+                user.setNowPace(nowPace);
+            }
         }
-
-        return nowPaces;
+        Collections.sort(userList);
+        userPaceMap.put(matchId, userList);
+        return userList;
     }
 
     private void makeRandomMatch(User user) {
         Match match = Match.builder()
                 .crew(null)
                 .host(user)
-                .matchMaxPerson((short)2)
-                .matchCurPerson((short)2)
+                .matchMaxPerson((short) 2)
+                .matchCurPerson((short) 2)
                 .matchStatus('S')
                 .matchTitle("경쟁전")
                 .matchDate(getTimestamp())

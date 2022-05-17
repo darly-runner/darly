@@ -47,17 +47,17 @@ public class SocketMessage {
     private Character matchStatus;
 
     // 현재 방안의 유저들
-    private List<UserNowMapping> users;
+    private List<UserNowPace> users;
 
     private List<UserNowPace> Paces;
 
     // 매치의 페이스 비교용
-    private PriorityQueue<UserNowPace> nowPaces;
+    private List<UserNowPace> nowPaces;
 
     // 경기 진행중의 정보
-//    private Float nowDistance;
-//    private Integer nowTime;
-//    private Integer nowPace;
+    private Float nowDistance;
+    private Integer nowTime;
+    private String nowPace;
 
     // 메시지
     private String message;

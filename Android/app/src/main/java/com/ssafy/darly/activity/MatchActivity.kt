@@ -8,6 +8,7 @@ import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -21,9 +22,7 @@ import com.ssafy.darly.R
 import com.ssafy.darly.adapter.match.MatchViewPagerAdapter
 import com.ssafy.darly.background.MyService
 import com.ssafy.darly.databinding.ActivityMatchBinding
-import com.ssafy.darly.model.friend.FriendSearchReq
 import com.ssafy.darly.model.socket.UserModel
-import com.ssafy.darly.service.DarlyService
 import com.ssafy.darly.viewmodel.RunningViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -50,6 +49,7 @@ class MatchActivity : AppCompatActivity() {
     val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
 
     private val userMap = mutableMapOf<Long, Int>()
+    private var userList = mutableListOf<UserModel>()
 
     @SuppressLint("CheckResult")
     fun runStomp() {
@@ -75,14 +75,47 @@ class MatchActivity : AppCompatActivity() {
                 "USER" -> {
                     if (userId == myUserId.toString()) {
                         CoroutineScope(Dispatchers.Main).launch {
-                            adapter.list = parseJSON(newMessage.getString("users"))
+                            userList = parseJSONUserList(newMessage.getString("users"))
+                            for ((index, user) in userList.withIndex()) {
+                                if (user.userId == myUserId) {
+                                    userList.removeAt(index)
+                                    continue
+                                }
+                                user.nowDistance = 0F
+                                user.nowPace = "--"
+                                user.nowRank = 1
+                                user.nowTime = 0
+
+                                user.distance = "0.0"
+                                user.pace = "--"
+                                user.rank = "${user.nowRank}등"
+                                user.time = "00:00"
+                            }
+                            adapter.list = userList
                             adapter.notifyDataSetChanged()
                         }
                     }
                 }
-//                "PACE" -> {
-//                    Log,d("pace?", "PACE")
-//                }
+                "PACE" -> {
+                    if(userId != myUserId.toString()){
+                    CoroutineScope(Dispatchers.Main).launch {
+                        userList = parseJSONUserList(newMessage.getString("nowPaces"))
+                        for ((index, user) in userList.withIndex()) {
+                                if (user.userId == myUserId) {
+                                    userList.removeAt(index)
+                                    continue
+                                }
+                            user.nowRank = index + 1
+                            user.distance = String.format("%.02f", user.nowDistance)
+                            user.rank = "${user.nowRank}등"
+                            user.pace = user.nowPace
+                            user.time = String.format("%02d:%02d:%02d", user.nowTime / 3600, user.nowTime / 60, user.nowTime % 60)
+                        }
+                        adapter.list = userList
+                        adapter.notifyDataSetChanged()
+                        }
+                    }
+                }
             }
         }
     }
@@ -140,9 +173,11 @@ class MatchActivity : AppCompatActivity() {
             model.locationList.value = service.locationList.value
             val data = JSONObject()
             data.put("type", "PACE")
-            data.put("nowDistance", service.totalDist.value)
+            data.put("nowDistance", model.dist.value)
             data.put("nowTime", service.time.value)
+            data.put("nowPace", model.pace.value)
             data.put("userId", myUserId)
+            data.put("matchId", matchId)
             stompClient.send("/pub/usermatch", data.toString()).subscribe()
         })
     }
@@ -163,8 +198,13 @@ class MatchActivity : AppCompatActivity() {
         }
     }
 
-    private fun parseJSON(jsonString: String): MutableList<UserModel> {
+    private fun parseJSONUserList(jsonString: String): MutableList<UserModel> {
         val type: Type = object : TypeToken<List<UserModel>>() {}.getType()
+        return Gson().fromJson(jsonString, type)
+    }
+
+    private fun parseJSONUserPace(jsonString: String): MutableList<UserModel> {
+        val type: Type = object : TypeToken<UserModel>() {}.getType()
         return Gson().fromJson(jsonString, type)
     }
 

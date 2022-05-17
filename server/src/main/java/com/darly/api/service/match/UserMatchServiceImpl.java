@@ -2,11 +2,14 @@ package com.darly.api.service.match;
 
 import com.darly.db.entity.match.UserMatch;
 import com.darly.db.entity.match.UserMatchId;
+import com.darly.db.entity.user.User;
 import com.darly.db.repository.match.MatchRepository;
 import com.darly.db.repository.match.UserMatchRepository;
 import com.darly.db.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service("userMatchService")
 @RequiredArgsConstructor
@@ -24,5 +27,10 @@ public class UserMatchServiceImpl implements UserMatchService {
                         .build())
                 .userMatchStatus('N')
                 .build());
+    }
+
+    @Override
+    public List<UserMatch> findUsersByMatchId(Long matchId) {
+        return userMatchRepository.findAllByUserMatchId_Match_MatchId(matchId);
     }
 }

@@ -7,13 +7,13 @@ data class UserModel(
     val userNickname: String,
     val userImage: String,
 
-    val userNowDistance: Float,
-    val userNowPace: Integer,
-    val nowTime: Int,
-    val nowRank: Int,
+    var nowDistance: Float,
+    var nowPace: String,
+    var nowTime: Int,
+    var nowRank: Int,
 
-    val distance: String,
-    val pace: String,
-    val time: String,
-    val rank: String,
+    var distance: String,
+    var pace: String,
+    var time: String,
+    var rank: String,
 ): Serializable

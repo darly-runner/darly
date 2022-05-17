@@ -7,16 +7,16 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class UserNowPace implements Comparable<UserNowPace>{
+public class UserNowPace implements Comparable<UserNowPace> {
     private Long userId;
-    private Float userNowDistance;
+    private String userNickname;
+    private String userImage;
+    private Float nowDistance;
     private Integer nowTime;
-    private Integer nowPace;
+    private String nowPace;
 
     @Override
     public int compareTo(UserNowPace o) {
-        return Float.compare(
-                this.userNowDistance, o.userNowDistance
-        )*-1;
+        return Float.compare(this.nowDistance, o.nowDistance) * -1;
     }
 }
