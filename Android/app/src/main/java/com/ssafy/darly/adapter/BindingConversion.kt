@@ -185,14 +185,6 @@ object BindingConversion {
     }
 
     @JvmStatic
-    @BindingAdapter("setSectionDetailMinIndex")
-    fun setSectionDetailMinIndex(recyclerView: RecyclerView, item: Int) {
-        item?.let {
-            (recyclerView.adapter as SectionDetailListAdapter).minIndex = item
-        }
-    }
-
-    @JvmStatic
     @BindingAdapter("setRankItems")
     fun setRankItems(recyclerView: RecyclerView, items: List<RankString>) {
         var rankStringList = mutableListOf<RankString>()

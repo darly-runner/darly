@@ -99,7 +99,6 @@
                 android:id="@+id/recyclerView"
                 setSectionDetailItems="@{viewModel.sections}"
                 setSectionDetailMinValue="@{viewModel.minSectionValue}"
-                setSectionDetailMinIndex="@{viewModel.minSectionIndex}"
                 setSectionDetailGapValue="@{viewModel.gapSectionValue}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

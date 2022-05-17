@@ -206,31 +206,59 @@ class RecordDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                 polylineOptions.points.add(marker)
             }
             map.addPolyline(polylineOptions)
-            if (it.isNotEmpty()) {
-                val swLat: Double
-                val swLng: Double
-                val neLat: Double
-                val neLng: Double
-                if (it[0].latitude > it[it.size - 1].latitude) {
-                    neLat = it[0].latitude + 0.0001
-                    swLat = it[it.size - 1].latitude - 0.0001
-                } else {
-                    swLat = it[0].latitude - 0.0001
-                    neLat = it[it.size - 1].latitude + 0.0001
+
+            CoroutineScope(Dispatchers.Main).launch {
+                var swLat = 180.0
+                var swLng = 180.0
+                var neLat = 0.0
+                var neLng = 0.0
+                for (latlng in it){
+                    Log.d("response", "${latlng}")
+                    if(latlng.latitude > neLat)
+                        neLat = latlng.latitude
+                    if(latlng.latitude < swLat)
+                        swLat = latlng.latitude
+                    if(latlng.longitude > neLng)
+                        neLng = latlng.longitude
+                    if(latlng.longitude < swLng)
+                        swLng = latlng.latitude
                 }
-                if (it[0].longitude > it[it.size - 1].longitude) {
-                    neLng = it[0].longitude + 0.0001
-                    swLng = it[it.size - 1].longitude - 0.0001
-                } else {
-                    swLng = it[0].longitude - 0.0001
-                    neLng = it[it.size - 1].longitude + 0.0001
-                }
+                Log.d("response!!", "${LatLng(swLat - 0.0001, swLng - 0.0001)}")
+                Log.d("response!!", "${LatLng(neLat + 0.0001, neLng + 0.0001)}")
+
                 val bounds = LatLngBounds(
-                    LatLng(swLat, swLng),
-                    LatLng(neLat, neLng)
+                    LatLng(swLat , swLng ),
+                    LatLng(neLat  , neLng  )
                 )
-                map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
+                map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 10));
             }
+//            if (it.isNotEmpty()) {
+//                val swLat: Double
+//                val swLng: Double
+//                val neLat: Double
+//                val neLng: Double
+//                if (it[0].latitude > it[it.size - 1].latitude) {
+//                    neLat = it[0].latitude + 0.0001
+//                    swLat = it[it.size - 1].latitude - 0.0001
+//                } else {
+//                    swLat = it[0].latitude - 0.0001
+//                    neLat = it[it.size - 1].latitude + 0.0001
+//                }
+//                if (it[0].longitude > it[it.size - 1].longitude) {
+//                    neLng = it[0].longitude + 0.0001
+//                    swLng = it[it.size - 1].longitude - 0.0001
+//                } else {
+//                    swLng = it[0].longitude - 0.0001
+//                    neLng = it[it.size - 1].longitude + 0.0001
+//                }
+//                val bounds = LatLngBounds(
+//                    LatLng(swLat, swLng),
+//                    LatLng(neLat, neLng)
+//                )
+//                Log.d("response!!", "${LatLng(swLat - 0.0001, swLng - 0.0001)}")
+//                Log.d("response!!", "${LatLng(neLat + 0.0001, neLng + 0.0001)}")
+//                map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
+//            }
             val vectorDrawable = resources.getDrawable(R.drawable.ic_end_point)
             vectorDrawable!!.setBounds(0, 0, vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight)
             var bitmap = Bitmap.createBitmap(vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
@@ -253,8 +281,6 @@ class RecordDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                         .placeholder(R.mipmap.ic_launcher_round)
                         .error(R.mipmap.ic_launcher_round)
 
-                    Log.d("response", "${model.userImage.value}")
-                    Log.d("response", "${markerList.size}")
                     Glide.with(applicationContext).load(model.userImage.value).apply(options).into(tag_image)
                     Handler().postDelayed({
                         model.isImageSet.value = true
@@ -353,5 +379,13 @@ class RecordDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         view.draw(canvas)
 
         return bitmap
+    }
+
+    private fun findMaxMinLagLng(latlngList: List<LatLng>, moveMap: ()->Unit){
+        moveMap()
+    }
+
+    private fun moveMap(latlng: LatLng){
+
     }
 }

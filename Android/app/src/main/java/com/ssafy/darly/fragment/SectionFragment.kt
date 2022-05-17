@@ -51,7 +51,6 @@ class SectionFragment : Fragment() {
             model.sections.value?.let { it1 -> list.addAll(it1) }
             intent.putExtra("sectionList", list)
             intent.putExtra("gapSectionValue", model.gapSectionValue.value)
-            intent.putExtra("minSectionIndex", model.minSectionIndex.value)
             intent.putExtra("minSectionValue", model.minSectionValue.value)
             startActivity(intent)
         }
