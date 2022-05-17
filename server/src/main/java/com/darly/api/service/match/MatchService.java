@@ -35,5 +35,5 @@ public interface MatchService {
 
     List<UserNowPace> nowUsers(Long matchId);
 
-    List<UserNowPace> nowPaces(Long matchId, Long userId, Float nowDistance, Integer nowTime, Integer nowPace);
+    List<UserNowPace> nowPaces(Long matchId, Long userId, Float nowDistance, Integer nowTime, String nowPace);
 }
