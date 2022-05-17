@@ -160,7 +160,8 @@ class StatFragment : Fragment() {
     }
 
     private fun setModelData(response: Response<StatGetRes>) {
-        model.totalDistance.value = response.body()?.totalDistance?.toString() ?: "0"
+        val totalDistance = response.body()?.totalDistance ?: 0
+        model.totalDistance.value =  String.format("%.02f", totalDistance)
         model.totalNum.value = response.body()?.totalNum?.toString() ?: "0"
         val totalSecs = response.body()?.totalTime ?: 0
         model.totalTime.value = String.format("%02d:%02d:%02d", totalSecs / 3600, (totalSecs % 3600) / 60, totalSecs % 60)
