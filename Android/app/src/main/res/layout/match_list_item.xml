@@ -101,13 +101,13 @@
                 android:text="kilomiters"
                 android:textColor="@color/white" />
 
-            <ProgressBar
-                android:id="@+id/progressBar"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="200dp"
-                android:layout_height="20dp"
-                android:progress="50"
-                android:progressTint="@color/main" />
+<!--            <ProgressBar-->
+<!--                android:id="@+id/progressBar"-->
+<!--                style="?android:attr/progressBarStyleHorizontal"-->
+<!--                android:layout_width="200dp"-->
+<!--                android:layout_height="20dp"-->
+<!--                android:progress="50"-->
+<!--                android:progressTint="@color/main" />-->
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

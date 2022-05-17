@@ -45,7 +45,6 @@ class MyChallengeFragment : Fragment() {
 
         CoroutineScope(Dispatchers.Main).launch {
             val response = DarlyService.getDarlyService().getUserEvents()
-            Log.d("response", "${response.body()}")
             model.myChallenges.value = response.body()?.events ?: listOf()
             myChallengeListAdapter.notifyDataSetChanged()
         }

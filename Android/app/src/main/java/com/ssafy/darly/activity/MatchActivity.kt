@@ -8,6 +8,7 @@ import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -21,13 +22,12 @@ import com.ssafy.darly.R
 import com.ssafy.darly.adapter.match.MatchViewPagerAdapter
 import com.ssafy.darly.background.MyService
 import com.ssafy.darly.databinding.ActivityMatchBinding
-import com.ssafy.darly.model.friend.FriendSearchReq
 import com.ssafy.darly.model.socket.UserModel
-import com.ssafy.darly.service.DarlyService
 import com.ssafy.darly.viewmodel.RunningViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.json.JSONArray
 import org.json.JSONObject
 import ua.naiksoftware.stomp.Stomp
 import ua.naiksoftware.stomp.dto.LifecycleEvent
@@ -50,6 +50,7 @@ class MatchActivity : AppCompatActivity() {
     val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
 
     private val userMap = mutableMapOf<Long, Int>()
+    private var userList = mutableListOf<UserModel>()
 
     @SuppressLint("CheckResult")
     fun runStomp() {
@@ -75,14 +76,51 @@ class MatchActivity : AppCompatActivity() {
                 "USER" -> {
                     if (userId == myUserId.toString()) {
                         CoroutineScope(Dispatchers.Main).launch {
-                            adapter.list = parseJSON(newMessage.getString("users"))
+                            Toast.makeText(this@MatchActivity, "${newMessage.getString("users")}", Toast.LENGTH_SHORT).show()
+                            userList = parseJSON(newMessage.getString("users"))
+                            val myUserList = mutableListOf<UserModel>()
+                            myUserList.addAll(userList)
+                            for ((index, user) in myUserList.withIndex()) {
+                                if (user.userId == myUserId) {
+                                    myUserList.removeAt(index)
+                                    continue
+                                }
+                                user.userNowDistance = 0F
+                                user.userNowPace = 0
+                                user.nowRank = 1
+                                user.nowTime = 0
+
+                                user.distance = "0.0"
+                                user.pace = "--"
+                                user.rank = "${user.nowRank}등"
+                                user.time = "00:00"
+                            }
+                            adapter.list = myUserList
                             adapter.notifyDataSetChanged()
                         }
                     }
                 }
-//                "PACE" -> {
-//                    Log,d("pace?", "PACE")
-//                }
+                "PACE" -> {
+                    Toast.makeText(this@MatchActivity, "들어옴", Toast.LENGTH_SHORT).show()
+                    CoroutineScope(Dispatchers.Main).launch {
+                        Toast.makeText(this@MatchActivity, "${newMessage.getString("nowPaces")}", Toast.LENGTH_SHORT).show()
+                        Log.d("response", "${newMessage.getString("nowPaces")}")
+                        var userList = parseJSON(newMessage.getString("nowPaces"))
+                        for (user in userList) {
+                            user.userNowDistance = 0F
+                            user.userNowPace = 0
+                            user.nowRank = 1
+                            user.nowTime = 0
+
+                            user.distance = "0.0"
+                            user.pace = "--"
+                            user.rank = "${user.nowRank}등"
+                            user.time = "00:00"
+                        }
+                        adapter.list = userList
+                        adapter.notifyDataSetChanged()
+                    }
+                }
             }
         }
     }
@@ -143,6 +181,17 @@ class MatchActivity : AppCompatActivity() {
             data.put("nowDistance", service.totalDist.value)
             data.put("nowTime", service.time.value)
             data.put("userId", myUserId)
+            data.put("matchId", matchId)
+//            val jsonObjectList = JSONArray()
+//            for (user in userList) {
+//                val tmpJSONObject = JSONObject()
+//                tmpJSONObject.put("userId", user.userId)
+//                tmpJSONObject.put("userNowDistance", user.userNowDistance)
+//                tmpJSONObject.put("nowTime", user.nowTime)
+//                tmpJSONObject.put("nowPace", 0)
+//                jsonObjectList.put(tmpJSONObject)
+//            }
+//            data.put("Paces", jsonObjectList)
             stompClient.send("/pub/usermatch", data.toString()).subscribe()
         })
     }
