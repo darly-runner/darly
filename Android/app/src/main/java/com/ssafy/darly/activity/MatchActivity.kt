@@ -36,6 +36,7 @@ class MatchActivity : AppCompatActivity() {
     private lateinit var service: MyService
     private var bound: Boolean = false
 
+//    private var competitors = ArrayList<>
     private var matchId: Long = 0
     private var isHost: Int = 0
     private var myUserId: Long = 0
@@ -61,7 +62,16 @@ class MatchActivity : AppCompatActivity() {
         stompClient.topic("/sub/usermatch/${matchId}").subscribe {
             val newMessage = JSONObject(it.payload)
             val type = newMessage.getString("type")
+            val userId = newMessage.getString("userId")
+            val usersList = newMessage.getJSONArray("users")
             Log.d("USER WEBSOCKET", "${it}")
+            when(type) {
+                "USER" -> {
+                    if (userId == myUserId.toString()) {
+                        Log.d("type?", usersList.javaClass.toString())
+                    }
+                }
+            }
         }
 
     }
@@ -84,11 +94,13 @@ class MatchActivity : AppCompatActivity() {
     }
 
     fun init() {
-        runStomp()
+//        runStomp()
         val data = JSONObject()
         data.put("type", "USER")
+        data.put("userId", myUserId)
         data.put("matchId", matchId)
         stompClient.send("/pub/usermatch", data.toString()).subscribe()
+        runStomp()
 
         binding.matchViewPager.adapter = adapter
 
