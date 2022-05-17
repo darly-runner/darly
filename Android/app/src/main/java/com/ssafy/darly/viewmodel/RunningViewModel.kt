@@ -3,13 +3,13 @@ package com.ssafy.darly.viewmodel
 import android.location.Location
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.android.gms.maps.model.LatLng
-import com.ssafy.darly.model.record.RecordRequest
 import com.ssafy.darly.model.Section
+import com.ssafy.darly.model.record.RecordRequest
+import com.ssafy.darly.model.socket.UserModel
 import java.lang.Math.round
 import kotlin.math.roundToInt
 
-class RunningViewModel : ViewModel(){
+class RunningViewModel : ViewModel() {
     var target = MutableLiveData<String>()
 
     var timeCnt = 0         // 시간 값
@@ -31,6 +31,8 @@ class RunningViewModel : ViewModel(){
 
     val isPause = MutableLiveData<Boolean>()
 
+    val userList = MutableLiveData<List<UserModel>>()
+
     init {
         target.value = "5.0"
         dist.value = 0.0f
@@ -41,9 +43,10 @@ class RunningViewModel : ViewModel(){
         isPause.value = false
 
         paceSection.value = ArrayList()
+        userList.value = listOf()
     }
 
-    fun getRate() : Float? {
+    fun getRate(): Float? {
         val targetCnt = target.value?.toFloat()
         var rate = targetCnt?.let { dist.value?.div(it) }
         rate = rate?.times(100)
@@ -51,27 +54,27 @@ class RunningViewModel : ViewModel(){
         return rate
     }
 
-    fun setTime(t : Int){
+    fun setTime(t: Int) {
         timeCnt = t
 
         time.postValue(timeToStr(t))
     }
 
     // 거리
-    fun setDist(d : Float){
+    fun setDist(d: Float) {
         dist.value = (d / 1000f * 100f).roundToInt() / 100f
     }
 
     // 속력
-    fun setSpeed(){
+    fun setSpeed() {
         var s = dist.value?.times(3600)?.div(timeCnt)
         speed.value = round((s?.times(10f)!!)) / 10f
     }
 
     // 페이스
-    fun setPace(){
-        if(dist.value != 0f){
-            val p =  dist.value?.let { timeCnt.div(it) }
+    fun setPace() {
+        if (dist.value != 0f) {
+            val p = dist.value?.let { timeCnt.div(it) }
             val t = p?.toInt() ?: 0
             paceCnt = t
             pace.postValue(timeToStr(t))
@@ -79,7 +82,7 @@ class RunningViewModel : ViewModel(){
     }
 
     // n km 구간별 페이스
-    fun setPaceBySection(d : Float){
+    fun setPaceBySection(d: Float) {
         val size = paceSection.value?.size
         val distance = dist.value?.toInt()
 
@@ -88,37 +91,37 @@ class RunningViewModel : ViewModel(){
         val currentCalorie = (4 * currentTime * 75 / 3600)
 
         // 각 n km를 넘어설때마다 n-1에 저장
-        if(d == 1f && size?:0 < distance ?:0){
+        if (d == 1f && size ?: 0 < distance ?: 0) {
             // 이번 구간에서 소요된 시간 = 총시간 - 이전 n km 달성때의 시간
-            paceSection.value?.add(Section(1f,currentPace,currentCalorie))
+            paceSection.value?.add(Section(1f, currentPace, currentCalorie))
             befTime = timeCnt
-        }else if(d == 0f){
+        } else if (d == 0f) {
             // 마지막 남은거리 처리
             // 0인것도 넘어오는데 테스트를위해 그냥 둿음
-            paceSection.value?.add(Section(dist.value?.minus(dist.value?.toInt()!!) ?: 0.1f, currentPace,currentCalorie))
+            paceSection.value?.add(Section(dist.value?.minus(dist.value?.toInt()!!) ?: 0.1f, currentPace, currentCalorie))
         }
     }
 
-    fun setCalorie(){
+    fun setCalorie() {
         calorieCnt = (timeCnt / 10)
         calorie.value = "$calorieCnt kcal"
     }
 
     // time -> hh:mm:ss
-    fun timeToStr(t : Int) : String{
+    fun timeToStr(t: Int): String {
         val m = t / 60
         var second = (t % 60).toString()
 
         val hour = (m / 60).toString()
         var minute = (m % 60).toString()
 
-        if(minute.length == 1)
+        if (minute.length == 1)
             minute = "0$minute"
 
-        if(second.length == 1)
+        if (second.length == 1)
             second = "0$second"
 
-        return if(hour != "0")
+        return if (hour != "0")
             "$hour:$minute:$second"
         else
             "$minute:$second"

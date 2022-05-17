@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -22,10 +21,13 @@ import com.ssafy.darly.R
 import com.ssafy.darly.adapter.match.MatchViewPagerAdapter
 import com.ssafy.darly.background.MyService
 import com.ssafy.darly.databinding.ActivityMatchBinding
-import com.ssafy.darly.model.CompetitorInfo
-import com.ssafy.darly.model.record.RecordRequest
+import com.ssafy.darly.model.friend.FriendSearchReq
 import com.ssafy.darly.model.socket.UserModel
+import com.ssafy.darly.service.DarlyService
 import com.ssafy.darly.viewmodel.RunningViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 import ua.naiksoftware.stomp.Stomp
 import ua.naiksoftware.stomp.dto.LifecycleEvent
@@ -72,11 +74,10 @@ class MatchActivity : AppCompatActivity() {
             when (type) {
                 "USER" -> {
                     if (userId == myUserId.toString()) {
-                        val usersList = newMessage.getJSONArray("users")
-                        val userString = newMessage.getString("users")
-                        Log.d("response", usersList.javaClass.toString())
-                        adapter.list = parseJSON(userString)
-                        adapter.notifyDataSetChanged()
+                        CoroutineScope(Dispatchers.Main).launch {
+                            adapter.list = parseJSON(newMessage.getString("users"))
+                            adapter.notifyDataSetChanged()
+                        }
                     }
                 }
 //                "PACE" -> {
@@ -105,13 +106,13 @@ class MatchActivity : AppCompatActivity() {
     }
 
     fun init() {
-//        runStomp()
+        runStomp()
         val data = JSONObject()
         data.put("type", "USER")
         data.put("userId", myUserId)
         data.put("matchId", matchId)
         stompClient.send("/pub/usermatch", data.toString()).subscribe()
-        runStomp()
+//        runStomp()
 
         binding.matchViewPager.adapter = adapter
 

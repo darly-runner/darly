@@ -224,4 +224,16 @@ object BindingConversion {
             (recyclerView.adapter as MyChallengeListAdapter).myChallengeList = myChallengeList
         }
     }
+
+//    @JvmStatic
+//    @BindingAdapter("setUserItems")
+//    fun setUserItems(recyclerView: RecyclerView, items: List<MyChallenge>) {
+//        var myChallengeList = mutableListOf<MyChallenge>()
+//        for (item in items) {
+//            myChallengeList.add(item)
+//        }
+//        items?.let {
+//            (recyclerView.adapter as MyChallengeListAdapter).myChallengeList = myChallengeList
+//        }
+//    }
 }
