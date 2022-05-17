@@ -27,7 +27,6 @@ import com.ssafy.darly.viewmodel.RunningViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.json.JSONArray
 import org.json.JSONObject
 import ua.naiksoftware.stomp.Stomp
 import ua.naiksoftware.stomp.dto.LifecycleEvent
@@ -76,17 +75,14 @@ class MatchActivity : AppCompatActivity() {
                 "USER" -> {
                     if (userId == myUserId.toString()) {
                         CoroutineScope(Dispatchers.Main).launch {
-                            Toast.makeText(this@MatchActivity, "${newMessage.getString("users")}", Toast.LENGTH_SHORT).show()
-                            userList = parseJSON(newMessage.getString("users"))
-                            val myUserList = mutableListOf<UserModel>()
-                            myUserList.addAll(userList)
-                            for ((index, user) in myUserList.withIndex()) {
+                            userList = parseJSONUserList(newMessage.getString("users"))
+                            for ((index, user) in userList.withIndex()) {
                                 if (user.userId == myUserId) {
-                                    myUserList.removeAt(index)
+                                    userList.removeAt(index)
                                     continue
                                 }
-                                user.userNowDistance = 0F
-                                user.userNowPace = 0
+                                user.nowDistance = 0F
+                                user.nowPace = "--"
                                 user.nowRank = 1
                                 user.nowTime = 0
 
@@ -95,30 +91,30 @@ class MatchActivity : AppCompatActivity() {
                                 user.rank = "${user.nowRank}등"
                                 user.time = "00:00"
                             }
-                            adapter.list = myUserList
+                            adapter.list = userList
                             adapter.notifyDataSetChanged()
                         }
                     }
                 }
                 "PACE" -> {
-                    Toast.makeText(this@MatchActivity, "들어옴", Toast.LENGTH_SHORT).show()
+                    if(userId != myUserId.toString()){
                     CoroutineScope(Dispatchers.Main).launch {
-                        Toast.makeText(this@MatchActivity, "${newMessage.getString("nowPaces")}", Toast.LENGTH_SHORT).show()
-                        Log.d("response", "${newMessage.getString("nowPaces")}")
-                        var userList = parseJSON(newMessage.getString("nowPaces"))
-                        for (user in userList) {
-                            user.userNowDistance = 0F
-                            user.userNowPace = 0
-                            user.nowRank = 1
-                            user.nowTime = 0
-
-                            user.distance = "0.0"
-                            user.pace = "--"
+                        Toast.makeText(this@MatchActivity, "${parseJSONUserList(newMessage.getString("nowPaces"))}", Toast.LENGTH_LONG).show()
+                        userList = parseJSONUserList(newMessage.getString("nowPaces"))
+                        for ((index, user) in userList.withIndex()) {
+                                if (user.userId == myUserId) {
+                                    userList.removeAt(index)
+                                    continue
+                                }
+                            user.nowRank = index + 1
+                            user.distance = String.format("%.02f", user.nowDistance)
                             user.rank = "${user.nowRank}등"
-                            user.time = "00:00"
+                            user.pace = user.nowPace
+                            user.time = String.format("%02d:%02d:%02d", user.nowTime / 3600, user.nowTime / 60, user.nowTime % 60)
                         }
                         adapter.list = userList
                         adapter.notifyDataSetChanged()
+                        }
                     }
                 }
             }
@@ -164,6 +160,15 @@ class MatchActivity : AppCompatActivity() {
         // 시간초
         service.time.observe(this, Observer { time ->
             model.setTime(time)
+            model.locationList.value = service.locationList.value
+            val data = JSONObject()
+            data.put("type", "PACE")
+            data.put("nowDistance", service.totalDist.value)
+            data.put("nowTime", service.time.value)
+            data.put("nowPace", model.pace.value)
+            data.put("userId", myUserId)
+            data.put("matchId", matchId)
+            stompClient.send("/pub/usermatch", data.toString()).subscribe()
         })
 
         // 이동거리
@@ -180,18 +185,9 @@ class MatchActivity : AppCompatActivity() {
             data.put("type", "PACE")
             data.put("nowDistance", service.totalDist.value)
             data.put("nowTime", service.time.value)
+            data.put("nowPace", model.pace.value)
             data.put("userId", myUserId)
             data.put("matchId", matchId)
-//            val jsonObjectList = JSONArray()
-//            for (user in userList) {
-//                val tmpJSONObject = JSONObject()
-//                tmpJSONObject.put("userId", user.userId)
-//                tmpJSONObject.put("userNowDistance", user.userNowDistance)
-//                tmpJSONObject.put("nowTime", user.nowTime)
-//                tmpJSONObject.put("nowPace", 0)
-//                jsonObjectList.put(tmpJSONObject)
-//            }
-//            data.put("Paces", jsonObjectList)
             stompClient.send("/pub/usermatch", data.toString()).subscribe()
         })
     }
@@ -212,8 +208,13 @@ class MatchActivity : AppCompatActivity() {
         }
     }
 
-    private fun parseJSON(jsonString: String): MutableList<UserModel> {
+    private fun parseJSONUserList(jsonString: String): MutableList<UserModel> {
         val type: Type = object : TypeToken<List<UserModel>>() {}.getType()
+        return Gson().fromJson(jsonString, type)
+    }
+
+    private fun parseJSONUserPace(jsonString: String): MutableList<UserModel> {
+        val type: Type = object : TypeToken<UserModel>() {}.getType()
         return Gson().fromJson(jsonString, type)
     }
 
