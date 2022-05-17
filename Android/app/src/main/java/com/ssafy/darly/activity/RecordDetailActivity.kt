@@ -209,8 +209,6 @@ class RecordDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                 if (latlng.longitude < swLng)
                     swLng = latlng.longitude
             }
-            Log.d("response!!", "${LatLng(swLat - 0.0001, swLng - 0.0001)}")
-            Log.d("response!!", "${LatLng(neLat + 0.0001, neLng + 0.0001)}")
 
             if (it.isEmpty()) {
                 val bounds = LatLngBounds(
