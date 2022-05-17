@@ -28,6 +28,7 @@ class MatchLobbyActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMatchLobbyBinding
     private val model: CrewViewModel by viewModels()
     lateinit var adapter: CrewMatchLobbyAdapter
+
     private var matchId: Long = 0
     private var myUserId: Long = 0
     private var isHost: Int = 0
@@ -105,19 +106,10 @@ class MatchLobbyActivity : AppCompatActivity() {
                     } else if (isReady == "N") {
                         readyCount--
                     }
-                    Log.d("cur NUMBER", currentNum.toString())
-                    Log.d("ready COUNT", readyCount.toString())
+
                     if ((isHost == 1) && (readyCount == currentNum)) {
-                        Log.d("ALL READY", "ALL READY")
                         binding.readyButton.setBackgroundResource(R.drawable.button_background_lg)
                         binding.readyButton.setTextColor(Color.rgb(247, 248, 251))
-//                        binding.readyButton.setOnClickListener {
-//                            Log.d("!! START", "START!!!!!")
-//                            val data = JSONObject()
-//                            data.put("type", "START")
-//                            data.put("matchId", matchId)
-//                            stompClient.send("/pub/usermatch", data.toString()).subscribe()
-//                        }
                     } else if ((isHost == 1) && (readyCount != currentNum)) {
                         binding.readyButton.setBackgroundResource(R.drawable.button_background_stroke)
                         binding.readyButton.setTextColor(Color.rgb(114, 87, 93))
@@ -148,6 +140,7 @@ class MatchLobbyActivity : AppCompatActivity() {
                     intent.putExtra("myUserId", myUserId)
                     intent.putExtra("goalDistance", goalDistance)
                     intent.putExtra("matchId", matchId)
+                    intent.putExtra("isHost", isHost)
 //                    finish()
                     intent.flags =
                         Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP //액티비티 스택제거
