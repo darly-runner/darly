@@ -10,6 +10,7 @@ import com.darly.db.entity.match.UserMatch;
 import com.darly.db.entity.match.UserMatchId;
 import com.darly.db.entity.user.User;
 import com.darly.db.entity.user.UserMatchMapping;
+import com.darly.db.entity.user.UserNowMapping;
 import com.darly.db.repository.match.MatchRepository;
 import com.darly.db.repository.match.UserMatchRepository;
 import com.darly.db.repository.match.UserMatchRepositorySupport;
@@ -80,12 +81,15 @@ public class MatchServiceImpl implements MatchService {
 
         userMatchRepository.save(enterUserMatch);
 
-        if(userId != hostId) {
-            Short curPerson = match.getMatchCurPerson();
-            curPerson++;
-            match.setMatchCurPerson(curPerson);
-            matchRepository.save(match);
-        }
+//        if(userId != hostId) {
+//            Short curPerson = match.getMatchCurPerson();
+//            curPerson++;
+//            match.setMatchCurPerson(curPerson);
+//            matchRepository.save(match);
+//        }
+
+        match.setMatchCurPerson(userMatchRepository.countAllByUserMatchId_Match_MatchId(matchId));
+        matchRepository.save(match);
 
         return getMatchRefresh(matchId, userId);
     }
@@ -161,18 +165,19 @@ public class MatchServiceImpl implements MatchService {
 
         // 퇴장한 사람이 방장이 아님
         if(hostId != userId) {
-            Short curPerson = match.getMatchCurPerson();
-            curPerson--;
-            match.setMatchCurPerson(curPerson);
+            userMatchRepository.delete(userMatch);
+
+            match.setMatchCurPerson(userMatchRepository.countAllByUserMatchId_Match_MatchId(matchId));
+            matchRepository.save(match);
 
             // 만약 현재 인원이 0명이 돼버리면
-            if(curPerson == 0 ) {
+            if(match.getMatchCurPerson() == 0 ) {
                 // 비활성화 상태로 변환
                 match.setMatchStatus('E');
             }
             matchRepository.save(match);
             // 나간사람 1명만 삭제
-            userMatchRepository.delete(userMatch);
+
         }
         // 퇴장한 사람이 방장, 아직 시작안한방에서 방장나가면 방 비활성화 상태로 바꾸고 전부 내보냄
         else if (hostId == userId && match.getMatchStatus() == 'W'){
@@ -184,12 +189,11 @@ public class MatchServiceImpl implements MatchService {
             userMatchRepository.deleteAllByUserMatchId_Match_MatchId(matchId);
         }
         else if (hostId == userId && match.getMatchStatus() == 'S') {
-            Short curPerson = match.getMatchCurPerson();
-            curPerson--;
-            match.setMatchCurPerson(curPerson);
+            userMatchRepository.delete(userMatch);
+
+            match.setMatchCurPerson(userMatchRepository.countAllByUserMatchId_Match_MatchId(matchId));
             match.setMatchStatus('E');
             matchRepository.save(match);
-            userMatchRepository.delete(userMatch);
         }
 
         return match.getMatchStatus();
@@ -266,6 +270,28 @@ public class MatchServiceImpl implements MatchService {
 
             return matchRUsers;
         }
+    }
+
+    @Override
+    public List<UserNowMapping> nowUsers(Long matchId) {
+        List<UserMatch> userMatches = userMatchRepository.findAllByUserMatchId_Match_MatchId(matchId);
+        List<UserNowMapping> users = new ArrayList();
+
+        for (UserMatch usermatch : userMatches) {
+            User user = userRepository.findById(usermatch.getUserMatchId().getUser().getUserId()).get();
+
+            UserNowMapping userNowMapping = UserNowMapping.builder()
+                    .userId(user.getUserId())
+                    .userNickname(user.getUserNickname())
+                    .userImage(user.getUserImage())
+                    .userNowDistance(0.0f)
+                    .userNowPace(0)
+                    .build();
+
+            users.add(userNowMapping);
+        }
+
+        return users;
     }
 
     private void makeRandomMatch(User user) {

@@ -1,16 +1,33 @@
 package com.ssafy.darly.activity
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
+import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.util.DisplayMetrics
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.ImageView
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -43,11 +60,14 @@ class RecordDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var imm: InputMethodManager
     private lateinit var map: GoogleMap
     private lateinit var locationRequest: LocationRequest
+    private var markerList = mutableListOf<MarkerOptions>()
 
     //    private lateinit var locationCallback: MyLocationCallBack
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private val defaultImage =
         "https://darly-bucket.s3.ap-northeast-2.amazonaws.com/user/darly_logo_white.png"
+    private lateinit var tag_image: ImageView
+    private lateinit var marker_view: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +79,8 @@ class RecordDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         CoroutineScope(Dispatchers.Main).launch {
             setModelData(DarlyService.getDarlyService().getRecordDetail(recordId))
         }
+
+        setCustomMarkerView()
 
         val mapFragment: SupportMapFragment = supportFragmentManager.findFragmentById(R.id.mapview) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -119,13 +141,6 @@ class RecordDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         if (model.recordRank.value == null || model.recordRank.value == 0)
             model.recordRankString.value = "--"
         model.ranks.value = response.body()?.ranks ?: listOf()
-        //
-//        val rrr = mutableListOf<Rank>()
-//        rrr.add(Rank("사용자1", null, 1, 1000, 300))
-//        rrr.add(Rank("사용자2", null, 3, 2000, 600))
-//        rrr.add(Rank("사용자3", null, 2, 3000, 700))
-//        rrr.add(Rank("사용자4", null, 4, 4000, 1000))
-        //
         val rankStringList = mutableListOf<RankString>()
         for (rank in model.ranks.value ?: listOf()) {
 //        for (rank in rrr ?: listOf()) {
@@ -165,6 +180,7 @@ class RecordDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.R)
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         map.mapType = GoogleMap.MAP_TYPE_NORMAL
@@ -179,24 +195,6 @@ class RecordDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val initLocation = LatLng(37.5666805, 126.9784147)
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(initLocation, 16f))
-
-        model.userImageBitmap.observe(this, Observer {
-            CoroutineScope(Dispatchers.Main).launch {
-                val bm = withContext(Dispatchers.IO) {
-                    convertURLToBitmap(model.userImage.value ?: defaultImage)
-                }
-                map.addMarker(
-                    MarkerOptions()
-                        .position(
-                            LatLng(
-                                (model.latLngList.value?.get(0)?.latitude ?: 0.0) - 0.00005,
-                                (model.latLngList.value?.get(0)?.longitude ?: 0.0) - 0.00005
-                            )
-                        )
-                        .icon(BitmapDescriptorFactory.fromBitmap(bm))
-                );
-            }
-        })
 
         model.latLngList.observe(this, Observer {
             val polylineOptions = PolylineOptions()
@@ -215,24 +213,24 @@ class RecordDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                 val neLat: Double
                 val neLng: Double
                 if (it[0].latitude > it[it.size - 1].latitude) {
-                    neLat = it[0].latitude
-                    swLat = it[it.size - 1].latitude
+                    neLat = it[0].latitude + 0.0001
+                    swLat = it[it.size - 1].latitude - 0.0001
                 } else {
-                    swLat = it[0].latitude
-                    neLat = it[it.size - 1].latitude
+                    swLat = it[0].latitude - 0.0001
+                    neLat = it[it.size - 1].latitude + 0.0001
                 }
                 if (it[0].longitude > it[it.size - 1].longitude) {
-                    neLng = it[0].longitude
-                    swLng = it[it.size - 1].longitude
+                    neLng = it[0].longitude + 0.0001
+                    swLng = it[it.size - 1].longitude - 0.0001
                 } else {
-                    swLng = it[0].longitude
-                    neLng = it[it.size - 1].longitude
+                    swLng = it[0].longitude - 0.0001
+                    neLng = it[it.size - 1].longitude + 0.0001
                 }
                 val bounds = LatLngBounds(
                     LatLng(swLat, swLng),
                     LatLng(neLat, neLng)
                 )
-                map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 30));
+                map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
             }
             val vectorDrawable = resources.getDrawable(R.drawable.ic_end_point)
             vectorDrawable!!.setBounds(0, 0, vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight)
@@ -243,22 +241,118 @@ class RecordDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                 MarkerOptions()
                     .position(LatLng(it[it.size - 1].latitude - 0.00005, it[it.size - 1].longitude - 0.00005))
                     .icon(BitmapDescriptorFactory.fromBitmap(bitmap))
+                    .zIndex(2f)
             );
         })
 
+        model.userImage.observe(this, Observer {
+            if (model.userImage.value != null) {
+                CoroutineScope(Dispatchers.Main).launch {
+
+                    val options: RequestOptions = RequestOptions()
+                        .centerCrop()
+                        .placeholder(R.mipmap.ic_launcher_round)
+                        .error(R.mipmap.ic_launcher_round)
+
+                    Log.d("response", "${model.userImage.value}")
+                    Log.d("response", "${markerList.size}")
+                    Glide.with(applicationContext).load(model.userImage.value).apply(options).into(tag_image)
+                    Handler().postDelayed({
+                        model.isImageSet.value = true
+                    }, 300)
+                }
+            }
+        })
+
+        model.isImageSet.observe(this, Observer{
+            if(it){
+                var latlng =
+                    LatLng(
+                        (model.latLngList.value?.get(0)?.latitude ?: 0.0) - 0.0001,
+                        (model.latLngList.value?.get(0)?.longitude ?: 0.0) - 0.0001
+                    )
+                var markerOptions = MarkerOptions()
+                markerOptions.position(latlng)
+                val displayMetrics = windowManager.currentWindowMetrics
+                marker_view.setLayoutParams(
+                    ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                    )
+                )
+                marker_view.measure(displayMetrics.bounds.width(), displayMetrics.bounds.height())
+                marker_view.layout(0, 0, displayMetrics.bounds.width(), displayMetrics.bounds.height())
+                marker_view.buildDrawingCache()
+                val bitmap: Bitmap = Bitmap.createBitmap(
+                    marker_view.getMeasuredWidth(),
+                    marker_view.getMeasuredHeight(),
+                    Bitmap.Config.ARGB_8888
+                )
+                val canvas = Canvas(bitmap)
+                marker_view.draw(canvas)
+                markerOptions.icon(BitmapDescriptorFactory.fromBitmap(bitmap))
+                map.addMarker(markerOptions)
+                markerList.add(markerOptions)
+            }
+        })
     }
 
     private fun convertURLToBitmap(_url: String): Bitmap {
-//        try {
-//        } catch (e: IOException) {
-//            Log.d("error", "${e}")
-//        }
         val url = URL(_url)
         val connection = url.openConnection() as HttpURLConnection
         connection.doInput = true
         connection.connect()
         val input = connection.inputStream
         val bitmap = BitmapFactory.decodeStream(input)
+        return bitmap
+    }
+
+    private fun setCustomMarkerView() {
+        marker_view = LayoutInflater.from(this).inflate(R.layout.map_marker, null)
+        tag_image = marker_view.findViewById(R.id.tag_image) as ImageView
+    }
+
+    private fun addMarker(latlng: LatLng): Marker? {
+        var markerOptions = MarkerOptions()
+        markerOptions.position(latlng)
+
+        val options: RequestOptions = RequestOptions()
+            .centerCrop()
+            .placeholder(R.mipmap.ic_launcher_round)
+            .error(R.mipmap.ic_launcher_round)
+
+        Log.d("response", "${model.userImage.value}")
+        Log.d("response", "${markerList.size}")
+        Glide.with(this).load(model.userImage.value).apply(options).into(tag_image)
+        markerOptions.icon(
+            BitmapDescriptorFactory.fromBitmap(
+                createDrawableFromView(this, marker_view)
+            )
+        )
+        return map.addMarker(markerOptions)
+    }
+
+    //marker view to bitmap
+    private fun createDrawableFromView(context: Context, view: View): Bitmap {
+        val displayMetrics = DisplayMetrics()
+        this.windowManager.defaultDisplay.getMetrics(displayMetrics)
+        view.setLayoutParams(
+            ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+        )
+        view.measure(displayMetrics.widthPixels, displayMetrics.heightPixels)
+        view.layout(0, 0, displayMetrics.widthPixels, displayMetrics.heightPixels)
+        view.buildDrawingCache()
+        val bitmap: Bitmap = Bitmap.createBitmap(
+            view.getMeasuredWidth(),
+            view.getMeasuredHeight(),
+            Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(bitmap)
+        view.draw(canvas)
+
         return bitmap
     }
 }

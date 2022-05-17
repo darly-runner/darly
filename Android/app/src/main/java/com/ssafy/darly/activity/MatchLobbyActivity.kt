@@ -28,6 +28,7 @@ class MatchLobbyActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMatchLobbyBinding
     private val model: CrewViewModel by viewModels()
     lateinit var adapter: CrewMatchLobbyAdapter
+
     private var matchId: Long = 0
     private var myUserId: Long = 0
     private var isHost: Int = 0
@@ -35,6 +36,7 @@ class MatchLobbyActivity : AppCompatActivity() {
     private var readyCount: Int = 1
     private var currentNum: Int = 0
     private var goalDistance: Float = 0F
+    private var crewId: Long = 0
 
     private val url = "http://3.36.61.107:8000/ws/websocket"
     val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
@@ -66,10 +68,12 @@ class MatchLobbyActivity : AppCompatActivity() {
                     if (userId != myUserId.toString()) {
                         CoroutineScope(Dispatchers.Main).launch {
                             val response = DarlyService.getDarlyService().getMatchDetails(matchId)
-                            binding.currentNum.text = response.body()?.matchCurPerson.toString()
+//                            binding.currentNum.text = response.body()?.matchCurPerson.toString()
 //                            currentNum = response.body()?.matchCurPerson?.toInt() ?: 0
                             currentNum = response.body()?.users?.size ?: 0
+                            binding.currentNum.text = response.body()?.users?.size.toString()
                             model.matchUsers.value = response.body()?.users ?: listOf()
+                            Log.d("USER", "${response.body()?.users}")
 
                             adapter = CrewMatchLobbyAdapter(
                                 model.matchUsers.value!!,
@@ -93,29 +97,20 @@ class MatchLobbyActivity : AppCompatActivity() {
                             LayoutInflater.from(this@MatchLobbyActivity),
                             glide
                         )
-//                        adapter.notifyDataSetChanged()
                         binding.matchUsersList.adapter = adapter
                         binding.matchUsersList.layoutManager =
                             GridLayoutManager(this@MatchLobbyActivity, 1)
                     }
+
                     if (isReady == "R") {
                         readyCount++
                     } else if (isReady == "N") {
                         readyCount--
                     }
-                    Log.d("cur NUMBER", currentNum.toString())
-                    Log.d("ready COUNT", readyCount.toString())
+
                     if ((isHost == 1) && (readyCount == currentNum)) {
-                        Log.d("ALL READY", "ALL READY")
                         binding.readyButton.setBackgroundResource(R.drawable.button_background_lg)
                         binding.readyButton.setTextColor(Color.rgb(247, 248, 251))
-//                        binding.readyButton.setOnClickListener {
-//                            Log.d("!! START", "START!!!!!")
-//                            val data = JSONObject()
-//                            data.put("type", "START")
-//                            data.put("matchId", matchId)
-//                            stompClient.send("/pub/usermatch", data.toString()).subscribe()
-//                        }
                     } else if ((isHost == 1) && (readyCount != currentNum)) {
                         binding.readyButton.setBackgroundResource(R.drawable.button_background_stroke)
                         binding.readyButton.setTextColor(Color.rgb(114, 87, 93))
@@ -145,6 +140,9 @@ class MatchLobbyActivity : AppCompatActivity() {
                     val intent = Intent(this, MatchActivity::class.java)
                     intent.putExtra("myUserId", myUserId)
                     intent.putExtra("goalDistance", goalDistance)
+                    intent.putExtra("matchId", matchId)
+                    intent.putExtra("isHost", isHost)
+                    intent.putExtra("crewId", crewId)
 //                    finish()
                     intent.flags =
                         Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP //액티비티 스택제거
@@ -181,6 +179,7 @@ class MatchLobbyActivity : AppCompatActivity() {
             myUserId = response.body()?.myUserId ?: 3
             isHost = response.body()?.imHost ?: 0
             goalDistance = response.body()?.matchGoalDistance!!
+            crewId = response.body()?.crewId ?: 0
 
             if (isHost == 1) {
                 binding.readyButton.text = "START"

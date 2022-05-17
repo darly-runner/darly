@@ -5,6 +5,7 @@ import com.darly.api.request.match.MatchPatchReq;
 import com.darly.api.response.match.MatchInRes;
 import com.darly.db.entity.match.Match;
 import com.darly.db.entity.match.MatchRUser;
+import com.darly.db.entity.user.UserNowMapping;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -26,4 +27,6 @@ public interface MatchService {
     MatchInRes getMatchRefresh(Long matchId, Long userId);
 
     List<MatchRUser> randomMatch(Long userId);
+
+    List<UserNowMapping> nowUsers(Long matchId);
 }
