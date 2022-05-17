@@ -85,7 +85,6 @@ class MatchActivity : AppCompatActivity() {
 //                }
             }
         }
-
     }
 
 

@@ -37,6 +37,11 @@ class CrewCreateDialog(context: AppCompatActivity) {
             onClickedListener.onClickedCreateMatch()
             dlg.dismiss()
         }
+
+        val cancel = dlg.findViewById<TextView>(R.id.cancel)
+        cancel?.setOnClickListener {
+            dlg.dismiss()
+        }
         dlg.show()
     }
 }

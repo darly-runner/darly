@@ -45,7 +45,7 @@ class CrewDetailRankAdapter(
     override fun onBindViewHolder(holder: CrewDetailRankAdapter.ViewHolder, position: Int) {
         holder.crewRankingUserName.text = crewDetailRankItems.get(position).userNickname
         holder.userDistance.text = crewDetailRankItems.get(position).userDistance
-        holder.userPace.text = crewDetailRankItems.get(position).userPace.toString()
+        holder.userPace.text = timeToStr(crewDetailRankItems.get(position).userPace.toInt())
         val rank = position +1
         holder.crewDetailUserRank.text = rank.toString()
         holder.crewDetailUserRank.backgroundTintList = when(rank == 1) {
@@ -56,4 +56,24 @@ class CrewDetailRankAdapter(
     }
 
     override fun getItemCount(): Int = crewDetailRankItems.size
+
+    // time -> hh:mm:ss
+    fun timeToStr(t : Int) : String{
+        val m = t / 60
+        var second = (t % 60).toString()
+
+        val hour = (m / 60).toString()
+        var minute = (m % 60).toString()
+
+        if(minute.length == 1)
+            minute = "0$minute"
+
+        if(second.length == 1)
+            second = "0$second"
+
+        return if(hour != "0")
+            "$hour:$minute:$second"
+        else
+            "$minute:$second"
+    }
 }
