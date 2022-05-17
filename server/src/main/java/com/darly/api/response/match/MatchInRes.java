@@ -23,6 +23,7 @@ public class MatchInRes extends BaseResponseBody {
     private Long myUserId;
     private Integer imHost;
     private Character matchStatus;
+    private Long crewId;
     private List<UserMatchMapping> users;
 
     @Builder
@@ -31,6 +32,7 @@ public class MatchInRes extends BaseResponseBody {
         this.matchTitle = match.getMatchTitle();
         this.myUserId = myUserId;
         this.imHost = imHost;
+        this.crewId = match.getCrew().getCrewId();
         this.matchStatus = matchStatus;
         this.hostNickname = match.getHost().getUserNickname();
         this.matchGoalDistance = match.getMatchGoalDistance();

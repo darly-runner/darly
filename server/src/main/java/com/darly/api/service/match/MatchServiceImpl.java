@@ -67,7 +67,6 @@ public class MatchServiceImpl implements MatchService {
 
         Match match = matchRepository.findByMatchId(matchId);
         User enterUser = userRepository.findById(userId).get();
-        Long hostId = match.getHost().getUserId();
 
         UserMatchId userMatchId = UserMatchId.builder()
                 .match(match)
@@ -80,13 +79,6 @@ public class MatchServiceImpl implements MatchService {
                 .build();
 
         userMatchRepository.save(enterUserMatch);
-
-//        if(userId != hostId) {
-//            Short curPerson = match.getMatchCurPerson();
-//            curPerson++;
-//            match.setMatchCurPerson(curPerson);
-//            matchRepository.save(match);
-//        }
 
         match.setMatchCurPerson(userMatchRepository.countAllByUserMatchId_Match_MatchId(matchId));
         matchRepository.save(match);
@@ -192,7 +184,9 @@ public class MatchServiceImpl implements MatchService {
             userMatchRepository.delete(userMatch);
 
             match.setMatchCurPerson(userMatchRepository.countAllByUserMatchId_Match_MatchId(matchId));
-            match.setMatchStatus('E');
+            if(match.getMatchCurPerson() == 0) {
+                match.setMatchStatus('E');
+            }
             matchRepository.save(match);
         }
 

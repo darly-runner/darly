@@ -25,7 +25,7 @@
                 android:layout_gravity="center"
                 android:paddingVertical="20dp"
                 android:textSize="17dp"
-                android:text="FEED UPLOAD"/>
+                android:text="피드 업로드"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -40,7 +40,7 @@
                 android:layout_gravity="center"
                 android:paddingVertical="20dp"
                 android:textSize="17dp"
-                android:text="MATCH"/>
+                android:text="경쟁방 만들기"/>
         </LinearLayout>
 
         <TextView
@@ -55,7 +55,7 @@
             android:fontFamily="@font/pretendard_medium"
             android:background="@drawable/dialog_crew_content"
             android:backgroundTint="#FCFDFF"
-            android:text="CANCEL"/>
+            android:text="취소"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
