@@ -231,13 +231,32 @@ class RecordDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             var bitmap = Bitmap.createBitmap(vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
             var canvas = Canvas(bitmap)
             vectorDrawable.draw(canvas)
-            if (!it.isEmpty())
+            if (it.isNotEmpty())
                 map.addMarker(
                     MarkerOptions()
                         .position(LatLng(it[it.size - 1].latitude, it[it.size - 1].longitude))
                         .icon(BitmapDescriptorFactory.fromBitmap(bitmap))
                         .zIndex(2f)
                 );
+            if (model.userImage.value != null && model.latLngList.value?.size ?: 0 > 0) {
+                CoroutineScope(Dispatchers.Main).launch {
+
+                    val options: RequestOptions = RequestOptions()
+                        .centerCrop()
+                        .placeholder(R.mipmap.ic_launcher_round)
+                        .error(R.mipmap.ic_launcher_round)
+
+                    Glide.with(applicationContext).load(model.userImage.value).apply(options).into(tag_image)
+                    Handler().postDelayed({
+                        addMarker(
+                            LatLng(
+                                (model.latLngList.value?.get(0)?.latitude ?: 0.0),
+                                (model.latLngList.value?.get(0)?.longitude ?: 0.0)
+                            )
+                        )
+                    }, 300)
+                }
+            }
         })
 
         model.userImage.observe(this, Observer {
