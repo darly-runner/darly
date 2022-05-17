@@ -10,6 +10,7 @@ import com.darly.db.entity.match.Match;
 import com.darly.db.entity.match.MatchRUser;
 import com.darly.db.entity.socket.SocketMessage;
 import com.darly.db.entity.user.UserNowMapping;
+import com.darly.db.entity.user.UserNowPace;
 import com.darly.db.repository.match.UserMatchRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -135,7 +136,7 @@ public class MessageController {
         } else if (SocketMessage.MessageType.USER.equals(message.getType())) {
             Long matchId = message.getMatchId();
 
-            List<UserNowMapping> users = matchService.nowUsers(matchId);
+            List<UserNowPace> users = matchService.nowUsers(matchId);
 
             message.setUsers(users);
 
@@ -148,8 +149,9 @@ public class MessageController {
             Long userId = message.getUserId();
             Float nowDistance = message.getNowDistance();
             Integer nowTime = message.getNowTime();
+            Integer newPace = message.getNowPace();
 
-            message.setNowPaces(matchService.nowPaces(matchId, userId, nowDistance, nowTime));
+            message.setNowPaces(matchService.nowPaces(matchId, userId, nowDistance, nowTime, newPace));
 
             template.convertAndSend("/sub/usermatch/" + message.getMatchId(), message);
         }

@@ -10,7 +10,6 @@ import com.darly.db.entity.match.UserMatch;
 import com.darly.db.entity.match.UserMatchId;
 import com.darly.db.entity.user.User;
 import com.darly.db.entity.user.UserMatchMapping;
-import com.darly.db.entity.user.UserNowMapping;
 import com.darly.db.entity.user.UserNowPace;
 import com.darly.db.repository.match.MatchRepository;
 import com.darly.db.repository.match.UserMatchRepository;
@@ -220,18 +219,6 @@ public class MatchServiceImpl implements MatchService {
     public void matchStart(Long matchId) {
         Match match = matchRepository.findByMatchId(matchId);
 
-        List<UserMatch> userMatchList = userMatchRepository.findAllByUserMatchId_Match_MatchId(matchId);
-        List<UserNowPace> userNowPaceList = new ArrayList<>();
-        for (UserMatch userMatch : userMatchList) {
-            userNowPaceList.add(UserNowPace.builder()
-                    .userId(userMatch.getUserMatchId().getUser().getUserId())
-                    .nowPace(0)
-                    .userNowDistance(0f)
-                    .nowTime(0)
-                    .build());
-        }
-        userPaceMap.put(matchId, userNowPaceList);
-
         // 시작상태로 매치 상태 바꿈
         match.setMatchStatus('S');
         matchRepository.save(match);
@@ -274,35 +261,33 @@ public class MatchServiceImpl implements MatchService {
     }
 
     @Override
-    public List<UserNowMapping> nowUsers(Long matchId) {
-        List<UserMatch> userMatches = userMatchRepository.findAllByUserMatchId_Match_MatchId(matchId);
-        List<UserNowMapping> users = new ArrayList();
-
-        for (UserMatch usermatch : userMatches) {
-            User user = userRepository.findById(usermatch.getUserMatchId().getUser().getUserId()).get();
-
-            UserNowMapping userNowMapping = UserNowMapping.builder()
-                    .userId(user.getUserId())
-                    .userNickname(user.getUserNickname())
-                    .userImage(user.getUserImage())
-                    .userNowDistance(0.0f)
-                    .userNowPace(0)
-                    .build();
-
-            users.add(userNowMapping);
+    public List<UserNowPace> nowUsers(Long matchId) {
+        if (!userPaceMap.containsKey(matchId)) {
+            List<UserMatch> userMatchList = userMatchRepository.findAllByUserMatchId_Match_MatchId(matchId);
+            List<UserNowPace> userNowPaceList = new ArrayList<>();
+            for (UserMatch userMatch : userMatchList) {
+                userNowPaceList.add(UserNowPace.builder()
+                        .userId(userMatch.getUserMatchId().getUser().getUserId())
+                        .userNickname(userMatch.getUserMatchId().getUser().getUserNickname())
+                        .userImage(userMatch.getUserMatchId().getUser().getUserImage())
+                        .nowPace(0)
+                        .nowDistance(0f)
+                        .nowTime(0)
+                        .build());
+            }
+            userPaceMap.put(matchId, userNowPaceList);
         }
-
-        return users;
+        return userPaceMap.get(matchId);
     }
 
     @Override
-    public List<UserNowPace> nowPaces(Long matchId, Long userId, Float nowDistance, Integer nowTime) {
+    public List<UserNowPace> nowPaces(Long matchId, Long userId, Float nowDistance, Integer nowTime, Integer nowPace) {
         List<UserNowPace> userList = userPaceMap.get(matchId);
         for (UserNowPace user : userList) {
             if (user.getUserId().equals(userId)) {
                 user.setNowTime(nowTime);
-                user.setUserNowDistance(nowDistance);
-                user.setNowPace(Math.round(nowDistance / nowTime));
+                user.setNowDistance(nowDistance);
+                user.setNowPace(nowPace);
             }
         }
         Collections.sort(userList);

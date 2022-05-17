@@ -33,7 +33,7 @@ public interface MatchService {
 
     List<MatchRUser> randomMatch(Long userId);
 
-    List<UserNowMapping> nowUsers(Long matchId);
+    List<UserNowPace> nowUsers(Long matchId);
 
-    List<UserNowPace> nowPaces(Long matchId, Long userId, Float nowDistance, Integer nowTime);
+    List<UserNowPace> nowPaces(Long matchId, Long userId, Float nowDistance, Integer nowTime, Integer nowPace);
 }
