@@ -7,8 +7,8 @@ data class UserModel(
     val userNickname: String,
     val userImage: String,
 
-    var userNowDistance: Float,
-    var userNowPace: Int,
+    var nowDistance: Float,
+    var nowPace: String,
     var nowTime: Int,
     var nowRank: Int,
 

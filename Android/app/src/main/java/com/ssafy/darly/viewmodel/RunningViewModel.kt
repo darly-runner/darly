@@ -27,6 +27,7 @@ class RunningViewModel : ViewModel() {
     var speed = MutableLiveData<Float>()        // 속력
     var time = MutableLiveData<String>()        // 시간
     var pace = MutableLiveData<String>()        // 페이스
+    val paceInt = MutableLiveData<String>()     // 페이스 int
     var calorie = MutableLiveData<String>()     // 칼로리
     var heartRate = MutableLiveData<String>()
 
