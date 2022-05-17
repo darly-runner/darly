@@ -33,7 +33,7 @@
                 android:layout_gravity="center"
                 android:fontFamily="@font/pretendard_medium"
                 android:paddingHorizontal="5dp"
-                android:text="LOBBY"
+                android:text="경쟁"
                 android:textColor="@color/black"
                 android:textSize="18dp" />
         </LinearLayout>

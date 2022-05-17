@@ -17,5 +17,5 @@ import javax.persistence.Table;
 @Table(name = "tb_user_crew")
 public class UserCrew {
     @EmbeddedId
-    UserCrewId userCrewId;
+    private UserCrewId userCrewId;
 }

@@ -3,6 +3,7 @@ package com.darly.api.controller;
 
 import com.darly.api.request.user.*;
 import com.darly.api.response.user.*;
+import com.darly.api.service.event.UserEventService;
 import com.darly.api.service.friend.FriendService;
 import com.darly.api.service.user.UserService;
 import com.darly.api.service.userAddress.UserAddressService;
@@ -45,6 +46,9 @@ public class UserController {
 
     @Autowired
     FriendService friendService;
+
+    @Autowired
+    UserEventService userEventService;
 
     // 1. 유저 정보 조회 GET
     @GetMapping
@@ -246,6 +250,23 @@ public class UserController {
                 .statusCode(200)
                 .message("Success check nickname duplicated")
                 .isOk(!userService.existUserNickname(userNicknamePostReq.getUserNickname()))
+                .build());
+    }
+
+    // U-014
+    @GetMapping("/event")
+    @ApiOperation(value = "사용자 참여 이벤트 목록", notes = "사용자 참여 이벤트 목록")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "테스트 성공"),
+            @ApiResponse(code = 404, message = "잘못된 url 접근"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
+    public ResponseEntity<? extends BaseResponseBody> getUserEventList(Authentication authentication) {
+        Long userId = Long.parseLong((String) authentication.getPrincipal());
+        return ResponseEntity.ok(UserGetEventListRes.builder()
+                .statusCode(200)
+                .message("Success get user event list")
+                .events(userEventService.getUserEventList(userId))
                 .build());
     }
 }

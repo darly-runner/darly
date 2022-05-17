@@ -13,10 +13,7 @@ import com.ssafy.darly.adapter.record.*
 import com.ssafy.darly.adapter.user.UserFeedListAdapter
 import com.ssafy.darly.model.address.Address
 import com.ssafy.darly.model.friend.Friend
-import com.ssafy.darly.model.record.Achieve
-import com.ssafy.darly.model.record.RankString
-import com.ssafy.darly.model.record.Record
-import com.ssafy.darly.model.record.SectionString
+import com.ssafy.darly.model.record.*
 import com.ssafy.darly.model.user.Feed
 
 object BindingConversion {
@@ -213,6 +210,18 @@ object BindingConversion {
         }
         items?.let {
             (recyclerView.adapter as AchieveListAdapter).achieveList = achieveList
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("setMyChallengeItems")
+    fun setMyChallengeItems(recyclerView: RecyclerView, items: List<MyChallenge>) {
+        var myChallengeList = mutableListOf<MyChallenge>()
+        for (item in items) {
+            myChallengeList.add(item)
+        }
+        items?.let {
+            (recyclerView.adapter as MyChallengeListAdapter).myChallengeList = myChallengeList
         }
     }
 }

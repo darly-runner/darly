@@ -1,5 +1,6 @@
 package com.ssafy.darly.activity
 
+import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.content.ComponentName
 import android.content.Context
@@ -8,9 +9,12 @@ import android.content.ServiceConnection
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
+import android.util.Log
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
 import com.ssafy.darly.BuildConfig
 import com.ssafy.darly.R
 import com.ssafy.darly.adapter.match.MatchViewPagerAdapter
@@ -20,14 +24,61 @@ import com.ssafy.darly.model.CompetitorInfo
 import com.ssafy.darly.model.record.RecordRequest
 
 import com.ssafy.darly.viewmodel.RunningViewModel
+import org.json.JSONObject
+import ua.naiksoftware.stomp.Stomp
+import ua.naiksoftware.stomp.dto.LifecycleEvent
 
 class MatchActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMatchBinding
-    private val model : RunningViewModel by viewModels()
+    private val model: RunningViewModel by viewModels()
 
     private val adapter = MatchViewPagerAdapter()
-    private lateinit var service : MyService
+    private lateinit var service: MyService
     private var bound: Boolean = false
+
+    private var matchId: Long = 0
+    private var isHost: Int = 0
+    private var myUserId: Long = 0
+    private var crewId: Long = 0
+    private var url = "http://3.36.61.107:8000/ws/websocket"
+    val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
+
+    @SuppressLint("CheckResult")
+    fun runStomp() {
+        val glide = Glide.with(this)
+        stompClient.connect()
+        stompClient.lifecycle().subscribe { lifecycleEvent ->
+            when (lifecycleEvent.type) {
+                LifecycleEvent.Type.OPENED -> {
+                    Log.d("ENTER", "ENTERED!!")
+                }
+                LifecycleEvent.Type.ERROR -> {
+                    Log.i("ERROR", "!!")
+                    Log.e("CONNECT ERROR", lifecycleEvent.exception.toString())
+                }
+            }
+        }
+        stompClient.topic("/sub/usermatch/${matchId}").subscribe {
+            val newMessage = JSONObject(it.payload)
+            val type = newMessage.getString("type")
+            val userId = newMessage.getString("userId")
+
+            when(type) {
+                "USER" -> {
+                    if (userId == myUserId.toString()) {
+                        val usersList = newMessage.getJSONArray("users")
+                        Log.d("type?", usersList.javaClass.toString())
+                        Log.d("USERLIST", usersList.toString())
+                    }
+                }
+//                "PACE" -> {
+//                    Log,d("pace?", "PACE")
+//                }
+            }
+        }
+
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,38 +87,55 @@ class MatchActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = model
 
+        matchId = intent.getLongExtra("matchId", 0)
+        myUserId = intent.getLongExtra("myUserId", 0)
+        isHost = intent.getIntExtra("isHost", 0)
+        crewId = intent.getLongExtra("crewId", 0)
+
         serviceStart()
         init()
     }
 
-    fun init(){
+    fun init() {
+//        runStomp()
+        val data = JSONObject()
+        data.put("type", "USER")
+        data.put("userId", myUserId)
+        data.put("matchId", matchId)
+        stompClient.send("/pub/usermatch", data.toString()).subscribe()
+        runStomp()
+
         binding.matchViewPager.adapter = adapter
 
         binding.endButton.setOnClickListener {
             serviceStop()
+            leaveService()
         }
 
         val list = mutableListOf<CompetitorInfo>()
 
-        for(i in 0 until 3){
-            list.add(CompetitorInfo(
-                RecordRequest(null, 0f, 0, 0, 0, 0f, 0,
-                    null, null, ArrayList(), ArrayList(), ArrayList()
+        for (i in 0 until 3) {
+            list.add(
+                CompetitorInfo(
+                    RecordRequest(
+                        null, 0f, 0, 0, 0, 0f, 0,
+                        null, null, ArrayList(), ArrayList(), ArrayList()
+                    )
                 )
-            ))
+            )
         }
         adapter.list = list
         adapter.notifyDataSetChanged()
     }
 
-    fun subscribeObserver(){
+    fun subscribeObserver() {
         // 시간초
         service.time.observe(this, Observer { time ->
             model.setTime(time)
         })
 
         // 이동거리
-        service.totalDist.observe(this, Observer { dist->
+        service.totalDist.observe(this, Observer { dist ->
             model.setDist(dist)
             model.setSpeed()
             model.setPace()
@@ -76,6 +144,12 @@ class MatchActivity : AppCompatActivity() {
 
             binding.progressBar.progress = model.getRate()?.toInt() ?: 0
             model.locationList.value = service.locationList.value
+            val data = JSONObject()
+            data.put("type", "PACE")
+            data.put("nowDistance", service.totalDist.value)
+            data.put("nowTime", service.time.value)
+            data.put("userId", myUserId)
+            stompClient.send("/pub/usermatch", data.toString()).subscribe()
         })
     }
 
@@ -109,7 +183,25 @@ class MatchActivity : AppCompatActivity() {
         startService(intentStop)
     }
 
-    companion object{
+    companion object {
         const val ACTION_STOP = "${BuildConfig.APPLICATION_ID}.stop"
+    }
+
+    private fun leaveService() {
+        val data = JSONObject()
+        data.put("type", "LEAVE")
+        data.put("matchId", matchId)
+        data.put("userId", myUserId)
+        data.put("isHost", isHost)
+        stompClient.send("/pub/usermatch", data.toString()).subscribe()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        serviceStop()
+        leaveService()
+        val intent = Intent(this, CrewDetailActivity::class.java)
+        intent.putExtra("crewId", crewId)
+        ContextCompat.startActivity(this, intent, null)
     }
 }
