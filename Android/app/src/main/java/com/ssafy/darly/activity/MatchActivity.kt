@@ -86,6 +86,7 @@ class MatchActivity : AppCompatActivity() {
     fun init() {
         runStomp()
         val data = JSONObject()
+        data.put("type", "USER")
         data.put("matchId", matchId)
         stompClient.send("/pub/usermatch", data.toString()).subscribe()
 
