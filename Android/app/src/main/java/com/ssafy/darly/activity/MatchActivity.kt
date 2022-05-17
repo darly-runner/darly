@@ -1,20 +1,22 @@
 package com.ssafy.darly.activity
 
 import android.annotation.SuppressLint
-import android.app.ActivityManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.ssafy.darly.BuildConfig
 import com.ssafy.darly.R
 import com.ssafy.darly.adapter.match.MatchViewPagerAdapter
@@ -22,11 +24,13 @@ import com.ssafy.darly.background.MyService
 import com.ssafy.darly.databinding.ActivityMatchBinding
 import com.ssafy.darly.model.CompetitorInfo
 import com.ssafy.darly.model.record.RecordRequest
-
+import com.ssafy.darly.model.socket.UserModel
 import com.ssafy.darly.viewmodel.RunningViewModel
 import org.json.JSONObject
 import ua.naiksoftware.stomp.Stomp
 import ua.naiksoftware.stomp.dto.LifecycleEvent
+import java.lang.reflect.Type
+
 
 class MatchActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMatchBinding
@@ -36,13 +40,15 @@ class MatchActivity : AppCompatActivity() {
     private lateinit var service: MyService
     private var bound: Boolean = false
 
-//    private var competitors = ArrayList<>
+    //    private var competitors = ArrayList<>
     private var matchId: Long = 0
     private var isHost: Int = 0
     private var myUserId: Long = 0
     private var crewId: Long = 0
     private var url = "http://3.36.61.107:8000/ws/websocket"
     val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
+
+    private val userMap = mutableMapOf<Long, Int>()
 
     @SuppressLint("CheckResult")
     fun runStomp() {
@@ -64,11 +70,14 @@ class MatchActivity : AppCompatActivity() {
             val type = newMessage.getString("type")
             val userId = newMessage.getString("userId")
 
-            when(type) {
+            when (type) {
                 "USER" -> {
                     if (userId == myUserId.toString()) {
                         val usersList = newMessage.getJSONArray("users")
-                        Log.d("type?", usersList.javaClass.toString())
+                        val userString = newMessage.getString("users")
+                        Log.d("response", usersList.javaClass.toString())
+                        adapter.list = parseJSON(userString)
+                        adapter.notifyDataSetChanged()
                     }
                 }
 //                "PACE" -> {
@@ -112,20 +121,6 @@ class MatchActivity : AppCompatActivity() {
             leaveService()
         }
 
-        val list = mutableListOf<CompetitorInfo>()
-
-        for (i in 0 until 3) {
-            list.add(
-                CompetitorInfo(
-                    RecordRequest(
-                        null, 0f, 0, 0, 0, 0f, 0,
-                        null, null, ArrayList(), ArrayList(), ArrayList()
-                    )
-                )
-            )
-        }
-        adapter.list = list
-        adapter.notifyDataSetChanged()
     }
 
     fun subscribeObserver() {
@@ -167,6 +162,11 @@ class MatchActivity : AppCompatActivity() {
         override fun onServiceDisconnected(arg0: ComponentName) {
             bound = false
         }
+    }
+
+    private fun parseJSON(jsonString: String): MutableList<UserModel> {
+        val type: Type = object : TypeToken<List<UserModel>>() {}.getType()
+        return Gson().fromJson(jsonString, type)
     }
 
     private fun serviceStart() {
