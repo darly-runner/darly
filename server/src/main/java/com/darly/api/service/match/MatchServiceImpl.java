@@ -184,7 +184,9 @@ public class MatchServiceImpl implements MatchService {
             userMatchRepository.delete(userMatch);
 
             match.setMatchCurPerson(userMatchRepository.countAllByUserMatchId_Match_MatchId(matchId));
-            match.setMatchStatus('E');
+            if(match.getMatchCurPerson() == 0) {
+                match.setMatchStatus('E');
+            }
             matchRepository.save(match);
         }
 
