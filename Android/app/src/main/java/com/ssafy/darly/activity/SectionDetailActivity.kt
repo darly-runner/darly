@@ -30,7 +30,6 @@ class SectionDetailActivity : AppCompatActivity() {
 
         model.sections.value = intent.getSerializableExtra("sectionList") as List<SectionString>
         model.gapSectionValue.value = intent.getIntExtra("gapSectionValue", 0)
-        model.minSectionIndex.value = intent.getIntExtra("minSectionIndex", 0)
         model.minSectionValue.value = intent.getIntExtra("minSectionValue", 0)
 
         binding.backBtn.setOnClickListener { finish() }

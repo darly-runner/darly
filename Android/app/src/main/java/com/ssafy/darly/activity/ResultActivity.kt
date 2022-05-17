@@ -2,13 +2,16 @@ package com.ssafy.darly.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.location.Location
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
@@ -31,8 +34,10 @@ import com.ssafy.darly.R
 import com.ssafy.darly.databinding.ActivityResultBinding
 import com.ssafy.darly.fragment.RunningFragment
 import com.ssafy.darly.model.record.RecordRequest
+import com.ssafy.darly.model.record.SectionString
 import com.ssafy.darly.service.DarlyService
 import com.ssafy.darly.util.LocationHelper
+import com.ssafy.darly.viewmodel.RecordDetailViewModel
 import com.ssafy.darly.viewmodel.RunningViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -50,7 +55,7 @@ import kotlin.collections.ArrayList
 
 class ResultActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var binding: ActivityResultBinding
-    private val model: RunningViewModel by viewModels()
+    private val model: RecordDetailViewModel by viewModels()
 
     lateinit var record: RecordRequest
     private lateinit var map: GoogleMap
@@ -58,6 +63,8 @@ class ResultActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var locationRequest: LocationRequest
     private lateinit var locationCallback: ResultActivity.MyLocationCallBack
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+
+    private val REQUEST_IMAGE_CAPTURE = 2
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,6 +80,28 @@ class ResultActivity : AppCompatActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
     }
 
+    @Override
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == Activity.RESULT_OK) {
+            if(requestCode == REQUEST_IMAGE_CAPTURE) {
+                val imageBitmap :Bitmap? = data?.extras?.get("data") as Bitmap
+
+                val recordImage = if (imageBitmap != null) {
+                    var file = convertBitmapToFile(imageBitmap!!)
+                    val requestBody = RequestBody.create(MediaType.parse("image/jpeg"), file)
+
+                    MultipartBody.Part.createFormData("userFeedImage", file.getName(), requestBody)
+                } else null
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    val response = DarlyService.getDarlyService().postFeed(recordImage)
+                    Log.d("FeedImage","${response}")
+                }
+            }
+        }
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n")
     private fun init() {
@@ -82,18 +111,19 @@ class ResultActivity : AppCompatActivity(), OnMapReadyCallback {
 
         record = intent.getSerializableExtra("record") as RecordRequest
         binding.dateText.text = "$formatted"
-        model.dist.value = record.recordDistance
-        model.pace.value = model.timeToStr(record.recordPace)
-        model.calorie.value = "${record.recordCalories} kcal"
-        model.speed.value = record.recordSpeed
-        model.time.value = model.timeToStr(record.recordTime)
+        model.recordDistance.value = String.format("%.02f", record.recordDistance)
+        model.recordPace.value = model.timeToStr(record.recordPace)
+        model.recordCalories.value = "${record.recordCalories} kcal"
+        model.recordSpeed.value = record.recordSpeed.toString()
+        model.recordTime.value = model.timeToStr(record.recordTime)
 
-        // 구간별, 추후에 차트 추가
-        var cnt = 1
-        for (i in record.sections) {
-            val textView = TextView(this)
-            textView.text = "${cnt++} / ${i.km} km , ${i.pace}, ${i.calories}"
-            binding.sectionView.addView(textView)
+        // 카메라
+        binding.cameraButton.setOnClickListener {
+            Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+                takePictureIntent.resolveActivity(packageManager)?.also {
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                }
+            }
         }
 
         // 기록 저장
@@ -162,6 +192,28 @@ class ResultActivity : AppCompatActivity(), OnMapReadyCallback {
                 }
             }
         }
+
+        val sectionList = mutableListOf<SectionString>()
+        var min = Int.MAX_VALUE
+        var minIndex = 0
+        var max = -1
+        for ((index, section) in record?.sections?.withIndex()) {
+            if (section.pace < min) {
+                min = section.pace
+                minIndex = index
+            }
+            if (section.pace > max)
+                max = section.pace
+            val km = if (section.km % 1 == 0f) section.km.toInt().toString()
+            else String.format("%.02f", section.km)
+            val pace = if (section.pace == 0) "--" else String.format("%01d'%02d''", section.pace / 60, section.pace % 60)
+            val calories = section.calories.toString()
+            sectionList.add(SectionString(km, pace, calories, section.pace))
+        }
+        model.minSectionIndex.value = minIndex
+        model.minSectionValue.value = min
+        model.gapSectionValue.value = max - min
+        model.sections.value = sectionList
     }
 
     fun convertBitmapToFile(bitmap: Bitmap): File {
@@ -184,7 +236,6 @@ class ResultActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         // 이동경로 표시
-        Toast.makeText(this, "${record.coordinateLatitudes.size}",Toast.LENGTH_LONG).show()
         val polylineOptions = PolylineOptions()
         polylineOptions.color(resources.getColor(R.color.main))
 

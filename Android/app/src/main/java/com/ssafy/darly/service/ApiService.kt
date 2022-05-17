@@ -41,9 +41,15 @@ interface ApiService {
         @Part sections: List<MultipartBody.Part>
     ): Response<BaseRes>
 
+    @Multipart
+    @POST("users/feed")
+    suspend fun postFeed(
+        @Part userFeedImage: MultipartBody.Part?,
+    ): Response<BaseRes>
+
     @GET("users")
     suspend fun getUsers(
-//        @Query("userId") userId: Int,
+        // @Query("userId") userId: Int,
     ): Response<UserGetRes>
 
     // CREW

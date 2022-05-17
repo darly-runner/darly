@@ -1,12 +1,19 @@
 package com.ssafy.darly.viewmodel
 
+import android.content.Context
 import android.location.Location
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.maps.model.LatLng
 import com.ssafy.darly.model.record.RecordRequest
 import com.ssafy.darly.model.Section
 import java.lang.Math.round
+import kotlin.coroutines.coroutineContext
 import kotlin.math.roundToInt
 
 class RunningViewModel : ViewModel(){
@@ -94,10 +101,11 @@ class RunningViewModel : ViewModel(){
             befTime = timeCnt
         }else if(d == 0f){
             // 마지막 남은거리 처리
-            // 0인것도 넘어오는데 테스트를위해 그냥 둿음
-            val sectionDist = dist.value?.minus(dist.value?.toInt()!!)
-            val sectionPace = (currentTime / sectionDist!!).toInt()
-            paceSection.value?.add(Section(sectionDist, sectionPace,currentCalorie))
+            if(dist.value != 0f){
+                val sectionDist = dist.value?.minus(dist.value?.toInt()!!)
+                val sectionPace = (currentTime / sectionDist!!).toInt()
+                paceSection.value?.add(Section(sectionDist, sectionPace,currentCalorie))
+            }
         }
     }
 
@@ -135,18 +143,8 @@ class RunningViewModel : ViewModel(){
             lng.add(i.longitude.toString())
         }
 
-        return RecordRequest(
-            null,
-            dist.value ?: 0f,
-            paceCnt,
-            calorieCnt,
-            0,
-            speed.value,
-            timeCnt,
-            null,
-            null,
-            lat,
-            lng,
+        return RecordRequest(null, dist.value ?: 0f, paceCnt, calorieCnt,
+            0, speed.value, timeCnt, null, null, lat, lng,
             paceSection.value ?: ArrayList()
         )
     }

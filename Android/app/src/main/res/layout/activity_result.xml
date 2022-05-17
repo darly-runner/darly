@@ -4,16 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
-            type="com.ssafy.darly.viewmodel.RunningViewModel" />
+            type="com.ssafy.darly.viewmodel.RecordDetailViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="30dp"
+        android:padding="20dp"
         tools:context=".activity.ResultActivity">
 
         <TextView
@@ -44,10 +43,11 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:overScrollMode="never"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/titleText">
 
@@ -71,7 +71,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/pretendard_bold"
-                        android:text="@{viewModel.dist.toString()}"
+                        android:text="@{viewModel.recordDistance}"
                         android:textColor="@color/black"
                         android:textSize="42dp" />
 
@@ -122,7 +122,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/pretendard_bold"
-                                android:text="@{viewModel.pace.toString()}"
+                                android:text="@{viewModel.recordPace}"
                                 android:textColor="@color/black"
                                 android:textSize="18dp" />
                         </LinearLayout>
@@ -143,7 +143,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/pretendard_bold"
-                                android:text="@{viewModel.calorie}"
+                                android:text="@{viewModel.recordCalories}"
                                 android:textColor="@color/black"
                                 android:textSize="18dp" />
                         </LinearLayout>
@@ -191,7 +191,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/pretendard_bold"
-                                android:text="@{viewModel.speed.toString()}"
+                                android:text="@{viewModel.recordSpeed}"
                                 android:textColor="@color/black"
                                 android:textSize="18dp" />
                         </LinearLayout>
@@ -212,7 +212,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/pretendard_bold"
-                                android:text="@{viewModel.time}"
+                                android:text="@{viewModel.recordTime}"
                                 android:textColor="@color/black"
                                 android:textSize="18dp" />
                         </LinearLayout>
@@ -247,57 +247,31 @@
                     android:layout_height="400dp"
                     tools:layout="@layout/abc_search_view"/>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <fragment
+                    android:id="@+id/sectionFragment"
+                    android:name="com.ssafy.darly.fragment.SectionFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_marginTop="40dp"
+                    app:layout_constraintTop_toBottomOf="@+id/mapview"
+                    tools:layout_editor_absoluteX="20dp" />
 
-                    <TextView
-                        android:id="@+id/textSection"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/pretendard_bold"
-                        android:text="구간"
-                        android:textColor="@color/black"
-                        android:textSize="30dp"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                <fragment
+                    android:id="@+id/rankFragment"
+                    android:name="com.ssafy.darly.fragment.RankFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    app:layout_constraintTop_toBottomOf="@+id/sectionFragment"
+                    tools:layout_editor_absoluteX="20dp" />
 
-                    <TextView
-                        android:id="@+id/textKm"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:text="km"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/textSection" />
-
-                    <TextView
-                        android:id="@+id/textPace"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginTop="20dp"
-                        android:text="평균 페이스"
-                        app:layout_constraintLeft_toRightOf="@+id/textKm"
-                        app:layout_constraintTop_toBottomOf="@id/textSection" />
-
-                    <LinearLayout
-                        android:id="@+id/sectionView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        app:layout_constraintTop_toBottomOf="@+id/textKm">
-
-                        <com.github.mikephil.charting.charts.LineChart
-                            android:id="@+id/lineChart"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-                    </LinearLayout>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                <ImageView
+                    android:id="@+id/cameraButton"
+                    android:src="@drawable/ic_camera_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -9,6 +9,8 @@ import android.location.Location
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
+import android.os.Vibrator
+import android.speech.tts.TextToSpeech
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -17,9 +19,11 @@ import com.ssafy.darly.R
 import com.ssafy.darly.activity.RunningActivity
 import com.ssafy.darly.activity.RunningActivity.Companion.ACTION_STOP
 import com.ssafy.darly.util.LocationHelper
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.concurrent.thread
 
-class MyService : Service() {
+class MyService : Service(){
     val binder = MyBinder()
     var started = false
     val time = MutableLiveData<Int>()
@@ -30,6 +34,7 @@ class MyService : Service() {
 
     // 이동경로,시간,속력등 정보
     var locationList = MutableLiveData<ArrayList<Location>>()
+
 
     init {
         totalDist.value = 0.0f
@@ -70,6 +75,7 @@ class MyService : Service() {
                             //totalDist.value = totalDist.value?.plus(location.distanceTo(befLoc) * 10)
                         }
                         befLoc = location
+
                     }
                 }
             })

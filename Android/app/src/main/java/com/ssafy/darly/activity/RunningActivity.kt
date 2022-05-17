@@ -1,18 +1,19 @@
 package com.ssafy.darly.activity
 
 import android.app.ActivityManager
-import android.content.ComponentName
-import android.content.Context
-import android.content.Intent
-import android.content.ServiceConnection
-import android.os.Bundle
-import android.os.IBinder
+import android.content.*
+import android.location.Location
+import android.os.*
+import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.ssafy.darly.BuildConfig
 import com.ssafy.darly.R
@@ -20,13 +21,18 @@ import com.ssafy.darly.background.MyService
 import com.ssafy.darly.databinding.ActivityRunningBinding
 import com.ssafy.darly.fragment.PauseFragment
 import com.ssafy.darly.viewmodel.RunningViewModel
+import java.util.*
 
-class RunningActivity : AppCompatActivity() {
+class RunningActivity : AppCompatActivity() , TextToSpeech.OnInitListener {
     private lateinit var binding: ActivityRunningBinding
     private val model: RunningViewModel by viewModels()
 
     private lateinit var service : MyService
     private var bound: Boolean = false
+
+
+    private var tts: TextToSpeech? = null
+    var cnt = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +47,8 @@ class RunningActivity : AppCompatActivity() {
         binding.pauseFragment.visibility = View.INVISIBLE
         model.target.value = intent.getStringExtra("target")
 
+        tts = TextToSpeech(this, this)
+
         serviceStart()
         initBtn()
     }
@@ -48,6 +56,10 @@ class RunningActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         serviceStop()
+//        if (tts != null) {
+//            tts!!.stop()
+//            tts!!.shutdown()
+//        }
     }
 
     private fun initBtn(){
@@ -88,14 +100,25 @@ class RunningActivity : AppCompatActivity() {
             binding.progressBar.progress = model.getRate()?.toInt() ?: 0
 
             model.locationList.value = service.locationList.value
-            //Toast.makeText(this,"${model.paceSection.value?.size} , 섹션크기",Toast.LENGTH_LONG).show()
+
+            if(model.dist.value!! >= cnt){
+                cnt++
+                // 1. Vibrator 객체를 얻어온 다음
+                val vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
+                // 2. 진동 구현: 600ms
+                vibrator.vibrate(500)
+
+                if(dist == 0f)
+                    startTTS("기록을 시작합니다")
+                else
+                    startTTS("${dist} km 만큼 주행하였습니다.")
+            }
         })
 
         // 일시정지를 누르면 일시정지화면을 보여준다.
         model.isPause.observe(this, Observer { isPause ->
             if(isPause){
                 serviceStop()
-                Log.d("MainActivity", "일시정지 입니다.")
                 Toast.makeText(this,"일시정지 합니다.",Toast.LENGTH_SHORT).show()
 
                 binding.pauseFragment.visibility = View.VISIBLE
@@ -107,7 +130,6 @@ class RunningActivity : AppCompatActivity() {
                 binding.endButton.isEnabled = true
             }else{
                 serviceStart()
-                Log.d("MainActivity", "운동을 시작합니다.")
                 Toast.makeText(this,"운동을 시작합니다.",Toast.LENGTH_SHORT).show()
 
                 binding.pauseFragment.visibility = View.INVISIBLE
@@ -170,5 +192,26 @@ class RunningActivity : AppCompatActivity() {
 
     companion object{
         const val  ACTION_STOP = "${BuildConfig.APPLICATION_ID}.stop"
+    }
+
+    // TTS 예제
+    private fun startTTS(str : String) {
+        tts!!.speak(str, TextToSpeech.QUEUE_FLUSH, null, "")
+    }
+
+    // TextToSpeech override 함수
+    override fun onInit(status: Int) {
+        if (status == TextToSpeech.SUCCESS) {
+            // set US English as language for tts
+            val result = tts!!.setLanguage(Locale.KOREA)
+
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                //doSomething
+            } else {
+                //doSomething
+            }
+        } else {
+            //doSomething
+        }
     }
 }

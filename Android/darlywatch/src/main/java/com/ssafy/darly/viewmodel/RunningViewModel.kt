@@ -84,10 +84,11 @@ class RunningViewModel : ViewModel(){
             befTime = timeCnt
         }else if(d == 0f){
             // 마지막 남은거리 처리
-            // 0인것도 넘어오는데 테스트를위해 그냥 둿음
-            val sectionDist = dist.value?.minus(dist.value?.toInt()!!)
-            val sectionPace = (currentTime / sectionDist!!).toInt()
-            paceSection.value?.add(Section(sectionDist, sectionPace,currentCalorie))
+            if(dist.value != 0f){
+                val sectionDist = dist.value?.minus(dist.value?.toInt()!!)
+                val sectionPace = (currentTime / sectionDist!!).toInt()
+                paceSection.value?.add(Section(sectionDist, sectionPace,currentCalorie))
+            }
         }
     }
 
