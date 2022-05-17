@@ -99,7 +99,6 @@ class MatchActivity : AppCompatActivity() {
                 "PACE" -> {
                     if(userId != myUserId.toString()){
                     CoroutineScope(Dispatchers.Main).launch {
-                        Toast.makeText(this@MatchActivity, "${parseJSONUserList(newMessage.getString("nowPaces"))}", Toast.LENGTH_LONG).show()
                         userList = parseJSONUserList(newMessage.getString("nowPaces"))
                         for ((index, user) in userList.withIndex()) {
                                 if (user.userId == myUserId) {
@@ -160,15 +159,6 @@ class MatchActivity : AppCompatActivity() {
         // 시간초
         service.time.observe(this, Observer { time ->
             model.setTime(time)
-            model.locationList.value = service.locationList.value
-            val data = JSONObject()
-            data.put("type", "PACE")
-            data.put("nowDistance", service.totalDist.value)
-            data.put("nowTime", service.time.value)
-            data.put("nowPace", model.pace.value)
-            data.put("userId", myUserId)
-            data.put("matchId", matchId)
-            stompClient.send("/pub/usermatch", data.toString()).subscribe()
         })
 
         // 이동거리
@@ -183,7 +173,7 @@ class MatchActivity : AppCompatActivity() {
             model.locationList.value = service.locationList.value
             val data = JSONObject()
             data.put("type", "PACE")
-            data.put("nowDistance", service.totalDist.value)
+            data.put("nowDistance", model.dist.value)
             data.put("nowTime", service.time.value)
             data.put("nowPace", model.pace.value)
             data.put("userId", myUserId)
