@@ -33,7 +33,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Upload"
+                    android:text="경쟁방 만들기"
                     android:textColor="@color/black"
                     android:textSize="18dp" />
 
@@ -49,7 +49,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="3dp"
-                    android:text="Title"
+                    android:text="제목"
                     android:textColor="@color/black" />
 
                 <EditText
@@ -81,7 +81,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="3dp"
-                    android:text="Distance"
+                    android:text="목표 거리 설정"
                     android:textColor="@color/black" />
 
                 <LinearLayout
