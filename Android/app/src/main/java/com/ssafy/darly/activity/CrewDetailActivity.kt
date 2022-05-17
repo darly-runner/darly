@@ -113,6 +113,10 @@ class CrewDetailActivity : AppCompatActivity() {
 //            intent.putExtra("crewId", crewId)
 //            ContextCompat.startActivity(this, intent, null)
         }
+
+        binding.backBtn.setOnClickListener {
+            finish()
+        }
     }
 
     override fun onBackPressed() {

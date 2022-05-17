@@ -48,7 +48,7 @@ class CrewMatchLobbyAdapter(
         glide.load(users.get(position).userImage).circleCrop().into(holder.userImg)
         holder.userName.text = users.get(position).userNickname
         holder.userDistance.text = users.get(position).userTotalDistance.toString()
-        holder.userPace.text = users.get(position).userPaceAvg.toString()
+        holder.userPace.text = timeToStr(users.get(position).userPaceAvg.toInt())
 
         val isReady = users.get(position).userStatus
         when (isReady) {
@@ -56,7 +56,7 @@ class CrewMatchLobbyAdapter(
             "N" -> holder.userIsReady.setImageResource(R.drawable.ic_unready)
         }
         val isUserHost = users.get(position).isHost
-        when(isUserHost == 1) {
+        when (isUserHost == 1) {
             true -> {
                 holder.isHost.visibility = View.VISIBLE
                 holder.userIsReady.setImageResource(R.drawable.ic_status_ready)
@@ -67,5 +67,25 @@ class CrewMatchLobbyAdapter(
 
     override fun getItemCount(): Int {
         return users.size
+    }
+
+    // time -> hh:mm:ss
+    fun timeToStr(t : Int) : String{
+        val m = t / 60
+        var second = (t % 60).toString()
+
+        val hour = (m / 60).toString()
+        var minute = (m % 60).toString()
+
+        if(minute.length == 1)
+            minute = "0$minute"
+
+        if(second.length == 1)
+            second = "0$second"
+
+        return if(hour != "0")
+            "$hour:$minute:$second"
+        else
+            "$minute:$second"
     }
 }
