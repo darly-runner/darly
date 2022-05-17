@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
@@ -17,14 +18,16 @@ class CrewMatchListAdapter(
     private val roomsList: List<MatchDetails>,
     val inflater: LayoutInflater,
     val glide: RequestManager
-): RecyclerView.Adapter<CrewMatchListAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<CrewMatchListAdapter.ViewHolder>() {
 
-    inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val hostImg: ImageView
         val goalDistance: TextView
         val matchTitle: TextView
         val hostNickname: TextView
         val currentNum: TextView
+        val matchDisable: ImageView
+        val isStarted: TextView
 
         init {
             hostImg = itemView.findViewById(R.id.matchHostImg)
@@ -32,10 +35,15 @@ class CrewMatchListAdapter(
             matchTitle = itemView.findViewById(R.id.matchTitle)
             hostNickname = itemView.findViewById(R.id.hostNickname)
             currentNum = itemView.findViewById(R.id.currentNum)
+            matchDisable = itemView.findViewById(R.id.matchDisable)
+            isStarted = itemView.findViewById(R.id.isStarted)
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CrewMatchListAdapter.ViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): CrewMatchListAdapter.ViewHolder {
         val view = inflater.inflate(R.layout.crew_rooms_item, parent, false)
         return ViewHolder(view)
     }
@@ -47,12 +55,29 @@ class CrewMatchListAdapter(
         holder.hostNickname.text = roomsList.get(position).hostNickname
         holder.currentNum.text = roomsList.get(position).matchCurPerson.toString()
 //        holder.currentNum.text = roomsList.size.toString()
-        val matchId = roomsList.get(position).matchId
 
-        holder.itemView.setOnClickListener {
-            val intent = Intent(holder.itemView.context, MatchLobbyActivity::class.java)
-            intent.putExtra("matchId", matchId)
-            ContextCompat.startActivity(holder.itemView.context, intent, null)
+        val currentNum = roomsList.get(position).matchCurPerson
+        val matchId = roomsList.get(position).matchId
+        val matchStatus = roomsList.get(position).matchStatus
+
+        when (matchStatus) {
+            "S" -> holder.isStarted.text = "경쟁중"
+            "W" -> {
+                holder.isStarted.visibility = View.GONE
+                holder.matchDisable.visibility = View.GONE
+                holder.itemView.setOnClickListener {
+                    if (currentNum < 6) {
+//                    holder.itemView.setOnClickListener {
+                        val intent = Intent(holder.itemView.context, MatchLobbyActivity::class.java)
+                        intent.putExtra("matchId", matchId)
+                        intent.putExtra("matchStatus", matchStatus)
+                        ContextCompat.startActivity(holder.itemView.context, intent, null)
+//                    }
+                    } else {
+                        Toast.makeText(holder.itemView.context, "정원이 초과되었습니다.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
         }
     }
 
