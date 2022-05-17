@@ -94,8 +94,6 @@ class RecordDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             binding.titleText.clearFocus()
             true
         }
-
-
     }
 
     private fun setModelData(response: Response<RecordDetailGetRes>) {

@@ -157,15 +157,6 @@ public class MessageController {
 
             List<UserNowPace> paces = message.getPaces();
 
-//            Long userId = message.getUserId();
-//            Float nowDistance = message.getNowDistance();
-//            Integer nowTime = message.getNowTime();
-//            Integer nowPace = Math.round(nowDistance/nowTime);
-//
-//            message.setUserId(userId);
-//            message.setNowDistance(nowDistance);
-//            message.setNowPace(nowPace);
-
             PriorityQueue<UserNowPace> nowPaces = matchService.nowPaces(paces);
 
             message.setNowPaces(nowPaces);
