@@ -1,96 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/match_background"
-    android:padding="30dp">
-    <ImageView
-        android:id="@+id/profileImage"
-        android:src="@drawable/ic_logo"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-    <TextView
-        android:id="@+id/nicknameText"
-        android:text="로고얘가만듬"
-        android:textColor="@color/white"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        app:layout_constraintTop_toTopOf="@+id/profileImage"
-        app:layout_constraintBottom_toBottomOf="@+id/profileImage"
-        app:layout_constraintLeft_toRightOf="@+id/profileImage"/>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/timeText"
-        android:text="2등"
-        android:textColor="@color/white"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="30dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/paceText"/>
-    <TextView
-        android:id="@+id/timeUiText"
-        android:text="순위"
-        android:textColor="@color/white"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="@id/timeText"
-        app:layout_constraintRight_toRightOf="@id/timeText"
-        app:layout_constraintTop_toBottomOf="@id/timeText"/>
+    <data>
 
-    <TextView
-        android:id="@+id/paceText"
-        android:text="8`23``"
-        android:textColor="@color/white"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
-    <TextView
-        android:id="@+id/paceUiText"
-        android:text="페이스"
-        android:textColor="@color/white"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="@id/paceText"
-        app:layout_constraintRight_toRightOf="@id/paceText"
-        app:layout_constraintTop_toBottomOf="@id/paceText"/>
+        <variable
+            name="viewModel"
+            type="com.ssafy.darly.model.socket.UserModel" />
+    </data>
 
-    <LinearLayout
-        android:id="@+id/recordView"
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="20dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/timeUiText"
-        app:layout_constraintBottom_toBottomOf="parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/match_background"
+        android:padding="30dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profileImage"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            setImage="@{viewModel.userImage}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
-            android:text="4.33"
-            android:textSize="48dp"
-            android:textColor="@color/white"
-            android:fontFamily="@font/futura_bold_italic"
+            android:id="@+id/nicknameText"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:text="kilomiters"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="@{viewModel.userNickname}"
             android:textColor="@color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <ProgressBar
-            style="?android:attr/progressBarStyleHorizontal"
-            android:id="@+id/progressBar"
-            android:layout_width="200dp"
-            android:layout_height="20dp"
-            android:progress="50"
-            android:progressTint="@color/main" />
-    </LinearLayout>
+            app:layout_constraintBottom_toBottomOf="@+id/profileImage"
+            app:layout_constraintLeft_toRightOf="@+id/profileImage"
+            app:layout_constraintTop_toTopOf="@+id/profileImage" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/timeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:text="@{viewModel.rank}"
+            android:textColor="@color/white"
+            app:layout_constraintRight_toLeftOf="@+id/paceText"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/timeUiText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="순위"
+            android:textColor="@color/white"
+            app:layout_constraintLeft_toLeftOf="@id/timeText"
+            app:layout_constraintRight_toRightOf="@id/timeText"
+            app:layout_constraintTop_toBottomOf="@id/timeText" />
+
+        <TextView
+            android:id="@+id/paceText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.pace}"
+            android:textColor="@color/white"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:minWidth="50dp"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/paceUiText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="페이스"
+            android:textColor="@color/white"
+            app:layout_constraintLeft_toLeftOf="@id/paceText"
+            app:layout_constraintRight_toRightOf="@id/paceText"
+            app:layout_constraintTop_toBottomOf="@id/paceText" />
+
+        <LinearLayout
+            android:id="@+id/recordView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/timeUiText">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/futura_bold_italic"
+                android:text="@{viewModel.distance}"
+                android:textColor="@color/white"
+                android:textSize="48dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="kilomiters"
+                android:textColor="@color/white" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="200dp"
+                android:layout_height="20dp"
+                android:progress="50"
+                android:progressTint="@color/main" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

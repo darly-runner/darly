@@ -44,4 +44,24 @@ class RecordDetailViewModel : ViewModel() {
         rankStringList.value = listOf()
         recordRank.value = 0
     }
+
+    // time -> hh:mm:ss
+    fun timeToStr(t : Int) : String{
+        val m = t / 60
+        var second = (t % 60).toString()
+
+        val hour = (m / 60).toString()
+        var minute = (m % 60).toString()
+
+        if(minute.length == 1)
+            minute = "0$minute"
+
+        if(second.length == 1)
+            second = "0$second"
+
+        return if(hour != "0")
+            "$hour:$minute:$second"
+        else
+            "$minute:$second"
+    }
 }
