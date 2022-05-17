@@ -3,10 +3,12 @@ package com.darly.db.entity.socket;
 import com.darly.db.entity.match.MatchRUser;
 import com.darly.db.entity.user.User;
 import com.darly.db.entity.user.UserNowMapping;
+import com.darly.db.entity.user.UserNowPace;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.PriorityQueue;
 
 @Getter
 @Setter
@@ -47,10 +49,15 @@ public class SocketMessage {
     // 현재 방안의 유저들
     private List<UserNowMapping> users;
 
+    private List<UserNowPace> Paces;
+
+    // 매치의 페이스 비교용
+    private PriorityQueue<UserNowPace> nowPaces;
+
     // 경기 진행중의 정보
-    private Float nowDistance;
-    private Integer nowTime;
-    private Integer nowPace;
+//    private Float nowDistance;
+//    private Integer nowTime;
+//    private Integer nowPace;
 
     // 메시지
     private String message;
