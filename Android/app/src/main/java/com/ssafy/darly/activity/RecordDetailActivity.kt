@@ -236,7 +236,7 @@ class RecordDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             vectorDrawable.draw(canvas)
             map.addMarker(
                 MarkerOptions()
-                    .position(LatLng(it[it.size - 1].latitude - 0.00005, it[it.size - 1].longitude - 0.00005))
+                    .position(LatLng(it[it.size - 1].latitude, it[it.size - 1].longitude))
                     .icon(BitmapDescriptorFactory.fromBitmap(bitmap))
                     .zIndex(2f)
             );
@@ -265,8 +265,8 @@ class RecordDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             if(it){
                 var latlng =
                     LatLng(
-                        (model.latLngList.value?.get(0)?.latitude ?: 0.0) - 0.0001,
-                        (model.latLngList.value?.get(0)?.longitude ?: 0.0) - 0.0001
+                        (model.latLngList.value?.get(0)?.latitude ?: 0.0),
+                        (model.latLngList.value?.get(0)?.longitude ?: 0.0)
                     )
                 var markerOptions = MarkerOptions()
                 markerOptions.position(latlng)
