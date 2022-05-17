@@ -17,8 +17,6 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
-import javax.annotation.Priority;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
 
