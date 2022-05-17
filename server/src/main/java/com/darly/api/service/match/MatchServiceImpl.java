@@ -11,6 +11,7 @@ import com.darly.db.entity.match.UserMatchId;
 import com.darly.db.entity.user.User;
 import com.darly.db.entity.user.UserMatchMapping;
 import com.darly.db.entity.user.UserNowMapping;
+import com.darly.db.entity.user.UserNowPace;
 import com.darly.db.repository.match.MatchRepository;
 import com.darly.db.repository.match.UserMatchRepository;
 import com.darly.db.repository.match.UserMatchRepositorySupport;
@@ -152,8 +153,6 @@ public class MatchServiceImpl implements MatchService {
         UserMatch userMatch = userMatchRepository.findByUserMatchId_Match_MatchIdAndUserMatchId_User_UserId(matchId, userId);
         Match match = matchRepository.findByMatchId(matchId);
         Long hostId = match.getHost().getUserId();
-        System.out.println(hostId);
-        System.out.println(userId);
 
         // 퇴장한 사람이 방장이 아님
         if(hostId != userId) {
@@ -234,7 +233,6 @@ public class MatchServiceImpl implements MatchService {
         User user = userRepository.getById(userId);
         Long totalRecordNum = recordRepository.countAllByUser_UserId(userId);
 
-
         if (userQueue.size() == 0) {
             userQueue.add(MatchRUser.builder()
                             .user(user)
@@ -286,6 +284,22 @@ public class MatchServiceImpl implements MatchService {
         }
 
         return users;
+    }
+
+    @Override
+    public PriorityQueue<UserNowPace> nowPaces(List<UserNowPace> paces) {
+        PriorityQueue<UserNowPace> nowPaces = new PriorityQueue<>();
+
+        for (UserNowPace pace : paces) {
+            nowPaces.add(UserNowPace.builder()
+                    .userId(pace.getUserId())
+                    .nowTime(pace.getNowTime())
+                    .userNowDistance(pace.getUserNowDistance())
+                    .nowPace(Math.round(pace.getUserNowDistance()/pace.getNowTime()))
+                    .build());
+        }
+
+        return nowPaces;
     }
 
     private void makeRandomMatch(User user) {

@@ -92,6 +92,7 @@
         <entry key="app/src/main/res/drawable/button_background_stroke.xml" value="0.1095" />
         <entry key="app/src/main/res/drawable/button_crewjoin_disable.xml" value="0.1095" />
         <entry key="app/src/main/res/drawable/crew_create_background.xml" value="0.294" />
+        <entry key="app/src/main/res/drawable/crew_detail_tab_background.xml" value="0.137" />
         <entry key="app/src/main/res/drawable/crew_img_upload_background.xml" value="0.1925" />
         <entry key="app/src/main/res/drawable/crew_location_background.xml" value="0.2355" />
         <entry key="app/src/main/res/drawable/crew_location_selected.xml" value="0.2305" />

@@ -40,7 +40,6 @@ class MatchActivity : AppCompatActivity() {
     private lateinit var service: MyService
     private var bound: Boolean = false
 
-    //    private var competitors = ArrayList<>
     private var matchId: Long = 0
     private var isHost: Int = 0
     private var myUserId: Long = 0
