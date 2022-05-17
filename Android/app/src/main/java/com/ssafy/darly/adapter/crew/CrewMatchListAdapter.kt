@@ -61,7 +61,7 @@ class CrewMatchListAdapter(
         val matchStatus = roomsList.get(position).matchStatus
 
         when (matchStatus) {
-            "S" -> holder.isStarted.text = "달리기 진행중"
+            "S" -> holder.isStarted.text = "경쟁중"
             "W" -> {
                 holder.isStarted.visibility = View.GONE
                 holder.matchDisable.visibility = View.GONE
@@ -79,8 +79,6 @@ class CrewMatchListAdapter(
                 }
             }
         }
-
-
     }
 
     override fun getItemCount(): Int {
