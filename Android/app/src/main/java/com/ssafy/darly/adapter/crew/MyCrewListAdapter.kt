@@ -38,7 +38,13 @@ class MyCrewListAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.myCrewName.text = myCrewItemList.get(position).crewName
+//        holder.myCrewName.text = myCrewItemList.get(position).crewName
+        if (myCrewItemList.get(position).crewName.length > 6) {
+            val crewNameText = myCrewItemList.get(position).crewName.slice(IntRange(0,4)) + "..."
+            holder.myCrewName.text = crewNameText
+        } else {
+            holder.myCrewName.text = myCrewItemList.get(position).crewName
+        }
         glide.load((myCrewItemList.get(position).crewImage)).circleCrop().into(holder.myCrewImg)
         val crewId = myCrewItemList.get(position).crewId
 
