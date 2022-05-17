@@ -23,8 +23,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -197,7 +195,7 @@ class RecordDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             }
             map.addPolyline(polylineOptions)
 
-            var swLat = 180.0
+            var swLat = 90.0
             var swLng = 180.0
             var neLat = 0.0
             var neLng = 0.0
@@ -214,28 +212,36 @@ class RecordDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             Log.d("response!!", "${LatLng(swLat - 0.0001, swLng - 0.0001)}")
             Log.d("response!!", "${LatLng(neLat + 0.0001, neLng + 0.0001)}")
 
-            val bounds = LatLngBounds(
-                LatLng(swLat - 0.0002, swLng - 0.0002),
-                LatLng(neLat + 0.0002, neLng + 0.0002)
-            )
-
-            map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 10));
+            if (it.isEmpty()) {
+                val bounds = LatLngBounds(
+                    LatLng(37.5646805, 126.9764147),
+                    LatLng(37.5686805, 126.9804147)
+                )
+                map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 10));
+            } else {
+                val bounds = LatLngBounds(
+                    LatLng(swLat - 0.0002, swLng - 0.0002),
+                    LatLng(neLat + 0.0002, neLng + 0.0002)
+                )
+                map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 10));
+            }
 
             val vectorDrawable = resources.getDrawable(R.drawable.ic_end_point)
             vectorDrawable!!.setBounds(0, 0, vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight)
             var bitmap = Bitmap.createBitmap(vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
             var canvas = Canvas(bitmap)
             vectorDrawable.draw(canvas)
-            map.addMarker(
-                MarkerOptions()
-                    .position(LatLng(it[it.size - 1].latitude, it[it.size - 1].longitude))
-                    .icon(BitmapDescriptorFactory.fromBitmap(bitmap))
-                    .zIndex(2f)
-            );
+            if (!it.isEmpty())
+                map.addMarker(
+                    MarkerOptions()
+                        .position(LatLng(it[it.size - 1].latitude, it[it.size - 1].longitude))
+                        .icon(BitmapDescriptorFactory.fromBitmap(bitmap))
+                        .zIndex(2f)
+                );
         })
 
         model.userImage.observe(this, Observer {
-            if (model.userImage.value != null) {
+            if (model.userImage.value != null && model.latLngList.value?.size ?: 0 > 0) {
                 CoroutineScope(Dispatchers.Main).launch {
 
                     val options: RequestOptions = RequestOptions()
