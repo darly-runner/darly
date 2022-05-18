@@ -8,7 +8,6 @@ import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -76,11 +75,17 @@ class MatchActivity : AppCompatActivity() {
                     if (userId == myUserId.toString()) {
                         CoroutineScope(Dispatchers.Main).launch {
                             userList = parseJSONUserList(newMessage.getString("users"))
+//                            val myUserList = mutableListOf<UserModel>()
                             for ((index, user) in userList.withIndex()) {
-                                if (user.userId == myUserId) {
-                                    userList.removeAt(index)
-                                    continue
-                                }
+//                                if (user.userId != myUserId) {
+//                                    myUserList.add(
+//                                        UserModel(
+//                                        nowDistance = 0F
+//
+//                                    ))
+//                                    userList.removeAt(index)
+//                                    continue
+//                                }
                                 user.nowDistance = 0F
                                 user.nowPace = "--"
                                 user.nowRank = 1
@@ -101,10 +106,10 @@ class MatchActivity : AppCompatActivity() {
                     CoroutineScope(Dispatchers.Main).launch {
                         userList = parseJSONUserList(newMessage.getString("nowPaces"))
                         for ((index, user) in userList.withIndex()) {
-                                if (user.userId == myUserId) {
-                                    userList.removeAt(index)
-                                    continue
-                                }
+//                                if (user.userId == myUserId) {
+//                                    userList.removeAt(index)
+//                                    continue
+//                                }
                             user.nowRank = index + 1
                             user.distance = String.format("%.02f", user.nowDistance)
                             user.rank = "${user.nowRank}등"
