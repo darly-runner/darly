@@ -30,35 +30,35 @@ class TargetDialog(context: Context) : BottomSheetDialog(context){
         val reset = view.findViewById<TextView>(R.id.reset)
 
         distance1.setOnClickListener {
-            onClickedListener.onClicked("1.00")
+            onClickedListener.onClicked("1.0")
             dismiss()
         }
         distance3.setOnClickListener {
-            onClickedListener.onClicked("3.00")
+            onClickedListener.onClicked("3.0")
             dismiss()
         }
         distance5.setOnClickListener {
-            onClickedListener.onClicked("5.00")
+            onClickedListener.onClicked("5.0")
             dismiss()
         }
         distance10.setOnClickListener {
-            onClickedListener.onClicked("10.00")
+            onClickedListener.onClicked("10.0")
             dismiss()
         }
         distance15.setOnClickListener {
-            onClickedListener.onClicked("15.00")
+            onClickedListener.onClicked("15.0")
             dismiss()
         }
         distance20.setOnClickListener {
-            onClickedListener.onClicked("20.00")
+            onClickedListener.onClicked("20.0")
             dismiss()
         }
         distance42.setOnClickListener {
-            onClickedListener.onClicked("42.00")
+            onClickedListener.onClicked("42.0")
             dismiss()
         }
         reset.setOnClickListener {
-            onClickedListener.onClicked("5.00")
+            onClickedListener.onClicked("5.0")
             dismiss()
         }
     }
