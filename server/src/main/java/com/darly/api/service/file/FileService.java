@@ -2,6 +2,7 @@ package com.darly.api.service.file;
 
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.darly.common.model.s3.FileFolder;
+import org.springframework.core.io.Resource;
 
 import java.io.InputStream;
 
