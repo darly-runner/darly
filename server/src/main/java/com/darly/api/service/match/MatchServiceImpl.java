@@ -35,6 +35,7 @@ public class MatchServiceImpl implements MatchService {
     private PriorityQueue<MatchRUser> userQueue = new PriorityQueue();
 
     private Map<Long, List<UserNowPace>> userPaceMap = new HashMap<>();
+    private Map<Long, List<Integer>> userResultMap = new HashMap<>();
 
     @Override
     public void setNullByCrewId(Long crewId) {
@@ -275,6 +276,8 @@ public class MatchServiceImpl implements MatchService {
                         .build());
             }
             userPaceMap.put(matchId, userNowPaceList);
+            List<Integer> userResultList = new ArrayList<>();
+            userResultMap.put(matchId, userResultList);
         }
         return userPaceMap.get(matchId);
     }
@@ -296,15 +299,18 @@ public class MatchServiceImpl implements MatchService {
 
     @Override
     public List<UserNowPace> resultMatch(Long matchId, Long userId, Integer nowTime, Integer nowPaceInt) {
-        List<UserNowPace> userList = userPaceMap.get(matchId);
-        int rank = 0;
-        for (int i = 0; i < userList.size(); i++) {
-            if (userList.get(i).getUserId().equals(userId)) {
-                rank = i;
-                userList.remove(i);
-                break;
-            }
-        }
+        List<Integer> userResult = userResultMap.get(matchId);
+        int rank = userResult.size() + 1;
+
+//        List<UserNowPace> userList = userPaceMap.get(matchId);
+//        int rank = 0;
+//        for (int i = 0; i < userList.size(); i++) {
+//            if (userList.get(i).getUserId().equals(userId)) {
+//                rank = i;
+//                userList.remove(i);
+//                break;
+//            }
+//        }
 
         matchResultRepository.save(MatchResult.builder()
                 .matchId(matchId)
@@ -313,7 +319,8 @@ public class MatchServiceImpl implements MatchService {
                 .matchResultTime(nowTime)
                 .build());
 
-        userPaceMap.put(matchId, userList);
+        userResultMap.put(matchId, userResult);
+//        userPaceMap.put(matchId, userList);
         return null;
     }
 
