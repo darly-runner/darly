@@ -11,10 +11,10 @@ public class MatchResultMapping {
     private String userImage;
     private Short matchResultRank;
     private Integer matchResultTime;
-    private Float matchResultPace;
+    private Integer matchResultPace;
 
     @QueryProjection
-    public MatchResultMapping(String userNickname, String userImage, Short matchResultRank, Integer matchResultTime, Float matchResultPace) {
+    public MatchResultMapping(String userNickname, String userImage, Short matchResultRank, Integer matchResultTime, Integer matchResultPace) {
         this.userNickname = userNickname;
         this.userImage = userImage;
         this.matchResultRank = matchResultRank;
