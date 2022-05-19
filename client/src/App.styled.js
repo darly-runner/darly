@@ -18,33 +18,35 @@ export const Title = styled.div``;
 
 export const Layout = styled.div`
   width: 100%;
-  padding-top: 13vh;
+  /* padding-top: 13vh; */
 `;
 
 export const Main = styled.div`
   width: 100%;
   height: 784px;
-  background-color: #fff8f8;
+  /* background-color: #fff8f8; */
 `;
 
 export const Crew = styled.div`
   width: 100%;
   height: 784px;
+  background-color: #fff8f8;
 `;
 
 export const Compete = styled.div`
   width: 100%;
   height: 784px;
-  background-color: #fff8f8;
+  /* background-color: #fff8f8; */
 `;
 
 export const Activity = styled.div`
   width: 100%;
   height: 784px;
+  background-color: #fff8f8;
 `;
 
 export const Friends = styled.div`
   width: 100%;
   height: 784px;
-  background-color: #fff8f8;
+  /* background-color: #fff8f8; */
 `;
