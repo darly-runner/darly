@@ -7,6 +7,8 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
+import android.os.Vibrator
+import android.speech.tts.TextToSpeech
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -30,9 +32,10 @@ import org.json.JSONObject
 import ua.naiksoftware.stomp.Stomp
 import ua.naiksoftware.stomp.dto.LifecycleEvent
 import java.lang.reflect.Type
+import java.util.*
 
 
-class MatchActivity : AppCompatActivity() {
+class MatchActivity : AppCompatActivity() , TextToSpeech.OnInitListener{
     private lateinit var binding: ActivityMatchBinding
     private val model: RunningViewModel by viewModels()
 
@@ -51,6 +54,9 @@ class MatchActivity : AppCompatActivity() {
 
     private val userMap = mutableMapOf<Long, Int>()
     private var userList = mutableListOf<UserModel>()
+
+    private var tts: TextToSpeech? = null
+    var cnt = 0
 
     @SuppressLint("CheckResult")
     fun runStomp() {
@@ -127,7 +133,6 @@ class MatchActivity : AppCompatActivity() {
         }
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -139,6 +144,8 @@ class MatchActivity : AppCompatActivity() {
         myUserId = intent.getLongExtra("myUserId", 0)
         isHost = intent.getIntExtra("isHost", 0)
         crewId = intent.getLongExtra("crewId", 0)
+
+        tts = TextToSpeech(this, this)
 
         serviceStart()
         init()
@@ -158,8 +165,14 @@ class MatchActivity : AppCompatActivity() {
         binding.endButton.setOnClickListener {
             serviceStop()
             leaveService()
-        }
 
+            model.setPaceBySection(0f)
+            model.rank
+
+            val intent = Intent(this, ResultActivity::class.java)
+            intent.putExtra("record", model.record())
+            startActivity(intent)
+        }
     }
 
     fun subscribeObserver() {
@@ -187,6 +200,20 @@ class MatchActivity : AppCompatActivity() {
                     model.setCalorie()
                     model.setPaceBySection(1f)
 
+                    model.locationList.value = service.locationList.value
+
+                    if(model.dist.value!! >= cnt){
+                        cnt++
+                        // 1. Vibrator 객체를 얻어온 다음
+                        val vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
+                        // 2. 진동 구현: 600ms
+                        vibrator.vibrate(500)
+
+                        if(dist == 0f)
+                            startTTS("경쟁을 시작합니다")
+                        else
+                            startTTS("${dist} km 만큼 주행하였습니다. 현재 ${model.rank.value}등 입니다.")
+                    }
                     binding.progressBar.progress = model.getRate()?.toInt() ?: 0
                     model.locationList.value = service.locationList.value
                     val data = JSONObject()
@@ -228,6 +255,10 @@ class MatchActivity : AppCompatActivity() {
         return Gson().fromJson(jsonString, type)
     }
 
+    companion object {
+        const val ACTION_STOP = "${BuildConfig.APPLICATION_ID}.stop"
+    }
+
     private fun serviceStart() {
         val intent = Intent(this, MyService::class.java)
         startService(intent)
@@ -242,10 +273,6 @@ class MatchActivity : AppCompatActivity() {
         startService(intentStop)
     }
 
-    companion object {
-        const val ACTION_STOP = "${BuildConfig.APPLICATION_ID}.stop"
-    }
-
     private fun leaveService() {
         val data = JSONObject()
         data.put("type", "LEAVE")
@@ -255,12 +282,40 @@ class MatchActivity : AppCompatActivity() {
         stompClient.send("/pub/usermatch", data.toString()).subscribe()
     }
 
+    private fun startTTS(str : String) {
+        tts!!.speak(str, TextToSpeech.QUEUE_FLUSH, null, "")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        serviceStop()
+        if (tts != null) {
+            tts!!.stop()
+            tts!!.shutdown()
+        }
+    }
+
     override fun onBackPressed() {
         super.onBackPressed()
-        serviceStop()
         leaveService()
         val intent = Intent(this, CrewDetailActivity::class.java)
         intent.putExtra("crewId", crewId)
         ContextCompat.startActivity(this, intent, null)
+    }
+
+    // TextToSpeech override 함수
+    override fun onInit(status: Int) {
+        if (status == TextToSpeech.SUCCESS) {
+            // set US English as language for tts
+            val result = tts!!.setLanguage(Locale.KOREA)
+
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                //doSomething
+            } else {
+                //doSomething
+            }
+        } else {
+            //doSomething
+        }
     }
 }
