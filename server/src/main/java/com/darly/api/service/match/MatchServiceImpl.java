@@ -276,7 +276,7 @@ public class MatchServiceImpl implements MatchService {
                         .build());
             }
             userPaceMap.put(matchId, userNowPaceList);
-            List<Integer> userResultList = new ArrayList<>();
+            List<Long> userResultList = new ArrayList<>();
             userResultMap.put(matchId, userResultList);
         }
         return userPaceMap.get(matchId);
