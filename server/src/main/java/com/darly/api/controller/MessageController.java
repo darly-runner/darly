@@ -9,7 +9,6 @@ import com.darly.api.service.match.UserMatchService;
 import com.darly.db.entity.match.Match;
 import com.darly.db.entity.match.MatchRUser;
 import com.darly.db.entity.socket.SocketMessage;
-import com.darly.db.entity.user.UserNowMapping;
 import com.darly.db.entity.user.UserNowPace;
 import com.darly.db.repository.match.UserMatchRepository;
 import lombok.RequiredArgsConstructor;
@@ -144,15 +143,23 @@ public class MessageController {
         } else if (SocketMessage.MessageType.PACE.equals(message.getType())) {
             message.setMessage("매칭 진행중");
 
-//            List<UserNowPace> paces = message.getPaces();
             Long matchId = message.getMatchId();
             Long userId = message.getUserId();
             Float nowDistance = message.getNowDistance();
             Integer nowTime = message.getNowTime();
-            String newPace = message.getNowPace();
+            String nowPace = message.getNowPace();
+            Integer nowPaceInt = message.getNowPaceInt();
 
-            message.setNowPaces(matchService.nowPaces(matchId, userId, nowDistance, nowTime, newPace));
+            message.setNowPaces(matchService.nowPaces(matchId, userId, nowDistance, nowTime, nowPace, nowPaceInt));
 
+            template.convertAndSend("/sub/usermatch/" + message.getMatchId(), message);
+        } else if (SocketMessage.MessageType.END.equals(message.getType())) {
+            Long matchId = message.getMatchId();
+            Long userId = message.getUserId();
+            Integer nowTime = message.getNowTime();
+            Integer nowPaceInt = message.getNowPaceInt();
+            Float nowDistance = message.getNowDistance();
+            matchService.resultMatch(matchId, userId, nowTime, nowPaceInt, nowDistance);
             template.convertAndSend("/sub/usermatch/" + message.getMatchId(), message);
         }
     }

@@ -22,7 +22,8 @@ public class SocketMessage {
         PACE,
         START, USER,
         RANDOMMATCH, RANDOMSTART,
-        UPDATE
+        UPDATE,
+        END
     }
     // 메시지 타입
     private MessageType type;
@@ -58,6 +59,7 @@ public class SocketMessage {
     private Float nowDistance;
     private Integer nowTime;
     private String nowPace;
+    private Integer nowPaceInt;
 
     // 메시지
     private String message;

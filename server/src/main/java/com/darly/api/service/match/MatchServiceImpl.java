@@ -4,14 +4,12 @@ import com.darly.api.request.match.MatchCreatePostReq;
 import com.darly.api.request.match.MatchPatchReq;
 import com.darly.api.response.match.MatchInRes;
 import com.darly.db.entity.crew.Crew;
-import com.darly.db.entity.match.Match;
-import com.darly.db.entity.match.MatchRUser;
-import com.darly.db.entity.match.UserMatch;
-import com.darly.db.entity.match.UserMatchId;
+import com.darly.db.entity.match.*;
 import com.darly.db.entity.user.User;
 import com.darly.db.entity.user.UserMatchMapping;
 import com.darly.db.entity.user.UserNowPace;
 import com.darly.db.repository.match.MatchRepository;
+import com.darly.db.repository.match.MatchResultRepository;
 import com.darly.db.repository.match.UserMatchRepository;
 import com.darly.db.repository.match.UserMatchRepositorySupport;
 import com.darly.db.repository.record.RecordRepository;
@@ -33,9 +31,11 @@ public class MatchServiceImpl implements MatchService {
     private final UserMatchRepositorySupport userMatchRepositorySupport;
     private final RecordRepository recordRepository;
     private final UserRepository userRepository;
+    private final MatchResultRepository matchResultRepository;
     private PriorityQueue<MatchRUser> userQueue = new PriorityQueue();
 
     private Map<Long, List<UserNowPace>> userPaceMap = new HashMap<>();
+    private Map<Long, List<Long>> userResultMap = new HashMap<>();
 
     @Override
     public void setNullByCrewId(Long crewId) {
@@ -271,28 +271,54 @@ public class MatchServiceImpl implements MatchService {
                         .userNickname(userMatch.getUserMatchId().getUser().getUserNickname())
                         .userImage(userMatch.getUserMatchId().getUser().getUserImage())
                         .nowPace("--")
+                        .nowPaceInt(0)
                         .nowDistance(0f)
                         .nowTime(0)
                         .build());
             }
             userPaceMap.put(matchId, userNowPaceList);
+            List<Long> userResultList = new ArrayList<>();
+            userResultMap.put(matchId, userResultList);
         }
         return userPaceMap.get(matchId);
     }
 
     @Override
-    public List<UserNowPace> nowPaces(Long matchId, Long userId, Float nowDistance, Integer nowTime, String nowPace) {
+    public List<UserNowPace> nowPaces(Long matchId, Long userId, Float nowDistance, Integer nowTime, String nowPace, Integer nowPaceInt) {
         List<UserNowPace> userList = userPaceMap.get(matchId);
         for (UserNowPace user : userList) {
             if (user.getUserId().equals(userId)) {
                 user.setNowTime(nowTime);
                 user.setNowDistance(nowDistance);
                 user.setNowPace(nowPace);
+                user.setNowPaceInt(nowPaceInt);
             }
         }
         Collections.sort(userList);
         userPaceMap.put(matchId, userList);
         return userList;
+    }
+
+    @Override
+    public void resultMatch(Long matchId, Long userId, Integer nowTime, Integer nowPaceInt, Float nowDistance) {
+        List<UserNowPace> userList = userPaceMap.get(matchId);
+        for (UserNowPace user : userList) {
+            if (user.getUserId().equals(userId)) {
+                user.setNowTime(nowTime);
+                user.setNowDistance(nowDistance);
+            }
+        }
+        Collections.sort(userList);
+        for (int i = 0; i < userList.size(); i++) {
+            UserNowPace userModel = userList.get(i);
+            matchResultRepository.save(MatchResult.builder()
+                    .matchId(matchId)
+                    .user(User.builder().userId(userModel.getUserId()).build())
+                    .matchResultPace(userModel.getNowPaceInt())
+                    .matchResultRank((short) (i + 1))
+                    .matchResultTime(userModel.getNowTime())
+                    .build());
+        }
     }
 
     private void makeRandomMatch(User user) {

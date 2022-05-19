@@ -230,6 +230,7 @@
                                 android:textColor="@color/grey" />
 
                             <TextView
+                                android:id="@+id/rankText"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/pretendard_bold"
