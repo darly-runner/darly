@@ -4,14 +4,12 @@ import com.darly.api.request.match.MatchCreatePostReq;
 import com.darly.api.request.match.MatchPatchReq;
 import com.darly.api.response.match.MatchInRes;
 import com.darly.db.entity.crew.Crew;
-import com.darly.db.entity.match.Match;
-import com.darly.db.entity.match.MatchRUser;
-import com.darly.db.entity.match.UserMatch;
-import com.darly.db.entity.match.UserMatchId;
+import com.darly.db.entity.match.*;
 import com.darly.db.entity.user.User;
 import com.darly.db.entity.user.UserMatchMapping;
 import com.darly.db.entity.user.UserNowPace;
 import com.darly.db.repository.match.MatchRepository;
+import com.darly.db.repository.match.MatchResultRepository;
 import com.darly.db.repository.match.UserMatchRepository;
 import com.darly.db.repository.match.UserMatchRepositorySupport;
 import com.darly.db.repository.record.RecordRepository;
@@ -33,6 +31,7 @@ public class MatchServiceImpl implements MatchService {
     private final UserMatchRepositorySupport userMatchRepositorySupport;
     private final RecordRepository recordRepository;
     private final UserRepository userRepository;
+    private final MatchResultRepository matchResultRepository;
     private PriorityQueue<MatchRUser> userQueue = new PriorityQueue();
 
     private Map<Long, List<UserNowPace>> userPaceMap = new HashMap<>();
@@ -293,6 +292,29 @@ public class MatchServiceImpl implements MatchService {
         Collections.sort(userList);
         userPaceMap.put(matchId, userList);
         return userList;
+    }
+
+    @Override
+    public List<UserNowPace> resultMatch(Long matchId, Long userId, Integer nowTime, Integer nowPaceInt) {
+        List<UserNowPace> userList = userPaceMap.get(matchId);
+        int rank = 0;
+        for (int i = 0; i < userList.size(); i++) {
+            if (userList.get(i).getUserId().equals(userId)) {
+                rank = i;
+                userList.remove(i);
+                break;
+            }
+        }
+
+        matchResultRepository.save(MatchResult.builder()
+                .matchId(matchId)
+                .matchResultPace(nowPaceInt)
+                .matchResultRank((short) (++rank))
+                .matchResultTime(nowTime)
+                .build());
+
+        userPaceMap.put(matchId, userList);
+        return null;
     }
 
     private void makeRandomMatch(User user) {
