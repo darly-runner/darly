@@ -102,7 +102,7 @@ class MatchActivity : AppCompatActivity() {
                     }
                 }
                 "PACE" -> {
-                    if(userId != myUserId.toString()){
+//                    if(userId != myUserId.toString()){
                     CoroutineScope(Dispatchers.Main).launch {
                         userList = parseJSONUserList(newMessage.getString("nowPaces"))
                         for ((index, user) in userList.withIndex()) {
@@ -118,9 +118,9 @@ class MatchActivity : AppCompatActivity() {
                         }
                         adapter.list = userList
                         adapter.notifyDataSetChanged()
-                        }
                     }
                 }
+//                }
             }
         }
     }
