@@ -111,11 +111,14 @@ class ResultActivity : AppCompatActivity(), OnMapReadyCallback {
 
         record = intent.getSerializableExtra("record") as RecordRequest
         binding.dateText.text = "$formatted"
+        model.recordRank.value = record.recordRank
         model.recordDistance.value = String.format("%.02f", record.recordDistance)
         model.recordPace.value = model.timeToStr(record.recordPace)
         model.recordCalories.value = "${record.recordCalories} kcal"
         model.recordSpeed.value = record.recordSpeed.toString()
         model.recordTime.value = model.timeToStr(record.recordTime)
+
+        binding.rankText.text = if(record.recordRank == null) "- -" else " ${record.recordRank} 위"
 
         // 카메라
         binding.cameraButton.setOnClickListener {
