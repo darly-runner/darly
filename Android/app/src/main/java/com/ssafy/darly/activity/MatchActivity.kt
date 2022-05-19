@@ -101,6 +101,10 @@ class MatchActivity : AppCompatActivity() , TextToSpeech.OnInitListener{
                                 user.pace = "--"
                                 user.rank = "${user.nowRank}등"
                                 user.time = "00:00"
+
+                                // 나의 등수 적용
+                                if(user.userId == myUserId)
+                                    model.rank.value = user.nowRank
                             }
                             adapter.list = userList
                             adapter.notifyDataSetChanged()
@@ -165,7 +169,6 @@ class MatchActivity : AppCompatActivity() , TextToSpeech.OnInitListener{
             leaveService()
 
             model.setPaceBySection(0f)
-            model.rank
 
             val intent = Intent(this, ResultActivity::class.java)
             intent.putExtra("record", model.record())
