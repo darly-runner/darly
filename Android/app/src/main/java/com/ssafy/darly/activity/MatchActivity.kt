@@ -10,7 +10,6 @@ import android.os.IBinder
 import android.os.Vibrator
 import android.speech.tts.TextToSpeech
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -176,8 +175,8 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
         // 이동거리
         service.totalDist.observe(this, Observer { dist ->
-            Toast.makeText(this, "${dist}", Toast.LENGTH_SHORT).show()
-            Log.d("end", "${dist}")
+//            Toast.makeText(this, "${dist}", Toast.LENGTH_SHORT).show()
+//            Log.d("end", "${dist}")
 
             model.setDist(dist)
             model.setSpeed()
