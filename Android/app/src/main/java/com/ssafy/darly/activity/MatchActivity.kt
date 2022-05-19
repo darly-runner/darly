@@ -53,7 +53,6 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private var isEnd = false;
     val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
 
-    private val userMap = mutableMapOf<Long, Int>()
     private var userList = mutableListOf<UserModel>()
 
     private var tts: TextToSpeech? = null
@@ -84,17 +83,7 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                     if (userId == myUserId.toString()) {
                         CoroutineScope(Dispatchers.Main).launch {
                             userList = parseJSONUserList(newMessage.getString("users"))
-//                            val myUserList = mutableListOf<UserModel>()
                             for ((index, user) in userList.withIndex()) {
-//                                if (user.userId != myUserId) {
-//                                    myUserList.add(
-//                                        UserModel(
-//                                        nowDistance = 0F
-//
-//                                    ))
-//                                    userList.removeAt(index)
-//                                    continue
-//                                }
                                 user.nowDistance = 0F
                                 user.nowPace = "--"
                                 user.nowRank = 1
@@ -115,14 +104,9 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                     }
                 }
                 "PACE" -> {
-//                    if(userId != myUserId.toString()){
                     CoroutineScope(Dispatchers.Main).launch {
                         userList = parseJSONUserList(newMessage.getString("nowPaces"))
                         for ((index, user) in userList.withIndex()) {
-//                                if (user.userId == myUserId) {
-//                                    userList.removeAt(index)
-//                                    continue
-//                                }
                             user.nowRank = index + 1
                             user.distance = String.format("%.02f", user.nowDistance)
                             user.rank = "${user.nowRank}등"
@@ -136,7 +120,9 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                         adapter.notifyDataSetChanged()
                     }
                 }
-//                }
+                "END" -> {
+                    serviceStop()
+                }
             }
         }
     }
@@ -220,6 +206,7 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             data.put("nowDistance", model.dist.value)
             data.put("nowTime", service.time.value)
             data.put("nowPace", model.pace.value)
+            data.put("nowPaceInt", model.paceCnt)
             data.put("userId", myUserId)
             data.put("matchId", matchId)
             stompClient.send("/pub/usermatch", data.toString()).subscribe()

@@ -129,6 +129,7 @@ class RecordDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         if (model.recordRank.value == null || model.recordRank.value == 0)
             model.recordRankString.value = "--"
         model.ranks.value = response.body()?.ranks ?: listOf()
+        Log.d("response", "${response.body()?.ranks}")
         val rankStringList = mutableListOf<RankString>()
         for (rank in model.ranks.value ?: listOf()) {
             val image = rank.userImage ?: defaultImage
