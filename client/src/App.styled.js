@@ -2,19 +2,16 @@ import styled from "styled-components";
 
 export const Header = styled.div`
   width: 100%;
-  height: 13vh;
   position: fixed;
-  padding-top: 3vh;
-  /* vertical-align: middle; */
-  background-color: rgba(256, 256, 256, 0);
+  padding: 4vh 2vh;
 
-  svg {
-    /* width: 30px; */
-    height: 50px;
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  /* background-color: rgba(256, 256, 256, 0); */
+  background-color: yellow;
 `;
-
-export const Title = styled.div``;
 
 export const Layout = styled.div`
   width: 100%;
@@ -23,7 +20,8 @@ export const Layout = styled.div`
 
 export const Main = styled.div`
   width: 100%;
-  height: 784px;
+  /* height: 784px; */
+  height: 100vh;
   /* background-color: #fff8f8; */
 `;
 

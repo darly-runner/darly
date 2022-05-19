@@ -17,8 +17,8 @@ function App() {
   return (
     <div className="App">
       <Header>
-        <Icon icon="darlyBig" width={507} height={207} viewBox="0 0 507 207" />
-        <BasicButton width={400} height={25} fontSize="16px">
+        <Icon icon="darlyBig" width={130} height={50} viewBox="0 0 507 207" />
+        <BasicButton width={100} height={50} fontSize="16px">
           앱 다운로드
           <Icon icon="download" width={24} height={24} viewBox="0 0 24 24" />
         </BasicButton>

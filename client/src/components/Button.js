@@ -20,16 +20,18 @@ const StyledBtn = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: ${(props) => props.width};
-  height: ${(props) => props.height};
-  padding: 0.5rem 1.5rem;
+  width: 140px;
+  height: 48px;
+  /* width: ${(props) => props.width};
+  height: ${(props) => props.height}; */
+  padding: 0.3rem 1.2rem;
   font-weight: 600;
   border-radius: 4rem;
   border: none;
   color: #f7f8fb;
   background-color: #fb5454;
   font-size: ${(props) => props.fontSize};
-  line-height: 1.75rem;
+  /* line-height: 1.75rem; */
   text-align: center;
   text-decoration: none;
   transition: 0.2s;
