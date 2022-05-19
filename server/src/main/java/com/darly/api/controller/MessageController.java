@@ -158,10 +158,9 @@ public class MessageController {
             Long userId = message.getUserId();
             Integer nowTime = message.getNowTime();
             Integer nowPaceInt = message.getNowPaceInt();
-
+            System.out.println("!!!!!!!!!"+matchId+ " " + userId+ " " + nowTime + " " + nowPaceInt);
             message.setNowPaces(matchService.resultMatch(matchId, userId, nowTime, nowPaceInt));
-
-            template.convertAndSend("/sub/usermatch/" + message.getMatchId(), message);
+//            template.convertAndSend("/sub/usermatch/" + message.getMatchId(), message);
         }
     }
 }
