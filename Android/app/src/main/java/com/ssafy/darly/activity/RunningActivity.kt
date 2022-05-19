@@ -30,7 +30,6 @@ class RunningActivity : AppCompatActivity() , TextToSpeech.OnInitListener {
     private lateinit var service : MyService
     private var bound: Boolean = false
 
-
     private var tts: TextToSpeech? = null
     var cnt = 0
 
@@ -56,10 +55,10 @@ class RunningActivity : AppCompatActivity() , TextToSpeech.OnInitListener {
     override fun onDestroy() {
         super.onDestroy()
         serviceStop()
-//        if (tts != null) {
-//            tts!!.stop()
-//            tts!!.shutdown()
-//        }
+        if (tts != null) {
+            tts!!.stop()
+            tts!!.shutdown()
+        }
     }
 
     private fun initBtn(){
@@ -194,7 +193,6 @@ class RunningActivity : AppCompatActivity() , TextToSpeech.OnInitListener {
         const val  ACTION_STOP = "${BuildConfig.APPLICATION_ID}.stop"
     }
 
-    // TTS 예제
     private fun startTTS(str : String) {
         tts!!.speak(str, TextToSpeech.QUEUE_FLUSH, null, "")
     }

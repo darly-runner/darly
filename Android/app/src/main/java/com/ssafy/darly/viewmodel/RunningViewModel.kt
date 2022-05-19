@@ -23,11 +23,12 @@ class RunningViewModel : ViewModel() {
     var paceCnt = 0         // 페이스 값
     var calorieCnt = 0
 
+    var rank = MutableLiveData<Int?>()
+
     var dist = MutableLiveData<Float>()         // 거리
     var speed = MutableLiveData<Float>()        // 속력
     var time = MutableLiveData<String>()        // 시간
     var pace = MutableLiveData<String>()        // 페이스
-    val paceInt = MutableLiveData<String>()     // 페이스 int
     var calorie = MutableLiveData<String>()     // 칼로리
     var heartRate = MutableLiveData<String>()
 
@@ -42,6 +43,7 @@ class RunningViewModel : ViewModel() {
     val userList = MutableLiveData<List<UserModel>>()
 
     init {
+        rank.value = null
         target.value = "5.0"
         dist.value = 0.0f
         speed.value = 0.0f
@@ -150,7 +152,7 @@ class RunningViewModel : ViewModel() {
         }
 
         return RecordRequest(null, dist.value ?: 0f, paceCnt, calorieCnt,
-            0, speed.value, timeCnt, null, null, lat, lng,
+            0, speed.value, timeCnt, rank.value, null, lat, lng,
             paceSection.value ?: ArrayList()
         )
     }
