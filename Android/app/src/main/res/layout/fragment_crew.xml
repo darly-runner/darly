@@ -31,7 +31,7 @@
                 android:text="Crew"
                 android:paddingHorizontal="10dp"
                 android:textColor="@color/black"
-                android:textSize="30dp" />
+                android:textSize="30sp" />
 
             <ImageView
                 android:id="@+id/searchCrew"
@@ -39,8 +39,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:paddingHorizontal="8dp"
-                android:tint="@color/black"
-                android:src="@drawable/ic_search" />
+                android:src="@drawable/ic_search"
+                app:tint="@color/black" />
 
             <ImageView
                 android:id="@+id/createCrew"
