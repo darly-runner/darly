@@ -9,8 +9,8 @@ export const Header = styled.div`
   justify-content: space-between;
   align-items: center;
 
-  /* background-color: rgba(256, 256, 256, 0); */
-  background-color: yellow;
+  background-color: rgba(256, 256, 256, 0);
+  /* background-color: yellow; */
 `;
 
 export const Layout = styled.div`
