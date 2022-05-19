@@ -35,7 +35,7 @@ import java.lang.reflect.Type
 import java.util.*
 
 
-class MatchActivity : AppCompatActivity() , TextToSpeech.OnInitListener{
+class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private lateinit var binding: ActivityMatchBinding
     private val model: RunningViewModel by viewModels()
 
@@ -183,48 +183,47 @@ class MatchActivity : AppCompatActivity() , TextToSpeech.OnInitListener{
 
         // 이동거리
         service.totalDist.observe(this, Observer { dist ->
-            if (!isEnd) {
-                if (dist >= targetDistance) {
-                    val data = JSONObject()
-                    data.put("type", "END")
-                    data.put("nowTime", service.time.value)
-                    data.put("nowPaceInt", model.paceCnt)
-                    data.put("userId", myUserId)
-                    data.put("matchId", matchId)
-                    stompClient.send("/pub/usermatch", data.toString()).subscribe()
-                    isEnd = true;
-                } else {
-                    model.setDist(dist)
-                    model.setSpeed()
-                    model.setPace()
-                    model.setCalorie()
-                    model.setPaceBySection(1f)
+            if (dist >= targetDistance) {
+                val data = JSONObject()
+                data.put("type", "END")
+                data.put("nowTime", service.time.value)
+                data.put("nowPaceInt", model.paceCnt)
+                data.put("userId", myUserId)
+                data.put("matchId", matchId)
+                stompClient.send("/pub/usermatch", data.toString()).subscribe()
+                isEnd = true;
+                serviceStop()
+            } else {
+                model.setDist(dist)
+                model.setSpeed()
+                model.setPace()
+                model.setCalorie()
+                model.setPaceBySection(1f)
 
-                    model.locationList.value = service.locationList.value
+                model.locationList.value = service.locationList.value
 
-                    if(model.dist.value!! >= cnt){
-                        cnt++
-                        // 1. Vibrator 객체를 얻어온 다음
-                        val vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
-                        // 2. 진동 구현: 600ms
-                        vibrator.vibrate(500)
+                if (model.dist.value!! >= cnt) {
+                    cnt++
+                    // 1. Vibrator 객체를 얻어온 다음
+                    val vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
+                    // 2. 진동 구현: 600ms
+                    vibrator.vibrate(500)
 
-                        if(dist == 0f)
-                            startTTS("경쟁을 시작합니다")
-                        else
-                            startTTS("${dist} km 만큼 주행하였습니다. 현재 ${model.rank.value}등 입니다.")
-                    }
-                    binding.progressBar.progress = model.getRate()?.toInt() ?: 0
-                    model.locationList.value = service.locationList.value
-                    val data = JSONObject()
-                    data.put("type", "PACE")
-                    data.put("nowDistance", model.dist.value)
-                    data.put("nowTime", service.time.value)
-                    data.put("nowPace", model.pace.value)
-                    data.put("userId", myUserId)
-                    data.put("matchId", matchId)
-                    stompClient.send("/pub/usermatch", data.toString()).subscribe()
+                    if (dist == 0f)
+                        startTTS("경쟁을 시작합니다")
+                    else
+                        startTTS("${dist} km 만큼 주행하였습니다. 현재 ${model.rank.value}등 입니다.")
                 }
+                binding.progressBar.progress = model.getRate()?.toInt() ?: 0
+                model.locationList.value = service.locationList.value
+                val data = JSONObject()
+                data.put("type", "PACE")
+                data.put("nowDistance", model.dist.value)
+                data.put("nowTime", service.time.value)
+                data.put("nowPace", model.pace.value)
+                data.put("userId", myUserId)
+                data.put("matchId", matchId)
+                stompClient.send("/pub/usermatch", data.toString()).subscribe()
             }
         })
     }
@@ -282,7 +281,7 @@ class MatchActivity : AppCompatActivity() , TextToSpeech.OnInitListener{
         stompClient.send("/pub/usermatch", data.toString()).subscribe()
     }
 
-    private fun startTTS(str : String) {
+    private fun startTTS(str: String) {
         tts!!.speak(str, TextToSpeech.QUEUE_FLUSH, null, "")
     }
 
