@@ -9,11 +9,14 @@ import {
   Layout,
   Main,
 } from "./App.styled";
+import Icon from "./components/Icon";
 
 function App() {
   return (
     <div className="App">
-      <Header></Header>
+      <Header>
+        <Icon icon="darlyDefault" />
+      </Header>
       <Layout>
         <Main></Main>
         <Crew></Crew>

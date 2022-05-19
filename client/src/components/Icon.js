@@ -1,13 +1,15 @@
 import React from "react";
-import { icons } from "_foundation";
+// import { icons } from "../_foundation/icon";
+// import { icons } from "_foundation";
+import { icons } from "../_foundation/icons";
 import styled from "styled-components";
 
 const Icon = ({ icon, block, state, ...props }) => {
   return (
     <Svg
-      viewBox="0 0 27 27"
-      width="27"
-      height="27"
+      viewBox="0 0 91 92"
+      width="91"
+      height="92"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       block={block}
