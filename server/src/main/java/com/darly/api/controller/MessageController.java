@@ -144,7 +144,6 @@ public class MessageController {
         } else if (SocketMessage.MessageType.PACE.equals(message.getType())) {
             message.setMessage("매칭 진행중");
 
-//            List<UserNowPace> paces = message.getPaces();
             Long matchId = message.getMatchId();
             Long userId = message.getUserId();
             Float nowDistance = message.getNowDistance();
@@ -152,6 +151,15 @@ public class MessageController {
             String newPace = message.getNowPace();
 
             message.setNowPaces(matchService.nowPaces(matchId, userId, nowDistance, nowTime, newPace));
+
+            template.convertAndSend("/sub/usermatch/" + message.getMatchId(), message);
+        } else if (SocketMessage.MessageType.END.equals(message.getType())){
+            Long matchId = message.getMatchId();
+            Long userId = message.getUserId();
+            Integer nowTime = message.getNowTime();
+            Integer nowPaceInt = message.getNowPaceInt();
+
+            message.setNowPaces(matchService.resultMatch(matchId, userId, nowTime, nowPaceInt));
 
             template.convertAndSend("/sub/usermatch/" + message.getMatchId(), message);
         }

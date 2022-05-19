@@ -1,9 +1,7 @@
 package com.darly.db.entity.match;
 
 import com.darly.db.entity.user.User;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -14,6 +12,8 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicInsert
+@AllArgsConstructor
+@Builder
 @Table(name = "tb_match_result")
 public class MatchResult {
     @Id
@@ -26,5 +26,5 @@ public class MatchResult {
     private User user;
     private Short matchResultRank;
     private Integer matchResultTime;
-    private Float matchResultPace;
+    private Integer matchResultPace;
 }
