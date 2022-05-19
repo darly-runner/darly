@@ -49,7 +49,7 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private var crewId: Long = 0
     private var url = "http://3.36.61.107:8000/ws/websocket"
     private val targetDistance = 1f
-    private var isEnd = false
+    private var isEnd = false;
     val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
 
     private val userMap = mutableMapOf<Long, Int>()
@@ -105,7 +105,7 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                                 user.time = "00:00"
 
                                 // 나의 등수 적용
-                                if(user.userId == myUserId)
+                                if (user.userId == myUserId)
                                     model.rank.value = user.nowRank
                             }
                             adapter.list = userList
@@ -186,6 +186,39 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
         // 이동거리
         service.totalDist.observe(this, Observer { dist ->
+            Log.d("end", "${dist}")
+
+            model.setDist(dist)
+            model.setSpeed()
+            model.setPace()
+            model.setCalorie()
+            model.setPaceBySection(1f)
+
+            model.locationList.value = service.locationList.value
+
+            if (model.dist.value!! >= cnt) {
+                cnt++
+                // 1. Vibrator 객체를 얻어온 다음
+                val vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
+                // 2. 진동 구현: 600ms
+                vibrator.vibrate(500)
+
+                if (dist == 0f)
+                    startTTS("경쟁을 시작합니다")
+                else
+                    startTTS("${dist} km 만큼 주행하였습니다. 현재 ${model.rank.value}등 입니다.")
+            }
+            binding.progressBar.progress = model.getRate()?.toInt() ?: 0
+            model.locationList.value = service.locationList.value
+            val data = JSONObject()
+            data.put("type", "PACE")
+            data.put("nowDistance", model.dist.value)
+            data.put("nowTime", service.time.value)
+            data.put("nowPace", model.pace.value)
+            data.put("userId", myUserId)
+            data.put("matchId", matchId)
+            stompClient.send("/pub/usermatch", data.toString()).subscribe()
+
             if (dist >= targetDistance) {
                 val data = JSONObject()
                 data.put("type", "END")
@@ -196,37 +229,6 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 stompClient.send("/pub/usermatch", data.toString()).subscribe()
                 isEnd = true;
                 serviceStop()
-            } else {
-                model.setDist(dist)
-                model.setSpeed()
-                model.setPace()
-                model.setCalorie()
-                model.setPaceBySection(1f)
-
-                model.locationList.value = service.locationList.value
-
-                if (model.dist.value!! >= cnt) {
-                    cnt++
-                    // 1. Vibrator 객체를 얻어온 다음
-                    val vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
-                    // 2. 진동 구현: 600ms
-                    vibrator.vibrate(500)
-
-                    if (dist == 0f)
-                        startTTS("경쟁을 시작합니다")
-                    else
-                        startTTS("${dist} km 만큼 주행하였습니다. 현재 ${model.rank.value}등 입니다.")
-                }
-                binding.progressBar.progress = model.getRate()?.toInt() ?: 0
-                model.locationList.value = service.locationList.value
-                val data = JSONObject()
-                data.put("type", "PACE")
-                data.put("nowDistance", model.dist.value)
-                data.put("nowTime", service.time.value)
-                data.put("nowPace", model.pace.value)
-                data.put("userId", myUserId)
-                data.put("matchId", matchId)
-                stompClient.send("/pub/usermatch", data.toString()).subscribe()
             }
         })
     }
