@@ -4,7 +4,7 @@ import com.ssafy.darly.model.Section
 import java.io.Serializable
 
 data class RecordRequest(
-    val matchId : Int?,      // 경쟁아니면 null로
+    val matchId : Long?,      // 경쟁아니면 null로
     val recordDistance : Float,
     val recordPace : Int,
     val recordCalories : Int,
