@@ -26,6 +26,64 @@ class FriendActivity : AppCompatActivity() {
     private lateinit var friendListAdapter: FriendListAdapter
     private val model: FriendViewModel by viewModels()
 
+    override fun onResume() {
+        super.onResume()
+
+        CoroutineScope(Dispatchers.Main).launch {
+            val response = DarlyService.getDarlyService().getFriendList()
+            model.friendList.value = response.body()?.users ?: listOf()
+            friendListAdapter.notifyDataSetChanged()
+        }
+
+        CoroutineScope(Dispatchers.Main).launch {
+            val response = DarlyService.getDarlyService().getFriendWaitingList()
+            val friendWaitingList = response.body()?.users ?: listOf()
+            model.friendWaitingList.value = friendWaitingList
+            if (friendWaitingList.size < 2) {
+                binding.circleImageView1.visibility = android.view.View.VISIBLE
+                binding.circleImageView2.visibility = android.view.View.GONE
+                binding.circleImageView3.visibility = android.view.View.GONE
+                if (friendWaitingList.isEmpty()) {
+                    Glide.with(binding.circleImageView1.context)
+                        .load("https://darly-bucket.s3.ap-northeast-2.amazonaws.com/user/darly_logo.png")
+                        .into(binding.circleImageView1)
+                    model.friendApplyMessage.value = "친구 신청이 없습니다"
+                } else {
+                    Glide.with(binding.circleImageView1.context)
+                        .load(
+                            model.friendWaitingList.value?.get(0)?.userImage
+                                ?: "https://darly-bucket.s3.ap-northeast-2.amazonaws.com/user/darly_logo.png"
+                        )
+                        .into(binding.circleImageView1)
+                    model.friendApplyMessage.value =
+                        model.friendWaitingList.value?.get(0)?.userNickname + "님"
+                }
+            } else {
+                binding.circleImageView1.visibility = android.view.View.GONE
+                binding.circleImageView2.visibility = android.view.View.VISIBLE
+                binding.circleImageView3.visibility = android.view.View.VISIBLE
+                Glide.with(binding.circleImageView2.context)
+                    .load(
+                        model.friendWaitingList.value?.get(1)?.userImage
+                            ?: "https://darly-bucket.s3.ap-northeast-2.amazonaws.com/user/darly_logo.png"
+                    )
+                    .into(binding.circleImageView2)
+                Glide.with(binding.circleImageView3.context)
+                    .load(
+                        model.friendWaitingList.value?.get(0)?.userImage
+                            ?: "https://darly-bucket.s3.ap-northeast-2.amazonaws.com/user/darly_logo.png"
+                    )
+                    .into(binding.circleImageView3)
+
+                val dec = DecimalFormat("#,###");
+                model.friendApplyMessage.value =
+                    model.friendWaitingList.value?.get(0)?.userNickname + "님 외 " + dec.format(
+                        model.friendWaitingList.value?.size?.minus(1) ?: 1
+                    ) + "명"
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_friend)

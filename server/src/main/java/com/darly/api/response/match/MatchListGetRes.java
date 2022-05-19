@@ -4,7 +4,6 @@ import com.darly.common.model.response.BaseResponseBody;
 import com.darly.db.entity.match.Match;
 import com.darly.db.entity.match.MatchTitleMapping;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,7 +32,7 @@ public class MatchListGetRes extends BaseResponseBody {
         matches = new ArrayList<>();
         List<Match> matchList = page.getContent();
         for (Match match : matchList) {
-            this.matches.add(MatchTitleMapping.builder()
+            MatchTitleMapping matchTitleMapping = MatchTitleMapping.builder()
                     .hostNickname(match.getHost().getUserNickname())
                     .hostImage(match.getHost().getUserImage())
                     .matchId(match.getMatchId())
@@ -44,7 +43,11 @@ public class MatchListGetRes extends BaseResponseBody {
                     .matchDate(match.getMatchDate())
                     .matchStartTime(match.getMatchStartTime())
                     .matchStatus(match.getMatchStatus())
-                    .build());
+                    .build();
+            if (match.getMatchStatus() == 'W') {
+                this.matches.add(0, matchTitleMapping);
+            } else
+                this.matches.add(matchTitleMapping);
         }
     }
 }
