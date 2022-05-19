@@ -10,7 +10,10 @@
     <ImageView
         android:id="@+id/challengeImg"
         android:layout_width="match_parent"
-        android:layout_height="160dp" />
+        android:layout_height="180dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/challengeName"
@@ -21,35 +24,35 @@
         android:paddingTop="8dp"
         android:text="Lorem Ipsum"
         android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/challengeImg"
         app:layout_constraintTop_toBottomOf="@+id/challengeImg" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/challengeName"
-        tools:layout_editor_absoluteX="0dp">
+<!--    <LinearLayout-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/challengeName"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/challengeName">-->
 
-        <ImageView
-            android:id="@+id/imageView8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_users"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="101dp" />
+<!--        <ImageView-->
+<!--            android:id="@+id/imageView8"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:src="@drawable/ic_users"-->
+<!--            tools:layout_editor_absoluteX="0dp"-->
+<!--            tools:layout_editor_absoluteY="101dp" />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="6dp"
-            android:text="13250"
-            android:textColor="@color/gray_600"
-            app:layout_constraintStart_toEndOf="@+id/imageView8"
-            tools:layout_editor_absoluteY="101dp" />
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:paddingHorizontal="6dp"-->
+<!--            android:text="13250"-->
+<!--            android:textColor="@color/gray_600"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/imageView8"-->
+<!--            tools:layout_editor_absoluteY="101dp" />-->
 
-    </LinearLayout>
+<!--    </LinearLayout>-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
