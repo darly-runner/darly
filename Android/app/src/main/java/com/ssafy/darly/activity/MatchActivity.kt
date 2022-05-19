@@ -305,6 +305,7 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         val intent = Intent(this, CrewDetailActivity::class.java)
         intent.putExtra("crewId", crewId)
         ContextCompat.startActivity(this, intent, null)
+        serviceStop()
     }
 
     // TextToSpeech override 함수
