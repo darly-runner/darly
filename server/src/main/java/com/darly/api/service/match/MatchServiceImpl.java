@@ -271,6 +271,7 @@ public class MatchServiceImpl implements MatchService {
                         .userNickname(userMatch.getUserMatchId().getUser().getUserNickname())
                         .userImage(userMatch.getUserMatchId().getUser().getUserImage())
                         .nowPace("--")
+                        .nowPaceInt(0)
                         .nowDistance(0f)
                         .nowTime(0)
                         .build());
@@ -283,13 +284,14 @@ public class MatchServiceImpl implements MatchService {
     }
 
     @Override
-    public List<UserNowPace> nowPaces(Long matchId, Long userId, Float nowDistance, Integer nowTime, String nowPace) {
+    public List<UserNowPace> nowPaces(Long matchId, Long userId, Float nowDistance, Integer nowTime, String nowPace, Integer nowPaceInt) {
         List<UserNowPace> userList = userPaceMap.get(matchId);
         for (UserNowPace user : userList) {
             if (user.getUserId().equals(userId)) {
                 user.setNowTime(nowTime);
                 user.setNowDistance(nowDistance);
                 user.setNowPace(nowPace);
+                user.setNowPaceInt(nowPaceInt);
             }
         }
         Collections.sort(userList);
@@ -298,33 +300,25 @@ public class MatchServiceImpl implements MatchService {
     }
 
     @Override
-    public List<UserNowPace> resultMatch(Long matchId, Long userId, Integer nowTime, Integer nowPaceInt) {
-        List<Long> userResult = userResultMap.get(matchId);
-        userResult.add(userId);
-        int rank = userResult.size();
-//        List<UserNowPace> userList = userPaceMap.get(matchId);
-//        int rank = 0;
-//        for (int i = 0; i < userList.size(); i++) {
-//            if (userList.get(i).getUserId().equals(userId)) {
-//                rank = i;
-//                userList.remove(i);
-//                break;
-//            }
-//        }
-
-        System.out.println("!!!!!!!!!2" + matchId + " " + userId + " " + nowTime + " " + nowPaceInt);
-
-        matchResultRepository.save(MatchResult.builder()
-                .matchId(matchId)
-                .user(User.builder().userId(userId).build())
-                .matchResultPace(nowPaceInt)
-                .matchResultRank((short) (rank))
-                .matchResultTime(nowTime)
-                .build());
-
-        System.out.println("!!!!!!!!!3" + matchId + " " + userId + " " + nowTime + " " + nowPaceInt);
-        userResultMap.put(matchId, userResult);
-        return null;
+    public void resultMatch(Long matchId, Long userId, Integer nowTime, Integer nowPaceInt, Float nowDistance) {
+        List<UserNowPace> userList = userPaceMap.get(matchId);
+        for (UserNowPace user : userList) {
+            if (user.getUserId().equals(userId)) {
+                user.setNowTime(nowTime);
+                user.setNowDistance(nowDistance);
+            }
+        }
+        Collections.sort(userList);
+        for (int i = 0; i < userList.size(); i++) {
+            UserNowPace userModel = userList.get(i);
+            matchResultRepository.save(MatchResult.builder()
+                    .matchId(matchId)
+                    .user(User.builder().userId(userModel.getUserId()).build())
+                    .matchResultPace(userModel.getNowPaceInt())
+                    .matchResultRank((short) (i + 1))
+                    .matchResultTime(userModel.getNowTime())
+                    .build());
+        }
     }
 
     private void makeRandomMatch(User user) {

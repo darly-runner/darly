@@ -49,11 +49,10 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private var myUserId: Long = 0
     private var crewId: Long = 0
     private var url = "http://3.36.61.107:8000/ws/websocket"
-    private val targetDistance = 100f
+    private val targetDistance = 1000f
     private var isEnd = false;
     val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
 
-    private val userMap = mutableMapOf<Long, Int>()
     private var userList = mutableListOf<UserModel>()
 
     private var tts: TextToSpeech? = null
@@ -84,17 +83,7 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                     if (userId == myUserId.toString()) {
                         CoroutineScope(Dispatchers.Main).launch {
                             userList = parseJSONUserList(newMessage.getString("users"))
-//                            val myUserList = mutableListOf<UserModel>()
                             for ((index, user) in userList.withIndex()) {
-//                                if (user.userId != myUserId) {
-//                                    myUserList.add(
-//                                        UserModel(
-//                                        nowDistance = 0F
-//
-//                                    ))
-//                                    userList.removeAt(index)
-//                                    continue
-//                                }
                                 user.nowDistance = 0F
                                 user.nowPace = "--"
                                 user.nowRank = 1
@@ -115,25 +104,25 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                     }
                 }
                 "PACE" -> {
-//                    if(userId != myUserId.toString()){
                     CoroutineScope(Dispatchers.Main).launch {
                         userList = parseJSONUserList(newMessage.getString("nowPaces"))
                         for ((index, user) in userList.withIndex()) {
-//                                if (user.userId == myUserId) {
-//                                    userList.removeAt(index)
-//                                    continue
-//                                }
                             user.nowRank = index + 1
                             user.distance = String.format("%.02f", user.nowDistance)
                             user.rank = "${user.nowRank}등"
                             user.pace = user.nowPace
                             user.time = String.format("%02d:%02d:%02d", user.nowTime / 3600, user.nowTime / 60, user.nowTime % 60)
+
+                            if (user.userId == myUserId)
+                                model.rank.value = user.nowRank
                         }
                         adapter.list = userList
                         adapter.notifyDataSetChanged()
                     }
                 }
-//                }
+                "END" -> {
+                    serviceStop()
+                }
             }
         }
     }
@@ -219,6 +208,7 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             data.put("nowDistance", model.dist.value)
             data.put("nowTime", service.time.value)
             data.put("nowPace", model.pace.value)
+            data.put("nowPaceInt", model.paceCnt)
             data.put("userId", myUserId)
             data.put("matchId", matchId)
             stompClient.send("/pub/usermatch", data.toString()).subscribe()

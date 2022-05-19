@@ -9,7 +9,6 @@ import com.darly.api.service.match.UserMatchService;
 import com.darly.db.entity.match.Match;
 import com.darly.db.entity.match.MatchRUser;
 import com.darly.db.entity.socket.SocketMessage;
-import com.darly.db.entity.user.UserNowMapping;
 import com.darly.db.entity.user.UserNowPace;
 import com.darly.db.repository.match.UserMatchRepository;
 import lombok.RequiredArgsConstructor;
@@ -148,19 +147,20 @@ public class MessageController {
             Long userId = message.getUserId();
             Float nowDistance = message.getNowDistance();
             Integer nowTime = message.getNowTime();
-            String newPace = message.getNowPace();
+            String nowPace = message.getNowPace();
+            Integer nowPaceInt = message.getNowPaceInt();
 
-            message.setNowPaces(matchService.nowPaces(matchId, userId, nowDistance, nowTime, newPace));
+            message.setNowPaces(matchService.nowPaces(matchId, userId, nowDistance, nowTime, nowPace, nowPaceInt));
 
             template.convertAndSend("/sub/usermatch/" + message.getMatchId(), message);
-        } else if (SocketMessage.MessageType.END.equals(message.getType())){
+        } else if (SocketMessage.MessageType.END.equals(message.getType())) {
             Long matchId = message.getMatchId();
             Long userId = message.getUserId();
             Integer nowTime = message.getNowTime();
             Integer nowPaceInt = message.getNowPaceInt();
-            System.out.println("!!!!!!!!!"+matchId+ " " + userId+ " " + nowTime + " " + nowPaceInt);
-            message.setNowPaces(matchService.resultMatch(matchId, userId, nowTime, nowPaceInt));
-//            template.convertAndSend("/sub/usermatch/" + message.getMatchId(), message);
+            Float nowDistance = message.getNowDistance();
+            matchService.resultMatch(matchId, userId, nowTime, nowPaceInt, nowDistance);
+            template.convertAndSend("/sub/usermatch/" + message.getMatchId(), message);
         }
     }
 }
