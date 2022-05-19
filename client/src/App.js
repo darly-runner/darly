@@ -8,6 +8,7 @@ import {
   Header,
   Layout,
   Main,
+  Title,
 } from "./App.styled";
 import Icon from "./components/Icon";
 
@@ -15,7 +16,8 @@ function App() {
   return (
     <div className="App">
       <Header>
-        <Icon icon="darlyDefault" />
+        <Icon icon="darlyBig" width={507} height={207} viewBox="0 0 507 207" />
+        {/* <Title>D</Title> */}
       </Header>
       <Layout>
         <Main></Main>

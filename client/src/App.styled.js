@@ -2,14 +2,23 @@ import styled from "styled-components";
 
 export const Header = styled.div`
   width: 100%;
-  height: 10vh;
+  height: 13vh;
   position: fixed;
-  background-color: yellow;
+  padding-top: 3vh;
+  /* vertical-align: middle; */
+  background-color: rgba(256, 256, 256, 0);
+
+  svg {
+    /* width: 30px; */
+    height: 50px;
+  }
 `;
+
+export const Title = styled.div``;
 
 export const Layout = styled.div`
   width: 100%;
-  padding-top: 10vh;
+  padding-top: 13vh;
 `;
 
 export const Main = styled.div`
