@@ -45,6 +45,8 @@ class MatchActivity : AppCompatActivity() {
     private var myUserId: Long = 0
     private var crewId: Long = 0
     private var url = "http://3.36.61.107:8000/ws/websocket"
+    private val targetDistance = 1
+    private var isEnd = false;
     val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
 
     private val userMap = mutableMapOf<Long, Int>()
@@ -168,22 +170,35 @@ class MatchActivity : AppCompatActivity() {
 
         // 이동거리
         service.totalDist.observe(this, Observer { dist ->
-            model.setDist(dist)
-            model.setSpeed()
-            model.setPace()
-            model.setCalorie()
-            model.setPaceBySection(1f)
+            if (!isEnd) {
+                if (dist >= targetDistance) {
+                    val data = JSONObject()
+                    data.put("type", "END")
+                    data.put("nowTime", service.time.value)
+                    data.put("nowPaceInt", model.paceCnt)
+                    data.put("userId", myUserId)
+                    data.put("matchId", matchId)
+                    stompClient.send("/pub/usermatch", data.toString()).subscribe()
+                    isEnd = true;
+                } else {
+                    model.setDist(dist)
+                    model.setSpeed()
+                    model.setPace()
+                    model.setCalorie()
+                    model.setPaceBySection(1f)
 
-            binding.progressBar.progress = model.getRate()?.toInt() ?: 0
-            model.locationList.value = service.locationList.value
-            val data = JSONObject()
-            data.put("type", "PACE")
-            data.put("nowDistance", model.dist.value)
-            data.put("nowTime", service.time.value)
-            data.put("nowPace", model.pace.value)
-            data.put("userId", myUserId)
-            data.put("matchId", matchId)
-            stompClient.send("/pub/usermatch", data.toString()).subscribe()
+                    binding.progressBar.progress = model.getRate()?.toInt() ?: 0
+                    model.locationList.value = service.locationList.value
+                    val data = JSONObject()
+                    data.put("type", "PACE")
+                    data.put("nowDistance", model.dist.value)
+                    data.put("nowTime", service.time.value)
+                    data.put("nowPace", model.pace.value)
+                    data.put("userId", myUserId)
+                    data.put("matchId", matchId)
+                    stompClient.send("/pub/usermatch", data.toString()).subscribe()
+                }
+            }
         })
     }
 
