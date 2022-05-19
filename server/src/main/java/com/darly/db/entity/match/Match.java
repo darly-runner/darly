@@ -17,7 +17,7 @@ import javax.persistence.*;
 @DynamicInsert
 @Builder
 @Table(name = "tb_match")
-public class Match {
+public class Match{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long matchId;
