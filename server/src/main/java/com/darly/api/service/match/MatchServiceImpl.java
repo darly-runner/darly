@@ -312,6 +312,8 @@ public class MatchServiceImpl implements MatchService {
 //            }
 //        }
 
+        System.out.println("!!!!!!!!!2"+matchId+ " " + userId+ " " + nowTime + " " + nowPaceInt);
+
         matchResultRepository.save(MatchResult.builder()
                 .matchId(matchId)
                 .matchResultPace(nowPaceInt)
@@ -319,6 +321,7 @@ public class MatchServiceImpl implements MatchService {
                 .matchResultTime(nowTime)
                 .build());
 
+        System.out.println("!!!!!!!!!3"+matchId+ " " + userId+ " " + nowTime + " " + nowPaceInt);
         userResultMap.put(matchId, userResult);
         return null;
     }
