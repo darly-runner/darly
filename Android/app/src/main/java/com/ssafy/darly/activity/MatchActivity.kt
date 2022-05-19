@@ -49,7 +49,7 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private var myUserId: Long = 0
     private var crewId: Long = 0
     private var url = "http://3.36.61.107:8000/ws/websocket"
-    private val targetDistance = 100f
+    private val targetDistance = 1000f
     private var isEnd = false;
     val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
 
@@ -128,6 +128,9 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                             user.rank = "${user.nowRank}등"
                             user.pace = user.nowPace
                             user.time = String.format("%02d:%02d:%02d", user.nowTime / 3600, user.nowTime / 60, user.nowTime % 60)
+
+                            if (user.userId == myUserId)
+                                model.rank.value = user.nowRank
                         }
                         adapter.list = userList
                         adapter.notifyDataSetChanged()
