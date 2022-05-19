@@ -2,11 +2,11 @@ package com.ssafy.darly.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
@@ -16,6 +16,7 @@ import com.ssafy.darly.activity.CreateCrewActivity
 import com.ssafy.darly.adapter.crew.MyCrewListAdapter
 import com.ssafy.darly.adapter.crew.main.CrewRecommendationAdapter
 import com.ssafy.darly.databinding.FragmentCrewBinding
+import com.ssafy.darly.model.CrewRecommendations
 import com.ssafy.darly.service.DarlyService
 import com.ssafy.darly.viewmodel.CrewViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -60,8 +61,18 @@ class CrewFragment : Fragment() {
         }
 
         CoroutineScope(Dispatchers.Main).launch {
-            val response = DarlyService.getDarlyService().getCrewList(page=0, size = 8, address = 0, key = "" )
-            model.crewRecommendationList.value = response.body()?.crew ?: listOf()
+            val responseUser = DarlyService.getDarlyService().getUserProfile()
+            var crewList = mutableListOf<CrewRecommendations>()
+            val userAddressList = responseUser.body()?.userAddresses ?: listOf()
+            for (address in userAddressList) {
+                val response = DarlyService.getDarlyService().getCrewList(page = 0, size = 8, address = address.addressId.toInt(), key = "")
+                crewList.addAll(response.body()?.crew ?: listOf())
+            }
+//            val response = DarlyService.getDarlyService().getCrewList(page = 0, size = 8, address = 0, key = "")
+//            model.crewRecommendationList.value = response.body()?.crew ?: listOf()
+            if(crewList.size > 8)
+                crewList = crewList.subList(0, 9);
+            model.crewRecommendationList.value = crewList
 
             val crewRecommendationList = model.crewRecommendationList.value
             recAdapter = CrewRecommendationAdapter(
@@ -109,8 +120,20 @@ class CrewFragment : Fragment() {
         }
 
         CoroutineScope(Dispatchers.Main).launch {
-            val response = DarlyService.getDarlyService().getCrewList(page=0, size = 8, address = 0, key = "" )
-            model.crewRecommendationList.value = response.body()?.crew ?: listOf()
+            val responseUser = DarlyService.getDarlyService().getUserProfile()
+            var crewList = mutableListOf<CrewRecommendations>()
+            val userAddressList = responseUser.body()?.userAddresses ?: listOf()
+            for (address in userAddressList) {
+                val response = DarlyService.getDarlyService().getCrewList(page = 0, size = 8, address = address.addressId.toInt(), key = "")
+                crewList.addAll(response.body()?.crew ?: listOf())
+            }
+//            val response = DarlyService.getDarlyService().getCrewList(page = 0, size = 8, address = 0, key = "")
+//            model.crewRecommendationList.value = response.body()?.crew ?: listOf()
+            if(crewList.size > 8)
+                crewList = crewList.subList(0, 9);
+            model.crewRecommendationList.value = crewList
+//            val response = DarlyService.getDarlyService().getCrewList(page = 0, size = 8, address = 0, key = "")
+//            model.crewRecommendationList.value = response.body()?.crew ?: listOf()
 
             val crewRecommendationList = model.crewRecommendationList.value
             recAdapter = CrewRecommendationAdapter(

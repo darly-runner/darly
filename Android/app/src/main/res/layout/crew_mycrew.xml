@@ -3,22 +3,22 @@
     android:layout_width="wrap_content"
     android:layout_height="90dp"
     android:orientation="vertical"
-    android:paddingHorizontal="4dp"
-    >
+    android:paddingHorizontal="4dp">
 
     <ImageView
         android:id="@+id/myCrewImg"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:paddingBottom="2dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:paddingBottom="2dp" />
 
     <TextView
         android:id="@+id/myCrewName"
         android:layout_width="75dp"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
         android:gravity="center"
+        android:textAlignment="center"
+        android:paddingTop="3dp"
         android:textSize="13dp" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

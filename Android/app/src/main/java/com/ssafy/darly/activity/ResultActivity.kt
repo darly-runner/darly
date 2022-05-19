@@ -230,6 +230,9 @@ class ResultActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
+        val initLocation = LatLng(37.5666805, 126.9784147)
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(initLocation, 15f))
+
         locationInit()
         addLocationListener()
 
