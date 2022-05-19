@@ -111,6 +111,7 @@ class ResultActivity : AppCompatActivity(), OnMapReadyCallback {
 
         record = intent.getSerializableExtra("record") as RecordRequest
         binding.dateText.text = "$formatted"
+        binding.rankText.text = "${record.recordRank} 위"
         model.recordRank.value = record.recordRank
         model.recordDistance.value = String.format("%.02f", record.recordDistance)
         model.recordPace.value = model.timeToStr(record.recordPace)

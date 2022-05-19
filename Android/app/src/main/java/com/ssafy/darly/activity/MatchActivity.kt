@@ -48,8 +48,8 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private var myUserId: Long = 0
     private var crewId: Long = 0
     private var url = "http://3.36.61.107:8000/ws/websocket"
-    private val targetDistance = 1
-    private var isEnd = false;
+    private val targetDistance = 1f
+    private var isEnd = false
     val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
 
     private val userMap = mutableMapOf<Long, Int>()
@@ -303,6 +303,7 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         val intent = Intent(this, CrewDetailActivity::class.java)
         intent.putExtra("crewId", crewId)
         ContextCompat.startActivity(this, intent, null)
+        serviceStop()
     }
 
     // TextToSpeech override 함수
