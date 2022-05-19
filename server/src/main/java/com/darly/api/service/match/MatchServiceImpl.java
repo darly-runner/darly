@@ -312,16 +312,17 @@ public class MatchServiceImpl implements MatchService {
 //            }
 //        }
 
-        System.out.println("!!!!!!!!!2"+matchId+ " " + userId+ " " + nowTime + " " + nowPaceInt);
+        System.out.println("!!!!!!!!!2" + matchId + " " + userId + " " + nowTime + " " + nowPaceInt);
 
         matchResultRepository.save(MatchResult.builder()
                 .matchId(matchId)
+                .user(User.builder().userId(userId).build())
                 .matchResultPace(nowPaceInt)
                 .matchResultRank((short) (rank))
                 .matchResultTime(nowTime)
                 .build());
 
-        System.out.println("!!!!!!!!!3"+matchId+ " " + userId+ " " + nowTime + " " + nowPaceInt);
+        System.out.println("!!!!!!!!!3" + matchId + " " + userId + " " + nowTime + " " + nowPaceInt);
         userResultMap.put(matchId, userResult);
         return null;
     }
