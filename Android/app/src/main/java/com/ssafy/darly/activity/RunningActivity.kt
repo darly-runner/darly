@@ -96,6 +96,8 @@ class RunningActivity : AppCompatActivity() , TextToSpeech.OnInitListener {
             model.setCalorie()
             model.setPaceBySection(1f)
 
+            //Toast.makeText(this,"${model.paceSection.value?.size} 크기",Toast.LENGTH_LONG).show()
+
             binding.progressBar.progress = model.getRate()?.toInt() ?: 0
 
             model.locationList.value = service.locationList.value
@@ -110,7 +112,7 @@ class RunningActivity : AppCompatActivity() , TextToSpeech.OnInitListener {
                 if(dist == 0f)
                     startTTS("기록을 시작합니다")
                 else
-                    startTTS("${dist} km 만큼 주행하였습니다.")
+                    startTTS("${model.dist.value} km 만큼 주행하였습니다.")
             }
         })
 

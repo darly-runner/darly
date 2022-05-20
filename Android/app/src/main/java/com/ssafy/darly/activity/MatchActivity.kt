@@ -138,6 +138,8 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         isHost = intent.getIntExtra("isHost", 0)
         crewId = intent.getLongExtra("crewId", 0)
 
+        model.matchId = matchId
+
         tts = TextToSpeech(this, this)
 
         serviceStart()
@@ -190,7 +192,7 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 cnt++
                 // 1. Vibrator 객체를 얻어온 다음
                 val vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
-                // 2. 진동 구현: 600ms
+                // 2. 진동 구현: 500ms
                 vibrator.vibrate(500)
 
                 if (dist == 0f)

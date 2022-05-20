@@ -22,6 +22,7 @@ class RunningViewModel : ViewModel() {
     var timeCnt = 0         // 시간 값
     var paceCnt = 0         // 페이스 값
     var calorieCnt = 0
+    var matchId : Long? = null
 
     var rank = MutableLiveData<Int?>()
 
@@ -101,18 +102,17 @@ class RunningViewModel : ViewModel() {
         val currentCalorie = (4 * currentTime * 75 / 3600)
 
         // 각 n km를 넘어설때마다 n-1에 저장
-        if(d == 1f && size ?: 0 < distance ?: 0){
+        if(d == 1f && (size ?: 0) < (distance ?: 0)){
             // 이번 구간에서 소요된 시간 = 총시간 - 이전 n km 달성때의 시간
             paceSection.value?.add(Section(1f, currentPace, currentCalorie))
             befTime = timeCnt
-        } else if (d == 0f) {
+        } else if (d == 0f && dist.value!! > 0f) {
             // 마지막 남은거리 처리
             // 0인것도 넘어오는데 테스트를위해 그냥 둿음
-           g paceSection.value?.add(Section(dist.value?.minus(dist.value?.toInt()!!) ?: 0.1f, currentPace, currentCalorie))
             if(dist.value != 0f){
                 val sectionDist = dist.value?.minus(dist.value?.toInt()!!)
                 val sectionPace = (currentTime / sectionDist!!).toInt()
-                paceSection.value?.add(Section(sectionDist, sectionPace,currentCalorie))
+                paceSection.value?.add(Section(sectionDist, sectionPace, currentCalorie))
             }
         }
     }
@@ -151,7 +151,7 @@ class RunningViewModel : ViewModel() {
             lng.add(i.longitude.toString())
         }
 
-        return RecordRequest(null, dist.value ?: 0f, paceCnt, calorieCnt,
+        return RecordRequest(matchId, dist.value ?: 0f, paceCnt, calorieCnt,
             0, speed.value, timeCnt, rank.value, null, lat, lng,
             paceSection.value ?: ArrayList()
         )
