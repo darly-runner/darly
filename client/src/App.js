@@ -52,7 +52,7 @@ function App() {
                   />
                 </BasicButton>
               </Download>
-              <Download href="">
+              <Download href="https://darly-bucket.s3.ap-northeast-2.amazonaws.com/watch.apk">
                 <BasicButton width={500} height="50" fontSize="16px">
                   워치용 앱 다운로드
                   <Icon
@@ -79,7 +79,7 @@ function App() {
         <MainLayout>
           <Header>
             <Icon
-              icon="darlyWhiteBig"
+              icon="darlyBig"
               width={130}
               height={50}
               viewBox="0 0 507 207"
