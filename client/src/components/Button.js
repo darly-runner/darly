@@ -20,11 +20,11 @@ const StyledBtn = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 140px;
+  /* width: 140px; */
   height: 48px;
   /* width: ${(props) => props.width};
   height: ${(props) => props.height}; */
-  padding: 0.3rem 1.2rem;
+  padding: 0.3rem 1.5rem;
   font-weight: 600;
   border-radius: 4rem;
   border: none;
