@@ -312,6 +312,7 @@ public class MatchServiceImpl implements MatchService {
         Collections.sort(userList);
         for (int i = 0; i < userList.size(); i++) {
             UserNowPace userModel = userList.get(i);
+            System.out.println(userModel);
             matchResultRepository.save(MatchResult.builder()
                     .matchId(matchId)
                     .user(User.builder().userId(userModel.getUserId()).build())
@@ -320,6 +321,7 @@ public class MatchServiceImpl implements MatchService {
                     .matchResultTime(userModel.getNowTime())
                     .build());
         }
+        userPaceMap.remove(matchId);
     }
 
     private void makeRandomMatch(User user) {

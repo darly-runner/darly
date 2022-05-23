@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 public interface UserMatchRepository extends JpaRepository<UserMatch, UserMatchId> {
@@ -15,6 +16,7 @@ public interface UserMatchRepository extends JpaRepository<UserMatch, UserMatchI
     List<UserMatch> findAllByUserMatchId_Match_MatchId(Long id);
     UserMatch findByUserMatchId_Match_MatchIdAndUserMatchId_User_UserId(Long matchId, Long userId);
 
+    @Transactional
     void deleteAllByUserMatchId_Match_MatchId(Long id);
     Short countAllByUserMatchId_Match_MatchId(Long id);
 }
