@@ -20,6 +20,7 @@ public class MatchResultRepositorySupport{
         return jpaQueryFactory.select(new QMatchResultMapping(qMatchResult.user.userNickname, qMatchResult.user.userImage, qMatchResult.matchResultRank, qMatchResult.matchResultTime, qMatchResult.matchResultPace))
                 .from(qMatchResult)
                 .where(qMatchResult.matchId.eq(matchId))
+                .orderBy(qMatchResult.matchResultRank.desc())
                 .fetch();
     }
 }
