@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Header = styled.div`
   width: 100%;
   position: fixed;
-  padding: 4vh 2vh;
+  padding: 4vh 7vh;
 
   display: flex;
   justify-content: space-between;
@@ -13,6 +13,10 @@ export const Header = styled.div`
   /* background-color: yellow; */
 `;
 
+export const ButtonBox = styled.div`
+  display: flex;
+  gap: 15px;
+`;
 export const Download = styled.a`
   text-decoration: none;
 `;

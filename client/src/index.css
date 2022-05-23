@@ -7,6 +7,22 @@
     url("./style/PretendardVariable.woff2") format("woff2-variations");
 }
 
+@font-face {
+  font-family: "tvNBold";
+  font-weight: 45 920;
+  font-style: normal;
+  font-display: swap;
+  src: local("tvNBold"), url("./style/tvNBold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "tvNMedium";
+  font-weight: 45 920;
+  font-style: normal;
+  font-display: swap;
+  src: url("./style/tvNMedium.woff2") format("woff2");
+}
+
 body {
   margin: 0;
   font-family: "Pretendard Variable", -apple-system, BlinkMacSystemFont,
