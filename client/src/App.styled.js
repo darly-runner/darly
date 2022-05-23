@@ -10,6 +10,10 @@ export const Header = styled.div`
   align-items: center;
 
   background-color: rgba(256, 256, 256, 0);
+
+  img {
+    width: 170px;
+  }
   /* background-color: yellow; */
 `;
 

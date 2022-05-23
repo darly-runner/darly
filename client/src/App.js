@@ -34,12 +34,13 @@ function App() {
       {isPc && (
         <>
           <Header>
-            <Icon
+            <img src="/icon/darlyLogo_font_red.png" />
+            {/* <Icon
               icon="darlyBig"
               width={130}
               height={50}
               viewBox="0 0 507 207"
-            />
+            /> */}
             <ButtonBox>
               <Download href="https://darly-bucket.s3.ap-northeast-2.amazonaws.com/darly.apk">
                 <BasicButton width={110} height={50} fontSize="16px">
