@@ -21,6 +21,7 @@ export const ButtonBox = styled.div`
   display: flex;
   gap: 15px;
 `;
+
 export const Download = styled.a`
   text-decoration: none;
 `;
