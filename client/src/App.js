@@ -1,14 +1,13 @@
-import logo from "./logo.svg";
 import "./App.css";
 import {
   Activity,
   Compete,
   Crew,
+  Download,
   Friends,
   Header,
   Layout,
   Main,
-  Title,
 } from "./App.styled";
 import Icon from "./components/Icon";
 import BasicButton from "./components/Button";
@@ -18,12 +17,14 @@ function App() {
     <div className="App">
       <Header>
         <Icon icon="darlyBig" width={130} height={50} viewBox="0 0 507 207" />
-        <BasicButton width={100} height={50} fontSize="16px">
-          앱 다운로드
-          <Icon icon="download" width={24} height={24} viewBox="0 0 24 24" />
-        </BasicButton>
-        {/* <Title>D</Title> */}
+        <Download href="https://darly-bucket.s3.ap-northeast-2.amazonaws.com/darly.apk">
+          <BasicButton width={100} height={50} fontSize="16px">
+            앱 다운로드
+            <Icon icon="download" width={24} height={24} viewBox="0 0 24 24" />
+          </BasicButton>
+        </Download>
       </Header>
+
       <Layout>
         <Main></Main>
         <Crew></Crew>

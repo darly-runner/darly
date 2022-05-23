@@ -13,6 +13,10 @@ export const Header = styled.div`
   /* background-color: yellow; */
 `;
 
+export const Download = styled.a`
+  text-decoration: none;
+`;
+
 export const Layout = styled.div`
   width: 100%;
   /* padding-top: 13vh; */
