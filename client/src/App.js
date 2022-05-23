@@ -13,7 +13,7 @@ import {
 import Icon from "./components/Icon";
 import BasicButton from "./components/Button";
 import { useMediaQuery } from "react-responsive";
-import { MainLayout } from "./AppMobile.styled";
+import { MainLayout, MobileHeader } from "./AppMobile.styled";
 
 function App() {
   // const isPc = useMediaQuery({
@@ -77,14 +77,10 @@ function App() {
       )}
       {isMobile && (
         <MainLayout>
-          <Header>
-            <Icon
-              icon="darlyBig"
-              width={130}
-              height={50}
-              viewBox="0 0 507 207"
-            />
-          </Header>
+          <MobileHeader>
+            <img src="/icon/darlyLogo_font_red.png" />
+            <div>달리와 함께 달리자!</div>
+          </MobileHeader>
         </MainLayout>
       )}
     </div>
