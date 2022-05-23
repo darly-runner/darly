@@ -3,14 +3,23 @@ import styled from "styled-components";
 export const Header = styled.div`
   width: 100%;
   position: fixed;
-  padding: 4vh 2vh;
+  padding: 4vh 7vh;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
 
   background-color: rgba(256, 256, 256, 0);
+
+  img {
+    width: 170px;
+  }
   /* background-color: yellow; */
+`;
+
+export const ButtonBox = styled.div`
+  display: flex;
+  gap: 15px;
 `;
 
 export const Download = styled.a`

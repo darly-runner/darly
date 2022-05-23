@@ -48,8 +48,8 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private var myUserId: Long = 0
     private var crewId: Long = 0
     private var url = "http://3.36.61.107:8000/ws/websocket"
-    private val targetDistance = 1000f
-    private var isEnd = false;
+    private val targetDistance = 30f
+    private var isEnd = false
     val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
 
     private var userList = mutableListOf<UserModel>()
@@ -159,6 +159,7 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             serviceStop()
             leaveService()
 
+            model.matchId = matchId
             model.setPaceBySection(0f)
 
             val intent = Intent(this, ResultActivity::class.java)
@@ -190,7 +191,7 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 cnt++
                 // 1. Vibrator 객체를 얻어온 다음
                 val vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
-                // 2. 진동 구현: 600ms
+                // 2. 진동 구현: 500ms
                 vibrator.vibrate(500)
 
                 if (dist == 0f)

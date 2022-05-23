@@ -111,13 +111,12 @@
         <activity
             android:name=".activity.MainActivity"
             android:exported="true" />
-
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="3a20416392ebf79f9356a5ebfd94116a" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyDYNSJFwtbcT6glxx9vpqqXpM6FLD8Q9Lw" />
+            android:value="AIzaSyBDs8bggfVBrQmxpAdT4jW4Icv_D1A0-ZU" />
     </application>
 
 </manifest>
