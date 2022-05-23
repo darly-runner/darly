@@ -305,7 +305,8 @@ public class MatchServiceImpl implements MatchService {
             System.out.println(user);
             if (user.getUserId().equals(userId)) {
                 user.setNowTime(nowTime);
-                user.setNowDistance(nowDistance);
+                if(nowDistance != null)
+                    user.setNowDistance(nowDistance);
             }
         }
         Collections.sort(userList);
