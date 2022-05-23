@@ -13,7 +13,7 @@ import {
 import Icon from "./components/Icon";
 import BasicButton from "./components/Button";
 import { useMediaQuery } from "react-responsive";
-import { MainLayout, MobileHeader } from "./AppMobile.styled";
+import { MainLayout, MobileButtonBox, MobileHeader } from "./AppMobile.styled";
 
 function App() {
   // const isPc = useMediaQuery({
@@ -75,12 +75,38 @@ function App() {
           </Layout>
         </>
       )}
+
       {isMobile && (
         <MainLayout>
           <MobileHeader>
             <img src="/icon/darlyLogo_font_red.png" />
             <div>달리와 함께 달리자!</div>
           </MobileHeader>
+
+          <MobileButtonBox>
+            <Download href="https://darly-bucket.s3.ap-northeast-2.amazonaws.com/darly.apk">
+              <BasicButton width={110} height={50} fontSize="16px">
+                앱 다운로드
+                <Icon
+                  icon="download"
+                  width={24}
+                  height={24}
+                  viewBox="0 0 24 24"
+                />
+              </BasicButton>
+            </Download>
+            <Download href="https://darly-bucket.s3.ap-northeast-2.amazonaws.com/watch.apk">
+              <BasicButton width={500} height="50" fontSize="16px">
+                워치용 앱 다운로드
+                <Icon
+                  icon="download"
+                  width={24}
+                  height={24}
+                  viewBox="0 0 24 24"
+                />
+              </BasicButton>
+            </Download>
+          </MobileButtonBox>
         </MainLayout>
       )}
     </div>

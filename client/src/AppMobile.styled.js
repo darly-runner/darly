@@ -8,7 +8,7 @@ export const MainLayout = styled.div`
 export const MobileHeader = styled.div`
   font-family: tvNMedium;
   /* color: #fb5454; */
-  padding-top: 20vh;
+  padding: 20vh 0;
   /* padding-left: 4vw; */
   /* font-size: 80px; */
 
@@ -29,5 +29,18 @@ export const MobileHeader = styled.div`
 
   img {
     width: 280px;
+  }
+`;
+
+export const MobileButtonBox = styled.div`
+  /* padding: 20vh; */
+  display: grid;
+  gap: 24px;
+  justify-content: center;
+  justify-items: center;
+
+  button {
+    height: 60px;
+    width: 330px;
   }
 `;
