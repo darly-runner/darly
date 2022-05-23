@@ -18,7 +18,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/runningActivity"
-            android:padding="40dp"
+            android:padding="30dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <LinearLayout
@@ -124,7 +124,7 @@
                 android:id="@+id/pauseButton"
                 android:text="일시정지"
                 android:background="@drawable/button_background_lg"
-                android:layout_width="100dp"
+                android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"

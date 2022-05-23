@@ -48,11 +48,10 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private var myUserId: Long = 0
     private var crewId: Long = 0
     private var url = "http://3.36.61.107:8000/ws/websocket"
-    private val targetDistance = 1f
+    private val targetDistance = 1000f
     private var isEnd = false;
     val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
 
-    private val userMap = mutableMapOf<Long, Int>()
     private var userList = mutableListOf<UserModel>()
 
     private var tts: TextToSpeech? = null
@@ -83,17 +82,7 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                     if (userId == myUserId.toString()) {
                         CoroutineScope(Dispatchers.Main).launch {
                             userList = parseJSONUserList(newMessage.getString("users"))
-//                            val myUserList = mutableListOf<UserModel>()
                             for ((index, user) in userList.withIndex()) {
-//                                if (user.userId != myUserId) {
-//                                    myUserList.add(
-//                                        UserModel(
-//                                        nowDistance = 0F
-//
-//                                    ))
-//                                    userList.removeAt(index)
-//                                    continue
-//                                }
                                 user.nowDistance = 0F
                                 user.nowPace = "--"
                                 user.nowRank = 1
@@ -114,25 +103,25 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                     }
                 }
                 "PACE" -> {
-//                    if(userId != myUserId.toString()){
                     CoroutineScope(Dispatchers.Main).launch {
                         userList = parseJSONUserList(newMessage.getString("nowPaces"))
                         for ((index, user) in userList.withIndex()) {
-//                                if (user.userId == myUserId) {
-//                                    userList.removeAt(index)
-//                                    continue
-//                                }
                             user.nowRank = index + 1
                             user.distance = String.format("%.02f", user.nowDistance)
                             user.rank = "${user.nowRank}등"
                             user.pace = user.nowPace
                             user.time = String.format("%02d:%02d:%02d", user.nowTime / 3600, user.nowTime / 60, user.nowTime % 60)
+
+                            if (user.userId == myUserId)
+                                model.rank.value = user.nowRank
                         }
                         adapter.list = userList
                         adapter.notifyDataSetChanged()
                     }
                 }
-//                }
+                "END" -> {
+                    serviceStop()
+                }
             }
         }
     }
@@ -148,6 +137,8 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         myUserId = intent.getLongExtra("myUserId", 0)
         isHost = intent.getIntExtra("isHost", 0)
         crewId = intent.getLongExtra("crewId", 0)
+
+        model.matchId = matchId
 
         tts = TextToSpeech(this, this)
 
@@ -186,7 +177,8 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
         // 이동거리
         service.totalDist.observe(this, Observer { dist ->
-            Log.d("end", "${dist}")
+//            Toast.makeText(this, "${dist}", Toast.LENGTH_SHORT).show()
+//            Log.d("end", "${dist}")
 
             model.setDist(dist)
             model.setSpeed()
@@ -200,7 +192,7 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 cnt++
                 // 1. Vibrator 객체를 얻어온 다음
                 val vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
-                // 2. 진동 구현: 600ms
+                // 2. 진동 구현: 500ms
                 vibrator.vibrate(500)
 
                 if (dist == 0f)
@@ -215,6 +207,7 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             data.put("nowDistance", model.dist.value)
             data.put("nowTime", service.time.value)
             data.put("nowPace", model.pace.value)
+            data.put("nowPaceInt", model.paceCnt)
             data.put("userId", myUserId)
             data.put("matchId", matchId)
             stompClient.send("/pub/usermatch", data.toString()).subscribe()
@@ -227,7 +220,7 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 data.put("userId", myUserId)
                 data.put("matchId", matchId)
                 stompClient.send("/pub/usermatch", data.toString()).subscribe()
-                isEnd = true;
+                isEnd = true
                 serviceStop()
             }
         })

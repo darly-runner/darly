@@ -52,7 +52,7 @@ class CrewDataFragment : Fragment() {
                 DarlyService.getDarlyService().getCrewSummary(crewId = crewId, type = "week")
             model.crewDetailRankings.value = response.body()?.ranks
 
-            binding.crewDistance.text = response.body()?.crewDistance.toString()
+            binding.crewDistance.text = response.body()?.let { String.format("%.02f", it.crewDistance) }
             binding.crewDetailPace.text = response.body()?.crewPace?.toInt()?.let { timeToStr(it) }
             binding.crewDetailPplNum.text = response.body()?.crewPeopleNum.toString()
             binding.crewDetailTime.text = response.body()?.crewTime?.toInt()?.let { timeToStr(it) }

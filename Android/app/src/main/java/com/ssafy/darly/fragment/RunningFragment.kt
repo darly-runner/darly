@@ -23,6 +23,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.ssafy.darly.R
 import com.ssafy.darly.activity.RunningActivity
 import com.ssafy.darly.databinding.FragmentRunningBinding
@@ -89,8 +90,16 @@ class RunningFragment : Fragment(),
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
+        map.mapType = GoogleMap.MAP_TYPE_NORMAL
+        map.isBuildingsEnabled = true
+        map.setMapStyle(
+            MapStyleOptions.loadRawResourceStyle(
+                requireContext(), R.raw.map_style
+            )
+        )
+
         val initLocation = LatLng(37.5666805, 126.9784147)
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(initLocation, 15f))
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(initLocation, 16f))
 
         // 현재 내위치 표시
         if (ContextCompat.checkSelfPermission(this.requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
@@ -128,7 +137,7 @@ class RunningFragment : Fragment(),
             location.run {
                 val latLng = LatLng(latitude, longitude)
                 if (::map.isInitialized) {
-                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
+                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f))
                     fusedLocationProviderClient.removeLocationUpdates(locationCallback)
                 }
             }
