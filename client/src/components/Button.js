@@ -21,7 +21,7 @@ const StyledBtn = styled.button`
   justify-content: center;
   align-items: center;
   /* width: 140px; */
-  height: 48px;
+  height: 45px;
   /* width: ${(props) => props.width};
   height: ${(props) => props.height}; */
   padding: 0.3rem 1.5rem;
