@@ -302,6 +302,7 @@ public class MatchServiceImpl implements MatchService {
     public void resultMatch(Long matchId, Long userId, Integer nowTime, Integer nowPaceInt, Float nowDistance) {
         List<UserNowPace> userList = userPaceMap.get(matchId);
         for (UserNowPace user : userList) {
+            System.out.println(user);
             if (user.getUserId().equals(userId)) {
                 user.setNowTime(nowTime);
                 user.setNowDistance(nowDistance);
