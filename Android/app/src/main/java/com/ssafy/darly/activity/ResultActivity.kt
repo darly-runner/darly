@@ -231,7 +231,7 @@ class ResultActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         val initLocation = LatLng(37.5666805, 126.9784147)
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(initLocation, 15f))
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(initLocation, 16f))
 
         locationInit()
         addLocationListener()
@@ -281,7 +281,7 @@ class ResultActivity : AppCompatActivity(), OnMapReadyCallback {
             location.run {
                 val latLng = LatLng(latitude, longitude)
                 if (::map.isInitialized) {
-                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
+                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f))
                     fusedLocationProviderClient.removeLocationUpdates(locationCallback)
                 }
             }
