@@ -4,11 +4,14 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
@@ -44,6 +47,7 @@ class LoginActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = model
 
+        setGoogleButtonText(binding.googleLogin, "Google 계정으로 로그인")
         googleLogin()
         kakaoLogin()
     }
@@ -64,6 +68,20 @@ class LoginActivity : AppCompatActivity() {
                 Log.d("LoginActivity","카카오로그인 되어있으므로 자동로그인 됩니다. ${tokenInfo}")
                 toMainActivity()
             }
+        }
+    }
+
+    fun setGoogleButtonText(loginButton: SignInButton, buttonText: String) {
+        var i = 0
+        while (i < loginButton.childCount) {
+            var v = loginButton.getChildAt(i)
+            if (v is TextView) {
+                var tv = v
+                tv.setText(buttonText)
+                tv.setGravity(Gravity.CENTER)
+                return
+            }
+            i++
         }
     }
 

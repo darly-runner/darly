@@ -39,7 +39,8 @@
             <com.google.android.gms.common.SignInButton
                 android:id="@+id/googleLogin"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:background="@drawable/login_background"/>
             <ImageButton
                 android:id="@+id/kakaoLogin"
                 android:src="@drawable/kakao_login_medium_wide"
