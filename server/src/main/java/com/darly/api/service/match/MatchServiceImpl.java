@@ -17,7 +17,6 @@ import com.darly.db.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -223,6 +222,23 @@ public class MatchServiceImpl implements MatchService {
         // 시작상태로 매치 상태 바꿈
         match.setMatchStatus('S');
         matchRepository.save(match);
+
+        List<UserMatch> userMatchList = userMatchRepository.findAllByUserMatchId_Match_MatchId(matchId);
+        List<UserNowPace> userNowPaceList = new ArrayList<>();
+        for (UserMatch userMatch : userMatchList) {
+            userNowPaceList.add(UserNowPace.builder()
+                    .userId(userMatch.getUserMatchId().getUser().getUserId())
+                    .userNickname(userMatch.getUserMatchId().getUser().getUserNickname())
+                    .userImage(userMatch.getUserMatchId().getUser().getUserImage())
+                    .nowPace("--")
+                    .nowPaceInt(0)
+                    .nowDistance(0f)
+                    .nowTime(0)
+                    .build());
+        }
+        userPaceMap.put(matchId, userNowPaceList);
+        List<Long> userResultList = new ArrayList<>();
+        userResultMap.put(matchId, userResultList);
     }
 
     @Override
@@ -263,24 +279,6 @@ public class MatchServiceImpl implements MatchService {
 
     @Override
     public List<UserNowPace> nowUsers(Long matchId) {
-        if (!userPaceMap.containsKey(matchId)) {
-            List<UserMatch> userMatchList = userMatchRepository.findAllByUserMatchId_Match_MatchId(matchId);
-            List<UserNowPace> userNowPaceList = new ArrayList<>();
-            for (UserMatch userMatch : userMatchList) {
-                userNowPaceList.add(UserNowPace.builder()
-                        .userId(userMatch.getUserMatchId().getUser().getUserId())
-                        .userNickname(userMatch.getUserMatchId().getUser().getUserNickname())
-                        .userImage(userMatch.getUserMatchId().getUser().getUserImage())
-                        .nowPace("--")
-                        .nowPaceInt(0)
-                        .nowDistance(0f)
-                        .nowTime(0)
-                        .build());
-            }
-            userPaceMap.put(matchId, userNowPaceList);
-            List<Long> userResultList = new ArrayList<>();
-            userResultMap.put(matchId, userResultList);
-        }
         return userPaceMap.get(matchId);
     }
 
@@ -304,14 +302,17 @@ public class MatchServiceImpl implements MatchService {
     public void resultMatch(Long matchId, Long userId, Integer nowTime, Integer nowPaceInt, Float nowDistance) {
         List<UserNowPace> userList = userPaceMap.get(matchId);
         for (UserNowPace user : userList) {
+            System.out.println(user);
             if (user.getUserId().equals(userId)) {
                 user.setNowTime(nowTime);
-                user.setNowDistance(nowDistance);
+                if(nowDistance != null)
+                    user.setNowDistance(nowDistance);
             }
         }
         Collections.sort(userList);
         for (int i = 0; i < userList.size(); i++) {
             UserNowPace userModel = userList.get(i);
+            System.out.println(userModel);
             matchResultRepository.save(MatchResult.builder()
                     .matchId(matchId)
                     .user(User.builder().userId(userModel.getUserId()).build())
@@ -320,6 +321,7 @@ public class MatchServiceImpl implements MatchService {
                     .matchResultTime(userModel.getNowTime())
                     .build());
         }
+        userPaceMap.remove(matchId);
     }
 
     private void makeRandomMatch(User user) {

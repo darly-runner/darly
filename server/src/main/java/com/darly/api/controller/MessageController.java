@@ -154,12 +154,7 @@ public class MessageController {
 
             template.convertAndSend("/sub/usermatch/" + message.getMatchId(), message);
         } else if (SocketMessage.MessageType.END.equals(message.getType())) {
-            Long matchId = message.getMatchId();
-            Long userId = message.getUserId();
-            Integer nowTime = message.getNowTime();
-            Integer nowPaceInt = message.getNowPaceInt();
-            Float nowDistance = message.getNowDistance();
-            matchService.resultMatch(matchId, userId, nowTime, nowPaceInt, nowDistance);
+            matchService.resultMatch(message.getMatchId(),  message.getUserId(), message.getNowTime(), message.getNowPaceInt(), message.getNowDistance());
             template.convertAndSend("/sub/usermatch/" + message.getMatchId(), message);
         }
     }

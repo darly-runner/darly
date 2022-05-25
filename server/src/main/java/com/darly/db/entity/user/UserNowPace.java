@@ -3,10 +3,12 @@ package com.darly.db.entity.user;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @Builder
+@ToString
 public class UserNowPace implements Comparable<UserNowPace> {
     private Long userId;
     private String userNickname;
