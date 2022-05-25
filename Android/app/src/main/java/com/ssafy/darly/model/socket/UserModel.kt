@@ -9,6 +9,7 @@ data class UserModel(
 
     var nowDistance: Float,
     var nowPace: String,
+    var nowPaceInt: Int,
     var nowTime: Int,
     var nowRank: Int,
 

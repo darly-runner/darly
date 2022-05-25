@@ -48,8 +48,7 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private var myUserId: Long = 0
     private var crewId: Long = 0
     private var url = "http://3.36.61.107:8000/ws/websocket"
-    private val targetDistance = 30f
-    private var isEnd = false
+    private val targetDistance = 80f
     val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
 
     private var userList = mutableListOf<UserModel>()
@@ -109,7 +108,7 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                             user.nowRank = index + 1
                             user.distance = String.format("%.02f", user.nowDistance)
                             user.rank = "${user.nowRank}등"
-                            user.pace = user.nowPace
+                            user.pace = String.format("%02d:%02d", user.nowPaceInt / 60, user.nowPaceInt % 60)
                             user.time = String.format("%02d:%02d:%02d", user.nowTime / 3600, user.nowTime / 60, user.nowTime % 60)
 
                             if (user.userId == myUserId)
@@ -203,7 +202,7 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             model.locationList.value = service.locationList.value
             val data = JSONObject()
             data.put("type", "PACE")
-            data.put("nowDistance", model.dist.value)
+            data.put("nowDistance", model.dist.value ?: 0)
             data.put("nowTime", service.time.value)
             data.put("nowPace", model.pace.value)
             data.put("nowPaceInt", model.paceCnt)
@@ -219,7 +218,6 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 data.put("userId", myUserId)
                 data.put("matchId", matchId)
                 stompClient.send("/pub/usermatch", data.toString()).subscribe()
-                isEnd = true
                 serviceStop()
             }
         })
