@@ -14,7 +14,6 @@ export const Header = styled.div`
   img {
     width: 170px;
   }
-  /* background-color: yellow; */
 `;
 
 export const ButtonBox = styled.div`
