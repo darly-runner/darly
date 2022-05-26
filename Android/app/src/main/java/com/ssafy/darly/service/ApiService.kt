@@ -1,5 +1,8 @@
 package com.ssafy.darly.service
 
+import com.ssafy.darly.message.Constants.Companion.CONTENT_TYPE
+import com.ssafy.darly.message.Constants.Companion.SERVER_KEY
+import com.ssafy.darly.message.PushNotification
 import com.ssafy.darly.model.*
 import com.ssafy.darly.model.address.AddressSearchGetRes
 import com.ssafy.darly.model.friend.FriendApplyReq
@@ -247,4 +250,10 @@ interface ApiService {
 
     @GET("users/event")
     suspend fun getUserEvents(): Response<EventListGetRes>
+
+    @Headers("Authorization: key=$SERVER_KEY", "Content-Type:$CONTENT_TYPE")
+    @POST("fcm/send")
+    suspend fun postNotification(
+        @Body notification: PushNotification
+    ): Response<BaseRes>
 }

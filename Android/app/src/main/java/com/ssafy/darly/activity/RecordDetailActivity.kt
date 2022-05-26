@@ -116,10 +116,11 @@ class RecordDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         model.recordCalories.value = dec.format(response.body()?.recordCalories)
         model.coordinateLongitudes.value = response.body()?.coordinateLongitudes ?: listOf()
         model.coordinateLatitudes.value = response.body()?.coordinateLatitudes ?: listOf()
-        val len = model.coordinateLatitudes.value?.size ?: 0
+        var len = model.coordinateLatitudes.value?.size ?: 0
         val latList = model.coordinateLatitudes.value ?: listOf()
         val lngList = model.coordinateLongitudes.value ?: listOf()
         val latLngList = mutableListOf<LatLng>()
+        if (len == 1) len = 0
         for (index in 0 until len)
             latLngList.add(LatLng(latList[index].toDouble(), lngList[index].toDouble()))
         model.latLngList.value = latLngList
