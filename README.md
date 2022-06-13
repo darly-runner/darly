@@ -17,23 +17,22 @@
 >
 >핸드폰을 들고 달리기 귀찮은 분들을 위해 갤럭시 워치와의 연동 서비스도 준비했습니다. 주머니를 가볍게, 두 손을 자유롭게, 달리와 함께 달려요!
 
-
+<br>
 
 <br>
 
+## 서비스 소개
 
+<div align="center">
+  <img src="https://user-images.githubusercontent.com/70363530/173397623-569280de-f296-4392-aca2-a95e9465c6a2.jpg"/>
+  <br/>
+</div>
 
-## 소개
-
-나의 운동을 기록하고, 다른 유저와의 경쟁 및 챌린지를 즐길 수 있는 Running Application
-
-<br>
-
-
-## 주요 기능
 #### 1. 로그인 페이지 (소셜로그인)
 
-<img src = "/Capture/login.jpg" width="250px" > <img src = "/Capture/login2.jpg" width="250px" >
+|                         시작 페이지                          |                       회원가입 페이지                        |
+| :----------------------------------------------------------: | :----------------------------------------------------------: |
+| ![](https://user-images.githubusercontent.com/70363530/173407495-87354891-b7ec-4563-933a-96b260aecc8a.jpg) | ![](https://user-images.githubusercontent.com/70363530/173407538-42afa589-04ae-41c1-b286-3f2af3aa120d.jpg) |
 
 - 로그인은 소셜로그인으로 진행됩니다 (OAuth)
 - 구글로그인, 카카오 로그인 두가지로 가능합니다
