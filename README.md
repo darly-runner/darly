@@ -1,15 +1,19 @@
 <div align="center">
   <br/>
-  <img src="https://github.com/darly-runner/darly/blob/develop/README.assets/LOGO.png?raw=true"/>
+  <img src="https://user-images.githubusercontent.com/70363530/173379874-4917b60f-9002-466c-8c08-924e08f28eac.png"/>
   <br/>
 
 </div>
 
 </div>
 
+**언제 어디서든 전국의 달리와 함께 달려요!**
 
-
-
+>크루에 가입해 러닝메이트를 구하고 상대의 페이스 및 속도를 확인하며 나의 페이스를 조절해 보세요.
+>
+>달리와 함께 달린 기록은 언제든지 통계 탭에서 확인할 수 있습니다. 
+>
+>핸드폰을 들고 달리기 귀찮은 분들을 위해 갤럭시 워치와의 연동 서비스도 준비했습니다. 주머니를 가볍게, 두 손을 자유롭게, 달리와 함께 달려요!
 
 
 
