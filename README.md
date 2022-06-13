@@ -1,5 +1,7 @@
 <div align="center">
+  <br/>
   <img src="https://github.com/darly-runner/darly/blob/develop/README.assets/LOGO.png?raw=true"/>
+  <br/>
   <p>
     나의 운동을 기록하고, 다른 유저와의 경쟁 및 챌린지를 즐길 수 있는 Running Application
   </p>
