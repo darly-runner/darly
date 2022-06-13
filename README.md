@@ -1,5 +1,5 @@
 <div align="center">
-  ![LOGO](README.assets/LOGO.png)
+  ![LOGO](https://github.com/darly-runner/darly/blob/develop/README.assets/LOGO.png)
 </div>
 
 </div>
