@@ -84,7 +84,7 @@
       </td>
       <td>
         <ul>
-          <li>추가예정</li>
+          <li>Figma 디자인</li>
           <li>추가예정</li>
           <li>추가예정</li>
         </ul>
@@ -92,6 +92,7 @@
     </tr>
   </tbody>
 </table>
+
 
 ## 🔍 Preview
 ----
