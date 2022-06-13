@@ -1,38 +1,52 @@
 <div align="center">
-  ![LOGO](README.assets/LOGO.png)
-</div>
+  <br/>
+  <img src="https://user-images.githubusercontent.com/70363530/173379874-4917b60f-9002-466c-8c08-924e08f28eac.png"/>
+  <br/>
 
 </div>
 
-![LOGO](README.assets/LOGO.png)
-
-
-
-나의 운동을 기록하고, 다른 유저와의 경쟁 및 챌린지를 즐길 수 있는 Running Application
+</div>
 
 <br>
 
+**언제 어디서든 전국의 달리와 함께 달려요!**
 
-
-## 🔍 소개
-
-- test
+>크루에 가입해 러닝메이트를 구하고 상대의 페이스 및 속도를 확인하며 나의 페이스를 조절해 보세요.
+>
+>달리와 함께 달린 기록은 언제든지 통계 탭에서 확인할 수 있습니다. 
+>
+>핸드폰을 들고 달리기 귀찮은 분들을 위해 갤럭시 워치와의 연동 서비스도 준비했습니다. 주머니를 가볍게, 두 손을 자유롭게, 달리와 함께 달려요!
 
 <br>
 
+<br>
 
-## 🔍 서비스 기능
+## 서비스 소개
+
+<div align="center">
+  <img src="https://user-images.githubusercontent.com/70363530/173397623-569280de-f296-4392-aca2-a95e9465c6a2.jpg"/>
+  <br/>
+</div>
+
+<br>
+
 #### 1. 로그인 페이지 (소셜로그인)
 
-<img src = "/Capture/login.jpg" width="250px" > <img src = "/Capture/login2.jpg" width="250px" >
+|                         시작 페이지                          |                       회원가입 페이지                        |
+| :----------------------------------------------------------: | :----------------------------------------------------------: |
+| ![](https://user-images.githubusercontent.com/70363530/173407495-87354891-b7ec-4563-933a-96b260aecc8a.jpg) | ![](https://user-images.githubusercontent.com/70363530/173407538-42afa589-04ae-41c1-b286-3f2af3aa120d.jpg) |
 
-- 로그인은 소셜로그인으로 진행됩니다 (OAuth)
-- 구글로그인, 카카오 로그인 두가지로 가능합니다
+- 로그인은 소셜로그인(구글, 카카오)으로 진행됩니다 
+- 회원가입 시 닉네임, 상태메세지 및 본인의 지역을 설정할 수 있습니다
+
+<br>
 
 
 #### 2. 혼자 달리기 페이지
 
-<img src = "/Capture/rungif.gif" width="250px" > 
+|                       혼자 달리기 시작                       |                    일시정지 후 기록 확인                     |
+| :----------------------------------------------------------: | :----------------------------------------------------------: |
+| ![](https://user-images.githubusercontent.com/70363530/173417410-c2258bcb-d7ad-4d1d-bec6-225697b6534b.gif) | ![](https://user-images.githubusercontent.com/70363530/173417435-a8e69ddd-2798-4984-967a-c2acc0c4b07c.gif) |
 
 <br/>
 
@@ -42,10 +56,10 @@
 
 <br/>
 
-<img src = "/Capture/rungif2.gif" width="250px" > 
-
 - 달리기를 하는도중에 이동거리, 페이스, 속력 등을 확인할 수 있습니다
-- 달리기가 끝난뒤에 조금더 상세한 정보를 확인할 수 있으며 저장할 수 있습니다
+- 달리기가 끝난뒤에 구간별 페이스 등 더욱 상세한 정보를 확인할 수 있으며 이를 저장해 추후 활동 페이지에서 확인할 수 있습니다
+
+<br>
 
 
 #### 3. 크루 페이지
