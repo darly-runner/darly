@@ -2,9 +2,6 @@
   <br/>
   <img src="https://github.com/darly-runner/darly/blob/develop/README.assets/LOGO.png?raw=true"/>
   <br/>
-  <p>
-    나의 운동을 기록하고, 다른 유저와의 경쟁 및 챌린지를 즐길 수 있는 Running Application
-  </p>
 
 </div>
 
@@ -20,14 +17,14 @@
 
 
 
-## 🔍 소개
+## 소개
 
-- test
+나의 운동을 기록하고, 다른 유저와의 경쟁 및 챌린지를 즐길 수 있는 Running Application
 
 <br>
 
 
-## 🔍 서비스 기능
+## 주요 기능
 #### 1. 로그인 페이지 (소셜로그인)
 
 <img src = "/Capture/login.jpg" width="250px" > <img src = "/Capture/login2.jpg" width="250px" >
