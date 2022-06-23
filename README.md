@@ -62,7 +62,9 @@
 
 ### 3. 크루 페이지
 
-<img src = "/Capture/crew1.jpg" width="250px" > <img src = "/Capture/crew2.jpg" width="250px" > <img src = "/Capture/crew3.jpg" width="250px" >
+|                             요약                             |                             피드                             |                             경쟁                             |
+| :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
+| ![](https://user-images.githubusercontent.com/70363530/174615280-08a253b9-8da6-4359-a8fb-08ec9cf45866.png) | ![](https://user-images.githubusercontent.com/70363530/174610490-ada9878c-13db-4d7e-9d2e-3e4b8331d710.jpeg) | ![](https://user-images.githubusercontent.com/70363530/174610228-b61e2dde-7c3f-4b37-97cf-c798a14dad31.jpeg) |
 
 - 크루 페이지는 세 개의 탭 - 요약, 피드, 경쟁-으로 이루어져 있습니다.
 - 요약 탭에서는 크루원들의 러닝 기록 및 통계를 확인할 수 있으며, 이는 크루에 가입하지 않아도 열람이 가능합니다.
